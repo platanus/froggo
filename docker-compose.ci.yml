@@ -1,0 +1,20 @@
+---
+test:
+  build: "."
+  dockerfile: Dockerfile.ci
+  working_dir: "/app"
+  volumes:
+  - "./vendor/bundle:/usr/local/bundle"
+  - "$CIRCLE_TEST_REPORTS/rspec:$HOME/.rspec_reports"
+  environment:
+    RACK_ENV: test
+    POSTGRESQL_USER: postgres
+    POSTGRESQL_HOST: postgresql
+    POSTGRESQL_PORT: '5432'
+  links:
+  - postgresql
+postgresql:
+  image: postgres:9.4.5
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: ''
