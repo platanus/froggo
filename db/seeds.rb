@@ -8,3 +8,18 @@
 # Country.create(name: "Chile") # BAD
 # Country.find_or_create_by(name: "Chile") # GOOD
 #
+
+require 'json'
+
+repo_hash = JSON.parse(File.read('db/repositories.json'))
+
+repo_hash.each do |repo|
+    Repository.create( 
+        gh_id: repo["id"],
+        name: repo["name"],
+        full_name: repo["full_name"],
+        tracked: false,
+        url: repo["url"],
+        html_url: repo["html_url"]
+    )
+  end
