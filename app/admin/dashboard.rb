@@ -14,9 +14,9 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Tracked repositories" do
           table_for Repository.where("tracked = true").map do
             column :full_name
-            column :tracked
-            column "Edit" do |repo| # TO DO: convert to checkbox
-              link_to "Untrack", edit_admin_repository_url(repo)
+            column :tracked # TO DO: convert to checkbox
+            column "Edit" do |repo|
+              link_to "Edit", edit_admin_repository_url(repo)
             end
             column "See open pull-requests" do # TO DO: show PR by repo
               link_to "Pull requests", nil

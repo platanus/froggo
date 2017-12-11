@@ -2,12 +2,13 @@ ActiveAdmin.register Repository do
   remove_filter :gh_id, :id
   permit_params :name, :tracked
   menu priority: 1
+  actions :all
 
   index do
     selectable_column
     column :name
     column :full_name
-    column :tracked
+    toggle_bool_column :tracked
     column :html_url
     column :created_at
     actions
@@ -20,6 +21,7 @@ ActiveAdmin.register Repository do
     end
     f.actions
   end
+
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
