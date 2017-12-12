@@ -132,6 +132,8 @@ GEM
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
+    font-awesome-rails (4.7.0.2)
+      railties (>= 3.2, < 5.2)
     formatador (0.2.5)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
@@ -405,6 +407,7 @@ DEPENDENCIES
   enumerize
   factory_bot_rails
   faker
+  font-awesome-rails
   guard-rspec
   heroku-stage
   jbuilder (~> 2.5)

@@ -9,14 +9,15 @@
 // $sidebar-width: 242px;
 
 // Active Admin's got SASS!
-@import "active_admin/mixins";
-@import "active_admin/base";
+@import 'active_admin/mixins';
+@import 'active_admin/base';
+@import 'font-awesome';
 $skinActiveColor: #001CEE;
 $skinHeaderBck: #002744;
 $panelHeaderBck: #002744;
-//$skinLogo: $skinHeaderBck image-url("logo_admin.png") no-repeat center center;
+//$skinLogo: $skinHeaderBck image-url('logo_admin.png') no-repeat center center;
 
-@import "active_skin";
+@import 'active_skin';
 
 
 // Overriding any non-variable SASS must be done after the fact.
