@@ -1,8 +1,13 @@
 class AdminUser < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, 
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable,
+    :recoverable, :rememberable, :trackable, :validatable,
+    :omniauthable, omniauth_providers: %i[github]
+
+  def has_github_linked?
+    token.present?
+  end
 end
 
 # == Schema Information
@@ -22,6 +27,8 @@ end
 #  last_sign_in_ip        :inet
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  token                  :string
+#  uid                    :string
 #
 # Indexes
 #
