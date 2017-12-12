@@ -1,5 +1,8 @@
 class PullRequest < ApplicationRecord
   belongs_to :repository
+
+  validates :gh_id, presence: true
+  validates :pr_state, presence: true, inclusion: {in: %w(open closed)}
 end
 
 # == Schema Information
@@ -16,7 +19,6 @@ end
 #  gh_updated_at :datetime
 #  gh_closed_at  :datetime
 #  gh_merged_at  :datetime
-#  user_id       :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  repository_id :integer
