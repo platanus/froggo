@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212221842) do
+ActiveRecord::Schema.define(version: 20171212223336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20171212221842) do
   create_table "github_users", force: :cascade do |t|
     t.string "avatar_url"
     t.string "email"
-    t.integer "ghid"
+    t.integer "gh_id"
     t.string "html_url"
     t.string "login"
     t.string "name"
