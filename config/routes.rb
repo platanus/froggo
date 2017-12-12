@@ -3,7 +3,10 @@ Rails.application.routes.draw do
     api_version(module: "Api::V1", path: { value: "v1" }, defaults: { format: 'json' }) do
     end
   end
-  devise_for :admin_users, ActiveAdmin::Devise.config
+
+  devise_config = ActiveAdmin::Devise.config
+  devise_config[:controllers][:omniauth_callbacks] = 'admin_users/omniauth_callbacks'
+  devise_for :admin_users, devise_config
   ActiveAdmin.routes(self)
   devise_for :users
   mount Sidekiq::Web => '/queue'
