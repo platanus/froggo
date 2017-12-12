@@ -1,2 +1,4 @@
 es-CL:
-  hello: "Hola mundo"
+  active_admin:
+    link_github: "Autorizar acceso a Github"
+

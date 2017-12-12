@@ -24,3 +24,17 @@ $panelHeaderBck: #002744;
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+.github-link-container {
+  margin: 10px auto;
+  width: 300px;
+  text-decoration: none;
+}
+
+.github-link-container a {
+  color: #000;
+  text-decoration: none;
+}
+
+.github-link {
+  text-align: center;
+}
