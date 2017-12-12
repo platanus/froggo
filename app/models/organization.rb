@@ -1,5 +1,5 @@
 class Organization < ApplicationRecord
-  validates :ghid, presence: true
+  validates :gh_id, presence: true
   validates :login, presence: true
 end
 
@@ -8,7 +8,7 @@ end
 # Table name: organizations
 #
 #  id          :integer          not null, primary key
-#  ghid        :integer
+#  gh_id       :integer
 #  login       :string
 #  description :string
 #  html_url    :string

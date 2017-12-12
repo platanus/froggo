@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :organization do
-    ghid 1
+    gh_id 1
     login "organization_name"
     description "This is an organization's description"
     html_url "https://github.com/platanus"
