@@ -19,8 +19,13 @@ end
 #  user_id       :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  repository_id :integer
 #
 # Indexes
 #
-#  index_pull_requests_on_user_id  (user_id)
+#  index_pull_requests_on_repository_id  (repository_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (repository_id => repositories.id)
 #
