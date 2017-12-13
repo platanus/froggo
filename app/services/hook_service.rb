@@ -25,7 +25,7 @@ class HookService < PowerTypes::Service.new
       repo.full_name,
       'web',
       {
-        url: "#{ENV['WEB_URL']}/webhook/receive", # TO DO: repo url
+        url: "https://ghpr1234test.localtunnel.me/webhook/receive", # TO DO: repo url
         content_type: 'json'
       },
       {
@@ -43,8 +43,9 @@ class HookService < PowerTypes::Service.new
       hook.gh_id,
       'web',
       {
-        url: "#{ENV['WEB_URL']}/webhook/receive", # TO DO: repo url
-        content_type: 'json'
+        url: "https://ghpr1234test.localtunnel.me/webhook/receive", # TO DO: repo url
+        content_type: 'json',
+        secret: ENV['GH_HOOK_SECRET']
       },
       {
         active: status
