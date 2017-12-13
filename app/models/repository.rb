@@ -1,14 +1,16 @@
 class Repository < ApplicationRecord
   include ActiveModel::Dirty
   has_many :pull_requests
-  has_many :repository_hooks
+  has_many :hooks
 
-  after_save :create_hook
+  after_save :update_hook
 
-  def create_hook
-    if tracked_changed? && tracked == true
-      @hook_service = HookService.new
+  def update_hook
+    @hook_service = HookService.new
+    if tracked_changed? && tracked
       @hook_service.subscribe(self)
+    elsif tracked_changed? && !tracked
+      @hook_service.unsubscribe(self)
     end
   end
 end
