@@ -48,6 +48,22 @@ ActiveRecord::Schema.define(version: 20171212175324) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "pull_requests", force: :cascade do |t|
+    t.integer "gh_id"
+    t.string "title"
+    t.integer "gh_number"
+    t.string "pr_state"
+    t.string "html_url"
+    t.datetime "gh_created_at"
+    t.datetime "gh_updated_at"
+    t.datetime "gh_closed_at"
+    t.datetime "gh_merged_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "repository_id"
+    t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
+  end
+
   create_table "repositories", force: :cascade do |t|
     t.integer "gh_id"
     t.string "name"
@@ -76,4 +92,5 @@ ActiveRecord::Schema.define(version: 20171212175324) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "pull_requests", "repositories"
 end
