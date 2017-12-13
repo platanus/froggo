@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20171214132511) do
+=======
+ActiveRecord::Schema.define(version: 20171212223546) do
+>>>>>>> feat(webhooks): connect hooks with track repositories
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +59,13 @@ ActiveRecord::Schema.define(version: 20171214132511) do
     t.string "html_url"
     t.string "login"
     t.string "name"
+  create_table "hooks", force: :cascade do |t|
+    t.string "repo_type"
+    t.integer "gh_id"
+    t.string "name"
+    t.boolean "active"
+    t.string "ping_url"
+    t.string "test_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -94,6 +105,13 @@ ActiveRecord::Schema.define(version: 20171214132511) do
     t.boolean "tracked"
     t.string "url"
     t.string "html_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "repository_hooks", force: :cascade do |t|
+    t.integer "hook_id"
+    t.integer "repository_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
