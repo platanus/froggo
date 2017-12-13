@@ -1,18 +1,19 @@
 class Repository < ApplicationRecord
   include ActiveModel::Dirty
+  include PowerTypes::Observable
   has_many :pull_requests
   has_many :hooks
 
-  after_save :update_hook
+  # after_save :update_hook
 
-  def update_hook
-    @hook_service = HookService.new
-    if tracked_changed? && tracked
-      @hook_service.subscribe(self)
-    elsif tracked_changed? && !tracked
-      @hook_service.unsubscribe(self)
-    end
-  end
+  # def update_hook
+  #   @hook_service = HookService.new
+  #   if tracked_changed? && tracked
+  #     @hook_service.subscribe(self)
+  #   elsif tracked_changed? && !tracked
+  #     @hook_service.unsubscribe(self)
+  #   end
+  # end
 end
 
 # == Schema Information
