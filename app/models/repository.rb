@@ -3,6 +3,9 @@ class Repository < ApplicationRecord
   include PowerTypes::Observable
   has_many :pull_requests
   has_many :hooks
+  validates :gh_id, presence: true
+  validates :full_name, presence: true
+  validates :tracked, presence: true
 end
 
 # == Schema Information
