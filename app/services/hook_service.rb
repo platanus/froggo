@@ -25,7 +25,7 @@ class HookService < PowerTypes::Service.new
       repo.full_name,
       'web',
       {
-        url: 'https://hcfophqxoj.localtunnel.me/webhook/receive', # TO DO: custom url
+        url: "#{ENV['WEB_URL']}/webhook/receive", # TO DO: repo url
         content_type: 'json'
       },
       {
@@ -43,7 +43,7 @@ class HookService < PowerTypes::Service.new
       hook.gh_id,
       'web',
       {
-        url: 'https://hcfophqxoj.localtunnel.me/webhook/receive', # TO DO: custom url
+        url: "#{ENV['WEB_URL']}/webhook/receive", # TO DO: repo url
         content_type: 'json'
       },
       {
