@@ -20,8 +20,7 @@ class HookService < PowerTypes::Service.new
   private
 
   def create_new_hook(repo)
-    @client = Octokit::Client.new(login: ENV["GH_L"], password: ENV["GH_P"])
-    response = @client.create_hook(
+    response = OctokitClient.client(AdminUser.last.token).create_hook(
       repo.full_name,
       'web',
       {
@@ -37,8 +36,7 @@ class HookService < PowerTypes::Service.new
   end
 
   def edit_active_hook(repo, hook, status)
-    @client = Octokit::Client.new(login: ENV["GH_L"], password: ENV["GH_P"])
-    @client.edit_hook(
+    OctokitClient.client(AdminUser.last.token).edit_hook(
       repo.full_name,
       hook.gh_id,
       'web',
