@@ -7,7 +7,7 @@ describe HookService do
   let (:hook) { create(:hook, repository: repository, active: false) }
   let (:gh_conf) do
     {
-      url: "#{ENV['APPLICATION_HOST']}/webhook/receive",
+      url: "#{ENV['APPLICATION_HOST']}/github_events",
       content_type: 'json',
       secret: ENV['GH_HOOK_SECRET']
     }
