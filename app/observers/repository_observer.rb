@@ -1,12 +1,13 @@
 class RepositoryObserver < PowerTypes::Observer
   after_save :update_hook
+
   def update_hook
-    return nil if object.id_changed?
-    @hook_service = HookService.new
-    if object.tracked_changed? && object.tracked
-      @hook_service.subscribe(object)
-    elsif object.tracked_changed? && !object.tracked
-      @hook_service.unsubscribe(object)
+    if object.saved_change_to_tracked?
+      if object.tracked
+        HookService.new.subscribe(object)
+      elsif !object.saved_change_to_id?
+        HookService.new.unsubscribe(object)
+      end
     end
   end
 end

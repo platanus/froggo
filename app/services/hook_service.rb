@@ -1,8 +1,4 @@
 class HookService < PowerTypes::Service.new
-  # Service code goes here
-  # @client.remove_hook('platanus/gh-pr-stats', 18934340)
-  # @client.hooks('platanus/gh-pr-stats')
-
   def subscribe(repo)
     @hook = Hook.find_by(repository_id: repo.id)
     if @hook
@@ -24,7 +20,7 @@ class HookService < PowerTypes::Service.new
       repo.full_name,
       'web',
       {
-        url: "https://ghpr1234test.localtunnel.me/webhook/receive", # TO DO: repo url
+        url: "#{ENV['WEB_URL']}/webhook/receive",
         content_type: 'json'
       },
       {
@@ -36,12 +32,14 @@ class HookService < PowerTypes::Service.new
   end
 
   def edit_active_hook(repo, hook, status)
+    hook.active = status
+    hook.save
     OctokitClient.client(AdminUser.last.token).edit_hook(
       repo.full_name,
       hook.gh_id,
       'web',
       {
-        url: "https://ghpr1234test.localtunnel.me/webhook/receive", # TO DO: repo url
+        url: "#{ENV['WEB_URL']}/webhook/receive",
         content_type: 'json',
         secret: ENV['GH_HOOK_SECRET']
       },
@@ -49,8 +47,6 @@ class HookService < PowerTypes::Service.new
         active: status
       }
     )
-    hook.active = status
-    hook.save
   end
 
   def create(response, repo)

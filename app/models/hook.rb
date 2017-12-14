@@ -1,7 +1,6 @@
 class Hook < ApplicationRecord
   belongs_to :repository
   validates :gh_id, presence: true
-  validates :active, presence: true
   validates :repository_id, presence: true
 end
 
