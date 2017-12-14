@@ -2,7 +2,7 @@ ActiveAdmin.register Organization do
   remove_filter :gh_id, :id
   permit_params :name, :tracked
   menu priority: 1
-  actions :all
+  actions :all, except: [:create, :destroy]
 
   index do
     selectable_column
