@@ -1,7 +1,6 @@
 class Organization < ApplicationRecord
   validates :gh_id, presence: true
   validates :login, presence: true
-  validates :name, presence: true
 end
 
 # == Schema Information
