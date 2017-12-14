@@ -10,6 +10,10 @@ ActiveAdmin.register Repository do
     column :full_name
     toggle_bool_column :tracked
     column :html_url
+    column :pull_requests do |repo|
+      link_to t('active_admin.pull_requests', count: repo.pull_requests.count),
+              admin_repository_pull_requests_path(repo)
+    end
     column :created_at
     actions
   end

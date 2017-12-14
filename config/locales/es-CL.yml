@@ -1,4 +1,7 @@
 es-CL:
   active_admin:
     link_github: "Autorizar acceso a Github"
+    pull_requests:
+          one: 1 pr
+          other: '%{count} prs'
 

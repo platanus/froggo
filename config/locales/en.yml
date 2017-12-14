@@ -32,3 +32,6 @@
 en:
   active_admin:
     link_github: "Authorize Github access"
+    pull_requests:
+      one: 1 pr
+      other: '%{count} prs'
