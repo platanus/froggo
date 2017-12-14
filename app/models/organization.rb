@@ -1,4 +1,6 @@
 class Organization < ApplicationRecord
+  include PowerTypes::Observable
+
   belongs_to :owner, class_name: "AdminUser"
 
   validates :gh_id, presence: true
