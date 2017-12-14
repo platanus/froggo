@@ -1,7 +1,6 @@
 class Organization < ApplicationRecord
   validates :gh_id, presence: true
   validates :login, presence: true
-  validates :name, presence: true
 end
 
 # == Schema Information
@@ -17,4 +16,5 @@ end
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  name        :string
+#  tracked     :boolean
 #
