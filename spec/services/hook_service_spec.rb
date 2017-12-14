@@ -1,53 +1,76 @@
 require 'rails_helper'
 
 describe HookService do
-  let (:admin_user) { double }
-  let (:repository) { double(id: 5) }
-  let (:hook) { create(:hook) }
-
-  def build
-    described_class.new(user: admin_user)
+  let! (:admin_user) { create(:admin_user, token: 'a token') }
+  let (:repository) { create(:repository) }
+  let (:client) { double }
+  let (:hook) { create(:hook, repository: repository, active: false) }
+  let (:gh_conf) do
+    {
+      url: "#{ENV['APPLICATION_HOST']}/webhook/receive",
+      content_type: 'json',
+      secret: ENV['GH_HOOK_SECRET']
+    }
   end
+  let (:gh_response) do
+    {
+      type: "",
+      id: 1,
+      name: "",
+      active: true,
+      ping_url: "",
+      test_url: ""
+    }
+  end
+
+  subject { described_class.new }
 
   before do
-    allow(admin_user).to receive(:token).and_return('thisistoken')
+    allow(OctokitClient).to receive(:client).and_return(client)
   end
 
-  context "suscribe" do
-    # it "to an existent hook should call edit" do
-    #   hook.repository_id = 5
-    #   expect(HookService).to receive(:subscribe).with(repository)
-    # end
+  describe "#subscribe" do
+    def subscribe
+      subject.subscribe(repository)
+    end
 
-    # it "to a new hook should call create" do
-    #   hook.id = 9
-    #   expect(HookService).to receive(:subscribe).with(hook)
-    # end
+    context "when the hook exist for this repository" do
+      before do
+        expect(client).to receive(:edit_hook).with(
+          repository.full_name, hook.gh_id, 'web', gh_conf, active: true
+        )
+      end
+
+      it { expect { subscribe }.to change { hook.reload.active }.from(false).to true }
+    end
+
+    context "when the hook doesn't exist for this repository" do
+      before do
+        expect(client).to receive(:create_hook).with(
+          repository.full_name, 'web', gh_conf, events: ['push', 'pull_request'], active: true
+        ).and_return(gh_response)
+        HookService.new.subscribe(repository)
+        @hook = Hook.last
+      end
+
+      it { expect(@hook.active).to eq(true) }
+      it { expect(@hook.repository).to eq(repository) }
+    end
   end
 
-  context "unsubscribe" do
-    # it "to an existen hooks should call edit"
-    # end
+  describe "#unsubscribe" do
+    let (:hook) { create(:hook, repository: repository, active: true) }
 
-    # it "to an inexistent hook should fail"
-    # end
-  end
+    def unsubscribe
+      subject.unsubscribe(repository)
+    end
 
-  context "create_new_hook" do
-    # it "should make a request to octokit create_hook" do
-    # end
-  end
+    before do
+      expect(client).to receive(:edit_hook).with(
+        repository.full_name, hook.gh_id, 'web', gh_conf, active: false
+      )
+    end
 
-  context "edit_active_hook" do
-    # it "should change hooks status" do
-    # end
-
-    # it "should make a request to octokit edit_hook" do
-    # end
-  end
-
-  context "create" do
-    # it "should create a hook"
-    # end
+    it { expect { unsubscribe }.to change { hook.reload.active }.from(true).to false }
   end
 end

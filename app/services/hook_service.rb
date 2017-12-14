@@ -20,13 +20,12 @@ class HookService < PowerTypes::Service.new
       repo.full_name,
       'web',
       {
-        url: "#{ENV['WEB_URL']}/webhook/receive",
-        content_type: 'json'
+        url: "#{ENV['APPLICATION_HOST']}/webhook/receive",
+        content_type: 'json',
+        secret: ENV['GH_HOOK_SECRET']
       },
-      {
-        events: ['push', 'pull_request'],
-        active: true
-      }
+      events: ['push', 'pull_request'],
+      active: true
     )
     create(response, repo)
   end
@@ -39,13 +38,11 @@ class HookService < PowerTypes::Service.new
       hook.gh_id,
       'web',
       {
-        url: "#{ENV['WEB_URL']}/webhook/receive",
+        url: "#{ENV['APPLICATION_HOST']}/webhook/receive",
         content_type: 'json',
         secret: ENV['GH_HOOK_SECRET']
       },
-      {
-        active: status
-      }
+      active: status
     )
   end
 

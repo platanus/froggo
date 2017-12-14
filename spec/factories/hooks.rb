@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :hook do
-    type ""
+    repo_type ""
     gh_id 1
     name "MyString"
     active false
