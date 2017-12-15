@@ -13,13 +13,12 @@ require 'json'
 
 repo_hash = JSON.parse(File.read('db/repositories.json'))
 
-repo_hash.each do |repo|
-    Repository.create( 
-        gh_id: repo["id"],
-        name: repo["name"],
-        full_name: repo["full_name"],
-        tracked: false,
-        url: repo["url"],
-        html_url: repo["html_url"]
-    )
-  end
+Repository.find_or_create_by( 
+    gh_id: repo_hash["id"],
+    name: repo_hash["name"],
+    full_name: repo_hash["full_name"],
+    tracked: false,
+    url: repo_hash["url"],
+    html_url: repo_hash["html_url"],
+    organization: Organization.last
+)

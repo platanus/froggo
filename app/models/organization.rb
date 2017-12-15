@@ -2,6 +2,7 @@ class Organization < ApplicationRecord
   include PowerTypes::Observable
 
   belongs_to :owner, class_name: "AdminUser"
+  has_many :repositories
 
   validates :gh_id, presence: true
   validates :login, presence: true

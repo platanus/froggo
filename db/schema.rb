@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214214431) do
+ActiveRecord::Schema.define(version: 20171215194109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(version: 20171214214431) do
     t.string "html_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id"
+    t.index ["organization_id"], name: "index_repositories_on_organization_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -132,4 +134,5 @@ ActiveRecord::Schema.define(version: 20171214214431) do
   end
 
   add_foreign_key "pull_requests", "repositories"
+  add_foreign_key "repositories", "organizations"
 end
