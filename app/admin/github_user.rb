@@ -2,7 +2,7 @@ ActiveAdmin.register GithubUser do
   remove_filter :gh_id, :id
   permit_params :name, :tracked
   menu priority: 1
-  actions :all, except: [:create, :destroy]
+  actions :all, except: [:new, :create, :destroy]
 
   index do
     selectable_column
