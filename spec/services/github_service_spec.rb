@@ -73,4 +73,78 @@ describe GithubService do
       expect(rep.url).to eq("https://api.github.com/repos/platanus/gh-pr-stats")
     end
   end
+
+  context 'create pull requests for repository' do
+    let!(:repo) { create(:repository) }
+    let!(:new_pull_request_data) {[
+      double(
+        id: 1,
+        title: 'Test',
+        number: 1,
+        state: 'open',
+        html_url: 'http://www.gihub.com/prueba',
+        created_at: '2017-12-12 09:17:52',
+        updated_at: '2017-12-12 09:17:52',
+        closed_at: '2017-12-12 09:17:52',
+        merged_at: '2017-12-12 09:17:52'
+      )
+    ]}
+
+    let!(:updated_pull_request_data) {[
+      double(
+        id: 1,
+        title: 'Test',
+        number: 1,
+        state: 'closed',
+        html_url: 'http://www.gihub.com/prueba',
+        created_at: '2017-12-12 09:17:52',
+        updated_at: '2017-12-14 09:17:52',
+        closed_at: '2017-12-14 09:17:52',
+        merged_at: '2017-12-14 09:17:52'
+      )
+    ]}
+    before do
+      allow(OctokitClient).to receive(:fetch_repository_pull_requests).and_return(new_pull_request_data)
+
+      build.create_repository_pull_requests(repo.id, repo.full_name)
+    end
+
+    it 'saves the pull request' do
+      pr = PullRequest.find_by(gh_id: 1)
+      expect(pr).not_to be_nil
+    end
+
+    it 'saves the pull request with correct parameters' do
+      pr = PullRequest.find_by(gh_id: 1)
+      expect(pr.title).to eq('Test')
+      expect(pr.gh_number).to eq(1)
+      expect(pr.pr_state).to eq('open')
+      expect(pr.gh_created_at).to eq('2017-12-12 09:17:52')
+      expect(pr.gh_updated_at).to eq('2017-12-12 09:17:52')
+      expect(pr.gh_closed_at).to eq('2017-12-12 09:17:52')
+      expect(pr.gh_merged_at).to eq('2017-12-12 09:17:52')
+    end
+
+    it "don't duplicate existed pull requests" do
+      build.create_repository_pull_requests(repo.id, repo.full_name)
+      existed_pr = PullRequest.where(gh_id: 1)
+      expect(existed_pr.count).to eq(1)
+    end
+
+    before do
+      allow(OctokitClient).to receive(:fetch_repository_pull_requests).and_return(updated_pull_request_data)
+    end
+
+    it 'updates existed pull requests if gh_updated_at is outdated' do
+      build.create_repository_pull_requests(repo.id, repo.full_name)
+      pr = PullRequest.find_by(gh_id: 1)
+      expect(pr.title).to eq('Test')
+      expect(pr.gh_number).to eq(1)
+      expect(pr.pr_state).to eq('closed')
+      expect(pr.gh_created_at).to eq('2017-12-12 09:17:52')
+      expect(pr.gh_updated_at).to eq('2017-12-14 09:17:52')
+      expect(pr.gh_closed_at).to eq('2017-12-14 09:17:52')
+      expect(pr.gh_merged_at).to eq('2017-12-14 09:17:52')
+    end
+  end
 end

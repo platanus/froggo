@@ -13,6 +13,11 @@ module OctokitClient
     c.org_repos(org_name)
   end
 
+  def fetch_repository_pull_requests(repo_full_name, token)
+    c = client(token)
+    c.pull_requests(repo_full_name, state: 'all')
+  end
+
   def client(token)
     @client ||= begin
       c = Octokit::Client.new(access_token: token)
