@@ -27,4 +27,35 @@ RSpec.describe GithubWorker, type: :worker do
       GithubWorker.drain
     end
   end
+
+  describe 'FETCH_REPOS_PULL_REQUEST' do
+    let(:owner) { create(:admin_user) }
+    let!(:repository) { create(:repository) }
+
+    before do
+      allow_any_instance_of(GithubService).to receive(:create_repository_pull_requests)
+                                                .with(repository.id, repository.full_name).and_return(nil)
+    end
+
+    before :each do
+      Sidekiq::Worker.clear_all
+    end
+
+    it 'adds worker to queue' do
+      expect do
+        GithubWorker.perform_async('FETCH_REPOS_PULL_REQUEST', owner_id: owner.id,
+                                   repository_id: repository.id)
+      end.to change(GithubWorker.jobs, :size).by(1)
+    end
+
+    it 'calls GithubService' do
+      expect_any_instance_of(GithubService).to(
+        receive(:create_repository_pull_requests)
+      )
+
+      GithubWorker.perform_async('FETCH_REPOS_PULL_REQUEST', owner_id: owner.id,
+                                 repository_id: repository.id)
+      GithubWorker.drain
+    end
+  end
 end
