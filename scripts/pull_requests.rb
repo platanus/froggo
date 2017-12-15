@@ -1,34 +1,13 @@
-require 'octokit'
-
-@client = Octokit::Client.new(access_token: ENV["GITHUB_TOKEN"])
-@client.auto_paginate = true
-
 # Change filter and limit to change pull requests scope
-repo_filter = {full_name: 'platanus/csp'}
+repo_filter = {full_name: %w(platanus/csp platanus/pic-parks platanus/gh-pr-stats)}
 repo_limit = 5
 
+admin = AdminUser.all.first
+gh_service = GithubService.new(user: admin)
 repos = Repository.where(repo_filter).limit(repo_limit)
 repos_count = repos.count
 repos.each_with_index do |repo, repo_num|
   puts "Reading rep ##{repo.gh_id} #{repo.full_name}...#{repo_num + 1} of #{repos_count}"
 
-  pull_requests = @client.pull_requests(repo.full_name, state: 'all')
-
-  puts 'Empty repo' if pull_requests.empty?
-
-  pull_requests.each do |pr|
-    PullRequest.create!(
-      gh_id: pr.id,
-      title: pr.title,
-      gh_number: pr.number,
-      pr_state: pr.state,
-      html_url: pr.html_url,
-      gh_created_at: pr.created_at,
-      gh_updated_at: pr.updated_at,
-      gh_closed_at: pr.closed_at,
-      gh_merged_at: pr.merged_at,
-      repository_id: repo.id
-    )
-
-  end
+  gh_service.create_repository_pull_requests(repo.id, repo.full_name)
 end
