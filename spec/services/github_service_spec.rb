@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe GithubService do
-  let (:admin_user) { double }
+  let (:admin_user) { create(:admin_user) }
 
   def build
     described_class.new(user: admin_user)
@@ -34,6 +34,7 @@ describe GithubService do
     it "saves the organizations with correct parameters" do
       org = Organization.find_by(login: "platanus")
       expect(org.login).to eq("platanus")
+      expect(org.owner_id).to eq(admin_user.id)
       expect(org.gh_id).to eq(1158740)
       expect(org.name).to eq("Platanus")
       expect(org.avatar_url).to eq("https://avatars3.githubusercontent.com/u/1158740?v=4")

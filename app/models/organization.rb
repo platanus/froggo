@@ -1,4 +1,8 @@
 class Organization < ApplicationRecord
+  include PowerTypes::Observable
+
+  belongs_to :owner, class_name: "AdminUser"
+
   validates :gh_id, presence: true
   validates :login, presence: true
 end
@@ -17,4 +21,5 @@ end
 #  updated_at  :datetime         not null
 #  name        :string
 #  tracked     :boolean
+#  owner_id    :integer
 #

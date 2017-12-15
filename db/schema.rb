@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214132511) do
+ActiveRecord::Schema.define(version: 20171214162232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20171214132511) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "tracked"
+    t.integer "owner_id"
   end
 
   create_table "pull_requests", force: :cascade do |t|

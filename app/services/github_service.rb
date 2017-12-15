@@ -9,6 +9,7 @@ class GithubService < PowerTypes::Service.new(:user)
         organization.update! description: o[:description],
                              tracked: false,
                              html_url: "https://github.com/#{o[:login]}/",
+                             owner_id: @user.id,
                              avatar_url: o[:avatar_url]
       end
     end

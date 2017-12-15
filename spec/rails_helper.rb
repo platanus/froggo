@@ -2,6 +2,7 @@
 ENV['RACK_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+require 'sidekiq/testing'
 require 'spec_helper'
 require 'shoulda/matchers'
 require 'faker'
