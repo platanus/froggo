@@ -45,6 +45,8 @@ describe GithubService do
   end
 
   context "create_organization_repositories" do
+    let (:owner) { create(:admin_user) }
+    let (:organization) { create(:organization, owner_id: owner.id) }
     before do
       allow(OctokitClient).to receive(:fetch_organization_repositories).and_return(
         [{
@@ -56,7 +58,7 @@ describe GithubService do
         }]
       )
 
-      build.create_organization_repositories("platanus")
+      build.create_organization_repositories(organization)
     end
 
     it "saves the repositories" do
