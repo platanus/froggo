@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20171214214431) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "tracked"
+    t.integer "owner_id"
   end
 
   create_table "pull_requests", force: :cascade do |t|
