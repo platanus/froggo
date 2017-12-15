@@ -1,5 +1,5 @@
 ActiveAdmin.register PullRequest do
-  actions :all, except: [:edit, :update, :destroy]
+  actions :all, except: [:new, :create, :edit, :update, :destroy]
   belongs_to :repository
 
   index do
