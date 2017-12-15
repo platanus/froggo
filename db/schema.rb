@@ -67,9 +67,11 @@ ActiveRecord::Schema.define(version: 20171214214431) do
     t.boolean "active"
     t.string "ping_url"
     t.string "test_url"
+    t.integer "repository_id"
+    t.bigint "repositories_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "repository_id"
+    t.index ["repositories_id"], name: "index_hooks_on_repositories_id"
   end
 
   create_table "organizations", force: :cascade do |t|
