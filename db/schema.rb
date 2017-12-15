@@ -59,6 +59,18 @@ ActiveRecord::Schema.define(version: 20171214162232) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "hooks", force: :cascade do |t|
+    t.string "repo_type"
+    t.integer "gh_id"
+    t.string "name"
+    t.boolean "active"
+    t.string "ping_url"
+    t.string "test_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "repository_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.integer "gh_id"
     t.string "login"

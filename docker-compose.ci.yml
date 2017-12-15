@@ -11,10 +11,16 @@ test:
     POSTGRESQL_USER: postgres
     POSTGRESQL_HOST: postgresql
     POSTGRESQL_PORT: '5432'
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
   links:
+  - redis
   - postgresql
 postgresql:
   image: postgres:9.4.5
   environment:
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: ''
+redis:
+  image: redis
+  command: redis-server
