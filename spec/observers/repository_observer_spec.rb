@@ -1,14 +1,15 @@
 require 'rails_helper'
 
 describe RepositoryObserver do
-  let(:repository) { create(:repository) }
+  let(:organization) { create(:organization) }
+  let(:repository) { create(:repository, organization_id: organization.id) }
 
   def trigger(type, event, object = repository)
     described_class.trigger(type, event, object)
   end
 
   describe '#update_hook' do
-    let!(:admin) { create(:admin_user) }
+    let!(:admin) { build(:admin_user) }
 
     it 'Calls service when tracked' do
       expect_any_instance_of(HookService).to(

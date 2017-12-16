@@ -15,12 +15,13 @@ class GithubService < PowerTypes::Service.new(:user)
     end
   end
 
-  def create_organization_repositories(org_name)
-    if repos = OctokitClient.fetch_organization_repositories(org_name, @user.token)
+  def create_organization_repositories(organization)
+    if repos = OctokitClient.fetch_organization_repositories(organization.login, @user.token)
       repos.each do |r|
         repository = Repository.create_with(
           gh_id: r[:gh_id],
-          full_name: r[:full_name]
+          full_name: r[:full_name],
+          organization: organization
         ).find_or_create_by! gh_id: r[:id]
         repository.update! name: r[:name],
                            full_name: r[:full_name],
@@ -36,7 +37,7 @@ class GithubService < PowerTypes::Service.new(:user)
         pull_request = PullRequest.find_by(gh_id: pr.id)
         pull_request ||= PullRequest.create!(gh_id: pr.id, repository_id: repo_id, pr_state: pr.state)
         # If the pull requests exists and it hasn't been updated, continue with next pr
-        if pull_request.gh_updated_at.nil? or (pull_request.gh_updated_at < pr.updated_at)
+        if pull_request.gh_updated_at.nil? || (pull_request.gh_updated_at < pr.updated_at)
           pull_request.update!(
             title: pr.title,
             gh_number: pr.number,

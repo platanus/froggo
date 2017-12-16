@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe AdminUserObserver do
-  let(:object) { create(:admin_user) }
+  let(:object) { build(:admin_user) }
 
   def trigger(type, event)
     described_class.trigger(type, event, object)

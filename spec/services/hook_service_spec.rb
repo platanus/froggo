@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe HookService do
-  let! (:admin_user) { create(:admin_user, token: 'a token') }
+  let! (:admin_user) { build(:admin_user, token: 'a token') }
   let (:repository) { create(:repository) }
   let (:client) { double }
   let (:hook) { create(:hook, repository: repository, active: false) }
