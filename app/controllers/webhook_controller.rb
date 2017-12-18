@@ -2,11 +2,11 @@ class WebhookController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    render json: { response: JSON($redis.get('last event')), status: 200 }, status: 200
+    render json: { response: JSON.parse($redis.get('last event')), status: 200 }, status: 200
   end
 
   def receive
-    $redis.set('last event', JSON(request.body))
+    $redis.set('last event', request.body.read)
     if verify_signature(request)
       render json: { response: "ok", status: 200 }, status: 200
     else
