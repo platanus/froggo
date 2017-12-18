@@ -16,7 +16,7 @@ class HookService < PowerTypes::Service.new
   private
 
   def create_new_hook(repo)
-    response = OctokitClient.client(AdminUser.last.token).create_hook(
+    response = OctokitClient.client(repo.organization.owner.token).create_hook(
       repo.full_name,
       'web',
       {
@@ -33,7 +33,7 @@ class HookService < PowerTypes::Service.new
   def edit_active_hook(repo, hook, status)
     hook.active = status
     hook.save
-    OctokitClient.client(AdminUser.last.token).edit_hook(
+    OctokitClient.client(repo.organization.owner.token).edit_hook(
       repo.full_name,
       hook.gh_id,
       'web',
