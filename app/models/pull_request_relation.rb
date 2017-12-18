@@ -3,7 +3,7 @@ class PullRequestRelation < ApplicationRecord
   belongs_to :github_user
 
   validates :relation_type, presence: true
-  validates_inclusion_of :relation_type, in: %w(asignee reviewer)
+  validates_inclusion_of :relation_type, in: %w(assignee reviewer)
 end
 
 # == Schema Information
