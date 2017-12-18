@@ -35,10 +35,9 @@ class GithubService < PowerTypes::Service.new(:user)
     if pull_requests = OctokitClient.fetch_repository_pull_requests(repo_full_name, @user.token)
       pull_requests.each do |pr|
         pull_request = PullRequest.find_by(gh_id: pr.id)
-        pull_request ||= PullRequest.create!(gh_id: pr.id,
+        pull_request ||= PullRequest.create! gh_id: pr.id,
                                              repository_id: repo_id,
-                                             pr_state: pr.state)
-        # If the pull requests exists and it hasn't been updated, continue with next pr
+                                             pr_state: pr.state
         if pull_request.gh_updated_at.nil? || (pull_request.gh_updated_at < pr.updated_at)
           update_pull_request(pull_request, pr)
           update_pull_request_asignees(pull_request, pr) if pr.assignees
