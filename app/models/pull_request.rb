@@ -1,8 +1,11 @@
 class PullRequest < ApplicationRecord
   belongs_to :repository
 
+  has_many :pull_request_relations
+  has_many :github_users, through: :pull_request_relations
+
   validates :gh_id, presence: true
-  validates :pr_state, presence: true, inclusion: {in: %w(open closed)}
+  validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
 end
 
 # == Schema Information
