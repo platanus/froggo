@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215194109) do
+ActiveRecord::Schema.define(version: 20171219145106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20171215194109) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "tracked"
+    t.index ["login"], name: "index_github_users_on_login"
   end
 
   create_table "hooks", force: :cascade do |t|
@@ -85,6 +86,16 @@ ActiveRecord::Schema.define(version: 20171215194109) do
     t.string "name"
     t.boolean "tracked"
     t.integer "owner_id"
+  end
+
+  create_table "pull_request_relations", force: :cascade do |t|
+    t.bigint "pull_request_id"
+    t.bigint "github_user_id"
+    t.string "pr_relation_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["github_user_id"], name: "index_pull_request_relations_on_github_user_id"
+    t.index ["pull_request_id"], name: "index_pull_request_relations_on_pull_request_id"
   end
 
   create_table "pull_requests", force: :cascade do |t|
@@ -133,6 +144,8 @@ ActiveRecord::Schema.define(version: 20171215194109) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "pull_request_relations", "github_users"
+  add_foreign_key "pull_request_relations", "pull_requests"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "organizations"
 end

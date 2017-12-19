@@ -18,6 +18,12 @@ module OctokitClient
     c.pull_requests(repo_full_name, state: 'all')
   end
 
+  def fetch_pull_request_reviews(repo_full_name, pull_rq_num, token)
+    c = client(token)
+    c.pull_request_reviews(repo_full_name, pull_rq_num,
+      accept: 'application/vnd.github.thor-preview+json')
+  end
+
   def client(token)
     @client ||= begin
       c = Octokit::Client.new(access_token: token)

@@ -1,7 +1,9 @@
 class GithubUser < ApplicationRecord
+  has_many :pull_request_relations
+  has_many :pull_requests, through: :pull_request_relations
+
   validates :gh_id, presence: true
   validates :login, presence: true
-  validates :name, presence: true
 end
 
 # == Schema Information
@@ -18,4 +20,8 @@ end
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  tracked    :boolean
+#
+# Indexes
+#
+#  index_github_users_on_login  (login)
 #
