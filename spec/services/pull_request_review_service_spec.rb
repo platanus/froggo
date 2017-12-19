@@ -21,7 +21,7 @@ describe PullRequestReviewService do
         pull_request: { id: 1 }
       }
     end
-    let!(:review_service) { PullRequestReviewService.new(request: request) }
+    let!(:review_service) { PullRequestReviewService.new(payload: request) }
 
     before do
       review_service.submit_review

@@ -1,4 +1,8 @@
-class PullRequestService < PowerTypes::Service.new()
+class PullRequestService < PowerTypes::Service.new(payload: nil)
+  def process
+
+  end
+
   def create_new_pull_request(request)
 
   end
