@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PullRequestRelation, type: :model do
   describe 'validations' do
-    it { should validate_presence_of :relation_type }
+    it { should validate_presence_of :pr_relation_type }
   end
 
   describe 'relationships' do

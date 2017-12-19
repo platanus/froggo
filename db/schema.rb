@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20171218145955) do
   create_table "pull_request_relations", force: :cascade do |t|
     t.bigint "pull_request_id"
     t.bigint "github_user_id"
-    t.string "relation_type"
+    t.string "pr_relation_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["github_user_id"], name: "index_pull_request_relations_on_github_user_id"

@@ -2,20 +2,23 @@ class PullRequestRelation < ApplicationRecord
   belongs_to :pull_request
   belongs_to :github_user
 
-  validates :relation_type, presence: true
-  validates_inclusion_of :relation_type, in: %w(assignee reviewer)
+  validates :pr_relation_type, presence: true
+  validates_inclusion_of :pr_relation_type, in: %w(assignee reviewer)
+
+  scope :assignees, -> { where(pr_relation_type: :assignee) }
+  scope :reviewers, -> { where(pr_relation_type: :reviewer) }
 end
 
 # == Schema Information
 #
 # Table name: pull_request_relations
 #
-#  id              :integer          not null, primary key
-#  pull_request_id :integer
-#  github_user_id  :integer
-#  relation_type   :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id               :integer          not null, primary key
+#  pull_request_id  :integer
+#  github_user_id   :integer
+#  pr_relation_type :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #
