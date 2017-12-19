@@ -6,11 +6,11 @@ class GithubUser < ApplicationRecord
   validates :login, presence: true
 
   def reviewer?(pull_request)
-    pull_request.reviewers.where(id: id).empty?
+    !pull_request.reviewers.where(id: id).empty?
   end
 
   def assignee?(pull_request)
-    pull_request.assignees.where(id: id).empty?
+    !pull_request.assignees.where(id: id).empty?
   end
 end
 

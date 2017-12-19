@@ -14,7 +14,7 @@ class PullRequest < ApplicationRecord
   validates :gh_id, presence: true
   validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
   def has_reviewer?(github_user_id)
-    reviewers.where(id: github_user_id).empty?
+    !reviewers.where(id: github_user_id).empty?
   end
 end
 

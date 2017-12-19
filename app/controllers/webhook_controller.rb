@@ -2,9 +2,10 @@ class WebhookController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @body = JSON.parse($redis.get('body'))
+    @body = JSON.parse($redis.get('body')).deep_symbolize_keys
+    ProcessWebhookEvent.for(request: @body, event: $redis.get('event'))
     render json: {
-      action: @body['action'],
+      action: @body[:action],
       response: @body,
       status: 200
     }, status: 200
@@ -14,7 +15,7 @@ class WebhookController < ApplicationController
     body = request.body.read
     event = request.headers['X-GitHub-Event']
     if verify_signature(request)
-      ProcessWebhookEvent.for(request: JSON.parse(body), event: event)
+      ProcessWebhookEvent.for(request: JSON.parse(body).deep_symbolize_keys, event: event)
       $redis.set('body', @body)
       $redis.set('event', @event)
       render json: { response: "ok", status: 200 }, status: 200
