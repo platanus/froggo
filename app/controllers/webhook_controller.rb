@@ -2,46 +2,48 @@ class WebhookController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @event = JSON.parse($redis.get('last event'))
-    manage_request(@event) # <- comentar esta cuando este listo
+    @body = JSON.parse($redis.get('body'))
+    manage_request(@body, $redis.get('event')) # <- Comentar esta cuando este listo
     render json: {
-      action: @event['action'],
-      user: $redis.get('user'),
-      response: @event,
+      action: @body['action'],
+      response: @body,
       status: 200
     }, status: 200
   end
 
   def receive
-    @event = request.body.read
+    @body = request.body.read
+    @event = request.headers['X-GitHub-Event']
     if verify_signature(request)
-      # manage_request(JSON.parse(@event)) # <- Giovanni aquí llamar
-      $redis.set('last event', @event)
+      # manage_request(JSON.parse(@body, @event)) # <- Giovanni aquí llamar a metodos
+      $redis.set('body', @body)
+      $redis.set('event', @event)
       render json: { response: "ok", status: 200 }, status: 200
     else
       render json: { error: "not auth", status: 401 }, status: 401
     end
   end
 
-  def manage_request(request)
-    if request['action'] == 'review_requested'
-      p request['pull_request']['id']
-      p request['pull_request']['state']
-      p request['pull_request']['user']['login']
-      p request['pull_request']['user']['id']
-      p request['pull_request']['user']['avatar_url']
-      p request['pull_request']['user']['html_url']
-      request['pull_request']['requested_reviewers'].each do |reviewer|
-        p reviewer['login']
-        p reviewer['id']
-        p reviewer['avatar_url']
-        p reviewer['html_url']
-      end
-      p request['pull_request']['head']['repo']['id']
-      p request['pull_request']['head']['repo']['full_name']
-      p request['pull_request']['head']['repo']['owner']['login']
-      p request['pull_request']['head']['repo']['owner']['id']
+  def manage_request(request, event)
+    # Aquí llama a métodos para crear
+    if event == 'pull_request' && request['action'] == 'assigned'
+      show_some_attributes(request)
+    elsif event == 'pull_request_review_comment'
+      show_some_attributes(request)
     end
+  end
+
+  def show_some_attributes(request)
+    p request['pull_request']['id']
+    p request['pull_request']['state']
+    p request['pull_request']['user']['login']
+    p request['pull_request']['user']['id']
+    p request['pull_request']['user']['avatar_url']
+    p request['pull_request']['user']['html_url']
+    p request['pull_request']['head']['repo']['id']
+    p request['pull_request']['head']['repo']['full_name']
+    p request['pull_request']['head']['repo']['owner']['login']
+    p request['pull_request']['head']['repo']['owner']['id']
   end
 
   def verify_signature(request)
