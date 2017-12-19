@@ -1,4 +1,6 @@
 class Hook < ApplicationRecord
+  include PowerTypes::Observable
+
   belongs_to :repository
   validates :gh_id, presence: true
   validates :repository_id, presence: true

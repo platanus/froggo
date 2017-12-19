@@ -13,6 +13,15 @@ class HookService < PowerTypes::Service.new
     edit_active_hook(repo, @hook, false)
   end
 
+  def destroy_api_hook(hook)
+    repo = Repository.find(hook.repository_id)
+    repo.update! tracked: false if repo.tracked
+    OctokitClient.client(repo.organization.owner.token).remove_hook(
+      repo.full_name,
+      hook.gh_id
+    )
+  end
+
   private
 
   def create_new_hook(repo)
