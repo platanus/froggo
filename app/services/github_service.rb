@@ -37,6 +37,7 @@ class GithubService < PowerTypes::Service.new(:user)
         pull_request = PullRequest.find_by(gh_id: pr.id)
         pull_request ||= PullRequest.create!(gh_id: pr.id,
                                              repository_id: repo_id,
+                                             owner: get_github_user(pr.user),
                                              pr_state: pr.state)
         # If the pull requests exists and it hasn't been updated, continue with next pr
         if pull_request.gh_updated_at.nil? || (pull_request.gh_updated_at < pr.updated_at)
@@ -109,7 +110,7 @@ class GithubService < PowerTypes::Service.new(:user)
     github_users_login = github_users.pluck(:login).to_set
     new_assignees.delete_if { |login, _| github_users_login.include? login }
     new_assignees.each do |_, new_assignee|
-      user = create_github_user(new_assignee)
+      user = get_github_user(new_assignee)
       pull_req.pull_request_relations.create!(
         pr_relation_type: relation_type,
         github_user: user
@@ -117,13 +118,12 @@ class GithubService < PowerTypes::Service.new(:user)
     end
   end
 
-  def create_github_user(user_data)
-    GithubUser.create(
-      gh_id: user_data.id,
+  def get_github_user(user_data)
+    GithubUser.create_with(
       login: user_data.login,
       avatar_url: user_data.avatar_url,
       html_url: user_data.html_url,
       tracked: true
-    )
+    ).find_or_create_by!(gh_id: user_data.id)
   end
 end

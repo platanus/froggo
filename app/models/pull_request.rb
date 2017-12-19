@@ -1,6 +1,7 @@
 class PullRequest < ApplicationRecord
   belongs_to :repository
 
+  belongs_to :owner, class_name: 'GithubUser'
   has_many :pull_request_relations
   has_many :github_users, through: :pull_request_relations
   has_many :reviewers, -> { where(pull_request_relations: { pr_relation_type: :assignee }) },
@@ -30,6 +31,7 @@ end
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  repository_id :integer
+#  owner_id      :integer
 #
 # Indexes
 #
