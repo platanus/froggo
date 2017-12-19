@@ -21,3 +21,7 @@ end
 #  updated_at :datetime         not null
 #  tracked    :boolean
 #
+# Indexes
+#
+#  index_github_users_on_login  (login)
+#
