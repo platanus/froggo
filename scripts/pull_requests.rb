@@ -1,5 +1,5 @@
 # Change filter and limit to change pull requests scope
-repo_filter = {full_name: %w(platanus/csp platanus/pic-parks platanus/gh-pr-stats)}
+repo_filter = { full_name: %w(platanus/csp platanus/pic-parks platanus/gh-pr-stats) }
 repo_limit = 5
 
 admin = AdminUser.all.first
