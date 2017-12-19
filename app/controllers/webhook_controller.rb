@@ -3,7 +3,6 @@ class WebhookController < ApplicationController
 
   def index
     @body = JSON.parse($redis.get('body'))
-    ProcessWebhookEvent.for(request: JSON.parse(@body), event: $redis.get('event')) # <- Comentar esta cuando este listo
     render json: {
       action: @body['action'],
       response: @body,

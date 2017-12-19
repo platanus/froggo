@@ -3,9 +3,14 @@ class PullRequest < ApplicationRecord
 
   has_many :pull_request_relations
   has_many :github_users, through: :pull_request_relations
+  has_many :reviewers, -> { where(pull_request_relations: { pr_relation_type: :assignee }) },
+    through: :pull_request_relations, source: :github_user
 
   validates :gh_id, presence: true
   validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
+  def has_reviewer?(github_user_id)
+    reviewers.where(id: github_user_id).empty?
+  end
 end
 
 # == Schema Information

@@ -1,7 +1,9 @@
 class PullRequestRelation < ApplicationRecord
+  extend Enumerize
   belongs_to :pull_request
   belongs_to :github_user
 
+  enumerize :pr_relation_type, in: [:assignee, :reviewer]
   validates :pr_relation_type, presence: true
   validates_inclusion_of :pr_relation_type, in: %w(assignee reviewer)
 
