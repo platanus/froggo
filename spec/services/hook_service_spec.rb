@@ -47,7 +47,8 @@ describe HookService do
     context "when the hook doesn't exist for this repository" do
       before do
         expect(client).to receive(:create_hook).with(
-          repository.full_name, 'web', gh_conf, events: ['push', 'pull_request'], active: true
+          repository.full_name, 'web', gh_conf,
+          events: ['pull_request', 'pull_request_review'], active: true
         ).and_return(gh_response)
         HookService.new.subscribe(repository)
         @hook = Hook.last

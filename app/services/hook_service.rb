@@ -24,7 +24,7 @@ class HookService < PowerTypes::Service.new
         content_type: 'json',
         secret: ENV['GH_HOOK_SECRET']
       },
-      events: ['push', 'pull_request'],
+      events: ['pull_request', 'pull_request_review'],
       active: true
     )
     create(response, repo)
