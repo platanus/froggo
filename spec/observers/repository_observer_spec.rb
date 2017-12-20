@@ -11,7 +11,7 @@ describe RepositoryObserver do
   describe '#update_hook' do
     let!(:admin) { build(:admin_user) }
 
-    it 'Calls service when tracked' do
+    it 'calls service when tracked' do
       expect_any_instance_of(HookService).to(
         receive(:subscribe).with(repository).and_return(true)
       )
