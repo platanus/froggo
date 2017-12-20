@@ -12,7 +12,7 @@ describe PullRequestReviewService do
       {
         review: {
           user: {
-            id: 1,
+            id: 4,
             login: 'UserReviewer',
             avatar_url: 'url_to_avatar',
             html_url: 'url_to_html'
@@ -28,7 +28,7 @@ describe PullRequestReviewService do
     end
 
     it 'create new github users if missing' do
-      gh_user = GithubUser.first
+      gh_user = GithubUser.find_by(login: 'UserReviewer')
       expect(gh_user.gh_id).to eq(request[:review][:user][:id])
       expect(gh_user.login).to eq(request[:review][:user][:login])
       expect(gh_user.avatar_url).to eq(request[:review][:user][:avatar_url])
@@ -37,9 +37,10 @@ describe PullRequestReviewService do
     end
 
     it 'create pull request relation correctly' do
-      pr_relation = PullRequestRelation.first
+      gh_user = GithubUser.find_by(login: 'UserReviewer')
+      pr_relation = pull_request.pull_request_relations.find_by(github_user_id: gh_user.id)
+      expect(pr_relation).to_not be_nil
       expect(pr_relation.pr_relation_type).to eq('reviewer')
-      expect(pr_relation.github_user_id).to eq(GithubUser.first.id)
     end
   end
 end
