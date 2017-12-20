@@ -1,4 +1,4 @@
-class PullRequestService < PowerTypes::Service.new(:payload)
+class PullRequestService < PowerTypes::Service.new(payload: nil)
   def process
     case @payload[:action]
     when 'opened'
