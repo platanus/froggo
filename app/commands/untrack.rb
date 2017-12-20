@@ -1,7 +1,7 @@
 class Untrack < PowerTypes::Command.new(:repo)
   def perform
     destroy_hook(@repo.hooks)
-    destroy_pull_requests(PullRequest.where(repository_id: @repo.id))
+    destroy_pull_requests(@repo.pull_requests)
   end
 
   private
