@@ -91,7 +91,13 @@ describe GithubService do
           updated_at: '2017-12-12 09:17:52',
           closed_at: '2017-12-12 09:17:52',
           merged_at: '2017-12-12 09:17:52',
-          assignees: []
+          assignees: [],
+          user: double(
+            id: 1,
+            login: 'bunzli',
+            avatar_url: 'https://avatars2.githubusercontent.com/u/741483?v=4',
+            html_url: 'https://github.com/bunzli'
+          )
         )
       ]
     end
@@ -114,7 +120,13 @@ describe GithubService do
               avatar_url: 'url_to_avatar',
               html_url: 'url_to_html'
             )
-          ]
+          ],
+          user: double(
+            id: 1,
+            login: 'bunzli',
+            avatar_url: 'https://avatars2.githubusercontent.com/u/741483?v=4',
+            html_url: 'https://github.com/bunzli'
+          )
         )
       ]
     end

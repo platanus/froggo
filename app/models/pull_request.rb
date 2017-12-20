@@ -1,11 +1,25 @@
 class PullRequest < ApplicationRecord
   belongs_to :repository
 
+  belongs_to :owner, class_name: 'GithubUser'
   has_many :pull_request_relations
   has_many :github_users, through: :pull_request_relations
+  has_many :reviewers, -> do
+    where(pull_request_relations: { pr_relation_type: :reviewer })
+  end, through: :pull_request_relations, source: :github_user
+  has_many :assignees, -> do
+    where(pull_request_relations: { pr_relation_type: :assignee })
+  end, through: :pull_request_relations, source: :github_user
 
   validates :gh_id, presence: true
   validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
+  def has_reviewer?(github_user_id)
+    !reviewers.where(id: github_user_id).empty?
+  end
+
+  def has_assignee?(github_user_id)
+    !assignees.where(id: github_user_id).empty?
+  end
 end
 
 # == Schema Information
@@ -25,6 +39,7 @@ end
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  repository_id :integer
+#  owner_id      :integer
 #
 # Indexes
 #

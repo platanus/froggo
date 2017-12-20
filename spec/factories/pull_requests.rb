@@ -10,5 +10,7 @@ FactoryBot.define do
     gh_updated_at '2017-12-12 09:17:52'
     gh_closed_at '2017-12-12 09:17:52'
     gh_merged_at '2017-12-12 09:17:52'
+
+    association :owner, factory: :github_user
   end
 end
