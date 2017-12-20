@@ -1,4 +1,4 @@
-class PullRequestReviewService < PowerTypes::Service.new(payload)
+class PullRequestReviewService < PowerTypes::Service.new(:payload)
   def process
     submit_review if @payload[:action] == 'submitted'
   end
