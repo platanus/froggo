@@ -1,20 +1,17 @@
 require 'rails_helper'
 
 describe ProcessWebhookEvent do
-  def perform(*_args)
-    described_class.for(*_args)
+  def perform(request, event)
+    described_class.for(request: request, event: event)
   end
 
   context 'pull requests event' do
     let!(:event) { 'pull_request' }
     let!(:request) { {} }
 
-    before do
-      expect_any_instance_of(PullRequestService).to receive(:process).and_return(nil)
-    end
-
-    it 'call perform in pull request service' do
-      ProcessWebhookEvent.for(request: request, event: event)
+    it 'calls process on pull request service' do
+      expect_any_instance_of(PullRequestService).to receive(:process)
+      perform(request, event)
     end
   end
 
@@ -22,12 +19,19 @@ describe ProcessWebhookEvent do
     let!(:event) { 'pull_request_review' }
     let!(:request) { {} }
 
-    before do
-      expect_any_instance_of(PullRequestReviewService).to receive(:process).and_return(nil)
+    it 'calls process on pull request review service' do
+      expect_any_instance_of(PullRequestReviewService).to receive(:process)
+      perform(request, event)
     end
+  end
 
-    it 'call perform in pull request review service' do
-      ProcessWebhookEvent.for(request: request, event: event)
+  context 'pull request reviews event' do
+    let!(:event) { 'repository' }
+    let!(:request) { {} }
+
+    it 'calls process on pull request review service' do
+      expect_any_instance_of(RepositoryService).to receive(:process)
+      perform(request, event)
     end
   end
 end

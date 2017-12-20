@@ -6,6 +6,8 @@ class Repository < ApplicationRecord
   has_many :hooks, as: :resource
   validates :gh_id, presence: true
   validates :full_name, presence: true
+
+  delegate :owner, to: :organization, allow_nil: true
 end
 
 # == Schema Information
