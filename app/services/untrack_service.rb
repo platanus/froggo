@@ -7,10 +7,12 @@ class UntrackService < PowerTypes::Service.new(:repo)
   private
 
   def destroy_hook(hook)
+    return false if hook.nil?
     hook.destroy
   end
 
   def destroy_pull_request(pull_request)
+    return false if pull_request.nil?
     pull_request.each do |pr|
       PullRequestRelation.where(pull_request_id: pr.id).destroy_all
     end
