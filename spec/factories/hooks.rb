@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :hook do
-    repo_type ""
+    hook_type "Repository"
     gh_id 1
-    name "MyString"
+    name "web"
     active false
     ping_url "MyString"
     test_url "MyString"

@@ -3,6 +3,7 @@ class Organization < ApplicationRecord
 
   belongs_to :owner, class_name: "AdminUser"
   has_many :repositories
+  has_many :hooks, as: :resource
 
   validates :gh_id, presence: true
   validates :login, presence: true

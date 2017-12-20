@@ -3,7 +3,7 @@ class Repository < ApplicationRecord
   include PowerTypes::Observable
   belongs_to :organization
   has_many :pull_requests
-  has_many :hooks
+  has_many :hooks, as: :resource
   validates :gh_id, presence: true
   validates :full_name, presence: true
 end
