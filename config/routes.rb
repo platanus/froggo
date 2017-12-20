@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'webhook/index'
   post 'github_events' => 'webhook#receive'
+  root 'dashboard#index'
 
   scope path: '/api' do
     api_version(module: "Api::V1", path: { value: "v1" }, defaults: { format: 'json' }) do
