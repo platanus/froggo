@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe RepositoryObserver do
   let(:organization) { create(:organization) }
-  let(:repository) { create(:repository, organization_id: organization.id) }
+  let!(:repository) { create(:repository, organization_id: organization.id) }
 
   def trigger(type, event, object = repository)
     described_class.trigger(type, event, object)
