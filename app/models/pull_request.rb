@@ -16,6 +16,10 @@ class PullRequest < ApplicationRecord
   def has_reviewer?(github_user_id)
     !reviewers.where(id: github_user_id).empty?
   end
+
+  def has_assignee?(github_user_id)
+    !assignees.where(id: github_user_id).empty?
+  end
 end
 
 # == Schema Information

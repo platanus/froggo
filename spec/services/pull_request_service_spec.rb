@@ -116,7 +116,7 @@ describe PullRequestService do
       pull_request = PullRequest.find_by(gh_id: 34778301)
       merger = GithubUser.find_by(gh_id: 2)
 
-      expect(merger.assignee?(pull_request)).to be true
+      expect(pull_request.has_assignee?(merger.id)).to be true
     end
   end
 end
