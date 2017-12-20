@@ -74,4 +74,20 @@ describe HookService do
 
     it { expect { unsubscribe }.to change { hook.reload.active }.from(true).to false }
   end
+
+  describe "#destroy_api_hook" do
+    let (:hook) { create(:hook, repository: repository, active: true) }
+
+    def destroy
+      subject.destroy_api_hook(hook)
+    end
+
+    context "when the hook is not tracked" do
+      before do
+        expect(client).to receive(:remove_hook).with(
+          repository.full_name, hook.gh_id
+        )
+      end
+    end
+  end
 end
