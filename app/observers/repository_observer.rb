@@ -8,7 +8,7 @@ class RepositoryObserver < PowerTypes::Observer
         GithubWorker.perform_async('FETCH_REPOS_PULL_REQUEST',
           owner_id: object.organization.owner_id, repository_id: object.id)
       elsif !object.saved_change_to_id?
-        UntrackService.new(repo: object).destroy_entities
+        Untrack.for(repo: object)
       end
     end
   end
