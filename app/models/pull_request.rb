@@ -7,8 +7,8 @@ class PullRequest < ApplicationRecord
   has_many :reviewers, -> do
     where(pull_request_relations: { pr_relation_type: :reviewer })
   end, through: :pull_request_relations, source: :github_user
-  has_many :assignees, -> do
-    where(pull_request_relations: { pr_relation_type: :assignee })
+  has_many :merge_users, -> do
+    where(pull_request_relations: { pr_relation_type: :merge_by })
   end, through: :pull_request_relations, source: :github_user
 
   validates :gh_id, presence: true
@@ -17,8 +17,8 @@ class PullRequest < ApplicationRecord
     !reviewers.where(id: github_user_id).empty?
   end
 
-  def has_assignee?(github_user_id)
-    !assignees.where(id: github_user_id).empty?
+  def has_merge_users?(github_user_id)
+    !merge_users.where(id: github_user_id).empty?
   end
 end
 

@@ -14,7 +14,7 @@ class PullRequestService < PowerTypes::Service.new(payload: nil)
 
   def update_pull_request
     pull_request.update! pull_request_params
-    pull_request.assignees << merger if merger && !pull_request.has_assignee?(merger.id)
+    pull_request.merge_users << merger if merger && !pull_request.has_merge_users?(merger.id)
   end
 
   def pull_request_params

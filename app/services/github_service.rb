@@ -41,8 +41,8 @@ class GithubService < PowerTypes::Service.new(:user)
                                              pr_state: pr.state)
         # If the pull requests exists and it hasn't been updated, continue with next pr
         if pull_request.gh_updated_at.nil? || (pull_request.gh_updated_at < pr.updated_at)
+          update_pull_request_merge_by(pull_request, pr)
           update_pull_request(pull_request, pr)
-          update_pull_request_asignees(pull_request, pr) if pr.assignees
           update_pull_req_reviewers(pull_request)
         end
       end
@@ -62,20 +62,14 @@ class GithubService < PowerTypes::Service.new(:user)
     )
   end
 
-  def update_pull_request_asignees(old_pr, new_pr)
-    if !new_pr.assignees || new_pr.assignees.empty?
-      unless old_pr.pull_request_relations.assignees.empty?
-        old_pr.pull_request_relations.assignees.destroy_all
-      end
-    else
-      new_assignees = new_pr.assignees.reduce(Hash.new) do |result, assignee|
-        result.merge(assignee.login => assignee)
-      end
-      pr_assignees = old_pr.pull_request_relations.assignees
-                           .joins(:github_user).pluck(:login).to_set
-      # Remove existing relations
-      new_assignees.delete_if { |login, _| pr_assignees.include? login }
-      add_new_relations(old_pr, new_assignees, :assignee)
+  def update_pull_request_merge_by(old_pr, new_pr)
+    if old_pr.gh_merged_at.nil? && !new_pr.merged_at.nil?
+      merge_commit = OctokitClient.fetch_repository_commit(old_pr.repository.full_name,
+        new_pr.merge_commit_sha, @user.token)
+      old_pr.pull_request_relations.create!(
+        pr_relation_type: :merge_by,
+        github_user: get_github_user(merge_commit.author)
+      )
     end
   end
 
@@ -102,15 +96,15 @@ class GithubService < PowerTypes::Service.new(:user)
     end
   end
 
-  def add_new_relations(pull_req, new_assignees, relation_type)
-    github_users = GithubUser.where(login: new_assignees.keys)
+  def add_new_relations(pull_req, users, relation_type)
+    github_users = GithubUser.where(login: users.keys)
     github_users.each do |user|
       pull_req.pull_request_relations.create!(pr_relation_type: relation_type, github_user: user)
     end
     github_users_login = github_users.pluck(:login).to_set
-    new_assignees.delete_if { |login, _| github_users_login.include? login }
-    new_assignees.each do |_, new_assignee|
-      user = get_github_user(new_assignee)
+    users.delete_if { |login, _| github_users_login.include? login }
+    users.each do |_, user|
+      user = get_github_user(user)
       pull_req.pull_request_relations.create!(
         pr_relation_type: relation_type,
         github_user: user
