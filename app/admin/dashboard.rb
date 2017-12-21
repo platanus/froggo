@@ -6,7 +6,7 @@ ActiveAdmin.register_page "Dashboard" do
       link_to t("reset_token"), admin_dashboard_reset_token_path
     else
       link_to(
-        fa_icon("github 2x", text: I18n.t("active_admin.link_github")),
+        fa_icon("github 2x", text: I18n.t("active_admin.github.link")),
         admin_user_github_omniauth_authorize_path
       )
     end
@@ -14,7 +14,7 @@ ActiveAdmin.register_page "Dashboard" do
 
   page_action :reset_token, method: :get do
     current_admin_user.reset_token!
-    redirect_to admin_dashboard_path, notice: I18n.t("auth.github_token.reset")
+    redirect_to admin_dashboard_path, notice: I18n.t("active_admin.github.token_reset")
   end
 
   content title: proc { I18n.t("active_admin.dashboard") } do
