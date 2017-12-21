@@ -32,6 +32,19 @@ class HookService < PowerTypes::Service.new
 
   private
 
+  def get_hook(resource, hook)
+    if resource.is_a?(Repository)
+      OctokitClient.client(resource.owner.token).hook(
+        resource.full_name, hook.gh_id
+      )
+    elsif resource.is_a?(Organization)
+      OctokitClient.client(resource.owner.token).org_hook(
+        resource.login, hook.gh_id
+      )
+    end
+  rescue Octokit::NotFound
+  end
+
   def create_hook(resource)
     response = nil
     if resource.is_a?(Repository)
@@ -81,9 +94,13 @@ class HookService < PowerTypes::Service.new
   end
 
   def edit_active_repo_hook(repo, hook, status)
+    if get_hook(repo, hook).nil?
+      response = create_repo_hook(repo)
+      update(response, repo) if response
+    end
     OctokitClient.client(repo.owner.token).edit_hook(
       repo.full_name,
-      hook.gh_id,
+      hook.reload.gh_id,
       'web',
       {
         url: "#{ENV['APPLICATION_HOST']}/github_events",
@@ -95,9 +112,13 @@ class HookService < PowerTypes::Service.new
   end
 
   def edit_active_org_hook(org, hook, status)
+    if get_hook(org, hook).nil?
+      response = create_org_hook(org)
+      update(response, org) if response
+    end
     OctokitClient.client(org.owner.token).edit_org_hook(
       org.login,
-      hook.gh_id,
+      hook.reload.gh_id,
       {
         url: "#{ENV['APPLICATION_HOST']}/github_events",
         content_type: 'json',
@@ -112,6 +133,7 @@ class HookService < PowerTypes::Service.new
       repo.full_name,
       hook.gh_id
     )
+  rescue Octokit::NotFound
   end
 
   def destroy_api_org_hook(org, hook)
@@ -119,10 +141,23 @@ class HookService < PowerTypes::Service.new
       org.login,
       hook.gh_id
     )
+  rescue Octokit::NotFound
   end
 
   def create(response, resource)
     @hook = Hook.create(
+      gh_id: response[:id],
+      name: response[:name],
+      active: response[:active],
+      ping_url: response[:ping_url],
+      test_url: response[:test_url],
+      resource: resource,
+      hook_type: response[:type]
+    )
+  end
+
+  def update(response, resource)
+    @hook = Hook.update(
       gh_id: response[:id],
       name: response[:name],
       active: response[:active],
