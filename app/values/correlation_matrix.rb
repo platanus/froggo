@@ -8,7 +8,9 @@ class CorrelationMatrix
   end
 
   def update_data(user1, user2)
-    @data[[@row_head.find_index(user1), @col_head.find_index(user2)]] += 1
+    i = @row_head.find_index(user1)
+    j = @col_head.find_index(user2)
+    @data[[i, j]] += 1 unless i.nil? || j.nil?
   end
 
   def fill_matrix(pull_requests)
