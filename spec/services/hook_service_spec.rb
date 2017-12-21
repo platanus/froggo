@@ -78,6 +78,36 @@ describe HookService do
 
       it { expect { unsubscribe }.to change { hook.reload.active }.from(true).to false }
     end
+
+    describe "#destroy_api_hook" do
+      let (:hook) { create(:hook, resource: organization) }
+
+      def destroy
+        subject.destroy_api_hook(hook)
+      end
+
+      context "client calls" do
+        it "calls remove_org_hook on the client" do
+          expect(client).to receive(:remove_org_hook).with(
+            organization.login, hook.gh_id
+          )
+
+          destroy
+        end
+      end
+
+      context "resource changes" do
+        before do
+          allow(client).to receive(:remove_hook).with(
+            repository.full_name, hook.gh_id
+          )
+        end
+
+        it "untracks the repository" do
+          expect(organization.tracked).to be false
+        end
+      end
+    end
   end
 
   describe 'repo_hooks' do
@@ -139,20 +169,34 @@ describe HookService do
 
       it { expect { unsubscribe }.to change { hook.reload.active }.from(true).to false }
     end
-  end
 
-  describe "#destroy_api_hook" do
-    let (:hook) { create(:hook, repository: repository, active: true) }
+    describe "#destroy_api_hook" do
+      let (:hook) { create(:hook, resource: repository, active: true) }
 
-    def destroy
-      subject.destroy_api_hook(hook)
-    end
+      def destroy
+        subject.destroy_api_hook(hook)
+      end
 
-    context "when the hook is not tracked" do
-      before do
-        expect(client).to receive(:remove_hook).with(
-          repository.full_name, hook.gh_id
-        )
+      context "client calls" do
+        it "calls remove_org_hook on the client" do
+          expect(client).to receive(:remove_hook).with(
+            repository.full_name, hook.gh_id
+          )
+
+          destroy
+        end
+      end
+
+      context "resource changes" do
+        before do
+          allow(client).to receive(:remove_hook).with(
+            repository.full_name, hook.gh_id
+          )
+        end
+
+        it "untracks the repository" do
+          expect(repository.tracked).to be false
+        end
       end
     end
   end

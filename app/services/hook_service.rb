@@ -16,16 +16,18 @@ class HookService < PowerTypes::Service.new
       resource_id: resource.id,
       resource_type: resource.class.name
     )
-    edit_active_hook(resource, @hook, false)
+    edit_active_hook(resource, @hook, false) if @hook
   end
 
   def destroy_api_hook(hook)
-    repo = Repository.find(hook.repository_id)
-    repo.update! tracked: false if repo.tracked
-    OctokitClient.client(repo.organization.owner.token).remove_hook(
-      repo.full_name,
-      hook.gh_id
-    )
+    resource = hook.resource
+    resource.update! tracked: false if resource.tracked
+
+    if resource.is_a?(Repository)
+      destroy_api_repo_hook(resource, hook)
+    elsif resource.is_a?(Organization)
+      destroy_api_org_hook(resource, hook)
+    end
   end
 
   private
@@ -102,6 +104,20 @@ class HookService < PowerTypes::Service.new
         secret: ENV['GH_HOOK_SECRET']
       },
       active: status
+    )
+  end
+
+  def destroy_api_repo_hook(repo, hook)
+    OctokitClient.client(repo.owner.token).remove_hook(
+      repo.full_name,
+      hook.gh_id
+    )
+  end
+
+  def destroy_api_org_hook(org, hook)
+    OctokitClient.client(org.owner.token).remove_org_hook(
+      org.login,
+      hook.gh_id
     )
   end
 
