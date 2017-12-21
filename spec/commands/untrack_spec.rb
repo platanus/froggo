@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Untrack do
   let (:repository) { create(:repository) }
-  let!(:hook) { create(:hook, repository_id: repository.id, active: true) }
+  let!(:hook) { create(:hook, resource: repository, active: true) }
   let(:pull_request) { create(:pull_request, repository_id: repository.id) }
   let(:pull_request_relation) { create(pull_request_relation, pull_request_id: pull_request.id) }
 

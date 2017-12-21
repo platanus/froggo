@@ -3,7 +3,7 @@ require 'rails_helper'
 describe HookObserver do
   let(:organization) { create(:organization) }
   let(:repository) { create(:repository, organization_id: organization.id) }
-  let(:hook) { create(:hook, repository_id: repository.id) }
+  let(:hook) { create(:hook, resource: repository) }
 
   def trigger(type, event, object = hook)
     described_class.trigger(type, event, object)

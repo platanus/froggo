@@ -1,28 +1,30 @@
 class Hook < ApplicationRecord
   include PowerTypes::Observable
 
-  belongs_to :repository
+  belongs_to :resource, polymorphic: true
   validates :gh_id, presence: true
-  validates :repository_id, presence: true
+  validates :resource_id, presence: true
+  validates :resource_type, presence: true
 end
 
 # == Schema Information
 #
 # Table name: hooks
 #
-#  id              :integer          not null, primary key
-#  repo_type       :string
-#  gh_id           :integer
-#  name            :string
-#  active          :boolean
-#  ping_url        :string
-#  test_url        :string
-#  repository_id   :integer
-#  repositories_id :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id            :integer          not null, primary key
+#  hook_type     :string
+#  gh_id         :integer
+#  name          :string
+#  active        :boolean
+#  ping_url      :string
+#  test_url      :string
+#  repository_id :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  resource_type :string
+#  resource_id   :integer
 #
 # Indexes
 #
-#  index_hooks_on_repositories_id  (repositories_id)
+#  index_hooks_on_resource_type_and_resource_id  (resource_type,resource_id)
 #

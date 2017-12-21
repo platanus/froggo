@@ -4,6 +4,8 @@ class ProcessWebhookEvent < PowerTypes::Command.new(request: nil, event: nil)
       PullRequestService.new(payload: @request).process
     elsif @event == 'pull_request_review'
       PullRequestReviewService.new(payload: @request).process
+    elsif @event == 'repository'
+      RepositoryService.new(payload: @request).process
     end
   end
 end

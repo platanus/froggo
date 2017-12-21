@@ -1,16 +1,22 @@
 class HookService < PowerTypes::Service.new
-  def subscribe(repo)
-    @hook = Hook.find_by(repository_id: repo.id)
+  def subscribe(resource)
+    @hook = Hook.find_by(
+      resource_id: resource.id,
+      resource_type: resource.class.name
+    )
     if @hook
-      edit_active_hook(repo, @hook, true)
+      edit_active_hook(resource, @hook, true)
     else
-      create_new_hook(repo)
+      create_hook(resource)
     end
   end
 
-  def unsubscribe(repo)
-    @hook = Hook.find_by(repository_id: repo.id)
-    edit_active_hook(repo, @hook, false)
+  def unsubscribe(resource)
+    @hook = Hook.find_by(
+      resource_id: resource.id,
+      resource_type: resource.class.name
+    )
+    edit_active_hook(resource, @hook, false)
   end
 
   def destroy_api_hook(hook)
@@ -24,8 +30,19 @@ class HookService < PowerTypes::Service.new
 
   private
 
-  def create_new_hook(repo)
-    response = OctokitClient.client(repo.organization.owner.token).create_hook(
+  def create_hook(resource)
+    response = nil
+    if resource.is_a?(Repository)
+      response = create_repo_hook(resource)
+    elsif resource.is_a?(Organization)
+      response = create_org_hook(resource)
+    end
+
+    create(response, resource) if response
+  end
+
+  def create_repo_hook(repo)
+    OctokitClient.client(repo.owner.token).create_hook(
       repo.full_name,
       'web',
       {
@@ -36,13 +53,33 @@ class HookService < PowerTypes::Service.new
       events: ['pull_request', 'pull_request_review'],
       active: true
     )
-    create(response, repo)
   end
 
-  def edit_active_hook(repo, hook, status)
+  def create_org_hook(org)
+    OctokitClient.client(org.owner.token).create_org_hook(
+      org.login,
+      {
+        url: "#{ENV['APPLICATION_HOST']}/github_events",
+        content_type: 'json',
+        secret: ENV['GH_HOOK_SECRET']
+      },
+      events: ['repository'],
+      active: true
+    )
+  end
+
+  def edit_active_hook(resource, hook, status)
     hook.active = status
     hook.save
-    OctokitClient.client(repo.organization.owner.token).edit_hook(
+    if resource.is_a?(Repository)
+      edit_active_repo_hook(resource, hook, status)
+    elsif resource.is_a?(Organization)
+      edit_active_org_hook(resource, hook, status)
+    end
+  end
+
+  def edit_active_repo_hook(repo, hook, status)
+    OctokitClient.client(repo.owner.token).edit_hook(
       repo.full_name,
       hook.gh_id,
       'web',
@@ -55,15 +92,28 @@ class HookService < PowerTypes::Service.new
     )
   end
 
-  def create(response, repo)
+  def edit_active_org_hook(org, hook, status)
+    OctokitClient.client(org.owner.token).edit_org_hook(
+      org.login,
+      hook.gh_id,
+      {
+        url: "#{ENV['APPLICATION_HOST']}/github_events",
+        content_type: 'json',
+        secret: ENV['GH_HOOK_SECRET']
+      },
+      active: status
+    )
+  end
+
+  def create(response, resource)
     @hook = Hook.create(
-      repo_type: response[:type],
       gh_id: response[:id],
       name: response[:name],
       active: response[:active],
       ping_url: response[:ping_url],
       test_url: response[:test_url],
-      repository_id: repo.id
+      resource: resource,
+      hook_type: response[:type]
     )
   end
 end

@@ -1,33 +1,59 @@
 require 'rails_helper'
 
 describe OrganizationObserver do
-  let(:admin_user) { build(:admin_user, token: "thisittoken") }
-  let(:object) { build(:organization, owner_id: admin_user.id) }
-
-  def trigger(type, event)
-    described_class.trigger(type, event, object)
-  end
-
   describe "#after_save" do
-    before do
-      allow(OctokitClient).to(
-        receive(:client)
-      ).and_return(double)
-      allow(OctokitClient).to(
-        receive(:fetch_organization_repositories)
-      ).and_return([])
+    let(:admin_user) { build(:admin_user, token: "thisittoken") }
+    let(:client) { double }
+
+    def trigger(type, event, object)
+      described_class.trigger(type, event, object)
     end
 
-    it "calls GithubService when tracked" do
-      object.tracked = true
+    describe 'GithubWorker calls' do
+      let(:object) { build(:organization, owner_id: admin_user.id, tracked: false) }
+      before do
+        allow(OctokitClient).to(
+          receive(:client)
+        ).and_return(client)
+        allow(OctokitClient).to(
+          receive(:fetch_organization_repositories)
+        ).and_return([])
 
-      expect { trigger(:after, :save) }.to change(GithubWorker.jobs, :size)
+        allow_any_instance_of(HookService).to receive(:subscribe)
+        allow_any_instance_of(HookService).to receive(:unsubscribe)
+      end
+
+      it "calls GithubService when tracked" do
+        object.tracked = true
+
+        expect { trigger(:after, :save, object) }.to change(GithubWorker.jobs, :size)
+      end
+
+      it "doesn't call GithubService when not tracked" do
+        object.tracked = false
+
+        expect { trigger(:after, :save, object) }.not_to change(GithubWorker.jobs, :size)
+      end
     end
 
-    it "doesn't call GithubService when not tracked" do
-      object.tracked = false
+    describe 'HookService calls' do
+      let(:object) { build(:organization, owner_id: admin_user.id, tracked: false) }
 
-      expect { trigger(:after, :save) }.not_to change(GithubWorker.jobs, :size)
+      it "calls subscribe when tracked" do
+        expect_any_instance_of(HookService).to receive(:subscribe)
+          .with(object)
+
+        object.tracked = true
+        trigger(:after, :save, object)
+      end
+
+      it "calls unsubscribe when not tracked" do
+        expect_any_instance_of(HookService).to receive(:unsubscribe)
+          .with(object)
+
+        object.tracked = false
+        trigger(:after, :save, object)
+      end
     end
   end
 end
