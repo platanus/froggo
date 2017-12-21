@@ -32,13 +32,19 @@ describe HookService do
     end
 
     describe "#subscribe" do
-      let (:hook) { create(:hook, resource: organization, active: false) }
-
       def subscribe
         subject.subscribe(organization)
       end
 
       context "when the hook exist for this organization" do
+        let (:hook) { create(:hook, resource: organization, active: false) }
+
+        before do
+          allow(client).to receive(:org_hook).with(
+            organization.login, hook.gh_id
+          ).and_return(gh_response)
+        end
+
         it "edits hook" do
           expect(client).to receive(:edit_org_hook).with(
             organization.login, hook.gh_id, gh_conf, active: true
@@ -61,6 +67,29 @@ describe HookService do
         it { expect(@hook.active).to eq(true) }
         it { expect(@hook.resource).to eq(organization) }
       end
+
+      describe "OctoKit can't find hook" do
+        let (:hook) { create(:hook, resource: organization, active: true) }
+
+        before do
+          allow(client).to receive(:org_hook).with(
+            organization.login, hook.gh_id
+          ).and_raise(Octokit::NotFound)
+        end
+
+        it "creates an API hook on subscribe" do
+          expect(client).to receive(:create_org_hook).with(
+            organization.login, gh_conf,
+            events: ['repository'], active: true
+          )
+
+          expect(client).to receive(:edit_org_hook).with(
+            organization.login, hook.gh_id, gh_conf, active: true
+          )
+
+          subscribe
+        end
+      end
     end
 
     describe "#unsubscribe" do
@@ -71,6 +100,10 @@ describe HookService do
       end
 
       before do
+        allow(client).to receive(:org_hook).with(
+          organization.login, hook.gh_id
+        ).and_return(gh_response)
+
         expect(client).to receive(:edit_org_hook).with(
           organization.login, hook.gh_id, gh_conf, active: false
         )
@@ -107,6 +140,22 @@ describe HookService do
           expect(organization.tracked).to be false
         end
       end
+
+      describe "OctoKit can't find hook" do
+        before do
+          allow(client).to receive(:org_hook).with(
+            organization.login, hook.gh_id
+          ).and_raise(Octokit::NotFound)
+
+          allow(client).to receive(:remove_org_hook).with(
+            organization.login, hook.gh_id
+          )
+        end
+
+        it "doesn't crash on destroy" do
+          expect { destroy }.not_to raise_error
+        end
+      end
     end
   end
 
@@ -123,13 +172,19 @@ describe HookService do
     end
 
     describe "#subscribe" do
-      let (:hook) { create(:hook, resource: repository, active: false) }
-
       def subscribe
         subject.subscribe(repository)
       end
 
       context "when the hook exist for this repository" do
+        let (:hook) { create(:hook, resource: repository, active: false) }
+
+        before do
+          allow(client).to receive(:hook).with(
+            repository.full_name, hook.gh_id
+          ).and_return(gh_response)
+        end
+
         it "edits hook" do
           expect(client).to receive(:edit_hook).with(
             repository.full_name, hook.gh_id, 'web', gh_conf, active: true
@@ -152,6 +207,27 @@ describe HookService do
         it { expect(@hook.active).to eq(true) }
         it { expect(@hook.resource).to eq(repository) }
       end
+
+      describe "OctoKit can't find hook" do
+        let (:hook) { create(:hook, resource: repository, active: false) }
+
+        before do
+          allow(client).to receive(:hook).with(
+            repository.full_name, hook.gh_id
+          ).and_raise(Octokit::NotFound)
+        end
+
+        it "creates an API hook on subscribe" do
+          expect(client).to receive(:create_hook).with(
+            repository.full_name, 'web', gh_conf,
+            events: ['pull_request', 'pull_request_review'], active: true
+          )
+          expect(client).to receive(:edit_hook).with(
+            repository.full_name, hook.gh_id, 'web', gh_conf, active: true
+          )
+          subscribe
+        end
+      end
     end
 
     describe "#unsubscribe" do
@@ -162,6 +238,10 @@ describe HookService do
       end
 
       before do
+        allow(client).to receive(:hook).with(
+          repository.full_name, hook.gh_id
+        ).and_return(gh_response)
+
         expect(client).to receive(:edit_hook).with(
           repository.full_name, hook.gh_id, 'web', gh_conf, active: false
         )
@@ -196,6 +276,18 @@ describe HookService do
 
         it "untracks the repository" do
           expect(repository.tracked).to be false
+        end
+      end
+
+      describe "OctoKit can't find hook" do
+        before do
+          allow(client).to receive(:remove_hook).with(
+            repository.full_name, hook.gh_id
+          ).and_raise(Octokit::NotFound)
+        end
+
+        it "doesn't crash on destroy" do
+          expect { destroy }.not_to raise_error
         end
       end
     end
