@@ -18,8 +18,8 @@ class CorrelationMatrix
       pr.reviewers.each do |reviewer|
         update_data(pr.owner, reviewer)
       end
-      pr.assignees.each do |assignee|
-        update_data(pr.owner, assignee)
+      pr.merge_users.each do |merger|
+        update_data(pr.owner, merger)
       end
     end
   end
