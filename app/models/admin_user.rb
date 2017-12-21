@@ -9,6 +9,10 @@ class AdminUser < ApplicationRecord
   def has_github_linked?
     token.present?
   end
+
+  def reset_token!
+    update!(token: nil, uid: nil)
+  end
 end
 
 # == Schema Information

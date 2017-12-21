@@ -1,18 +1,25 @@
 ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: proc { I18n.t("active_admin.dashboard") }
 
+  action_item :reset_token do
+    if current_admin_user.has_github_linked?
+      link_to t("reset_token"), admin_dashboard_reset_token_path
+    else
+      link_to(
+        fa_icon("github 2x", text: I18n.t("active_admin.link_github")),
+        admin_user_github_omniauth_authorize_path
+      )
+    end
+  end
+
+  page_action :reset_token, method: :get do
+    current_admin_user.reset_token!
+    redirect_to admin_dashboard_path, notice: I18n.t("auth.github_token.reset")
+  end
+
   content title: proc { I18n.t("active_admin.dashboard") } do
     columns do
       column do
-        unless current_admin_user.has_github_linked?
-          div class: "github-link-container" do
-            link_to(
-              fa_icon("github 4x", text: I18n.t("active_admin.link_github")),
-              admin_user_github_omniauth_authorize_path,
-              class: "github-link"
-            )
-          end
-        end
         panel "Tracked repositories" do
           table_for Repository.where("tracked = true").map do
             column :full_name
