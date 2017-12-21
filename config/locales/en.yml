@@ -31,7 +31,10 @@
 
 en:
   active_admin:
-    link_github: "Authorize Github access"
+    github:
+      link: "Authorize Github access"
+      token_reset: "Your token has been reset"
     pull_requests:
       one: 1 pr
       other: '%{count} prs'
+
