@@ -37,4 +37,7 @@ en:
     pull_requests:
       one: 1 pr
       other: '%{count} prs'
-
+    pull_request_relations:
+      zero: empty
+      one: 1 rel
+      other: '%{count} rels'
