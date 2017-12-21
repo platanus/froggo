@@ -24,6 +24,11 @@ module OctokitClient
       accept: 'application/vnd.github.thor-preview+json')
   end
 
+  def fetch_repository_commit(repo_full_name, commit_sha, token)
+    c = client(token)
+    c.commit(repo_full_name, commit_sha)
+  end
+
   def client(token)
     @client ||= begin
       c = Octokit::Client.new(access_token: token)

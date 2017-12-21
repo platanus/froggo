@@ -86,8 +86,8 @@ describe PullRequestService do
     build(payload).process
   end
 
-  context "create assignation" do
-    it "creates assignee and update pull_request" do
+  context "create merge" do
+    it "creates merge data and update pull_request" do
       payload[:action] = 'closed'
       payload[:pull_request][:state] = 'closed'
       payload[:pull_request][:merged_by] = merger
@@ -116,7 +116,7 @@ describe PullRequestService do
       pull_request = PullRequest.find_by(gh_id: 34778301)
       merger = GithubUser.find_by(gh_id: 2)
 
-      expect(pull_request.has_assignee?(merger.id)).to be true
+      expect(pull_request.has_merge_users?(merger.id)).to be true
     end
   end
 end

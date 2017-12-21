@@ -3,11 +3,11 @@ class PullRequestRelation < ApplicationRecord
   belongs_to :pull_request
   belongs_to :github_user
 
-  enumerize :pr_relation_type, in: [:assignee, :reviewer]
+  enumerize :pr_relation_type, in: [:merge_by, :reviewer]
   validates :pr_relation_type, presence: true
-  validates_inclusion_of :pr_relation_type, in: %w(assignee reviewer)
+  validates_inclusion_of :pr_relation_type, in: %w(merge_by reviewer)
 
-  scope :assignees, -> { where(pr_relation_type: :assignee) }
+  scope :merged_by, -> { where(pr_relation_type: :merge_by) }
   scope :reviewers, -> { where(pr_relation_type: :reviewer) }
 end
 

@@ -68,7 +68,6 @@ ActiveRecord::Schema.define(version: 20171220184700) do
     t.boolean "active"
     t.string "ping_url"
     t.string "test_url"
-    t.integer "repository_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "resource_type"

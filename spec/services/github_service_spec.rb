@@ -77,7 +77,7 @@ describe GithubService do
     end
   end
 
-  context 'create pull requests for repository' do
+  context 'pull requests repository' do
     let!(:repo) { create(:repository) }
     let!(:new_pull_request_data) do
       [
@@ -90,37 +90,7 @@ describe GithubService do
           created_at: '2017-12-12 09:17:52',
           updated_at: '2017-12-12 09:17:52',
           closed_at: '2017-12-12 09:17:52',
-          merged_at: '2017-12-12 09:17:52',
-          assignees: [],
-          user: double(
-            id: 1,
-            login: 'bunzli',
-            avatar_url: 'https://avatars2.githubusercontent.com/u/741483?v=4',
-            html_url: 'https://github.com/bunzli'
-          )
-        )
-      ]
-    end
-    let!(:updated_pull_request_data) do
-      [
-        double(
-          id: 1,
-          title: 'Test',
-          number: 1,
-          state: 'closed',
-          html_url: 'http://www.gihub.com/prueba',
-          created_at: '2017-12-12 09:17:52',
-          updated_at: '2017-12-14 09:17:52',
-          closed_at: '2017-12-14 09:17:52',
-          merged_at: '2017-12-14 09:17:52',
-          assignees: [
-            double(
-              login: 'TestUser',
-              id: 2,
-              avatar_url: 'url_to_avatar',
-              html_url: 'url_to_html'
-            )
-          ],
+          merged_at: nil,
           user: double(
             id: 1,
             login: 'bunzli',
@@ -143,27 +113,6 @@ describe GithubService do
       ]
     end
 
-    let!(:updated_reviews_data) do
-      [
-        double(
-          user: double(
-            login: 'ReviewerUser',
-            id: 3,
-            avatar_url: 'url_to_avatar',
-            html_url: 'url_to_html'
-          )
-        ),
-        double(
-          user: double(
-            login: 'SecondReviewerUser',
-            id: 4,
-            avatar_url: 'url_to_avatar',
-            html_url: 'url_to_html'
-          )
-        )
-      ]
-    end
-
     before do
       allow(OctokitClient).to receive(:fetch_repository_pull_requests)
         .and_return(new_pull_request_data)
@@ -172,80 +121,140 @@ describe GithubService do
       build.create_repository_pull_requests(repo.id, repo.full_name)
     end
 
-    it 'saves the pull request' do
-      pr = PullRequest.find_by(gh_id: 1)
-      expect(pr).not_to be_nil
+    context 'create' do
+      it 'saves the pull request' do
+        pr = PullRequest.find_by(gh_id: 1)
+        expect(pr).not_to be_nil
+      end
+
+      it 'the pull request with correct parameters' do
+        pr = PullRequest.find_by(gh_id: 1)
+        expect(pr.title).to eq('Test')
+        expect(pr.gh_number).to eq(1)
+        expect(pr.pr_state).to eq('open')
+        expect(pr.gh_created_at).to eq('2017-12-12 09:17:52')
+        expect(pr.gh_updated_at).to eq('2017-12-12 09:17:52')
+        expect(pr.gh_closed_at).to eq('2017-12-12 09:17:52')
+        expect(pr.gh_merged_at).to be_nil
+      end
+
+      it 'reviewer with correct parameters' do
+        pr = PullRequest.find_by(gh_id: 1)
+        pr_relation = pr.pull_request_relations.reviewers.first
+        expect(pr_relation.pr_relation_type).to eq('reviewer')
+        expect(pr_relation.github_user.gh_id).to eq(3)
+        expect(pr_relation.github_user.login).to eq('ReviewerUser')
+        expect(pr_relation.github_user.avatar_url).to eq('url_to_avatar')
+        expect(pr_relation.github_user.html_url).to eq('url_to_html')
+        expect(pr_relation.github_user.tracked).to eq(true)
+      end
     end
 
-    it 'saves the pull request with correct parameters' do
-      pr = PullRequest.find_by(gh_id: 1)
-      expect(pr.title).to eq('Test')
-      expect(pr.gh_number).to eq(1)
-      expect(pr.pr_state).to eq('open')
-      expect(pr.gh_created_at).to eq('2017-12-12 09:17:52')
-      expect(pr.gh_updated_at).to eq('2017-12-12 09:17:52')
-      expect(pr.gh_closed_at).to eq('2017-12-12 09:17:52')
-      expect(pr.gh_merged_at).to eq('2017-12-12 09:17:52')
-    end
+    context 'update' do
+      let!(:created_pr) { PullRequest.find_by(gh_id: 1) }
+      let!(:updated_pull_request_data) do
+        [
+          double(
+            id: 1,
+            title: 'Test',
+            number: 1,
+            state: 'closed',
+            html_url: 'http://www.gihub.com/prueba',
+            created_at: '2017-12-12 09:17:52',
+            updated_at: '2017-12-14 09:17:52',
+            closed_at: '2017-12-14 09:17:52',
+            merged_at: '2017-12-14 09:17:52',
+            merge_commit_sha: 'commit-sha',
+            user: double(
+              id: 1,
+              login: 'bunzli',
+              avatar_url: 'https://avatars2.githubusercontent.com/u/741483?v=4',
+              html_url: 'https://github.com/bunzli'
+            )
+          )
+        ]
+      end
 
-    it 'saves assignee users with correct parameters' do
-      pr = PullRequest.find_by(gh_id: 1)
-      pr_relation = pr.pull_request_relations.reviewers.first
-      expect(pr_relation.pr_relation_type).to eq('reviewer')
-      expect(pr_relation.github_user.gh_id).to eq(3)
-      expect(pr_relation.github_user.login).to eq('ReviewerUser')
-      expect(pr_relation.github_user.avatar_url).to eq('url_to_avatar')
-      expect(pr_relation.github_user.html_url).to eq('url_to_html')
-      expect(pr_relation.github_user.tracked).to eq(true)
-    end
+      let!(:updated_reviews_data) do
+        [
+          double(
+            user: double(
+              login: 'ReviewerUser',
+              id: 3,
+              avatar_url: 'url_to_avatar',
+              html_url: 'url_to_html'
+            )
+          ),
+          double(
+            user: double(
+              login: 'SecondReviewerUser',
+              id: 4,
+              avatar_url: 'url_to_avatar',
+              html_url: 'url_to_html'
+            )
+          )
+        ]
+      end
 
-    it "don't duplicate existed pull requests" do
-      build.create_repository_pull_requests(repo.id, repo.full_name)
-      existed_pr = PullRequest.where(gh_id: 1)
-      expect(existed_pr.count).to eq(1)
-    end
+      let!(:commit_data) do
+        double(
+          author: double(
+            id: 5,
+            login: 'MergeUser',
+            avatar_url: 'url_to_avatar',
+            html_url: 'url_to_html'
+          )
+        )
+      end
 
-    it 'updates existed pull requests if gh_updated_at is outdated' do
-      allow(OctokitClient).to receive(:fetch_repository_pull_requests)
-        .and_return(updated_pull_request_data)
-      build.create_repository_pull_requests(repo.id, repo.full_name)
-      pr = PullRequest.find_by(gh_id: 1)
-      expect(pr.title).to eq('Test')
-      expect(pr.gh_number).to eq(1)
-      expect(pr.pr_state).to eq('closed')
-      expect(pr.gh_created_at).to eq('2017-12-12 09:17:52')
-      expect(pr.gh_updated_at).to eq('2017-12-14 09:17:52')
-      expect(pr.gh_closed_at).to eq('2017-12-14 09:17:52')
-      expect(pr.gh_merged_at).to eq('2017-12-14 09:17:52')
-    end
+      before do
+        allow(OctokitClient).to receive(:fetch_repository_pull_requests)
+          .and_return(updated_pull_request_data)
+        allow(OctokitClient).to receive(:fetch_repository_commit).and_return(commit_data)
+        allow(OctokitClient).to receive(:fetch_pull_request_reviews)
+          .and_return(updated_reviews_data)
 
-    it 'saves assignee users with correct parameters' do
-      allow(OctokitClient).to receive(:fetch_repository_pull_requests)
-        .and_return(updated_pull_request_data)
-      build.create_repository_pull_requests(repo.id, repo.full_name)
-      pr = PullRequest.find_by(gh_id: 1)
-      pr_relation = pr.pull_request_relations.assignees.first
-      expect(pr_relation.pr_relation_type).to eq('assignee')
-      expect(pr_relation.github_user.gh_id).to eq(2)
-      expect(pr_relation.github_user.login).to eq('TestUser')
-      expect(pr_relation.github_user.avatar_url).to eq('url_to_avatar')
-      expect(pr_relation.github_user.html_url).to eq('url_to_html')
-      expect(pr_relation.github_user.tracked).to eq(true)
-    end
+        build.create_repository_pull_requests(repo.id, repo.full_name)
+        created_pr.reload
+      end
 
-    it 'saves new reviewers users with correct parameters' do
-      allow(OctokitClient).to receive(:fetch_repository_pull_requests)
-        .and_return(updated_pull_request_data)
-      allow(OctokitClient).to receive(:fetch_pull_request_reviews).and_return(updated_reviews_data)
-      build.create_repository_pull_requests(repo.id, repo.full_name)
-      pr = PullRequest.find_by(gh_id: 1)
-      pr_relation = pr.pull_request_relations.reviewers.second
-      expect(pr_relation.pr_relation_type).to eq('reviewer')
-      expect(pr_relation.github_user.gh_id).to eq(4)
-      expect(pr_relation.github_user.login).to eq('SecondReviewerUser')
-      expect(pr_relation.github_user.avatar_url).to eq('url_to_avatar')
-      expect(pr_relation.github_user.html_url).to eq('url_to_html')
-      expect(pr_relation.github_user.tracked).to eq(true)
+      it "don't duplicate existed pull requests" do
+        # build.create_repository_pull_requests(repo.id, repo.full_name)
+        existed_pr = PullRequest.where(gh_id: 1)
+        expect(existed_pr.count).to eq(1)
+      end
+
+      it 'merge data with correct parameters' do
+        merge_user = GithubUser.find_by(gh_id: 5)
+        pr_relation = created_pr.pull_request_relations.merged_by
+                                .find_by(github_user_id: merge_user.id)
+        expect(pr_relation.pr_relation_type).to eq('merge_by')
+        expect(merge_user.login).to eq('MergeUser')
+        expect(merge_user.avatar_url).to eq('url_to_avatar')
+        expect(merge_user.html_url).to eq('url_to_html')
+        expect(merge_user.tracked).to eq(true)
+      end
+
+      it 'existed pull requests if gh_updated_at is outdated' do
+        expect(created_pr.title).to eq('Test')
+        expect(created_pr.gh_number).to eq(1)
+        expect(created_pr.pr_state).to eq('closed')
+        expect(created_pr.gh_created_at).to eq('2017-12-12 09:17:52')
+        expect(created_pr.gh_updated_at).to eq('2017-12-14 09:17:52')
+        expect(created_pr.gh_closed_at).to eq('2017-12-14 09:17:52')
+        expect(created_pr.gh_merged_at).to eq('2017-12-14 09:17:52')
+      end
+
+      it 'new reviewers users with correct parameters' do
+        gh_user = GithubUser.find_by(gh_id: 4)
+        pr_relation = created_pr.pull_request_relations.reviewers
+                                .find_by(github_user_id: gh_user.id)
+        expect(pr_relation.pr_relation_type).to eq('reviewer')
+        expect(gh_user.login).to eq('SecondReviewerUser')
+        expect(gh_user.avatar_url).to eq('url_to_avatar')
+        expect(gh_user.html_url).to eq('url_to_html')
+        expect(gh_user.tracked).to eq(true)
+      end
     end
   end
 end
