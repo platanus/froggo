@@ -49,7 +49,7 @@ GEM
       ransack (~> 1.3)
       sass (~> 3.1)
       sprockets (< 4.1)
-    activeadmin_addons (1.1.0)
+    activeadmin_addons (1.1.2)
       railties
       require_all
       select2-rails (~> 4.0)
@@ -408,7 +408,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.9.3)
   active_skin
   activeadmin (~> 1.1.0)
-  activeadmin_addons
+  activeadmin_addons (~> 1.1.2)
   annotate
   aws-sdk (~> 2.5)
   better_errors
