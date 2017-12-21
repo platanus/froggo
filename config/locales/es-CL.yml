@@ -6,4 +6,8 @@ es-CL:
     pull_requests:
           one: 1 pr
           other: '%{count} prs'
+    pull_request_relations:
+          zero: vacío
+          one: 1 rel
+          other: '%{count} rels'
 
