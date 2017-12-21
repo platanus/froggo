@@ -98,17 +98,14 @@ class GithubService < PowerTypes::Service.new(:user)
 
   def add_new_relations(pull_req, users, relation_type)
     github_users = GithubUser.where(login: users.keys)
-    github_users.each do |user|
-      pull_req.pull_request_relations.create!(pr_relation_type: relation_type, github_user: user)
-    end
+    # Create missing github_users
     github_users_login = github_users.pluck(:login).to_set
     users.delete_if { |login, _| github_users_login.include? login }
-    users.each do |_, user|
-      user = get_github_user(user)
-      pull_req.pull_request_relations.create!(
-        pr_relation_type: relation_type,
-        github_user: user
-      )
+    github_users = github_users.to_a
+    github_users += users.map { |_, user| get_github_user(user) }
+    # Add the relation for all of them
+    github_users.each do |user|
+      pull_req.pull_request_relations.create!(pr_relation_type: relation_type, github_user: user)
     end
   end
 

@@ -18,7 +18,6 @@ end
 #  active        :boolean
 #  ping_url      :string
 #  test_url      :string
-#  repository_id :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  resource_type :string
