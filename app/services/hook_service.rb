@@ -46,12 +46,11 @@ class HookService < PowerTypes::Service.new
   end
 
   def create_hook(resource)
-    response = nil
-    if resource.is_a?(Repository)
-      response = create_repo_hook(resource)
-    elsif resource.is_a?(Organization)
-      response = create_org_hook(resource)
-    end
+    response = if resource.is_a?(Repository)
+                 create_repo_hook(resource)
+               elsif resource.is_a?(Organization)
+                 create_org_hook(resource)
+               end
 
     create(response, resource) if response
   end
@@ -68,6 +67,7 @@ class HookService < PowerTypes::Service.new
       events: ['pull_request', 'pull_request_review'],
       active: true
     )
+  rescue Octokit::NotFound
   end
 
   def create_org_hook(org)
@@ -81,6 +81,7 @@ class HookService < PowerTypes::Service.new
       events: ['repository'],
       active: true
     )
+  rescue Octokit::NotFound
   end
 
   def edit_active_hook(resource, hook, status)

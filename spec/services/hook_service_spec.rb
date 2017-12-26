@@ -68,6 +68,19 @@ describe HookService do
         it { expect(@hook.resource).to eq(organization) }
       end
 
+      describe "OctoKit can't find organization" do
+        before do
+          expect(client).to receive(:create_org_hook).with(
+            organization.login, gh_conf,
+            events: ['repository'], active: true
+          ).and_raise(Octokit::NotFound)
+        end
+
+        it "doesn't crash on create" do
+          HookService.new.subscribe(organization)
+        end
+      end
+
       describe "OctoKit can't find hook" do
         let (:hook) { create(:hook, resource: organization, active: true) }
 
@@ -206,6 +219,19 @@ describe HookService do
 
         it { expect(@hook.active).to eq(true) }
         it { expect(@hook.resource).to eq(repository) }
+      end
+
+      context "OctoKit can't find repository" do
+        before do
+          expect(client).to receive(:create_hook).with(
+            repository.full_name, 'web', gh_conf,
+            events: ['pull_request', 'pull_request_review'], active: true
+          ).and_raise(Octokit::NotFound)
+        end
+
+        it "doesn't crash on create" do
+          HookService.new.subscribe(repository)
+        end
       end
 
       describe "OctoKit can't find hook" do
