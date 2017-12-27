@@ -22,7 +22,18 @@ RSpec.describe CorrelationMatrix, type: :class do
     it "should change data value if exist" do
       expect do
         subject.fill_matrix
-      end.to change { subject.data.length }.by(1)
+      end.to change { subject.data.length }.by(3)
+    end
+
+    it 'should assign cooperate scope correctly' do
+      subject.fill_matrix
+      expect(subject.data[[0, 1]]).to be(1)
+    end
+
+    it 'should assign alone score correctly' do
+      create(:pull_request, owner: owner, merge_users: [owner])
+      subject.fill_matrix
+      expect(subject.data[[0, 0]]).to be(1)
     end
   end
 end
