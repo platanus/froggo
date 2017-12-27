@@ -16,12 +16,12 @@ RSpec.describe CorrelationMatrix, type: :class do
       j = subject.row_head.find_index(user2)
 
       expect do
-        subject.update_data(user1, user2)
+        subject.update_data(i, j)
       end.to change { subject.data[[i, j]] }.by(1)
     end
 
     it "should keep old value if don't exist" do
-      expect(subject.update_data("", "")).to be_nil
+      expect(subject.update_data(nil, nil)).to be_nil
     end
   end
 
@@ -34,12 +34,10 @@ RSpec.describe CorrelationMatrix, type: :class do
 
     subject { CorrelationMatrix.new([owner, reviewer]) }
 
-    it "should keep old value if don't exist" do
-      i = subject.row_head.find_index(owner)
-      j = subject.row_head.find_index(reviewer)
+    it "should change data value if exist" do
       expect do
         subject.fill_matrix(pull_requests)
-      end.to change { subject.data[[i, j]] }.by(1)
+      end.to change { subject.data.length }.by(1)
     end
   end
 end

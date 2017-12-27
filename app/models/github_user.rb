@@ -4,6 +4,16 @@ class GithubUser < ApplicationRecord
 
   validates :gh_id, presence: true
   validates :login, presence: true
+
+  scope :tracked, -> { where(tracked: true) }
+
+  def interactions
+    PullRequestRelation.joins(:pull_request)
+                       .where(pull_requests: { owner_id: id })
+                       .where(github_user_id: GithubUser.tracked.pluck(:id))
+                       .where.not(github_user_id: id)
+                       .group(:github_user_id).count
+  end
 end
 
 # == Schema Information
