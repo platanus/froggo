@@ -13,9 +13,9 @@ class PullRequest < ApplicationRecord
 
   after_save :touch_repository
 
-  scope :dashboard_limit, -> do
+  scope :within_month_limit, -> do
     where('pull_requests.gh_updated_at > ?',
-      Time.current - ENV['DASHBOARD_MONTH_LIMIT'].to_i.months)
+      Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
   end
 
   validates :gh_id, presence: true
