@@ -9,4 +9,14 @@ RSpec.describe PullRequest, type: :model do
   describe 'relationships' do
     it { should belong_to(:repository) }
   end
+
+  describe 'on save' do
+    let!(:repo) { create(:repository) }
+    it 'touches repository' do
+      expect do
+        create(:pull_request, repository: repo)
+        repo.reload
+      end.to(change { repo.last_pull_request_modification })
+    end
+  end
 end

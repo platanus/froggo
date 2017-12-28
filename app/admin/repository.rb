@@ -4,6 +4,8 @@ ActiveAdmin.register Repository do
   menu priority: 1
   actions :all
 
+  config.sort_order = 'last_pull_request_modification_desc'
+
   index do
     selectable_column
     column :name

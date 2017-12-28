@@ -11,6 +11,8 @@ class PullRequest < ApplicationRecord
     where(pull_request_relations: { pr_relation_type: :merge_by })
   end, through: :pull_request_relations, source: :github_user
 
+  after_save :touch_repository
+
   validates :gh_id, presence: true
   validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
   def has_reviewer?(github_user_id)
@@ -19,6 +21,10 @@ class PullRequest < ApplicationRecord
 
   def has_merge_users?(github_user_id)
     !merge_users.where(id: github_user_id).empty?
+  end
+
+  def touch_repository
+    repository.touch(:last_pull_request_modification)
   end
 end
 
