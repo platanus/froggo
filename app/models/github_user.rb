@@ -9,7 +9,7 @@ class GithubUser < ApplicationRecord
   scope :tracked, -> { where(tracked: true) }
 
   def interactions
-    PullRequestRelation.joins(:pull_request)
+    PullRequestRelation.dashboard_limit
                        .where(pull_requests: { owner_id: id })
                        .where(github_user_id: GithubUser.tracked.pluck(:id))
                        .where.not(github_user_id: id)
@@ -18,7 +18,8 @@ class GithubUser < ApplicationRecord
 
   # Get user pull requests where had been merged by himself
   def merged_pull_requests
-    pull_requests.joins(:pull_request_relations)
+    pull_requests.dashboard_limit
+                 .joins(:pull_request_relations)
                  .where(pull_request_relations: { pr_relation_type: :merge_by,
                                                   github_user_id: id })
                  .group(:id)
@@ -28,7 +29,8 @@ class GithubUser < ApplicationRecord
   # Params:
   # +pr_ids+ pull request ids to filter
   def coop_pull_requests(pr_ids)
-    pull_requests.joins(:pull_request_relations)
+    pull_requests.dashboard_limit
+                 .joins(:pull_request_relations)
                  .where(id: pr_ids, pull_request_relations: { pr_relation_type: :reviewer })
                  .where.not(pull_request_relations: { github_user_id: id })
                  .group(:id)

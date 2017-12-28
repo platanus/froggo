@@ -9,6 +9,11 @@ class PullRequestRelation < ApplicationRecord
 
   scope :merged_by, -> { where(pr_relation_type: :merge_by) }
   scope :reviewers, -> { where(pr_relation_type: :reviewer) }
+  scope :dashboard_limit, -> do
+    joins(:pull_request)
+      .where('pull_requests.gh_updated_at > ?',
+        Time.current - ENV['DASHBOARD_MONTH_LIMIT'].to_i.months)
+  end
 end
 
 # == Schema Information
