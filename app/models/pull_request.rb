@@ -13,6 +13,11 @@ class PullRequest < ApplicationRecord
 
   after_save :touch_repository
 
+  scope :within_month_limit, -> do
+    where('pull_requests.gh_updated_at > ?',
+      Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
+  end
+
   validates :gh_id, presence: true
   validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
   def has_reviewer?(github_user_id)
