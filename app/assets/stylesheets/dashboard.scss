@@ -1,125 +1,136 @@
-// Place all the styles related to the Dashboard controller here.
+// Place all the sstyles related to the Dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
 @import url('https://fonts.googleapis.com/css?family=Roboto:300|Roboto+Condensed:300');
 $roboto: 'Roboto', sans-serif;
-$roboto-condensed:  'Roboto Condensed', sans-serif;
+$robotoCondensed: 'Roboto Condensed',sans-serif;
+$secondary: #fcfaff;
+$secondaryBorder: #f0f0f0;
+$primaryBorder: #f1f1f1;
+$primary: #49475e;
+$white: #fff;
+$black: #000;
+$orange: #ff9e00;
+$gray: #dedede;
 
-body, html{
-    margin: 0;
-    background: #FCFAFF;
-}
 html {
-    height: 100%;
-  }
+  background: $secondary;
+  height: 100%;
+  margin: 0;
+}
+
 body {
-    min-height: 100%;
-    margin-top: -16px;
+  background: $secondary;
+  margin: 0;
+  margin-top: -16px;
+  min-height: 100%;
 }
 
-.header{
-    height: 48px;	
-    width: 100%;	
-    background-color: #49475E;
+.header {
+  background-color: $primary;
+  height: 48px;
+  width: 100%;
 }
 
-.title{
-    height: 34px;
+.title {
+  height: 34px;
 }
 
-.title__h1{
-    color: #FFFFFF;
-    font-family: $roboto-condensed;
-    font-size: 24px;
-    text-align: center;
-    font-weight: 300;
-    line-height: 45px;
+.title__h1 {
+  color: $white;
+  font-family: $robotoCondensed;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 45px;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.info{
-    height: 44px;
-    width: 1088px;
-    margin: 0 auto; 
-    margin-top: 40px;
+.info {
+  height: 44px;
+  width: 1088px;
+  margin: 0 auto;
+  margin-top: 40px;
 }
 
-.info__p{
-    color: #49475E;
-    font-family: $roboto;
-    font-size: 14px;
-    line-height: 22px;
-    font-weight: 300;
-    text-align: center;
+.info__description {
+  color: $primary;
+  font-family: $roboto;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 300;
+  text-align: center;
 }
 
-.content-dashboard{
-    margin: 0 auto;
-    margin-top: 56px;
-    max-height: 1088px;
-    max-width: 1088px;
+.content-dashboard {
+  margin: 0 auto;
+  margin-top: 56px;
+  max-height: 1088px;
+  max-width: 1088px;
 }
 
-.table-dashboard{
-    width: fit-content;
-    margin: 0 auto;
+.matrix-dashboard {
+  width: fit-content;
+  margin: 0 auto;
 }
 
-.table__head{
-    height: 68px;
+.matrix__head {
+  height: 68px;
 }
 
-.table__th{
-    background-color:  #FCFAFF;
-    height: 68px;
-    width: 68px;
-    padding: 0;
+.matrix__user {
+  background-color: $secondary;
+  height: 68px;
+  width: 68px;
+  padding: 0;
 }
 
-.table__head-img{
-    max-height: 48px;
-    max-width: 48px;
-    border-radius: 50%;
-    border: 1px solid #F0F0F0;
+.matrix__user-img {
+  max-height: 48px;
+  max-width: 48px;
+  border-radius: 50%;
+  border: 1px solid $secondaryBorder;
 }
 
-.th__img{
-    padding: 9;
-    text-align: center;
+.matrix__picture {
+  padding: 9;
+  text-align: center;
 }
 
-.table__td{
-    height: 67px;
-    width: 67px;
-    border: 0.5px solid #F1F1F1;
-    background-color: #FFFFFF;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    vertical-align: middle;
+.matrix__pullrequest {
+  height: 67px;
+  width: 67px;
+  border: .5px solid $primaryBorder;
+  background-color: $white;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  vertical-align: middle;
 }
 
-.table__td-border{
-    border-radius: 8px 0 0 0;
+.matrix__pullrequest-border {
+  border-radius: 8px 0 0;
 }
 
-.td__span, .td__span-diagonal, .td__span-0{
-    height: 36px;
-    width: 32px;
-    color: #000000;
-    font-family: $roboto-condensed;
-    font-size: 32px;
-    font-weight: 300;
-    line-height: 36px;
-    text-align: center;
-    margin-top: 18px; 
+.matrix__pullrequest__number,
+.matrix__pullrequest__number-diagonal,
+.matrix__pullrequest__number-0 {
+  height: 36px;
+  width: 32px;
+  color: $black;
+  font-family: $robotoCondensed;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 36px;
+  text-align: center;
+  margin-top: 18px;
 }
 
-.td__span-diagonal{
-    color: #FF9E00;
+.matrix__pullrequest__number-diagonal {
+  color: $orange;
 }
 
-.td__span-0{
-    color: #DEDEDE;
+.matrix__pullrequest__number-0 {
+  color: $gray;
 }
-

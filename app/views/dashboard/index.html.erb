@@ -5,7 +5,7 @@
 </header>
 <div class="container">
     <div class="info">
-        <p class="info__p">The following table has the information between revieweers 
+        <p class="info__description">The following table has the information between revieweers 
         and merges as a sum, named collaboration. From top to bottom, where in top is user A its read as
          how many collaborations has done the user A to user B, where user B is the 
         user in the first column</p>
@@ -13,14 +13,14 @@
 
     <div class="content-dashboard">
         <% unless @corrmat.col_head.empty? %>
-            <table class="table-dashboard">
-                <thead class="table__head">
-                    <th class="table__th"></th>
+            <table class="matrix-dashboard">
+                <thead class="matrix__head">
+                    <th class="matrix__user"></th>
                     <% @corrmat.col_head.each do |user| %>
-                        <th class="table__th">
-                            <div class="th__img">
+                        <th class="matrix__user">
+                            <div class="matrix__picture">
                                 <a href="<%= user.html_url %>" title="<%= user.login %>">
-                                    <img class="table__head-img" src="<%= user.avatar_url %>">
+                                    <img class="matrix__user-img" src="<%= user.avatar_url %>">
                                 </a>
                             </div>
                         </th>
@@ -31,12 +31,12 @@
                         <tr>
                             <td>
                                 <a href="<%= b.html_url %>" title="<%= b.login %>">
-                                    <img class="table__head-img" src="<%= b.avatar_url %>">
+                                    <img class="matrix__user-img" src="<%= b.avatar_url %>">
                                 </a>
                             </td>
                             <% @corrmat.row_head.each_with_index do |a, j|%>
-                                <td class="table__td">
-                                    <span class="td__span<%= '-diagonal' if i==j %>">
+                                <td class="matrix__pullrequest">
+                                    <span class="matrix__pullrequest__number<%= '-diagonal' if i==j %>">
                                         <%= @corrmat.data[[i,j]] %>
                                     </span>
                                 </td>
