@@ -1,7 +1,7 @@
 ActiveAdmin.register Organization do
   remove_filter :gh_id, :id
   permit_params :name, :tracked
-  menu priority: 1
+  menu priority: 2
   actions :all, except: [:create, :destroy]
 
   index do

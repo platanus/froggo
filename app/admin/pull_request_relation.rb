@@ -1,6 +1,7 @@
 ActiveAdmin.register PullRequestRelation do
   actions :all, except: [:new, :create, :edit, :update, :destroy]
   belongs_to :pull_request, optional: true
+  menu priority: 6
 
   index do
     column :id

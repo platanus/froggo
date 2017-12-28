@@ -1,7 +1,7 @@
 ActiveAdmin.register Repository do
   remove_filter :gh_id, :id
   permit_params :name, :tracked
-  menu priority: 1
+  menu priority: 4
   actions :all
 
   config.sort_order = 'last_pull_request_modification_desc'

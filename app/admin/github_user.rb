@@ -1,7 +1,7 @@
 ActiveAdmin.register GithubUser do
   remove_filter :gh_id, :id
   permit_params :name, :tracked
-  menu priority: 1
+  menu priority: 3
   actions :all, except: [:new, :create, :destroy]
 
   index do

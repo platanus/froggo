@@ -1,6 +1,7 @@
 ActiveAdmin.register PullRequest do
   actions :all, except: [:new, :create, :edit, :update, :destroy]
   belongs_to :repository, optional: true
+  menu priority: 5
 
   index do
     column :id
