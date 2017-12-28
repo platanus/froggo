@@ -1,33 +1,51 @@
-<h1>Pull-requests stats</h1>
-<div class="info">
-<p>The following table has the information between <b>revieweers</b> 
-and <b>merges</b> as a sum, named collaboration. From top to bottom, where in top is user A its read as
- <i> how many collaborations has done the user A to user B</i>, where user B is the 
- user in the first column</p>
- </div>
-
+<header class="header">
+    <div class="title">
+        <h1 class="title__h1">Pull-requests stats</h1>
+    </div>
+</header>
 <div class="container">
-    <% unless @corrmat.col_head.empty? %>
-        <table>
-            <thead>
-                <th></th>
-                <% @corrmat.col_head.each do |user| %>
-                    <th class="table-gh-user"><img src="<%= user.avatar_url %>"></th>
-                <% end %>
-            </thead>
-            <tbody>
-                <% @corrmat.col_head.each_with_index do |b, i| %>
-                    <tr>
-                        <td class="table-gh-user">
-                            <img src="<%= b.avatar_url %>">
-                            <p><%= link_to b.login, b.html_url %></p>
-                        </td>
-                        <% @corrmat.row_head.each_with_index do |a, j|%>
-                            <td><span><%= @corrmat.data[[i,j]] %></span></td>
-                        <% end %>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
-    <% end %>
-<div>
+    <div class="info">
+        <p class="info__p">The following table has the information between revieweers 
+        and merges as a sum, named collaboration. From top to bottom, where in top is user A its read as
+         how many collaborations has done the user A to user B, where user B is the 
+        user in the first column</p>
+    </div>
+
+    <div class="content-dashboard">
+        <% unless @corrmat.col_head.empty? %>
+            <table class="table-dashboard">
+                <thead class="table__head">
+                    <th class="table__th"></th>
+                    <% @corrmat.col_head.each do |user| %>
+                        <th class="table__th">
+                            <div class="th__img">
+                                <a href="<%= user.html_url %>" title="<%= user.login %>">
+                                    <img class="table__head-img" src="<%= user.avatar_url %>">
+                                </a>
+                            </div>
+                        </th>
+                    <% end %>
+                </thead>
+                <tbody>
+                    <% @corrmat.col_head.each_with_index do |b, i| %>
+                        <tr>
+                            <td>
+                                <a href="<%= b.html_url %>" title="<%= b.login %>">
+                                    <img class="table__head-img" src="<%= b.avatar_url %>">
+                                </a>
+                            </td>
+                            <% @corrmat.row_head.each_with_index do |a, j|%>
+                                <td class="table__td">
+                                    <span class="td__span<%= '-diagonal' if i==j %>">
+                                        <%= @corrmat.data[[i,j]] %>
+                                    </span>
+                                </td>
+                            <% end %>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        <% end %>
+    </div>
+    <%= render "layouts/footer" %>
+</div>

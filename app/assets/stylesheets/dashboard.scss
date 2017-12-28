@@ -103,7 +103,7 @@ body {
     border-radius: 8px 0 0 0;
 }
 
-.td__span, .td__span-diagonal{
+.td__span, .td__span-diagonal, .td__span-0{
     height: 36px;
     width: 32px;
     color: #000000;
@@ -117,5 +117,9 @@ body {
 
 .td__span-diagonal{
     color: #FF9E00;
+}
+
+.td__span-0{
+    color: #DEDEDE;
 }
 
