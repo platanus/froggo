@@ -1,7 +1,26 @@
-footer{
-    width: 400px;
+@import url('https://fonts.googleapis.com/css?family=Roboto:300|Roboto+Condensed:300');
+$roboto-condensed:  'Roboto Condensed', sans-serif;
+$roboto: 'Roboto', sans-serif;
+
+.footer{
+    height: 72px;	
+    width: 61px;
     margin: 0 auto;
     text-align: center;
     bottom: 0px;
     padding: 20px;
+}
+
+.footer__platanus{
+    height: 16px;
+    width: 60px;
+    text-align: center;
+}
+
+.footer__platanus-text{
+    color: #AEABCC;
+    font-family: $roboto;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16px;
 }
