@@ -11,7 +11,7 @@
         user in the first column</p>
     </div>
 
-    <div class="content-dashboard">
+    <div id="content-dashboard">
         <% unless @corrmat.col_head.empty? %>
             <table class="matrix-dashboard">
                 <thead class="matrix__head">
@@ -36,7 +36,7 @@
                             </td>
                             <% @corrmat.row_head.each_with_index do |a, j|%>
                                 <td class="matrix__pullrequest">
-                                    <span class="matrix__pullrequest__number<%= '-diagonal' if i==j %>">
+                                    <span class="matrix__pullrequest__number<%= if i==j then '-diagonal' elsif @corrmat.data[[i,j]]==0 then '-0' end %>">
                                         <%= @corrmat.data[[i,j]] %>
                                     </span>
                                 </td>

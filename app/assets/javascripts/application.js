@@ -12,4 +12,6 @@
 //
 //= require rails-ujs
 //= require turbolinks
+//= require jquery.min.js
+//= require jquery.stickytableheaders.min.js
 //= require_tree .
