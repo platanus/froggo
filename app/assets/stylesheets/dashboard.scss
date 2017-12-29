@@ -66,8 +66,6 @@ body {
 .content-dashboard {
   margin: 0 auto;
   margin-top: 56px;
-  max-height: 1088px;
-  max-width: 1088px;
 }
 
 .matrix-dashboard {
@@ -77,6 +75,7 @@ body {
 
 .matrix__head {
   height: 68px;
+  background-color: $secondary;
 }
 
 .matrix__user {
@@ -133,4 +132,8 @@ body {
 
 .matrix__pullrequest__number-0 {
   color: $gray;
+}
+
+.stuck {
+  position: fixed;
 }
