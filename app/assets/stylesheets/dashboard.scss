@@ -71,6 +71,8 @@ body {
 .matrix-dashboard {
   width: fit-content;
   margin: 0 auto;
+  border-spacing: 0px;
+  border-collapse: collapse;
 }
 
 .matrix__head {
