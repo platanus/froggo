@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DashboardController, type: :controller do
   describe "GET #index" do
-    subject { get :index }
+    subject { get :index, session: { 'access_token' => 1, 'data' => [['', '']] } }
 
     it "returns should have success status code" do
       expect(subject).to have_http_status(200)
