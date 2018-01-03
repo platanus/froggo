@@ -29,6 +29,15 @@ module OctokitClient
     c.commit(repo_full_name, commit_sha)
   end
 
+  def auth_client_url
+    client = Octokit::Client.new
+    client.authorize_url(ENV['GH_AUTH_ID'], scope: 'user,read:org')
+  end
+
+  def exchange_code_for_token(code)
+    Octokit.exchange_code_for_token(code, ENV['GH_AUTH_ID'], ENV['GH_AUTH_SECRET'])
+  end
+
   def client(token)
     @client ||= begin
       c = Octokit::Client.new(access_token: token)

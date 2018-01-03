@@ -10,11 +10,11 @@ class DashboardController < ApplicationController
   end
 
   def oauth_request
-    # authenticate view
+    session[:access_token] = nil
   end
 
   def get_user_data
-    client = Octokit::Client.new access_token: session[:access_token]
+    client = OctokitClient.client(session[:access_token])
     client.user
   end
 
@@ -23,14 +23,12 @@ class DashboardController < ApplicationController
   end
 
   def authenticate!
-    client = Octokit::Client.new
-    url = client.authorize_url(ENV['GH_AUTH_ID'], scope: 'user,read:org')
-    redirect_to url
+    redirect_to OctokitClient.auth_client_url
   end
 
   def callback
     session_code = request.query_parameters['code']
-    result = Octokit.exchange_code_for_token(session_code, ENV['GH_AUTH_ID'], ENV['GH_AUTH_SECRET'])
+    result = OctokitClient.exchange_code_for_token(session_code)
     session[:access_token] = result[:access_token]
     session[:data] = get_user_data
     redirect_to '/'
