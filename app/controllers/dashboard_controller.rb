@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
   end
 
   def get_user_data
-    client = OctokitClient.client(session[:access_token])
+    client = Octokit::Client.new(access_token: session[:access_token])
     client.user
   end
 

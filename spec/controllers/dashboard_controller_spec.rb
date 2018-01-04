@@ -6,14 +6,14 @@ RSpec.describe DashboardController, type: :controller do
     subject { get :index, session: { 'access_token' => 3 } }
 
     before do
-      allow(OctokitClient).to receive(:client).and_return(client)
+      allow(Octokit::Client).to receive(:new).and_return(client)
     end
 
     context "when user exists" do
       before do
-        allow(client).to receive(:new).with(
-          access_token: ''
-        ).and_return('')
+        allow(client).to receive(:user).with(
+          access_token: 3
+        ).and_return('login': '')
       end
 
       it "returns should have success status code" do
