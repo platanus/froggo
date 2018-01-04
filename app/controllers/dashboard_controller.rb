@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
     if authenticated?
       @corrmat = CorrelationMatrix.new(GithubUser.where(tracked: true))
       @corrmat.fill_matrix
-      @auth_login = session[:data][0][1]
+      @auth_login = get_user_data['login']
     else
       redirect_to '/oauth'
     end
@@ -30,7 +30,6 @@ class DashboardController < ApplicationController
     session_code = request.query_parameters['code']
     result = OctokitClient.exchange_code_for_token(session_code)
     session[:access_token] = result[:access_token]
-    session[:data] = get_user_data
     redirect_to '/'
   end
 end
