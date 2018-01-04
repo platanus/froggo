@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get 'webhook/index'
   post 'github_events' => 'webhook#receive'
+  get 'dashboard/callback'
+  get 'oauth' => 'dashboard#oauth_request'
+  get 'oauth_to_gh' => 'dashboard#authenticate!'
   root 'dashboard#index'
 
   scope path: '/api' do
