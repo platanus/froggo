@@ -2,20 +2,36 @@ require 'rails_helper'
 
 RSpec.describe DashboardController, type: :controller do
   describe "GET #index" do
-    subject { get :index, session: { 'access_token' => 1, 'data' => [['', '']] } }
+    let (:client) { double }
+    subject { get :index, session: { 'access_token' => 3 } }
 
-    it "returns should have success status code" do
-      expect(subject).to have_http_status(200)
+    before do
+      allow(OctokitClient).to receive(:client).and_return(client)
     end
 
-    it "renders the index template" do
-      expect(subject).to render_template(:index)
-      expect(subject).to render_template("index")
-      expect(subject).to render_template("dashboard/index")
-    end
+    context "when user exists" do
+      before do
+        allow(client).to receive(:new).with(
+          access_token: ''
+        ).and_return('')
+      end
 
-    it "does not render a different template" do
-      expect(subject).to_not render_template("admin")
+      it "returns should have success status code" do
+        allow(client).to receive(:user).and_return('login': '')
+        expect(subject).to have_http_status(200)
+      end
+
+      it "renders the index template" do
+        allow(client).to receive(:user).and_return('login': '')
+        expect(subject).to render_template(:index)
+        expect(subject).to render_template("index")
+        expect(subject).to render_template("dashboard/index")
+      end
+
+      it "does not render a different template" do
+        allow(client).to receive(:user).and_return('login': '')
+        expect(subject).to_not render_template("admin")
+      end
     end
   end
 end
