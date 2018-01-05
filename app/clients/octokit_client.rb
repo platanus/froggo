@@ -31,7 +31,7 @@ module OctokitClient
 
   def auth_client_url
     client = Octokit::Client.new
-    client.authorize_url(ENV['GH_AUTH_ID'], scope: 'user,read:org')
+    client.authorize_url(ENV['GH_AUTH_ID'], scope: 'read:user,read:org')
   end
 
   def exchange_code_for_token(code)
