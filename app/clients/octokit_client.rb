@@ -29,6 +29,20 @@ module OctokitClient
     c.commit(repo_full_name, commit_sha)
   end
 
+  def fetch_organization_memberships(token)
+    client = Octokit::Client.new(access_token: token)
+    client.auto_paginate = true
+    client.organization_memberships.map do |mem|
+      {
+        id: mem.organization.id,
+        login: mem.organization.login,
+        role: mem.role
+      }
+    end
+  rescue Octokit::Unauthorized => ex
+    puts ex.message
+  end
+
   def auth_client_url
     client = Octokit::Client.new
     client.authorize_url(ENV['GH_AUTH_ID'], scope: 'read:user,read:org')
