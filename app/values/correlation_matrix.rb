@@ -1,7 +1,8 @@
 class CorrelationMatrix
   attr_accessor :row_head, :col_head, :data
 
-  def initialize(users)
+  def initialize(organization)
+    users = GithubUser.where(tracked: true)
     @row_head = users
     @col_head = users
     @pos_hash = Hash[users.map(&:id).map.with_index { |x, i| [x, i] }]

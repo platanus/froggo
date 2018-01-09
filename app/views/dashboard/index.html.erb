@@ -10,6 +10,16 @@
          how many collaborations has done the user A to user B, where user B is the 
         user in the first column</p>
     </div>
+    <div class="organization__selector">
+        
+        <form action="/" method="get">
+            <%= select_tag(:org, options_for_select(
+                @user_orgs, @current_org
+            )) %>
+            <input type="submit" value="Change organization" />
+        </form>
+        
+    </div>
 
     <div id="content-dashboard">
         <% unless @corrmat.col_head.empty? %>
