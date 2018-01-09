@@ -11,21 +11,21 @@ RSpec.describe DashboardController, type: :controller do
 
     context "when user exists" do
       before do
+        cookies['orgs'] = 'something&else'
         allow(client).to receive(:user).with(
           access_token: 3
         ).and_return('login': '')
+        DashboardController.any_instance.stub(:set_organizations_cookie).and_return([['something', 'something']])
       end
 
-      it "returns should have success status code" do
+      it "returns should have found status code" do
         allow(client).to receive(:user).and_return('login': '')
-        expect(subject).to have_http_status(200)
+        expect(subject).to have_http_status(302)
       end
 
       it "renders the index template" do
         allow(client).to receive(:user).and_return('login': '')
-        expect(subject).to render_template(:index)
-        expect(subject).to render_template("index")
-        expect(subject).to render_template("dashboard/index")
+        expect(subject).to redirect_to('/dashboard/something')
       end
 
       it "does not render a different template" do

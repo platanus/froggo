@@ -1,32 +1,37 @@
 class DashboardController < ApplicationController
-  def authenticated?
-    session[:access_token]
-  end
-
-  def authenticate!
-    redirect_to OctokitClient.auth_client_url
-  end
-
-  def callback
-    session_code = request.query_parameters['code']
-    result = OctokitClient.exchange_code_for_token(session_code)
-    session[:access_token] = result[:access_token]
-    redirect_to '/'
-  end
+  before_action :ensure_gh_session
+  before_action :set_user_organizations
+  before_action :set_organization
 
   def index
-    if authenticated?
-      @user_orgs = selector
-      if request.query_parameters['org'].nil?
-        redirect_to '?org=' + @user_orgs.first[1]
-      else
-        @current_org = request.query_parameters['org']
-        @corrmat = get_matrix(@current_org)
-        @auth_login = get_ghuser
-      end
+    users = GithubUser.where(tracked: true)
+    @corrmat = get_matrix(users)
+    @auth_login = get_ghuser
+  end
+
+  private
+
+  def ensure_gh_session
+    redirect_to '/oauth' unless session[:access_token]
+  end
+
+  def set_organization
+    if params[:gh_org].blank?
+      redirect_to '/dashboard/' + @user_organizations.first
     else
-      redirect_to '/oauth'
+      @organization = params[:gh_org]
     end
+  end
+
+  def set_user_organizations
+    set_organizations_cookie if cookies['orgs'].nil?
+    @user_organizations = cookies['orgs'].split('&')
+  end
+
+  def set_organizations_cookie
+    orgs = OctokitClient.fetch_organization_memberships(session[:access_token])
+    orgs.map! { |o| o[:login] }
+    cookies['orgs'] = orgs.join('&')
   end
 
   def get_ghuser
@@ -37,33 +42,9 @@ class DashboardController < ApplicationController
     cookies['ghuser']
   end
 
-  def get_matrix(organization)
-    corrmat = CorrelationMatrix.new(organization)
+  def get_matrix
+    corrmat = CorrelationMatrix.new(@organization)
     corrmat.fill_matrix
     corrmat
-  end
-
-  def get_orgs
-    orgs = OctokitClient.fetch_organization_memberships(session[:access_token])
-    orgs = orgs.map { |o| o[:login] }
-    cookies['orgs'] = orgs
-    orgs
-  end
-
-  def map_orgs
-    orgs = cookies['orgs'].split('&')
-    orgs = orgs.map { |o| [o, o] }
-    orgs
-  end
-
-  def oauth_request
-    session[:access_token] = nil
-  end
-
-  def selector
-    if cookies['orgs'].nil?
-      get_orgs
-    end
-    map_orgs
   end
 end

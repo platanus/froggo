@@ -11,15 +11,11 @@
         user in the first column</p>
     </div>
     <div class="organization__selector">
-        
-        <form action="/" method="get">
-            <%= select_tag(:org, options_for_select(
-                @user_orgs, @current_org
-            )) %>
-            <input type="submit" value="Change organization" />
-        </form>
-        
+        <% for organization in @user_organizations%>
+            <%= link_to organization, "#{organization}" %>
+        <% end %>
     </div>
+    <h1><%= @organization %></h1>
 
     <div id="content-dashboard">
         <% unless @corrmat.col_head.empty? %>
