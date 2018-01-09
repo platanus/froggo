@@ -8,8 +8,9 @@ class GithubUser < ApplicationRecord
 
   scope :tracked, -> { where(tracked: true) }
 
-  def interactions
+  def interactions(orga_ids = nil)
     PullRequestRelation.within_month_limit
+                       .by_organizations(orga_ids)
                        .where(pull_requests: { owner_id: id })
                        .where(github_user_id: GithubUser.tracked.pluck(:id))
                        .where.not(github_user_id: id)
@@ -17,8 +18,9 @@ class GithubUser < ApplicationRecord
   end
 
   # Get user pull requests where had been merged by himself
-  def merged_pull_requests
+  def merged_pull_requests(orga_ids = nil)
     pull_requests.within_month_limit
+                 .by_organizations(orga_ids)
                  .joins(:pull_request_relations)
                  .where(pull_request_relations: { pr_relation_type: :merge_by,
                                                   github_user_id: id })
@@ -28,8 +30,9 @@ class GithubUser < ApplicationRecord
   # Get pull requests where others users had reviewed
   # Params:
   # +pr_ids+ pull request ids to filter
-  def coop_pull_requests(pr_ids)
+  def coop_pull_requests(pr_ids, orga_ids = nil)
     pull_requests.within_month_limit
+                 .by_organizations(orga_ids)
                  .joins(:pull_request_relations)
                  .where(id: pr_ids, pull_request_relations: { pr_relation_type: :reviewer })
                  .where.not(pull_request_relations: { github_user_id: id })

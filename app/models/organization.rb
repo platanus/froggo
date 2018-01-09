@@ -7,6 +7,13 @@ class Organization < ApplicationRecord
 
   validates :gh_id, presence: true
   validates :login, presence: true
+
+  def participants
+    GithubUser
+      .joins(pull_request_relations: { pull_request: :repository })
+      .where(pull_request_relations: { pull_requests: { repositories: { organization_id: id } } })
+      .group(:id)
+  end
 end
 
 # == Schema Information

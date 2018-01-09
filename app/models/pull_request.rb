@@ -18,6 +18,10 @@ class PullRequest < ApplicationRecord
       Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
   end
 
+  scope :by_organizations, ->(organization_ids) do
+    joins(:repository).where(repositories: { organization_id: organization_ids})
+  end
+
   validates :gh_id, presence: true
   validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
   def has_reviewer?(github_user_id)
