@@ -42,8 +42,8 @@ class DashboardController < ApplicationController
     cookies['ghuser']
   end
 
-  def get_matrix
-    corrmat = CorrelationMatrix.new(@organization)
+  def get_matrix(users)
+    corrmat = CorrelationMatrix.new(users)
     corrmat.fill_matrix
     corrmat
   end
