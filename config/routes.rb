@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
+  get 'dashboard/callback' => 'github_auth#callback'
+  get 'oauth' => 'github_auth#oauth_request'
+  get 'oauth_to_gh' => 'github_auth#authenticate!'
   get 'webhook/index'
+  get 'dashboard/:gh_org' => 'dashboard#index'
+  get 'dashboard' => 'dashboard#index'
   post 'github_events' => 'webhook#receive'
-  get 'dashboard/callback'
-  get 'oauth' => 'dashboard#oauth_request'
-  get 'oauth_to_gh' => 'dashboard#authenticate!'
-  root 'dashboard#index'
+
+  root to: redirect('dashboard')
 
   scope path: '/api' do
     api_version(module: "Api::V1", path: { value: "v1" }, defaults: { format: 'json' }) do

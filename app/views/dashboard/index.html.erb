@@ -10,6 +10,12 @@
          how many collaborations has done the user A to user B, where user B is the 
         user in the first column</p>
     </div>
+    <div class="organization__selector">
+        <% for organization in @user_organizations%>
+            <%= link_to organization, "#{organization}" %>
+        <% end %>
+    </div>
+    <h1><%= @organization %></h1>
 
     <div id="content-dashboard">
         <% unless @corrmat.col_head.empty? %>

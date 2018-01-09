@@ -1,35 +1,50 @@
 class DashboardController < ApplicationController
+  before_action :ensure_gh_session
+  before_action :set_user_organizations
+  before_action :set_organization
+
   def index
-    if authenticated?
-      @corrmat = CorrelationMatrix.new(GithubUser.where(tracked: true))
-      @corrmat.fill_matrix
-      @auth_login = get_user_data['login']
+    users = GithubUser.where(tracked: true)
+    @corrmat = get_matrix(users)
+    @auth_login = get_ghuser
+  end
+
+  private
+
+  def ensure_gh_session
+    redirect_to '/oauth' unless session[:access_token]
+  end
+
+  def set_organization
+    if params[:gh_org].blank?
+      redirect_to '/dashboard/' + @user_organizations.first
     else
-      redirect_to '/oauth'
+      @organization = params[:gh_org]
     end
   end
 
-  def oauth_request
-    session[:access_token] = nil
+  def set_user_organizations
+    set_organizations_cookie if cookies['orgs'].nil?
+    @user_organizations = cookies['orgs'].split('&')
   end
 
-  def get_user_data
-    client = Octokit::Client.new(access_token: session[:access_token])
-    client.user
+  def set_organizations_cookie
+    orgs = OctokitClient.fetch_organization_memberships(session[:access_token])
+    orgs.map! { |o| o[:login] }
+    cookies['orgs'] = orgs.join('&')
   end
 
-  def authenticated?
-    session[:access_token]
+  def get_ghuser
+    if cookies['ghuser'].nil?
+      client = Octokit::Client.new(access_token: session[:access_token])
+      cookies['ghuser'] = client.user['login']
+    end
+    cookies['ghuser']
   end
 
-  def authenticate!
-    redirect_to OctokitClient.auth_client_url
-  end
-
-  def callback
-    session_code = request.query_parameters['code']
-    result = OctokitClient.exchange_code_for_token(session_code)
-    session[:access_token] = result[:access_token]
-    redirect_to '/'
+  def get_matrix
+    corrmat = CorrelationMatrix.new(@organization)
+    corrmat.fill_matrix
+    corrmat
   end
 end
