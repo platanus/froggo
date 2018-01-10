@@ -19,7 +19,7 @@ class PullRequest < ApplicationRecord
   end
 
   scope :by_organizations, ->(organization_ids) do
-    joins(:repository).where(repositories: { organization_id: organization_ids})
+    joins(:repository).where(repositories: { organization_id: organization_ids })
   end
 
   validates :gh_id, presence: true

@@ -5,17 +5,17 @@
 </header>
 <div class="container">
     <div class="info">
-        <p class="info__description">Hello <b><%=  @auth_login %></b>(<%= link_to "logout", "/oauth"%>)! The following table has the information between revieweers 
+        <p class="info__description">Hello <b><%=  @auth_login %></b>(<%= link_to "logout", "/oauth"%>)! The following table has the information between revieweers
         and merges as a sum, named collaboration. From top to bottom, where in top is user A its read as
-         how many collaborations has done the user A to user B, where user B is the 
+         how many collaborations has done the user A to user B, where user B is the
         user in the first column</p>
     </div>
     <div class="organization__selector">
-        <% for organization in @user_organizations%>
-            <%= link_to organization, "#{organization}" %>
+        <% @user_organizations.each do |organization| %>
+            <%= link_to organization[:login], organization[:login] %>
         <% end %>
     </div>
-    <h1><%= @organization %></h1>
+    <h1><%= @organization[:login] %></h1>
 
     <div id="content-dashboard">
         <% unless @corrmat.col_head.empty? %>

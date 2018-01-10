@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   get 'oauth' => 'github_auth#oauth_request'
   get 'oauth_to_gh' => 'github_auth#authenticate!'
   get 'webhook/index'
-  get 'dashboard/:gh_org' => 'dashboard#index'
+  get 'dashboard/missing_organizations' => 'dashboard#missing_organizations',
+      as: :dashboard_missing_organizations
+  get 'dashboard/:gh_org' => 'dashboard#index', as: :dashboard
   get 'dashboard' => 'dashboard#index'
   post 'github_events' => 'webhook#receive'
 

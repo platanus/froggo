@@ -1,13 +1,15 @@
 class DashboardController < ApplicationController
   before_action :ensure_gh_session
-  before_action :set_user_organizations
-  before_action :set_organization
+  before_action :set_user_organizations, only: :index
+  before_action :ensure_organization, only: :index
 
   def index
-    users = GithubUser.where(tracked: true)
-    @corrmat = get_matrix(users)
+    @has_dashboard = Organization.exists?(gh_id: @organization[:id])
+    @corrmat = get_matrix(@organization[:id]) if @has_dashboard
     @auth_login = get_ghuser
   end
+
+  def missing_organizations; end
 
   private
 
@@ -15,23 +17,29 @@ class DashboardController < ApplicationController
     redirect_to '/oauth' unless session[:access_token]
   end
 
-  def set_organization
-    if params[:gh_org].blank?
-      redirect_to '/dashboard/' + @user_organizations.first
+  def ensure_organization
+    if @user_organizations.empty?
+      redirect_to dashboard_missing_organizations_path
+    elsif permitted_params[:gh_org].blank?
+      redirect_to dashboard_path(gh_org: @user_organizations.first[:login])
     else
-      @organization = params[:gh_org]
+      @organization = select_orga_data(permitted_params[:gh_org])
+      redirect_to dashboard_path(gh_org: @user_organizations.first[:login]) if @organization.nil?
     end
+  end
+
+  def permitted_params
+    params.permit(:gh_org)
   end
 
   def set_user_organizations
     set_organizations_cookie if cookies['orgs'].nil?
-    @user_organizations = cookies['orgs'].split('&')
+    @user_organizations = JSON.parse(cookies['orgs']).map { |elem| elem.transform_keys(&:to_sym) }
   end
 
   def set_organizations_cookie
     orgs = OctokitClient.fetch_organization_memberships(session[:access_token])
-    orgs.map! { |o| o[:login] }
-    cookies['orgs'] = orgs.join('&')
+    cookies['orgs'] = JSON.generate(orgs)
   end
 
   def get_ghuser
@@ -42,9 +50,13 @@ class DashboardController < ApplicationController
     cookies['ghuser']
   end
 
-  def get_matrix(users)
-    corrmat = CorrelationMatrix.new(users)
+  def get_matrix(gh_org)
+    corrmat = CorrelationMatrix.new(gh_org)
     corrmat.fill_matrix
     corrmat
+  end
+
+  def select_orga_data(gh_org)
+    @user_organizations.find { |orga| orga[:login] == gh_org }
   end
 end

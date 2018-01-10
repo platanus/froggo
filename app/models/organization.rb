@@ -14,6 +14,17 @@ class Organization < ApplicationRecord
       .where(pull_request_relations: { pull_requests: { repositories: { organization_id: id } } })
       .group(:id)
   end
+
+  def pull_request_owners
+    GithubUser
+      .joins(pull_requests: :repository)
+      .where(pull_requests: { repositories: { organization_id: id } })
+      .group(:id)
+  end
+
+  def all_tracked_users
+    pull_request_owners.tracked | participants.tracked
+  end
 end
 
 # == Schema Information
