@@ -13,8 +13,7 @@ ActiveAdmin.register PullRequest do
     column :gh_number
     column :repository
     column :owner do |pr|
-      link_to pr.owner.login,
-              admin_github_user_path(pr.owner_id)
+      link_to pr.owner.login, admin_github_user_path(pr.owner_id)
     end
     column :pr_state
     column :html_url

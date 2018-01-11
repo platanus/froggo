@@ -5,9 +5,9 @@ ActiveAdmin.register PullRequestRelation do
 
   preserve_default_filters!
   filter :pull_request_owner_login, as: :select, label: 'Owner',
-    collection: -> { GithubUser.all.pluck(:login) }
+                                    collection: -> { GithubUser.all.pluck(:login) }
   filter :pull_request_repository_name, as: :select, label: 'Repository',
-    collection: -> { Repository.all.pluck(:name) }
+                                        collection: -> { Repository.all.pluck(:name) }
 
   index do
     column :id

@@ -14,6 +14,11 @@ class PullRequestRelation < ApplicationRecord
       .where('pull_requests.gh_updated_at > ?',
         Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
   end
+
+  scope :by_organizations, ->(organization_ids) do
+    joins(pull_request: :repository)
+      .where(pull_requests: { repositories: { organization_id: organization_ids } })
+  end
 end
 
 # == Schema Information
