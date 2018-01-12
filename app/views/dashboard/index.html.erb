@@ -18,7 +18,7 @@
     <h1><%= @organization[:login] %></h1>
 
     <div id="content-dashboard">
-        <% unless @corrmat.col_head.empty? %>
+        <% unless @corrmat.nil? || @corrmat.col_head.empty? %>
             <table class="matrix-dashboard">
                 <thead class="matrix__head">
                     <th class="matrix__user"></th>
