@@ -52,10 +52,10 @@ describe GithubService do
       allow(OctokitClient).to receive(:fetch_organization_repositories).and_return(
         [{
           id: 113467395,
-          name: "gh-pr-stats",
-          full_name: "platanus/gh-pr-stats",
-          html_url: "https://github.com/platanus/gh-pr-stats",
-          url: "https://api.github.com/repos/platanus/gh-pr-stats"
+          name: "froggo",
+          full_name: "platanus/froggo",
+          html_url: "https://github.com/platanus/froggo",
+          url: "https://api.github.com/repos/platanus/froggo"
         }]
       )
 
@@ -63,17 +63,17 @@ describe GithubService do
     end
 
     it "saves the repositories" do
-      rep = Repository.find_by(name: "gh-pr-stats")
+      rep = Repository.find_by(name: "froggo")
       expect(rep).not_to be_nil
     end
 
     it "saves the repositories with correct parameters" do
-      rep = Repository.find_by(name: "gh-pr-stats")
-      expect(rep.name).to eq("gh-pr-stats")
-      expect(rep.full_name).to eq("platanus/gh-pr-stats")
+      rep = Repository.find_by(name: "froggo")
+      expect(rep.name).to eq("froggo")
+      expect(rep.full_name).to eq("platanus/froggo")
       expect(rep.gh_id).to eq(113467395)
-      expect(rep.html_url).to eq("https://github.com/platanus/gh-pr-stats")
-      expect(rep.url).to eq("https://api.github.com/repos/platanus/gh-pr-stats")
+      expect(rep.html_url).to eq("https://github.com/platanus/froggo")
+      expect(rep.url).to eq("https://api.github.com/repos/platanus/froggo")
     end
   end
 

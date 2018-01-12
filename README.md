@@ -1,4 +1,4 @@
-# Gh Pr Stats [![Circle CI](https://circleci.com/gh/platanus/gh-pr-stats.svg?style=svg)](https://circleci.com/gh/platanus/gh-pr-stats)
+# Froggo [![Circle CI](https://circleci.com/gh/platanus/froggo.svg?style=svg)](https://circleci.com/gh/platanus/froggo)
 This is a Rails application, initially generated using [Potassium](https://github.com/platanus/potassium) by Platanus.
 
 ## Local installation
@@ -55,7 +55,7 @@ That's it. You should already have a running app and each time you push to the c
 ## Continuous Integrations
 
 The project is setup to run tests
-in [CircleCI](https://circleci.com/gh/platanus/gh-pr-stats/tree/master)
+in [CircleCI](https://circleci.com/gh/platanus/froggo/tree/master)
 
 You can also run the test locally simulating the production environment using docker.
 Just make sure you have docker installed and run:
