@@ -2,19 +2,19 @@
 
 # Setup heroku application remotes
 if heroku auth:whoami &> /dev/null; then
-  if heroku apps:info --app pl-gh-pr-stats-staging &> /dev/null; then
-    git remote add staging git@heroku.com:pl-gh-pr-stats-staging.git || true
+  if heroku apps:info --app pl-froggo-staging &> /dev/null; then
+    git remote add staging git@heroku.com:pl-froggo-staging.git || true
     git config heroku.remote staging
-    echo 'You are a collaborator on the "pl-gh-pr-stats-staging" Heroku app'
+    echo 'You are a collaborator on the "pl-froggo-staging" Heroku app'
   else
-    echo 'Ask for access to the "pl-gh-pr-stats-staging" Heroku app'
+    echo 'Ask for access to the "pl-froggo-staging" Heroku app'
   fi
 
-  if heroku apps:info --app pl-gh-pr-stats-production &> /dev/null; then
-    git remote add production git@heroku.com:pl-gh-pr-stats-production.git || true
-    echo 'You are a collaborator on the "pl-gh-pr-stats-production" Heroku app'
+  if heroku apps:info --app pl-froggo-production &> /dev/null; then
+    git remote add production git@heroku.com:pl-froggo-production.git || true
+    echo 'You are a collaborator on the "pl-froggo-production" Heroku app'
   else
-    echo 'Ask for access to the "pl-gh-pr-stats-production" Heroku app'
+    echo 'Ask for access to the "pl-froggo-production" Heroku app'
   fi
 else
   echo 'You need to login to heroku. Run "heroku login"'
