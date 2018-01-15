@@ -18,7 +18,14 @@
     <h1><%= @organization[:login] %></h1>
 
     <div id="content-dashboard">
-        <% unless @corrmat.nil? || @corrmat.col_head.empty? %>
+        <% if @organization[:role] == 'admin' && !@has_dashboard %>
+            You can track this organization and create a dashboard by clicking above.
+            <%= button_to 'Create new dashboard', '/dashboard' %>
+        <% elsif !@has_dashboard %>
+            This organization is not tracked yet. Please contact your organization admin in order to grant access to the organization.
+        <% elsif (@corrmat.nil? || @corrmat.col_head.empty?)  %>
+            This organization doesn't have relations between its users. Encourage your team to use better practices with code review in your pull requests!
+        <% else %>
             <table class="matrix-dashboard">
                 <thead class="matrix__head">
                     <th class="matrix__user"></th>
