@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'dashboard/callback' => 'github_auth#callback'
+  get 'github/callback' => 'github_auth#callback'
   get 'oauth' => 'github_auth#oauth_request'
   get 'oauth_to_gh' => 'github_auth#authenticate!'
   get 'webhook/index'
