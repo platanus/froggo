@@ -31,7 +31,6 @@ function currentOrg() {
   if(getCookies()['currentOrg'] === undefined) {
     document.cookie = "currentOrg="+getOrgsCookie()[0].login;
   }
-
   return getCookies()['currentOrg'];
 }
 
@@ -60,11 +59,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-/* p {
-  font-size: 2em;
-  text-align: center;
-} */
-</style>
-
