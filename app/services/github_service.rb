@@ -1,6 +1,6 @@
-class GithubService < PowerTypes::Service.new(:user)
+class GithubService < PowerTypes::Service.new(:user_token, user_id: nil)
   def create_organizations
-    if orgs = OctokitClient.fetch_organizations(@user.token)
+    if orgs = OctokitClient.fetch_organizations(@user_token)
       orgs.each do |o|
         organization = Organization.create_with(
           login: o[:login],
@@ -9,14 +9,14 @@ class GithubService < PowerTypes::Service.new(:user)
         organization.update! description: o[:description],
                              tracked: false,
                              html_url: "https://github.com/#{o[:login]}/",
-                             owner_id: @user.id,
+                             owner_id: @user_id,
                              avatar_url: o[:avatar_url]
       end
     end
   end
 
   def create_organization_repositories(organization)
-    if repos = OctokitClient.fetch_organization_repositories(organization.login, @user.token)
+    if repos = OctokitClient.fetch_organization_repositories(organization.login, @user_token)
       repos.each do |r|
         repository = Repository.create_with(
           gh_id: r[:gh_id],
@@ -32,7 +32,7 @@ class GithubService < PowerTypes::Service.new(:user)
   end
 
   def create_repository_pull_requests(repo_id, repo_full_name)
-    if pull_requests = OctokitClient.fetch_repository_pull_requests(repo_full_name, @user.token)
+    if pull_requests = OctokitClient.fetch_repository_pull_requests(repo_full_name, @user_token)
       pull_requests.each do |pr|
         pull_request = PullRequest.find_by(gh_id: pr.id)
         pull_request ||= PullRequest.create!(gh_id: pr.id,
@@ -65,7 +65,7 @@ class GithubService < PowerTypes::Service.new(:user)
   def update_pull_request_merge_by(old_pr, new_pr)
     if old_pr.gh_merged_at.nil? && !new_pr.merged_at.nil?
       merge_commit = OctokitClient.fetch_repository_commit(old_pr.repository.full_name,
-        new_pr.merge_commit_sha, @user.token)
+        new_pr.merge_commit_sha, @user_token)
       old_pr.pull_request_relations.create!(
         pr_relation_type: :merge_by,
         github_user: get_github_user(merge_commit.author)
@@ -75,7 +75,7 @@ class GithubService < PowerTypes::Service.new(:user)
 
   def update_pull_req_reviewers(old_pr)
     reviews = OctokitClient.fetch_pull_request_reviews(old_pr.repository.full_name,
-      old_pr.gh_number, @user.token)
+      old_pr.gh_number, @user_token)
     if reviews.empty?
       destroy_empty_reviews(old_pr)
     else

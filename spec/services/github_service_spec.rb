@@ -4,7 +4,7 @@ describe GithubService do
   let (:admin_user) { create(:admin_user) }
 
   def build
-    described_class.new(user: admin_user)
+    described_class.new(user_token: admin_user.token, user_id: admin_user.id)
   end
 
   before do

@@ -3,7 +3,7 @@ class AdminUserObserver < PowerTypes::Observer
 
   def create_organizations
     if new_token_set?
-      service = GithubService.new(user: object)
+      service = GithubService.new(user_token: object.token, user_id: object.id)
       service.create_organizations
     end
   end
