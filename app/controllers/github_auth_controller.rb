@@ -4,13 +4,25 @@ class GithubAuthController < ApplicationController
   end
 
   def authenticate!
-    redirect_to OctokitClient.auth_client_url
+    redirect_to GetGithubAuthUrl.for(callback_action: :login, client_type: :member)
   end
 
   def callback
-    session_code = request.query_parameters['code']
-    result = OctokitClient.exchange_code_for_token(session_code)
-    session[:access_token] = result[:access_token]
+    set_session_gh_access
+
     redirect_to '/'
+  end
+
+  private
+
+  def permitted_params
+    params.permit(:client_type, :callback_action, :gh_org)
+  end
+
+  def set_session_gh_access
+    session_code = request.query_parameters['code']
+    result = Octokit.exchange_code_for_token(session_code, ENV['GH_AUTH_ID'], ENV['GH_AUTH_SECRET'])
+    session[:access_token] = result[:access_token]
+    session[:client_type] = permitted_params[:client_type]
   end
 end

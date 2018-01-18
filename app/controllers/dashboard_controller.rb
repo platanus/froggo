@@ -1,13 +1,16 @@
 class DashboardController < ApplicationController
   before_action :ensure_gh_session
-  before_action :set_user_organizations, only: :index
-  before_action :ensure_organization, only: :index
+  before_action :set_user_organizations, except: :missing_organizations
+  before_action :ensure_organization, except: :missing_organizations
+  before_action :ensure_organization_admin, only: :create
 
   def index
     @has_dashboard = Organization.exists?(gh_id: @organization[:id])
     @corrmat = get_matrix(@organization[:id]) if @has_dashboard
     @auth_login = get_ghuser
   end
+
+  def create; end
 
   def missing_organizations; end
 
@@ -28,6 +31,12 @@ class DashboardController < ApplicationController
     end
   end
 
+  def ensure_organization_admin
+    if @organization[:role] == 'member' || session[:client_type] != 'admin'
+      redirect_to dashboard_path(gh_org: @organization[:login])
+    end
+  end
+
   def permitted_params
     params.permit(:gh_org)
   end
@@ -38,14 +47,13 @@ class DashboardController < ApplicationController
   end
 
   def set_organizations_cookie
-    orgs = OctokitClient.fetch_organization_memberships(session[:access_token])
+    orgs = service.organization_memberships
     cookies['orgs'] = JSON.generate(orgs)
   end
 
   def get_ghuser
     if cookies['ghuser'].nil?
-      client = Octokit::Client.new(access_token: session[:access_token])
-      cookies['ghuser'] = client.user['login']
+      cookies['ghuser'] = service.user['login']
     end
     cookies['ghuser']
   end
@@ -58,5 +66,9 @@ class DashboardController < ApplicationController
 
   def select_orga_data(gh_org)
     @user_organizations.find { |orga| orga[:login] == gh_org }
+  end
+
+  def service
+    @service = GithubService.new(user_token: session[:access_token])
   end
 end

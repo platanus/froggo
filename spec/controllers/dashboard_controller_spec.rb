@@ -7,13 +7,13 @@ RSpec.describe DashboardController, type: :controller do
     let (:gh_organizations) { [{ login: 'gh_orga', id: 10, role: 'member' }] }
 
     before do
-      allow(Octokit::Client).to receive(:new).and_return(client)
+      allow_any_instance_of(GithubService).to receive(:client).and_return(client)
     end
 
     context 'when user exists with organizations' do
       before do
         allow(client).to receive(:user).and_return('login': '')
-        expect_any_instance_of(OctokitClient).to receive(:fetch_organization_memberships)
+        expect_any_instance_of(GithubService).to receive(:organization_memberships)
           .and_return(gh_organizations)
       end
 
@@ -61,7 +61,7 @@ RSpec.describe DashboardController, type: :controller do
     context 'when user exists without organizations' do
       let!(:empty_organizations) { {} }
       before do
-        expect_any_instance_of(OctokitClient).to receive(:fetch_organization_memberships)
+        expect_any_instance_of(GithubService).to receive(:organization_memberships)
           .and_return(empty_organizations)
       end
       it { expect(subject).to redirect_to('/dashboard/missing_organizations') }
