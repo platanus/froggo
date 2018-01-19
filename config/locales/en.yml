@@ -41,3 +41,10 @@ en:
       zero: empty
       one: 1 rel
       other: '%{count} rels'
+  messages:
+    dashboard:
+      greeting: "Hello"
+      info: "The following table has the information between revieweers and merges as a sum, named collaboration. From top to bottom, where in top is user A its read as how many collaborations has done the user A to user B, where user B is the user in the first column"
+      track_organization: "You can track this organization and create a dashboard by clicking above."
+      track_no_permission: "This organization is not tracked yet. Please contact your organization admin in order to grant access to the organization."
+      no_pullrequest: "This organization doesn't have relations between its users. Encourage your team to use better practices with code review in your pull requests!"

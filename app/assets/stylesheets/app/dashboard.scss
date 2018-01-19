@@ -143,4 +143,12 @@ body {
 
 .organization__selector {
   margin-top: 30px;
+  font-family: $robotoCondensed;
+  width: 100%;
+  text-align: center;
+}
+
+.content__dashboard {
+  text-align: center;
+  font-family: $roboto;
 }
