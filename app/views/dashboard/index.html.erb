@@ -21,8 +21,10 @@
         <% elsif !@has_dashboard %>
             <%= t('messages.dashboard.track_no_permission') %>
         <% elsif (@corrmat.nil? || @corrmat.col_head.empty?)  %>
+            <div id="panel"></div>
             <%= t('messages.dashboard.no_pullrequest') %>
         <% else %>
+            <div id="panel"></div>
             <table class="matrix-dashboard">
                 <thead class="matrix__head">
                     <th class="matrix__user"></th>
