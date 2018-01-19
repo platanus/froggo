@@ -43,7 +43,9 @@ class HookService < PowerTypes::Service.new
         resource.login, hook.gh_id
       )
     end
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def create_hook(resource)
@@ -68,7 +70,9 @@ class HookService < PowerTypes::Service.new
       events: ['pull_request', 'pull_request_review'],
       active: true
     )
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def create_org_hook(org)
@@ -82,7 +86,9 @@ class HookService < PowerTypes::Service.new
       events: ['repository'],
       active: true
     )
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def edit_active_hook(resource, hook, status)
@@ -135,7 +141,9 @@ class HookService < PowerTypes::Service.new
       repo.full_name,
       hook.gh_id
     )
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def destroy_api_org_hook(org, hook)
@@ -143,7 +151,9 @@ class HookService < PowerTypes::Service.new
       org.login,
       hook.gh_id
     )
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def create(response, resource)

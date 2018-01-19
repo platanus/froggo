@@ -15,6 +15,9 @@ class GithubService < PowerTypes::Service.new(:user_token, user_id: nil)
                            owner_id: @user_id,
                            avatar_url: o[:avatar_url]
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def organization_memberships
@@ -26,7 +29,8 @@ class GithubService < PowerTypes::Service.new(:user_token, user_id: nil)
       }
     end
   rescue Octokit::Unauthorized => ex
-    puts ex.message
+    logger.error ex
+    []
   end
 
   def create_organization_repositories(organization)
@@ -41,6 +45,9 @@ class GithubService < PowerTypes::Service.new(:user_token, user_id: nil)
                          url: r[:url],
                          html_url: r[:html_url]
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def create_repository_pull_requests(repo_id, repo_full_name)
@@ -50,13 +57,15 @@ class GithubService < PowerTypes::Service.new(:user_token, user_id: nil)
                                            repository_id: repo_id,
                                            owner: get_github_user(pr.user),
                                            pr_state: pr.state)
-      # If the pull requests exists and it hasn't been updated, continue with next pr
       if pull_request.gh_updated_at.nil? || (pull_request.gh_updated_at < pr.updated_at)
         update_pull_request_merge_by(pull_request, pr)
         update_pull_request(pull_request, pr)
         update_pull_req_reviewers(pull_request)
       end
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def update_pull_request(old_pr, new_pr)
@@ -80,6 +89,9 @@ class GithubService < PowerTypes::Service.new(:user_token, user_id: nil)
         github_user: get_github_user(merge_commit.author)
       )
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def update_pull_req_reviewers(old_pr)
@@ -91,12 +103,13 @@ class GithubService < PowerTypes::Service.new(:user_token, user_id: nil)
       new_reviewers = reviews.reduce(Hash.new) do |result, review|
         result.merge(review.user.login => review.user)
       end
-      pr_reviewers = old_pr.pull_request_relations.reviewers
-                           .joins(:github_user).pluck(:login).to_set
-      # Remove existing relations
+      pr_reviewers = old_pr.reviewers.pluck(:login).to_set
       new_reviewers.delete_if { |login, _| pr_reviewers.include? login }
       add_new_relations(old_pr, new_reviewers, :reviewer)
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def destroy_empty_reviews(old_pr)
