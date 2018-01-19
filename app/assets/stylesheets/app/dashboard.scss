@@ -1,17 +1,7 @@
 // Place all the sstyles related to the Dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-@import url('https://fonts.googleapis.com/css?family=Roboto:300|Roboto+Condensed:300');
-$roboto: 'Roboto', sans-serif;
-$robotoCondensed: 'Roboto Condensed',sans-serif;
-$secondary: #fcfaff;
-$secondaryBorder: #f0f0f0;
-$primaryBorder: #f1f1f1;
-$primary: #49475e;
-$white: #fff;
-$black: #000;
-$orange: #ff9e00;
-$gray: #dedede;
+@import 'base/global';
 
 html {
   background: $secondary;
