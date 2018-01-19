@@ -2,7 +2,7 @@ class DashboardController < ApplicationController
   before_action :ensure_gh_session
   before_action :set_user_organizations, except: :missing_organizations
   before_action :ensure_organization, except: :missing_organizations
-  before_action :ensure_organization_admin, only: :create
+  before_action :ensure_organization_admin, only: :settings
 
   def index
     @has_dashboard = Organization.exists?(gh_id: @organization[:id])
@@ -34,7 +34,7 @@ class DashboardController < ApplicationController
   end
 
   def ensure_organization_admin
-    if @organization[:role] == 'member' || session[:client_type] != 'admin'
+    if @organization[:role] != 'admin'
       redirect_to dashboard_path(gh_org: @organization[:login])
     end
   end

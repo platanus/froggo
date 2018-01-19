@@ -1,4 +1,4 @@
-<p>Estas en las settings de <%= @organization[:login] %></p>
+<p> <%= @organization[:login] %></p>
 <button onclick="window.location.href='/dashboard/<%= @organization[:login] %>'">
-    Volver
+    <%= t('messages.button_back') %>
 </button>

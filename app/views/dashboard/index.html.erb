@@ -14,10 +14,18 @@
         <h1><%= @organization[:login] %></h1>
     </div>
 
+    <% if @organization[:role] == 'admin' %>
+     <div class="organization__setting__button">
+        <button onclick="window.location.href='<%= config_dashboard_path(gh_org: @organization[:login]) %>'">
+             <%= t('messages.dashboard.button_config') %>
+        </button>
+    </div>
+    <% end %>
+
     <div id="content-dashboard" class="content__dashboard">
         <% if @organization[:role] == 'admin' && !@has_dashboard %>
             <%= t('messages.dashboard.track_organization') %>
-            <%= button_to 'Create new dashboard', '/dashboard' %>
+            <%= button_to t('messages.dashboard.button_create') , '/dashboard' %>
         <% elsif !@has_dashboard %>
             <%= t('messages.dashboard.track_no_permission') %>
         <% elsif (@corrmat.nil? || @corrmat.col_head.empty?)  %>

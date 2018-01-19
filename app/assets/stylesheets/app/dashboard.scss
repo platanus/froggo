@@ -141,6 +141,11 @@ body {
   position: fixed;
 }
 
+.organization__setting__button {
+  width: 100%;
+  text-align: center;
+}
+
 .organization__selector {
   margin-top: 30px;
   font-family: $robotoCondensed;

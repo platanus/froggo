@@ -17,4 +17,9 @@ es-CL:
       track_organization: "Puedes seguir esta organización y crear un dashboard haciendo click aquí."
       track_no_permission: "Esta organización no se encuentra registrada. Contacta al administrador de tu organización para otorgar permisos."
       no_pullrequest: "Esta organización no tiene relaciones entre sus usuarios. ¡Motiva a tu equipo a usar mejores prácticas haciendo Code Review en las Pull Requests!."
+      button_config: "Configurar dashboard"
+      button_create: "Crear nuevo dashboard"
+      settings:
+        message: "Currently setting"
+    button_back: "Back"
 

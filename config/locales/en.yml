@@ -48,3 +48,8 @@ en:
       track_organization: "You can track this organization and create a dashboard by clicking above."
       track_no_permission: "This organization is not tracked yet. Please contact your organization admin in order to grant access to the organization."
       no_pullrequest: "This organization doesn't have relations between its users. Encourage your team to use better practices with code review in your pull requests!"
+      button_config: "Configure dashboard"
+      button_create: "Create new dashboard"
+      settings:
+        message: "Estas en las settings de"
+    button_back: "Volver"
