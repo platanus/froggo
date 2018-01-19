@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       as: :dashboard_missing_organizations
   get 'dashboard/:gh_org' => 'dashboard#index', as: :dashboard
   get 'dashboard' => 'dashboard#index'
+  get 'dashboard/:gh_org/settings' => 'dashboard#settings', as: :config
   post 'dashboard' => 'dashboard#create', as: :create_dashboard
   post 'github_events' => 'webhook#receive'
 

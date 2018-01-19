@@ -14,6 +14,8 @@ class DashboardController < ApplicationController
 
   def missing_organizations; end
 
+  def settings; end
+
   private
 
   def ensure_gh_session
