@@ -33,16 +33,19 @@ class HookService < PowerTypes::Service.new
   private
 
   def get_hook(resource, hook)
+    service = GithubService.new(user_token: resource.owner.token)
     if resource.is_a?(Repository)
-      OctokitClient.client(resource.owner.token).hook(
+      service.client.hook(
         resource.full_name, hook.gh_id
       )
     elsif resource.is_a?(Organization)
-      OctokitClient.client(resource.owner.token).org_hook(
+      service.client.org_hook(
         resource.login, hook.gh_id
       )
     end
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def create_hook(resource)
@@ -56,7 +59,7 @@ class HookService < PowerTypes::Service.new
   end
 
   def create_repo_hook(repo)
-    OctokitClient.client(repo.owner.token).create_hook(
+    GithubService.new(user_token: repo.owner.token).client.create_hook(
       repo.full_name,
       'web',
       {
@@ -67,11 +70,13 @@ class HookService < PowerTypes::Service.new
       events: ['pull_request', 'pull_request_review'],
       active: true
     )
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def create_org_hook(org)
-    OctokitClient.client(org.owner.token).create_org_hook(
+    GithubService.new(user_token: org.owner.token).client.create_org_hook(
       org.login,
       {
         url: "#{ENV['APPLICATION_HOST']}/github_events",
@@ -81,7 +86,9 @@ class HookService < PowerTypes::Service.new
       events: ['repository'],
       active: true
     )
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def edit_active_hook(resource, hook, status)
@@ -99,7 +106,7 @@ class HookService < PowerTypes::Service.new
       response = create_repo_hook(repo)
       update(response, repo) if response
     end
-    OctokitClient.client(repo.owner.token).edit_hook(
+    GithubService.new(user_token: repo.owner.token).client.edit_hook(
       repo.full_name,
       hook.reload.gh_id,
       'web',
@@ -117,7 +124,7 @@ class HookService < PowerTypes::Service.new
       response = create_org_hook(org)
       update(response, org) if response
     end
-    OctokitClient.client(org.owner.token).edit_org_hook(
+    GithubService.new(user_token: org.owner.token).client.edit_org_hook(
       org.login,
       hook.reload.gh_id,
       {
@@ -130,19 +137,23 @@ class HookService < PowerTypes::Service.new
   end
 
   def destroy_api_repo_hook(repo, hook)
-    OctokitClient.client(repo.owner.token).remove_hook(
+    GithubService.new(user_token: repo.owner.token).client.remove_hook(
       repo.full_name,
       hook.gh_id
     )
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def destroy_api_org_hook(org, hook)
-    OctokitClient.client(org.owner.token).remove_org_hook(
+    GithubService.new(user_token: org.owner.token).client.remove_org_hook(
       org.login,
       hook.gh_id
     )
-  rescue Octokit::NotFound
+  rescue Octokit::NotFound => ex
+    logger.error ex
+    nil
   end
 
   def create(response, resource)

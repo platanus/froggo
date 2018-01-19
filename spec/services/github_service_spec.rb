@@ -4,7 +4,7 @@ describe GithubService do
   let (:admin_user) { create(:admin_user) }
 
   def build
-    described_class.new(user: admin_user)
+    described_class.new(user_token: admin_user.token, user_id: admin_user.id)
   end
 
   before do
@@ -13,7 +13,7 @@ describe GithubService do
 
   context "create_organizations" do
     before do
-      allow(OctokitClient).to receive(:fetch_organizations).and_return(
+      allow_any_instance_of(Octokit::Client).to receive(:orgs).and_return(
         [{
           login: "platanus",
           id: 1158740,
@@ -49,7 +49,7 @@ describe GithubService do
     let (:owner) { create(:admin_user) }
     let (:organization) { create(:organization, owner_id: owner.id) }
     before do
-      allow(OctokitClient).to receive(:fetch_organization_repositories).and_return(
+      allow_any_instance_of(Octokit::Client).to receive(:org_repos).and_return(
         [{
           id: 113467395,
           name: "froggo",
@@ -114,9 +114,10 @@ describe GithubService do
     end
 
     before do
-      allow(OctokitClient).to receive(:fetch_repository_pull_requests)
+      allow_any_instance_of(Octokit::Client).to receive(:pull_requests)
         .and_return(new_pull_request_data)
-      allow(OctokitClient).to receive(:fetch_pull_request_reviews).and_return(new_reviews_data)
+      allow_any_instance_of(Octokit::Client).to receive(:pull_request_reviews)
+        .and_return(new_reviews_data)
 
       build.create_repository_pull_requests(repo.id, repo.full_name)
     end
@@ -208,10 +209,10 @@ describe GithubService do
       end
 
       before do
-        allow(OctokitClient).to receive(:fetch_repository_pull_requests)
+        allow_any_instance_of(Octokit::Client).to receive(:pull_requests)
           .and_return(updated_pull_request_data)
-        allow(OctokitClient).to receive(:fetch_repository_commit).and_return(commit_data)
-        allow(OctokitClient).to receive(:fetch_pull_request_reviews)
+        allow_any_instance_of(Octokit::Client).to receive(:commit).and_return(commit_data)
+        allow_any_instance_of(Octokit::Client).to receive(:pull_request_reviews)
           .and_return(updated_reviews_data)
 
         build.create_repository_pull_requests(repo.id, repo.full_name)
@@ -219,7 +220,6 @@ describe GithubService do
       end
 
       it "don't duplicate existed pull requests" do
-        # build.create_repository_pull_requests(repo.id, repo.full_name)
         existed_pr = PullRequest.where(gh_id: 1)
         expect(existed_pr.count).to eq(1)
       end

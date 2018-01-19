@@ -1,52 +1,71 @@
-class GithubService < PowerTypes::Service.new(:user)
+class GithubService < PowerTypes::Service.new(:user_token, user_id: nil)
+  def user
+    client.user
+  end
+
   def create_organizations
-    if orgs = OctokitClient.fetch_organizations(@user.token)
-      orgs.each do |o|
-        organization = Organization.create_with(
-          login: o[:login],
-          name: o[:name]
-        ).find_or_create_by(gh_id: o[:id])
-        organization.update! description: o[:description],
-                             tracked: false,
-                             html_url: "https://github.com/#{o[:login]}/",
-                             owner_id: @user.id,
-                             avatar_url: o[:avatar_url]
-      end
+    client.orgs.each do |o|
+      organization = Organization.create_with(
+        login: o[:login],
+        name: o[:name]
+      ).find_or_create_by(gh_id: o[:id])
+      organization.update! description: o[:description],
+                           tracked: false,
+                           html_url: "https://github.com/#{o[:login]}/",
+                           owner_id: @user_id,
+                           avatar_url: o[:avatar_url]
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
+  end
+
+  def organization_memberships
+    client.organization_memberships.map do |mem|
+      {
+        id: mem.organization.id,
+        login: mem.organization.login,
+        role: mem.role
+      }
+    end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    []
   end
 
   def create_organization_repositories(organization)
-    if repos = OctokitClient.fetch_organization_repositories(organization.login, @user.token)
-      repos.each do |r|
-        repository = Repository.create_with(
-          gh_id: r[:gh_id],
-          full_name: r[:full_name],
-          organization: organization
-        ).find_or_create_by! gh_id: r[:id]
-        repository.update! name: r[:name],
-                           full_name: r[:full_name],
-                           url: r[:url],
-                           html_url: r[:html_url]
-      end
+    client.org_repos(organization.login).each do |r|
+      repository = Repository.create_with(
+        gh_id: r[:gh_id],
+        full_name: r[:full_name],
+        organization: organization
+      ).find_or_create_by!(gh_id: r[:id])
+      repository.update! name: r[:name],
+                         full_name: r[:full_name],
+                         url: r[:url],
+                         html_url: r[:html_url]
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def create_repository_pull_requests(repo_id, repo_full_name)
-    if pull_requests = OctokitClient.fetch_repository_pull_requests(repo_full_name, @user.token)
-      pull_requests.each do |pr|
-        pull_request = PullRequest.find_by(gh_id: pr.id)
-        pull_request ||= PullRequest.create!(gh_id: pr.id,
-                                             repository_id: repo_id,
-                                             owner: get_github_user(pr.user),
-                                             pr_state: pr.state)
-        # If the pull requests exists and it hasn't been updated, continue with next pr
-        if pull_request.gh_updated_at.nil? || (pull_request.gh_updated_at < pr.updated_at)
-          update_pull_request_merge_by(pull_request, pr)
-          update_pull_request(pull_request, pr)
-          update_pull_req_reviewers(pull_request)
-        end
+    client.pull_requests(repo_full_name, state: 'all').each do |pr|
+      pull_request = PullRequest.find_by(gh_id: pr.id)
+      pull_request ||= PullRequest.create!(gh_id: pr.id,
+                                           repository_id: repo_id,
+                                           owner: get_github_user(pr.user),
+                                           pr_state: pr.state)
+      if pull_request.gh_updated_at.nil? || (pull_request.gh_updated_at < pr.updated_at)
+        update_pull_request_merge_by(pull_request, pr)
+        update_pull_request(pull_request, pr)
+        update_pull_req_reviewers(pull_request)
       end
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def update_pull_request(old_pr, new_pr)
@@ -64,30 +83,33 @@ class GithubService < PowerTypes::Service.new(:user)
 
   def update_pull_request_merge_by(old_pr, new_pr)
     if old_pr.gh_merged_at.nil? && !new_pr.merged_at.nil?
-      merge_commit = OctokitClient.fetch_repository_commit(old_pr.repository.full_name,
-        new_pr.merge_commit_sha, @user.token)
+      merge_commit = client.commit(old_pr.repository.full_name, new_pr.merge_commit_sha)
       old_pr.pull_request_relations.create!(
         pr_relation_type: :merge_by,
         github_user: get_github_user(merge_commit.author)
       )
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def update_pull_req_reviewers(old_pr)
-    reviews = OctokitClient.fetch_pull_request_reviews(old_pr.repository.full_name,
-      old_pr.gh_number, @user.token)
+    reviews = client.pull_request_reviews(old_pr.repository.full_name,
+      old_pr.gh_number, accept: 'application/vnd.github.thor-preview+json')
     if reviews.empty?
       destroy_empty_reviews(old_pr)
     else
       new_reviewers = reviews.reduce(Hash.new) do |result, review|
         result.merge(review.user.login => review.user)
       end
-      pr_reviewers = old_pr.pull_request_relations.reviewers
-                           .joins(:github_user).pluck(:login).to_set
-      # Remove existing relations
+      pr_reviewers = old_pr.reviewers.pluck(:login).to_set
       new_reviewers.delete_if { |login, _| pr_reviewers.include? login }
       add_new_relations(old_pr, new_reviewers, :reviewer)
     end
+  rescue Octokit::Unauthorized => ex
+    logger.error ex
+    false
   end
 
   def destroy_empty_reviews(old_pr)
@@ -116,5 +138,13 @@ class GithubService < PowerTypes::Service.new(:user)
       html_url: user_data.html_url,
       tracked: true
     ).find_or_create_by!(gh_id: user_data.id)
+  end
+
+  def client
+    @client ||= begin
+      c = Octokit::Client.new(access_token: @user_token)
+      c.auto_paginate = true
+      c
+    end
   end
 end

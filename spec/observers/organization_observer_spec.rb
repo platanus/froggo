@@ -12,12 +12,12 @@ describe OrganizationObserver do
     describe 'GithubWorker calls' do
       let(:object) { build(:organization, owner_id: admin_user.id, tracked: false) }
       before do
-        allow(OctokitClient).to(
+        allow_any_instance_of(GithubService).to(
           receive(:client)
         ).and_return(client)
-        allow(OctokitClient).to(
-          receive(:fetch_organization_repositories)
-        ).and_return([])
+        allow_any_instance_of(GithubService).to(
+          receive(:create_organization_repositories)
+        ).and_return(nil)
 
         allow_any_instance_of(HookService).to receive(:subscribe)
         allow_any_instance_of(HookService).to receive(:unsubscribe)

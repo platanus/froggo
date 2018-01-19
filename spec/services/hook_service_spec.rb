@@ -16,7 +16,7 @@ describe HookService do
   subject { described_class.new }
 
   before do
-    allow(OctokitClient).to receive(:client).and_return(client)
+    allow_any_instance_of(GithubService).to receive(:client).and_return(client)
   end
 
   describe 'org_hooks' do

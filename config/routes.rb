@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  get 'github/callback' => 'github_auth#callback'
+  default_url_options host: ENV['APPLICATION_HOST']
+
+  get 'github/callback' => 'github_auth#callback', as: :github_callback
   get 'oauth' => 'github_auth#oauth_request'
   get 'oauth_to_gh' => 'github_auth#authenticate!'
   get 'webhook/index'
@@ -7,6 +9,7 @@ Rails.application.routes.draw do
       as: :dashboard_missing_organizations
   get 'dashboard/:gh_org' => 'dashboard#index', as: :dashboard
   get 'dashboard' => 'dashboard#index'
+  post 'dashboard' => 'dashboard#create', as: :create_dashboard
   post 'github_events' => 'webhook#receive'
 
   root to: redirect('dashboard')
