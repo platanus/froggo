@@ -1,0 +1,4 @@
+<p> <%= @organization[:login] %></p>
+<button onclick="window.location.href='/dashboard/<%= @organization[:login] %>'">
+    <%= t('messages.button_back') %>
+</button>

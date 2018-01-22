@@ -1,18 +1,15 @@
 <template>
 <div id="selector">
-
     <select v-model="selected">
       <option v-for="option in options" v-bind:value="option.value">
         {{ option.text }}
       </option>
     </select>
-    <button v-on:click="redirect(selected)">Go to dahboard</button>
-
+    <button v-on:click="redirect(selected)">{{ $parent.$t("message.selector.button") }}</button>
 </div>
 </template>
 
 <script>
-
 function getCookies() {
   const cookies_saved = document.cookie.split('; ');
   let cookies = {};
