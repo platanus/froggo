@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171228120623) do
+ActiveRecord::Schema.define(version: 20180122230251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,16 @@ ActiveRecord::Schema.define(version: 20171228120623) do
     t.index ["pull_request_id"], name: "index_pull_request_relations_on_pull_request_id"
   end
 
+  create_table "pull_request_reviews", force: :cascade do |t|
+    t.bigint "pull_request_id"
+    t.bigint "github_user_id"
+    t.integer "gh_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["github_user_id"], name: "index_pull_request_reviews_on_github_user_id"
+    t.index ["pull_request_id"], name: "index_pull_request_reviews_on_pull_request_id"
+  end
+
   create_table "pull_requests", force: :cascade do |t|
     t.integer "gh_id"
     t.string "title"
@@ -148,6 +158,8 @@ ActiveRecord::Schema.define(version: 20171228120623) do
 
   add_foreign_key "pull_request_relations", "github_users"
   add_foreign_key "pull_request_relations", "pull_requests"
+  add_foreign_key "pull_request_reviews", "github_users"
+  add_foreign_key "pull_request_reviews", "pull_requests"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "organizations"
 end

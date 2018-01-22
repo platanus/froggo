@@ -1,8 +1,9 @@
 class PullRequest < ApplicationRecord
   belongs_to :repository
-
   belongs_to :owner, class_name: 'GithubUser'
+
   has_many :pull_request_relations
+  has_many :pull_request_reviews
   has_many :github_users, through: :pull_request_relations
   has_many :reviewers, -> do
     where(pull_request_relations: { pr_relation_type: :reviewer })
