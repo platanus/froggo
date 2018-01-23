@@ -1,5 +1,5 @@
 class GithubPullRequestService < PowerTypes::Service.new
-  def import_all_from_reposiroty(repository)
+  def import_all_from_repository(repository)
     # Obtain list of pull request from repository and persist them in DB.
   end
 
