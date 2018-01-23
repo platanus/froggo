@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'github/callback' => 'github_auth#callback', as: :github_callback
   get 'oauth' => 'github_auth#oauth_request'
   get 'oauth_to_gh' => 'github_auth#authenticate!'
+  get 'admin_oauth_to_gh' => 'github_auth#admin_authenticate!', as: :admin_authenticate
   get 'webhook/index'
   get 'dashboard/missing_organizations' => 'dashboard#missing_organizations',
       as: :dashboard_missing_organizations

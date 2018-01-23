@@ -7,10 +7,19 @@ class GithubAuthController < ApplicationController
     redirect_to GetGithubAuthUrl.for(callback_action: :login, client_type: :member)
   end
 
+  def admin_authenticate!
+    redirect_to GetGithubAuthUrl.for(callback_action: :settings, client_type: :admin,
+                                     callback_params: { gh_org: permitted_params[:gh_org] })
+  end
+
   def callback
     set_session_gh_access
 
-    redirect_to '/'
+    if permitted_params[:callback_action] == 'settings'
+      redirect_to config_dashboard_path(gh_org: permitted_params[:gh_org])
+    else
+      redirect_to root_path
+    end
   end
 
   private
