@@ -25,7 +25,7 @@ describe GetGithubAuthUrl do
         .and_return('')
     end
 
-    it 'creates  redirect uri with callback action query param' do
+    it 'creates redirect uri with callback action query param' do
       perform(callback_action: callback_action, client_type: client_type)
     end
   end
