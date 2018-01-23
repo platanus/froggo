@@ -4,7 +4,7 @@ class PullRequest < ApplicationRecord
   belongs_to :merged_by, class_name: 'GithubUser', optional: true
 
   has_many :pull_request_relations
-  has_many :pull_request_reviews
+  has_many :pull_request_reviews, dependent: :destroy
   has_many :github_users, through: :pull_request_relations
   has_many :reviewers, -> do
     where(pull_request_relations: { pr_relation_type: :reviewer })
