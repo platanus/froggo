@@ -2,8 +2,23 @@ require 'rails_helper'
 
 describe GithubUserService do
   let!(:gh_user) { create(:github_user) }
-  let (:user1) { { login: 'a user', gh_id: '3' } }
-  let (:user2) { { login: 'a user', gh_id: gh_user.gh_id } }
+  let (:user1) do
+    double(login: 'a user',
+           gh_id: '3',
+           avatar_url: '',
+           html_url: '',
+           email: '',
+           name: '')
+  end
+
+  let (:user2) do
+    double(login: 'a user',
+           gh_id: gh_user.gh_id,
+           avatar_url: '',
+           html_url: '',
+           email: '',
+           name: '')
+  end
 
   def build(*_args)
     described_class.new(*_args)
