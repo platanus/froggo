@@ -37,6 +37,20 @@ describe GithubPullRequestReviewService do
       .and_return(github_reviews_response)
   end
 
+  describe "#import_all_from_repository" do
+    before do
+      @service = build(token: token)
+    end
+
+    after do
+      @service.import_all_from_repository(repository)
+    end
+
+    it "import from all pr from this repository" do
+      expect(@service).to receive(:import_all_from_pull_request).with(pull_request)
+    end
+  end
+
   describe "#import_all_from_pull_request" do
     context "when review doesn`t exist" do
       it "creates new pull request review" do
