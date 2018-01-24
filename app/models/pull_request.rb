@@ -1,6 +1,7 @@
 class PullRequest < ApplicationRecord
   belongs_to :repository
   belongs_to :owner, class_name: 'GithubUser'
+  belongs_to :merged_by, class_name: 'GithubUser', optional: true
 
   has_many :pull_request_relations
   has_many :pull_request_reviews
@@ -56,6 +57,7 @@ end
 #  updated_at    :datetime         not null
 #  repository_id :integer
 #  owner_id      :integer
+#  merged_by_id  :integer
 #
 # Indexes
 #
@@ -63,5 +65,6 @@ end
 #
 # Foreign Keys
 #
+#  fk_rails_...  (merged_by_id => github_users.id)
 #  fk_rails_...  (repository_id => repositories.id)
 #
