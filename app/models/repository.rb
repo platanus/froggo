@@ -1,8 +1,11 @@
 class Repository < ApplicationRecord
   include ActiveModel::Dirty
   include PowerTypes::Observable
+
   belongs_to :organization
+
   has_many :pull_requests
+  has_many :pull_request_reviews, through: :pull_requests
   has_many :hooks, as: :resource
 
   before_create :set_default_values
