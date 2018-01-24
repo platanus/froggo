@@ -4,7 +4,7 @@ describe GithubUserService do
   let!(:gh_user) { create(:github_user) }
   let (:user1) do
     double(login: 'a user',
-           gh_id: '3',
+           id: '3',
            avatar_url: '',
            html_url: '',
            email: '',
@@ -13,7 +13,7 @@ describe GithubUserService do
 
   let (:user2) do
     double(login: 'a user',
-           gh_id: gh_user.gh_id,
+           id: gh_user.gh_id,
            avatar_url: '',
            html_url: '',
            email: '',
