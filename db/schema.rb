@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180122230251) do
+ActiveRecord::Schema.define(version: 20180124141050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 20180122230251) do
     t.datetime "updated_at", null: false
     t.bigint "repository_id"
     t.integer "owner_id"
+    t.integer "merged_by_id"
     t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
   end
 
@@ -160,6 +161,7 @@ ActiveRecord::Schema.define(version: 20180122230251) do
   add_foreign_key "pull_request_relations", "pull_requests"
   add_foreign_key "pull_request_reviews", "github_users"
   add_foreign_key "pull_request_reviews", "pull_requests"
+  add_foreign_key "pull_requests", "github_users", column: "merged_by_id"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "organizations"
 end

@@ -8,6 +8,8 @@ RSpec.describe PullRequest, type: :model do
 
   describe 'relationships' do
     it { should belong_to(:repository) }
+    it { should belong_to(:owner) }
+    it { should belong_to(:merged_by) }
   end
 
   describe 'on save' do
