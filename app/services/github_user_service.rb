@@ -6,6 +6,6 @@ class GithubUserService < PowerTypes::Service.new
       html_url: github_user_params.html_url,
       email: github_user_params.email,
       name: github_user_params.name
-    ).find_or_create_by!(gh_id: github_user_params.gh_id)
+    ).find_or_create_by!(gh_id: github_user_params.id)
   end
 end
