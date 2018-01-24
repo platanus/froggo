@@ -6,7 +6,10 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
   end
 
   def handle_webhook_event(data)
-    # Receive a pull request event (CRUD) and process it.
+    data = OpenStruct.new(data) if data.is_a? Hash
+    repo = Repository.find_by(gh_id: data.repository.id)
+
+    import_github_pull_request(repo, data.pull_request)
   end
 
   private
@@ -16,16 +19,32 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
   end
 
   def import_github_pull_request(repository, github_pull_request)
-    owner = GithubUserService.new.find_or_create(github_pull_request.user)
-    pull_request_params = get_pull_request_params(github_pull_request).merge(owner_id: owner.id)
+    params = build_pull_request_params(github_pull_request)
 
-    repository.pull_requests
-              .create_with(pull_request_params)
-              .find_or_create_by!(gh_id: github_pull_request.id)
+    if pull_request = PullRequest.find_by(gh_id: github_pull_request.id)
+      pull_request.update! params
+    else
+      repository.pull_requests.create!(params)
+    end
   end
 
-  def get_pull_request_params(github_pull_request)
+  def build_pull_request_params(github_pull_request)
+    owner = GithubUserService.new.find_or_create(github_pull_request.user)
+
+    base_params = get_base_params(github_pull_request)
+    users_params = { owner_id: owner.id }
+
+    if github_pull_request.respond_to?(:merged_by)
+      merged_by = GithubUserService.new.find_or_create(github_pull_request.merged_by)
+      users_params[:merged_by_id] = merged_by.id
+    end
+
+    base_params.merge(users_params)
+  end
+
+  def get_base_params(github_pull_request)
     {
+      gh_id: github_pull_request.id,
       pr_state: github_pull_request.state,
       title: github_pull_request.title,
       gh_number: github_pull_request.number,
