@@ -10,15 +10,15 @@ describe RepositoryTrackingService do
     described_class.new(*_args)
   end
 
-  before do
-    expect_any_instance_of(GithubPullRequestService).to receive(:import_all_from_repository)
-      .and_return(true)
-
-    expect_any_instance_of(GithubPullRequestReviewService).to receive(:import_all_from_repository)
-      .and_return(true)
-  end
-
   describe "#track" do
+    before do
+      expect_any_instance_of(GithubPullRequestService).to receive(:import_all_from_repository)
+        .and_return(true)
+
+      expect_any_instance_of(GithubPullRequestReviewService).to receive(:import_all_from_repository)
+        .and_return(true)
+    end
+
     context "when PR exists and no PR where imported" do
       before do
         create_list(:pull_request_with_reviews, 2, reviews_count: 3, repository: repository)
@@ -35,6 +35,26 @@ describe RepositoryTrackingService do
 
     it "change repository tracked status" do
       expect { service.track }.to change { repository.tracked }.from(false).to(true)
+    end
+  end
+
+  describe "#untrack" do
+    before do
+      repository.tracked = true
+    end
+
+    it "change repository tracked status" do
+      expect { service.untrack }.to change { repository.tracked }.from(true).to(false)
+    end
+
+    context "with pull request and reviews" do
+      before do
+        create_list(:pull_request_with_reviews, 2, reviews_count: 3, repository: repository)
+        service.untrack
+      end
+
+      it { expect(repository.pull_requests.count).to eq(0) }
+      it { expect(repository.pull_request_reviews.count).to eq(0) }
     end
   end
 end

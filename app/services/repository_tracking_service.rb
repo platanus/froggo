@@ -5,6 +5,11 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
     set_repository_status(true)
   end
 
+  def untrack
+    clear_repository
+    set_repository_status(false)
+  end
+
   private
 
   def clear_repository
