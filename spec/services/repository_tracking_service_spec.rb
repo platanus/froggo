@@ -21,11 +21,7 @@ describe RepositoryTrackingService do
   describe "#track" do
     context "when PR exists and no PR where imported" do
       before do
-        pullrequest1 = create(:pull_request, repository: repository)
-        pullrequest2 = create(:pull_request, repository: repository)
-        create(:pull_request_review, pull_request: pullrequest1)
-        create(:pull_request_review, pull_request: pullrequest1)
-        create(:pull_request_review, pull_request: pullrequest2)
+        create_list(:pull_request_with_reviews, 2, reviews_count: 3, repository: repository)
       end
 
       it "ends with no pull requests" do
@@ -33,7 +29,7 @@ describe RepositoryTrackingService do
       end
 
       it "ends with no pull request reviews" do
-        expect { service.track }.to change { PullRequestReview.count }.from(3).to(0)
+        expect { service.track }.to change { PullRequestReview.count }.from(6).to(0)
       end
     end
 
