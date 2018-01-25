@@ -34,65 +34,16 @@ describe GithubPullRequestService do
     described_class.new(*_args)
   end
 
-  before do
-    allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
-
-    allow(client).to receive(:pull_requests).with(repository.full_name, state: "all")
-                                            .and_return([github_pr_response])
-  end
-
-  describe "#import_all_from_repository" do
+  describe "#import_github_pull_request" do
     context "when PR doesn`t exist" do
       it "creates new pull request" do
-        expect { service.import_all_from_repository(repository) }.to(
+        expect { service.import_github_pull_request(repository, github_pr_response) }.to(
           change { PullRequest.count }.by(1)
         )
       end
 
       it "creates PR with valid data" do
-        service.import_all_from_repository(repository)
-        pull_request = PullRequest.last
-
-        expect(pull_request).to have_attributes(
-          gh_id: 3,
-          gh_number: 1,
-          pr_state: "open",
-          title: "Test"
-        )
-      end
-    end
-
-    context "when PR exists" do
-      before do
-        create(:pull_request, gh_id: 3, repository: repository)
-      end
-
-      it "does not create new pull requests" do
-        expect { build(token: token).import_all_from_repository(repository) }.not_to(
-          change { PullRequest.count }
-        )
-      end
-    end
-  end
-
-  describe "#handle_webhook_event" do
-    let(:event_request_data) do
-      double(
-        action: 'opened',
-        pull_request: github_pr_response,
-        repository: double(id: repository.gh_id)
-      )
-    end
-
-    context "when PR doesn't exist" do
-      it "creates new pull request" do
-        expect { service.handle_webhook_event(event_request_data) }.to(
-          change { PullRequest.count }.by(1)
-        )
-      end
-
-      it "creates PR with valid data" do
-        service.handle_webhook_event(event_request_data)
+        service.import_github_pull_request(repository, github_pr_response)
         pull_request = PullRequest.last
 
         expect(pull_request).to have_attributes(
@@ -108,25 +59,51 @@ describe GithubPullRequestService do
       let!(:pull_request) do
         create(:pull_request, gh_id: 3, title: "Old Title", repository: repository)
       end
-      let(:event_request_data) do
-        double(
-          action: 'closed',
-          pull_request: github_pr_response,
-          repository: double(id: repository.gh_id)
-        )
-      end
 
       it "does not create new pull requests" do
-        expect { build(token: token).handle_webhook_event(event_request_data) }.not_to(
-          change { PullRequest.count }
-        )
+        expect { build(token: token).import_github_pull_request(repository, github_pr_response) }
+          .not_to(change { PullRequest.count })
       end
 
       it "updates existing pull request" do
-        expect { build(token: token).handle_webhook_event(event_request_data) }.to(
-          change { pull_request.reload.title }.from("Old Title").to(github_pr_response.title)
-        )
+        expect { build(token: token).import_github_pull_request(repository, github_pr_response) }
+          .to(
+            change { pull_request.reload.title }.from("Old Title").to(github_pr_response.title)
+          )
       end
+    end
+  end
+
+  describe "#import_all_from_repository" do
+    before do
+      allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
+
+      allow(client).to receive(:pull_requests).with(repository.full_name, state: "all")
+                                              .and_return([github_pr_response])
+    end
+
+    it "calls import_github_pull_request" do
+      service = build(token: token)
+      expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
+                                                             .and_return(nil)
+      service.import_all_from_repository(repository)
+    end
+  end
+
+  describe "#handle_webhook_event" do
+    let(:event_request_data) do
+      double(
+        action: 'opened',
+        pull_request: github_pr_response,
+        repository: double(id: repository.gh_id)
+      )
+    end
+
+    it "call import_github_pull_request" do
+      service = build(token: token)
+      expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
+                                                             .and_return(nil)
+      service.handle_webhook_event(event_request_data)
     end
   end
 end

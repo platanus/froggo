@@ -12,12 +12,6 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     import_github_pull_request(repo, data.pull_request)
   end
 
-  private
-
-  def github_pull_requests(repository)
-    client.pull_requests(repository.full_name, state: 'all')
-  end
-
   def import_github_pull_request(repository, github_pull_request)
     params = build_pull_request_params(github_pull_request)
 
@@ -26,6 +20,12 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     else
       repository.pull_requests.create!(params)
     end
+  end
+
+  private
+
+  def github_pull_requests(repository)
+    client.pull_requests(repository.full_name, state: 'all')
   end
 
   def build_pull_request_params(github_pull_request)
