@@ -47,6 +47,10 @@ describe RepositoryTrackingService do
   describe "#untrack" do
     before do
       repository.tracked = true
+
+      expect_any_instance_of(GithubRepositoryService).to receive(:remove_webhook)
+        .with(repository)
+        .and_return(true)
     end
 
     it "change repository tracked status" do
