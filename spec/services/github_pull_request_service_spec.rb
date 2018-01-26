@@ -83,7 +83,6 @@ describe GithubPullRequestService do
     end
 
     it "calls import_github_pull_request" do
-      service = build(token: token)
       expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
                                                              .and_return(nil)
       service.import_all_from_repository(repository)
@@ -100,7 +99,6 @@ describe GithubPullRequestService do
     end
 
     it "call import_github_pull_request" do
-      service = build(token: token)
       expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
                                                              .and_return(nil)
       service.handle_webhook_event(event_request_data)
