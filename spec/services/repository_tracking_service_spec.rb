@@ -17,6 +17,10 @@ describe RepositoryTrackingService do
 
       expect_any_instance_of(GithubPullRequestReviewService).to receive(:import_all_from_repository)
         .and_return(true)
+
+      expect_any_instance_of(GithubRepositoryService).to receive(:set_webhook)
+        .with(repository)
+        .and_return(true)
     end
 
     context "when PR exists and no PR where imported" do

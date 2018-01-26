@@ -2,6 +2,7 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
   def track
     clear_repository
     import_pull_requests_with_reviews
+    set_repository_webhook
     set_repository_status(true)
   end
 
@@ -20,6 +21,10 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
   def import_pull_requests_with_reviews
     GithubPullRequestService.new(token: @token).import_all_from_repository(@repository)
     GithubPullRequestReviewService.new(token: @token).import_all_from_repository(@repository)
+  end
+
+  def set_repository_webhook
+    GithubRepositoryService.new(token: @token).set_webhook(@repository)
   end
 
   def set_repository_status(tracked)
