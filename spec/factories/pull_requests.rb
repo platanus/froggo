@@ -12,5 +12,15 @@ FactoryBot.define do
     gh_merged_at '2017-12-12 09:17:52'
 
     association :owner, factory: :github_user
+
+    factory :pull_request_with_reviews do
+      transient do
+        reviews_count 5
+      end
+
+      after(:create) do |profile, evaluator|
+        create_list(:pull_request_review, evaluator.reviews_count, pull_request: profile)
+      end
+    end
   end
 end
