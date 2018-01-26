@@ -8,6 +8,7 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
 
   def untrack
     clear_repository
+    remove_repository_webhook
     set_repository_status(false)
   end
 
@@ -25,6 +26,10 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
 
   def set_repository_webhook
     GithubRepositoryService.new(token: @token).set_webhook(@repository)
+  end
+
+  def remove_repository_webhook
+    GithubRepositoryService.new(token: @token).remove_webhook(@repository)
   end
 
   def set_repository_status(tracked)
