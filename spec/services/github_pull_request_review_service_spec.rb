@@ -7,60 +7,34 @@ describe GithubPullRequestReviewService do
 
   let(:service) { build(token: token) }
 
-  let!(:github_reviews_response) do
-    [
-      double(
-        id: 123,
-        user: double(
-          id: 1,
-          login: "milla",
-          name: "Milla Jovovich",
-          email: "milla@jovovich.cl",
-          avatar_url: 'url_to_avatar',
-          html_url: 'url_to_html'
-        )
+  let!(:github_review_response) do
+    double(
+      id: 123,
+      user: double(
+        id: 1,
+        login: "milla",
+        name: "Milla Jovovich",
+        email: "milla@jovovich.cl",
+        avatar_url: 'url_to_avatar',
+        html_url: 'url_to_html'
       )
-    ]
+    )
   end
-
-  let(:client) { double(:client, pull_requests: true) }
 
   def build(*_args)
     described_class.new(*_args)
   end
 
-  before do
-    allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
-
-    allow(client).to receive(:pull_request_reviews)
-      .with(repository.full_name, 1, accept: 'application/vnd.github.thor-preview+json')
-      .and_return(github_reviews_response)
-  end
-
-  describe "#import_all_from_repository" do
-    before do
-      @service = build(token: token)
-    end
-
-    after do
-      @service.import_all_from_repository(repository)
-    end
-
-    it "import from all pr from this repository" do
-      expect(@service).to receive(:import_all_from_pull_request).with(pull_request)
-    end
-  end
-
-  describe "#import_all_from_pull_request" do
-    context "when review doesn`t exist" do
+  describe "#import_github_pull_request_review" do
+    context "when review doesn't exist" do
       it "creates new pull request review" do
-        expect { service.import_all_from_pull_request(pull_request) }.to(
-          change { PullRequestReview.count }.by(1)
-        )
+        expect do
+          service.import_github_pull_request_review(pull_request, github_review_response)
+        end.to(change { PullRequestReview.count }.by(1))
       end
 
       it "creates a pull request review with valid data" do
-        service.import_all_from_pull_request(pull_request)
+        service.import_github_pull_request_review(pull_request, github_review_response)
         pull_request_review = PullRequestReview.last
 
         expect(pull_request_review).to have_attributes(
@@ -76,10 +50,58 @@ describe GithubPullRequestReviewService do
       end
 
       it "does not create new pull request reviews" do
-        expect { build(token: token).import_all_from_pull_request(pull_request) }.not_to(
-          change { PullRequestReview.count }
-        )
+        expect do
+          build(token: token).import_github_pull_request_review(pull_request,
+            github_review_response)
+        end.not_to(change { PullRequestReview.count })
       end
+    end
+  end
+
+  describe "#import_all_from_repository" do
+    it "calls import_all_from_pull_request" do
+      expect(service).to receive(:import_all_from_pull_request)
+        .with(pull_request)
+        .and_return(nil)
+
+      service.import_all_from_repository(repository)
+    end
+  end
+
+  describe "#import_all_from_pull_request" do
+    let(:client) { double(:client, pull_requests: true) }
+
+    before do
+      allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
+
+      allow(client).to receive(:pull_request_reviews)
+        .with(repository.full_name, 1, accept: 'application/vnd.github.thor-preview+json')
+        .and_return([github_review_response])
+    end
+
+    it "calls import_github_pull_request_review" do
+      expect(service).to receive(:import_github_pull_request_review)
+        .with(pull_request, github_review_response)
+        .and_return(nil)
+
+      service.import_all_from_pull_request(pull_request)
+    end
+  end
+
+  describe "#handle_webhook_event" do
+    let!(:event_request_data) do
+      double(
+        action: 'submitted',
+        review: github_review_response,
+        pull_request: double(id: pull_request.gh_id)
+      )
+    end
+
+    it "calls import_github_pull_request_review" do
+      expect(service).to receive(:import_github_pull_request_review)
+        .with(pull_request, github_review_response)
+        .and_return(nil)
+      service.handle_webhook_event(event_request_data)
     end
   end
 end

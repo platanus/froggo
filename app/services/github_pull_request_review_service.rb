@@ -12,7 +12,21 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   end
 
   def handle_webhook_event(data)
-    # Receive review event and process it.
+    data = OpenStruct.new(data) if data.is_a? Hash
+    if data.action == 'submitted'
+      pull_req = PullRequest.find_by(gh_id: data.pull_request.id)
+      import_github_pull_request_review(pull_req, data.review)
+    end
+  end
+
+  def import_github_pull_request_review(pull_request, github_pr_review)
+    params = build_pull_request_review_params(github_pr_review)
+
+    if pr_review = PullRequestReview.find_by(gh_id: github_pr_review.id)
+      pr_review.update! params
+    else
+      pull_request.pull_request_reviews.create!(params)
+    end
   end
 
   private
@@ -24,18 +38,16 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
       accept: 'application/vnd.github.thor-preview+json')
   end
 
-  def import_github_pull_request_review(pull_request, github_pull_request_review)
-    user = GithubUserService.new.find_or_create(github_pull_request_review.user)
+  def build_pull_request_review_params(github_pr_review)
+    user = GithubUserService.new.find_or_create(github_pr_review.user)
 
-    pull_request_review_params = get_pull_request_review_params(github_pull_request_review)
-                                 .merge(github_user_id: user.id)
+    base_params = get_base_params(github_pr_review)
+    users_params = { github_user_id: user.id }
 
-    pull_request.pull_request_reviews
-                .create_with(pull_request_review_params)
-                .find_or_create_by!(gh_id: github_pull_request_review.id)
+    base_params.merge(users_params)
   end
 
-  def get_pull_request_review_params(github_pull_request_review)
+  def get_base_params(github_pull_request_review)
     {
       gh_id: github_pull_request_review.id
     }
