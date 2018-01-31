@@ -1,14 +1,12 @@
 class DashboardController < ApplicationController
   before_action :authenticate_github_user
-  # before_action :set_user_organizations, except: :missing_organizations
-  # before_action :ensure_organization, except: :missing_organizations
+  before_action :ensure_organization, except: :missing_organizations
   # before_action :ensure_organization_admin, only: :settings
 
   def index
-    # @has_dashboard = Organization.exists?(gh_id: @organization[:id])
+    @has_dashboard = Organization.exists?(gh_id: organization[:id])
     # @corrmat = get_matrix(@organization[:id]) if @has_dashboard
     # @auth_login = get_ghuser
-    @organization = {}
   end
 
   def create; end
@@ -17,18 +15,27 @@ class DashboardController < ApplicationController
 
   def settings; end
 
-  # private
+  private
 
-  # def ensure_organization
-  #   if @user_organizations.empty?
-  #     redirect_to dashboard_missing_organizations_path
-  #   elsif permitted_params[:gh_org].blank?
-  #     redirect_to dashboard_path(gh_org: @user_organizations.first[:login])
-  #   else
-  #     @organization = select_orga_data(permitted_params[:gh_org])
-  #     redirect_to dashboard_path(gh_org: @user_organizations.first[:login]) if @organization.nil?
-  #   end
-  # end
+  def ensure_organization
+    if github_organizations.empty?
+      redirect_to dashboard_missing_organizations_path
+    elsif permitted_params[:gh_org].blank? || organization.nil?
+      redirect_to default_dashboard_path
+    end
+  end
+
+  def default_dashboard_path
+    dashboard_path(gh_org: github_session.organizations.first[:login])
+  end
+
+  def github_organizations
+    github_session.organizations
+  end
+
+  def organization
+    @organization ||= github_organizations.find { |org| org[:login] == permitted_params[:gh_org] }
+  end
 
   # def ensure_organization_admin
   #   if @organization[:role] != 'admin'
@@ -36,19 +43,9 @@ class DashboardController < ApplicationController
   #   end
   # end
 
-  # def permitted_params
-  #   params.permit(:gh_org)
-  # end
-
-  # def set_user_organizations
-  #   set_organizations_cookie if cookies['orgs'].nil?
-  #   @user_organizations = JSON.parse(cookies['orgs']).map { |elem| elem.transform_keys(&:to_sym) }
-  # end
-
-  # def set_organizations_cookie
-  #   orgs = service.organization_memberships
-  #   cookies['orgs'] = JSON.generate(orgs)
-  # end
+  def permitted_params
+    params.permit(:gh_org)
+  end
 
   # def get_ghuser
   #   if cookies['ghuser'].nil?
@@ -63,7 +60,7 @@ class DashboardController < ApplicationController
   #   corrmat
   # end
 
-  # def select_orga_data(gh_org)
-  #   @user_organizations.find { |orga| orga[:login] == gh_org }
-  # end
+  def select_orga_data(gh_org)
+    github_session.organizations.find { |orga| orga[:login] == gh_org }
+  end
 end

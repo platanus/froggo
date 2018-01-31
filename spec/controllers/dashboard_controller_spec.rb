@@ -3,75 +3,47 @@ require 'rails_helper'
 RSpec.describe DashboardController, type: :controller do
   before do
     expect(subject).to receive(:authenticate_github_user).and_return(true)
-    get :index
+    allow(subject).to receive(:github_session).and_return(github_session)
   end
 
-  it { expect(response).to have_http_status(200) }
+  describe "GET #index" do
+    let(:github_organizations) do
+      [
+        { login: 'platanus' },
+        { login: 'huevapi' }
+      ]
+    end
 
-  # describe 'GET #index' do
-  #   let (:client) { double }
-  #   subject { get :index, session: { 'access_token' => 3 } }
-  #   let (:gh_organizations) { [{ login: 'gh_orga', id: 10, role: 'member' }] }
+    context "when ser does not belongs to any organizations" do
+      let(:github_session) { double(organizations: []) }
 
-  #   before do
-  #     allow_any_instance_of(GithubService).to receive(:client).and_return(client)
-  #   end
+      before do
+        get :index
+      end
 
-  #   context 'when user exists with organizations' do
-  #     before do
-  #       allow(client).to receive(:user).and_return('login': '')
-  #       expect_any_instance_of(GithubService).to receive(:organization_memberships)
-  #         .and_return(gh_organizations)
-  #     end
+      it { expect(response).to redirect_to('/dashboard/missing_organizations') }
+    end
 
-  #     it 'returns should have found status code' do
-  #       expect(subject).to have_http_status(302)
-  #     end
+    context "when user belongs to at least one organization, but no organization is selected" do
+      let(:github_session) { double(organizations: github_organizations) }
 
-  #     it 'redirects to first organization dashboard' do
-  #       expect(subject).to redirect_to('/dashboard/gh_orga')
-  #     end
+      before do
+        get :index
+      end
 
-  #     it 'does not render a different template' do
-  #       expect(subject).to_not render_template('admin')
-  #     end
+      it 'redirects to first organization dashboard' do
+        expect(response).to redirect_to('/dashboard/platanus')
+      end
+    end
 
-  #     context 'with gh_org params with membership' do
-  #       subject do
-  #         get :index, session: { 'access_token' => 3 },
-  #                     params: { gh_org: gh_organizations.first[:login] }
-  #       end
+    context "when user belongs the selected organization" do
+      let(:github_session) { double(organizations: github_organizations) }
 
-  #       it 'does not redirect to first organization dashboard' do
-  #         expect(subject).not_to redirect_to('/dashboard/gh_orga')
-  #       end
+      before do
+        get :index, params: { gh_org: github_organizations.first[:login] }
+      end
 
-  #       it { expect(subject).to render_template('index') }
-  #     end
-
-  #     context 'with gh_org params without membership' do
-  #       subject do
-  #         get :index, session: { 'access_token' => 3 },
-  #                     params: { gh_org: 'new_organization' }
-  #       end
-
-  #       it 'redirects to first organization dashboard' do
-  #         expect(subject).to redirect_to('/dashboard/gh_orga')
-  #       end
-
-  #       it 'renders the index template' do
-  #         expect(subject).not_to render_template('index')
-  #       end
-  #     end
-  #   end
-
-  #   context 'when user exists without organizations' do
-  #     let!(:empty_organizations) { {} }
-  #     before do
-  #       expect_any_instance_of(GithubService).to receive(:organization_memberships)
-  #         .and_return(empty_organizations)
-  #     end
-  #     it { expect(subject).to redirect_to('/dashboard/missing_organizations') }
-  #   end
-  # end
+      it { expect(assigns(:organization)).to eq(github_organizations.first) }
+    end
+  end
 end
