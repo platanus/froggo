@@ -44,5 +44,7 @@ RSpec.describe GithubSession, type: :class do
       expect(subject.set_access_token('another token')).to eq(session['access_token'])
       expect(subject.set_session_type('admin')).to eq(session['client_type'])
     end
+
+    it { expect(subject.valid?).to eq(true) }
   end
 end

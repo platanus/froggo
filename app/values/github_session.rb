@@ -3,8 +3,11 @@ class GithubSession
 
   def initialize(session)
     @session = session
-    set_name
-    set_organizations
+
+    if valid?
+      set_name
+      set_organizations
+    end
   end
 
   def token
@@ -13,6 +16,10 @@ class GithubSession
 
   def session_type
     @session['client_type']
+  end
+
+  def valid?
+    !token.nil?
   end
 
   def set_access_token(_token)
