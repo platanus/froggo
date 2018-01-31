@@ -15,6 +15,10 @@ class GithubSession
     @session['client_type']
   end
 
+  def valid?
+    !token.nil?
+  end
+
   def set_access_token(_token)
     @session['access_token'] = _token
   end
