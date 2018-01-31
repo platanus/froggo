@@ -3,8 +3,11 @@ class GithubSession
 
   def initialize(session)
     @session = session
-    set_name
-    set_organizations
+
+    if valid?
+      set_name
+      set_organizations
+    end
   end
 
   def token
