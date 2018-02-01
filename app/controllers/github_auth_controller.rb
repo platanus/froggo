@@ -16,7 +16,7 @@ class GithubAuthController < ApplicationController
     set_session_gh_access
 
     if permitted_params[:callback_action] == 'settings'
-      redirect_to config_dashboard_path(gh_org: permitted_params[:gh_org])
+      redirect_to settings_organization_path(name: permitted_params[:gh_org])
     else
       redirect_to root_path
     end

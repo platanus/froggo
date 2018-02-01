@@ -28,7 +28,7 @@ RSpec.describe GithubAuthController, type: :controller do
                                  gh_org: gh_org }
       end
 
-      it { expect(subject).to redirect_to(config_dashboard_path(gh_org: gh_org)) }
+      it { expect(subject).to redirect_to(settings_organization_path(name: gh_org)) }
     end
   end
 end

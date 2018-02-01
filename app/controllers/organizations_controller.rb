@@ -1,4 +1,4 @@
-class DashboardController < ApplicationController
+class OrganizationsController < ApplicationController
   before_action :authenticate_github_user
   before_action :ensure_organization, except: :missing_organizations
   before_action :ensure_organization_admin, only: :settings
@@ -12,7 +12,7 @@ class DashboardController < ApplicationController
 
   def create; end
 
-  def missing_organizations; end
+  def missing; end
 
   def settings; end
 
@@ -20,14 +20,14 @@ class DashboardController < ApplicationController
 
   def ensure_organization
     if github_organizations.empty?
-      redirect_to dashboard_missing_organizations_path
-    elsif permitted_params[:gh_org].blank? || organization.nil?
-      redirect_to default_dashboard_path
+      redirect_to missing_organizations_path
+    elsif permitted_params[:name].blank? || organization.nil?
+      redirect_to default_organization_path
     end
   end
 
-  def default_dashboard_path
-    dashboard_path(gh_org: github_session.organizations.first[:login])
+  def default_organization_path
+    organization_path(name: github_session.organizations.first[:login])
   end
 
   def github_organizations
@@ -35,11 +35,11 @@ class DashboardController < ApplicationController
   end
 
   def organization
-    @organization ||= github_organizations.find { |org| org[:login] == permitted_params[:gh_org] }
+    @organization ||= github_organizations.find { |org| org[:login] == permitted_params[:name] }
   end
 
   def ensure_organization_admin
-    redirect_to dashboard_path(gh_org: @organization[:login]) unless organization_admin?
+    redirect_to organization_path(name: @organization[:login]) unless organization_admin?
   end
 
   def organization_admin?
@@ -47,7 +47,7 @@ class DashboardController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:gh_org)
+    params.permit(:name)
   end
 
   # def get_ghuser
@@ -57,13 +57,13 @@ class DashboardController < ApplicationController
   #   cookies['ghuser']
   # end
 
-  # def get_matrix(gh_org)
-  #   corrmat = CorrelationMatrix.new(gh_org)
+  # def get_matrix(name)
+  #   corrmat = CorrelationMatrix.new(name)
   #   corrmat.fill_matrix
   #   corrmat
   # end
 
-  def select_orga_data(gh_org)
-    github_session.organizations.find { |orga| orga[:login] == gh_org }
+  def select_orga_data(name)
+    github_session.organizations.find { |orga| orga[:login] == name }
   end
 end

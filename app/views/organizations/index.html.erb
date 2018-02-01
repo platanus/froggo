@@ -16,7 +16,7 @@
 
     <% if @is_admin %>
      <div class="organization__setting__button">
-        <button onclick="window.location.href='<%= config_dashboard_path(gh_org: @organization[:login]) %>'">
+        <button onclick="window.location.href='<%= dashboard_settings_path(gh_org: @organization[:login]) %>'">
              <%= t('messages.dashboard.button_config') %>
         </button>
     </div>
