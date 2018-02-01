@@ -1,10 +1,11 @@
 class DashboardController < ApplicationController
   before_action :authenticate_github_user
   before_action :ensure_organization, except: :missing_organizations
-  # before_action :ensure_organization_admin, only: :settings
+  before_action :ensure_organization_admin, only: :settings
 
   def index
     @has_dashboard = Organization.exists?(gh_id: organization[:id])
+    @is_admin = organization_admin?
     # @corrmat = get_matrix(@organization[:id]) if @has_dashboard
     # @auth_login = get_ghuser
   end
@@ -37,11 +38,13 @@ class DashboardController < ApplicationController
     @organization ||= github_organizations.find { |org| org[:login] == permitted_params[:gh_org] }
   end
 
-  # def ensure_organization_admin
-  #   if @organization[:role] != 'admin'
-  #     redirect_to dashboard_path(gh_org: @organization[:login])
-  #   end
-  # end
+  def ensure_organization_admin
+    redirect_to dashboard_path(gh_org: @organization[:login]) unless organization_admin?
+  end
+
+  def organization_admin?
+    organization[:role] == "admin"
+  end
 
   def permitted_params
     params.permit(:gh_org)
