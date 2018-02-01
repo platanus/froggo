@@ -60,6 +60,7 @@ RSpec.describe OrganizationsController, type: :controller do
   describe "GET #settings" do
     let(:github_session) do
       double(
+        session: { client_type: "admin" },
         organizations: [login: "platanus", role: role]
       )
     end
