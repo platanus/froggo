@@ -46,4 +46,28 @@ RSpec.describe DashboardController, type: :controller do
       it { expect(assigns(:organization)).to eq(github_organizations.first) }
     end
   end
+
+  describe "GET #settings" do
+    let(:github_session) do
+      double(
+        organizations: [login: "platanus", role: role]
+      )
+    end
+
+    before do
+      get :settings, params: { gh_org: "platanus" }
+    end
+
+    context "when user is admin" do
+      let(:role) { "admin" }
+
+      it { expect(response).to have_http_status(200) }
+    end
+
+    context "when user is admin" do
+      let(:role) { "member" }
+
+      it { expect(response).to redirect_to('/dashboard/platanus') }
+    end
+  end
 end
