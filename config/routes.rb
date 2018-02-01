@@ -6,15 +6,14 @@ Rails.application.routes.draw do
   get 'oauth_to_gh' => 'github_auth#authenticate!'
   get 'admin_oauth_to_gh' => 'github_auth#admin_authenticate!', as: :admin_authenticate
   get 'webhook/index'
-  get 'dashboard/missing_organizations' => 'dashboard#missing_organizations',
-      as: :dashboard_missing_organizations
-  get 'dashboard/:gh_org' => 'dashboard#index', as: :dashboard
-  get 'dashboard' => 'dashboard#index'
-  get 'dashboard/:gh_org/settings' => 'dashboard#settings', as: :config_dashboard
-  post 'dashboard' => 'dashboard#create', as: :create_dashboard
   post 'github_events' => 'webhook#receive'
 
-  root to: redirect('dashboard')
+  root to: redirect('organizations')
+
+  resources :organizations, param: :name do
+    get 'missing' => 'organizations#missing', on: :collection
+    get 'settings' => 'organizations#settings', on: :member
+  end
 
   scope path: '/api' do
     api_version(module: "Api::V1", path: { value: "v1" }, defaults: { format: 'json' }) do
