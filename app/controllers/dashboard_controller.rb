@@ -5,6 +5,7 @@ class DashboardController < ApplicationController
 
   def index
     @has_dashboard = Organization.exists?(gh_id: organization[:id])
+    @is_admin = organization_admin?
     # @corrmat = get_matrix(@organization[:id]) if @has_dashboard
     # @auth_login = get_ghuser
   end
