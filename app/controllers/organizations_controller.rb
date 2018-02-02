@@ -21,7 +21,9 @@ class OrganizationsController < ApplicationController
 
   def missing; end
 
-  def settings; end
+  def settings
+    @is_admin_github_session = github_session.session[:client_type] == "admin"
+  end
 
   private
 

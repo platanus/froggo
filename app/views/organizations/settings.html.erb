@@ -1,5 +1,5 @@
 <p> <%= @organization[:login] %></p>
-<% if session[:client_type] == 'admin'%>
+<% if @is_admin_github_session %>
   <p> <%= t('messages.login_with_admin_session') %></p>
 <% else %>
   <%= link_to t('messages.settings.obtain_admin_privilege'),
