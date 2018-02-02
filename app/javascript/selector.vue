@@ -1,31 +1,26 @@
 <template>
-  <div id="selector">
-    <select v-model="selected">
-      <option v-for="option in options" :value="option" :key="option">
-        {{ option }}
-      </option>
-    </select>
-    <button v-on:click="redirect(selected)">{{ $parent.$t("message.selector.button") }}</button>
-  </div>
+<div>
+  <select v-model="selected">
+    <option v-for="option in options" :value="option" :key="option">
+      {{ option }}
+    </option>
+  </select>
+  <button v-on:click="redirect(selected)">{{ $parent.$t("message.selector.button") }}</button>
+</div>
 </template>
 
 <script>
 export default {
   data: function () {
     return {
-      selected: 'example',
+      selected: null,
     }
   },
-  computed: {
-    options() {
-      let options = ['some', 'example', 'data'];
-      return options;
-    }
-  },
+  props: ['options'],
   methods: {
     redirect(dashboard) {
-      document.location.href = `/dashboard/${dashboard}`;
+      document.location.href = `/organizations/${dashboard}`;
     }
-  }
+  },
 }
 </script>

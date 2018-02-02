@@ -1,69 +1,73 @@
-<header class="header">
-    <div class="title">
+<div id="app">
+  <div>
+    <header class="header">
+      <div class="title">
         <h1 class="title__h1">Pull-requests stats</h1>
-    </div>
-</header>
-<div class="container">
-    <div class="info">
+      </div>
+    </header>
+    <div class="container">
+      <div class="info">
         <p class="info__description">
-            <%= t('messages.dashboard.greeting') %> <b><%=  @auth_login %></b>(<%= link_to "logout", "/oauth"%>)! <%=  t('messages.dashboard.info')%>
+          <%= t('messages.dashboard.greeting') %> <b><%=  @auth_login %></b>(<%= link_to "logout", "/oauth"%>)! <%=  t('messages.dashboard.info')%>
         </p>
-    </div>
-    <div class="organization__selector">
-        <div id="selector"></div>
+      </div>
+      <div class="organization__selector">
+        <selector :options="<%= @organizations.to_json %>"></selector>
         <h1><%= @organization[:login] %></h1>
-    </div>
+      </div>
 
-    <% if @is_admin %>
-     <div class="organization__setting__button">
-        <button onclick="window.location.href='<%= settings_organization_path(name: @organization[:login]) %>'">
-             <%= t('messages.dashboard.button_config') %>
-        </button>
-    </div>
-    <% end %>
+  <% if @is_admin %>
+    <div class="organization__setting__button">
+      <button onclick="window.location.href='<%= settings_organization_path(name: @organization[:login]) %>'">
+            <%= t('messages.dashboard.button_config') %>
+      </button>
+  </div>
+  <% end %>
 
-    <div id="content-dashboard" class="content__dashboard">
+      <div id="content-dashboard" class="content__dashboard">
         <% if @organization[:role] == 'admin' && !@has_dashboard %>
-            <%= t('messages.dashboard.track_organization') %>
-            <%= button_to t('messages.dashboard.button_create') , '/dashboard' %>
+          <%= t('messages.dashboard.track_organization') %>
+          <%= button_to t('messages.dashboard.button_create') , '/dashboard' %>
         <% elsif !@has_dashboard %>
-            <%= t('messages.dashboard.track_no_permission') %>
+          <%= t('messages.dashboard.track_no_permission') %>
         <% elsif (@corrmat.nil? || @corrmat.col_head.empty?)  %>
-            <%= t('messages.dashboard.no_pullrequest') %>
+          <%= t('messages.dashboard.no_pullrequest') %>
         <% else %>
-            <table class="matrix-dashboard">
-                <thead class="matrix__head">
-                    <th class="matrix__user"></th>
-                    <% @corrmat.col_head.each do |user| %>
-                        <th class="matrix__user">
-                            <div class="matrix__picture">
-                                <a href="<%= user.html_url %>" title="<%= user.login %>">
-                                    <img class="matrix__user-img" src="<%= user.avatar_url %>">
-                                </a>
-                            </div>
-                        </th>
+          <table class="matrix-dashboard">
+            <thead class="matrix__head">
+              <th class="matrix__user"></th>
+              <% @corrmat.col_head.each do |user| %>
+                <th class="matrix__user">
+                    <div class="matrix__picture">
+                        <a href="<%= user.html_url %>" title="<%= user.login %>">
+                            <img class="matrix__user-img" src="<%= user.avatar_url %>">
+                        </a>
+                    </div>
+                </th>
+              <% end %>
+            </thead>
+              <tbody>
+                <% @corrmat.col_head.each_with_index do |b, i| %>
+                  <tr>
+                    <td>
+                      <a href="<%= b.html_url %>" title="<%= b.login %>">
+                          <img class="matrix__user-img" src="<%= b.avatar_url %>">
+                      </a>
+                    </td>
+                    <% @corrmat.row_head.each_with_index do |a, j|%>
+                      <td class="matrix__pullrequest">
+                        <span class="matrix__pullrequest__number<%= if i==j then '-diagonal' elsif @corrmat.data[[i,j]]==0 then '-0' end %>">
+                          <%= @corrmat.data[[i,j]] %>
+                        </span>
+                      </td>
                     <% end %>
-                </thead>
-                <tbody>
-                    <% @corrmat.col_head.each_with_index do |b, i| %>
-                        <tr>
-                            <td>
-                                <a href="<%= b.html_url %>" title="<%= b.login %>">
-                                    <img class="matrix__user-img" src="<%= b.avatar_url %>">
-                                </a>
-                            </td>
-                            <% @corrmat.row_head.each_with_index do |a, j|%>
-                                <td class="matrix__pullrequest">
-                                    <span class="matrix__pullrequest__number<%= if i==j then '-diagonal' elsif @corrmat.data[[i,j]]==0 then '-0' end %>">
-                                        <%= @corrmat.data[[i,j]] %>
-                                    </span>
-                                </td>
-                            <% end %>
-                        </tr>
-                    <% end %>
-                </tbody>
-            </table>
-        <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+          </table>
+            <% end %>
+        </div>
+        <%= render "layouts/footer" %>
     </div>
-    <%= render "layouts/footer" %>
+  </div>
 </div>

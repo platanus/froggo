@@ -14,6 +14,7 @@ class OrganizationsController < ApplicationController
   def show
     @has_dashboard = Organization.exists?(gh_id: @organization[:id])
     @is_admin = organization_admin?
+    @organizations = github_organizations.map { |org| org[:login] }
     # @corrmat = get_matrix(@organization[:id]) if @has_dashboard
   end
 
