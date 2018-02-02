@@ -1,7 +1,6 @@
 class Organization < ApplicationRecord
   include PowerTypes::Observable
 
-  belongs_to :owner, class_name: "AdminUser"
   has_many :repositories
   has_many :hooks, as: :resource
 
@@ -41,5 +40,4 @@ end
 #  updated_at  :datetime         not null
 #  name        :string
 #  tracked     :boolean
-#  owner_id    :integer
 #
