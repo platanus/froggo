@@ -8,8 +8,8 @@ RSpec.describe OrganizationsController, type: :controller do
 
   let(:github_organizations) do
     [
-      { login: 'platanus' },
-      { login: 'huevapi' }
+      { id: 101, login: 'platanus' },
+      { id: 102, login: 'huevapi' }
     ]
   end
 
@@ -54,6 +54,26 @@ RSpec.describe OrganizationsController, type: :controller do
       end
 
       it { expect(response).to redirect_to('/organizations') }
+    end
+
+    context "when organization exists locally" do
+      let!(:organization) { create(:organization, gh_id: 101) }
+
+      before do
+        get :show, params: { name: "platanus" }
+      end
+
+      it { expect(assigns(:organization)).to eq(organization) }
+      it { expect(assigns(:has_dashboard)).to be_truthy }
+    end
+
+    context "when organization does not exist locally" do
+      before do
+        get :show, params: { name: "platanus" }
+      end
+
+      it { expect(assigns(:organization)).to be_nil }
+      it { expect(assigns(:has_dashboard)).to be_falsey }
     end
   end
 

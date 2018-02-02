@@ -12,7 +12,7 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    @has_dashboard = Organization.exists?(gh_id: @github_organization[:id])
+    @has_dashboard = !@organization.nil?
     @is_admin = organization_admin?
     @organizations = github_organizations.map { |org| org[:login] }
     # @corrmat = get_matrix(@github_organization[:id]) if @has_dashboard
@@ -33,7 +33,11 @@ class OrganizationsController < ApplicationController
       org[:login] == permitted_params[:name]
     end
 
-    redirect_to '/organizations' if @github_organization.nil?
+    if @github_organization.nil?
+      redirect_to '/organizations'
+    else
+      @organization = Organization.find_by(gh_id: @github_organization[:id])
+    end
   end
 
   def redirect_to_default_organization
