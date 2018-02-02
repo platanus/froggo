@@ -45,7 +45,7 @@ RSpec.describe OrganizationsController, type: :controller do
         get :show, params: { name: "platanus" }
       end
 
-      it { expect(assigns(:organization)).to eq(github_organizations.first) }
+      it { expect(assigns(:github_organization)).to eq(github_organizations.first) }
     end
 
     context "when user does not belong to the selected organization" do
