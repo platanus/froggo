@@ -1,20 +1,21 @@
 /* eslint no-console: 0 */
 
-import Vue from 'vue';
+import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
-import App from '../app.vue';
+import Selector from '../selector.vue';
 import Locales from '../locales.js';
 
 Vue.use(VueI18n);
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('selector').appendChild(document.createElement('selector'));
-  const app = new Vue({
-    render: h => h(App),
+
+  Vue.component('selector', Selector);
+
+  new Vue({ // eslint-disable-line no-new
+    el: '#app',
     i18n: new VueI18n({
       locale: 'es',
       messages: Locales.messages,
     }),
-  }).$mount('selector');
+  });
 });
-
