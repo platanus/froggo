@@ -19,10 +19,12 @@ class OrganizationsController < ApplicationController
 
   def create
     if @organization.nil?
-      Organization.create!(
+      organization = Organization.create!(
         gh_id: @github_organization[:id],
         login: @github_organization[:login]
       )
+
+      ImportAllRepositoriesJob.perform_later(organization, @github_session.token)
     end
 
     redirect_to settings_organization_path(name: @github_organization[:login])
