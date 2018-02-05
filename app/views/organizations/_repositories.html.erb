@@ -1,0 +1,12 @@
+<table>
+  <% @organization.repositories.each do |repository| %>
+    <tr>
+      <td><%= repository.name %></td>
+      <% if repository.tracked %>
+        <td>trackeado</td>
+      <% else %>
+        <td>sin trackear</td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

@@ -4,7 +4,7 @@
   <p> <%= t('messages.login_with_admin_session') %></p>
 
   <% if @has_dashboard %>
-    TODO: Acá van a ir los repositorios
+    <%= render "repositories" %>
   <% else %>
     El dashboard no está creado
     <%= button_to 'Inicializar Dashboard',
