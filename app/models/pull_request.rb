@@ -1,4 +1,6 @@
 class PullRequest < ApplicationRecord
+  include PowerTypes::Observable
+
   belongs_to :repository
   belongs_to :owner, class_name: 'GithubUser'
   belongs_to :merged_by, class_name: 'GithubUser', optional: true
