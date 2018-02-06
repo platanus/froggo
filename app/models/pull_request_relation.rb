@@ -3,17 +3,18 @@ class PullRequestRelation < ApplicationRecord
   belongs_to :pull_request
   belongs_to :github_user
 
-  enumerize :pr_relation_type, in: [:merge_by, :reviewer]
+  enumerize :pr_relation_type, in: [:merged_by, :reviewer]
   validates :pr_relation_type, presence: true
-  validates_inclusion_of :pr_relation_type, in: %w(merge_by reviewer)
+  validates_inclusion_of :pr_relation_type, in: %w(merged_by reviewer)
 
-  scope :merged_by, -> { where(pr_relation_type: :merge_by) }
-  scope :reviewers, -> { where(pr_relation_type: :reviewer) }
+  scope :merged_relations, -> { where(pr_relation_type: :merged_by) }
+  scope :review_relations, -> { where(pr_relation_type: :reviewer) }
   scope :within_month_limit, -> do
     joins(:pull_request)
       .where('pull_requests.gh_updated_at > ?',
         Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
   end
+  scope :by_pull_request, ->(pr_id) {  where(pull_request_id: pr_id) }
 
   scope :by_organizations, ->(organization_ids) do
     joins(pull_request: :repository)

@@ -21,7 +21,7 @@ class CorrelationMatrix
 
   def user_alone_prs(user)
     merged_pr_ids = user.merged_pull_requests(@organization.id).pluck(:id)
-    coop_pr_count = user.coop_pull_requests(merged_pr_ids, @organization.id).length
-    merged_pr_ids.length - coop_pr_count
+    coop_pr_count = user.coop_pull_requests(merged_pr_ids, @organization.id).pluck(:id)
+    (merged_pr_ids - coop_pr_count).length
   end
 end

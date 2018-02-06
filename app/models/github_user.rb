@@ -22,7 +22,7 @@ class GithubUser < ApplicationRecord
     pull_requests.within_month_limit
                  .by_organizations(orga_ids)
                  .joins(:pull_request_relations)
-                 .where(pull_request_relations: { pr_relation_type: :merge_by,
+                 .where(pull_request_relations: { pr_relation_type: :merged_by,
                                                   github_user_id: id })
                  .group(:id)
   end
