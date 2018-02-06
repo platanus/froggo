@@ -10,7 +10,17 @@ class GithubRepositoryService < PowerTypes::Service.new(:token)
   end
 
   def import_all_from_organization(organization)
-    # Obtain list of repositories for organization and save in DB.
+    client.org_repos(organization.login).each do |gh_repository|
+      repository = organization.repositories.where(gh_id: gh_repository[:id]).first_or_initialize
+
+      repository.gh_id = gh_repository[:id]
+      repository.name = gh_repository[:name]
+      repository.url = gh_repository[:url]
+      repository.html_url = gh_repository[:html_url]
+      repository.full_name = gh_repository[:full_name]
+
+      repository.save
+    end
   end
 
   def handle_webhook_event(data)

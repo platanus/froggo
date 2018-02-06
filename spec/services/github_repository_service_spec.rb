@@ -8,6 +8,7 @@ describe GithubRepositoryService do
   let (:client) { double(:client) }
   let (:token) { 'a token' }
   let (:repository) { create(:repository) }
+  let (:organization) { create(:organization) }
 
   let (:github_on_created_hook_response) do
     {
@@ -109,6 +110,40 @@ describe GithubRepositoryService do
         response = build(token: token).remove_webhook(repository)
         expect(response).to eq(nil)
       end
+    end
+  end
+
+  describe "#import_all_from_organization" do
+    let(:github_repositories) do
+      [
+        {
+          id: 101,
+          full_name: "Tesla labs"
+        }
+      ]
+    end
+
+    before do
+      allow(client).to receive(:org_repos).with(organization.login).and_return(github_repositories)
+    end
+
+    def run_method
+      build(token: token).import_all_from_organization(organization)
+      organization.repositories.reload
+    end
+
+    context "when repository does not exist" do
+      it { expect { run_method }.to change { organization.repositories.count }.by(1) }
+      it { expect(run_method.first.reload.full_name).to eq("Tesla labs") }
+    end
+
+    context "when repository exists" do
+      before do
+        create(:repository, organization: organization, gh_id: 101, full_name: "Platanus labs")
+      end
+
+      it { expect { run_method }.to change { organization.repositories.count }.by(0) }
+      it { expect(run_method.first.full_name).to eq("Tesla labs") }
     end
   end
 end

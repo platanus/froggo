@@ -1,10 +1,21 @@
-<p> <%= @organization[:login] %></p>
+<p> <%= @github_organization[:login] %></p>
+
 <% if @is_admin_github_session %>
   <p> <%= t('messages.login_with_admin_session') %></p>
+
+  <% if @has_dashboard %>
+    TODO: Acá van a ir los repositorios
+  <% else %>
+    El dashboard no está creado
+    <%= button_to 'Inicializar Dashboard',
+          organizations_path,
+          method: :post,
+          params: { name: @github_organization[:login] } %>
+  <% end %>
 <% else %>
   <%= link_to t('messages.settings.obtain_admin_privilege'),
     admin_authenticate_path(gh_org: @organization[:login])%>
 <% end %>
-<button onclick="window.location.href='/dashboard/<%= @organization[:login] %>'">
+<button onclick="window.location.href='/dashboard/<%= @github_organization[:login] %>'">
     <%= t('messages.settings.button_back') %>
 </button>

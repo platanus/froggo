@@ -12,13 +12,23 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    @has_dashboard = Organization.exists?(gh_id: @organization[:id])
     @is_admin = organization_admin?
     @organizations = github_organizations.map { |org| org[:login] }
-    # @corrmat = get_matrix(@organization[:id]) if @has_dashboard
+    # @corrmat = get_matrix(@github_organization[:id]) if @has_dashboard
   end
 
-  def create; end
+  def create
+    if @organization.nil?
+      organization = Organization.create!(
+        gh_id: @github_organization[:id],
+        login: @github_organization[:login]
+      )
+
+      ImportAllRepositoriesJob.perform_later(organization, @github_session.token)
+    end
+
+    redirect_to settings_organization_path(name: @github_organization[:login])
+  end
 
   def missing; end
 
@@ -29,8 +39,16 @@ class OrganizationsController < ApplicationController
   private
 
   def load_organization
-    @organization = github_organizations.find { |org| org[:login] == permitted_params[:name] }
-    redirect_to '/organizations' if @organization.nil?
+    @github_organization = github_organizations.find do |org|
+      org[:login] == permitted_params[:name]
+    end
+
+    if @github_organization.nil?
+      redirect_to '/organizations'
+    else
+      @organization = Organization.find_by(gh_id: @github_organization[:id])
+      @has_dashboard = !@organization.nil?
+    end
   end
 
   def redirect_to_default_organization
@@ -42,11 +60,11 @@ class OrganizationsController < ApplicationController
   end
 
   def ensure_organization_admin
-    redirect_to organization_path(name: @organization[:login]) unless organization_admin?
+    redirect_to organization_path(name: @github_organization[:login]) unless organization_admin?
   end
 
   def organization_admin?
-    @organization[:role] == "admin"
+    @github_organization[:role] == "admin"
   end
 
   def permitted_params
