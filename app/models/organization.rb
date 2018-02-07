@@ -7,10 +7,17 @@ class Organization < ApplicationRecord
   validates :gh_id, presence: true
   validates :login, presence: true
 
-  def participants
+  def reviewers
     GithubUser
-      .joins(pull_request_relations: { pull_request: :repository })
-      .where(pull_request_relations: { pull_requests: { repositories: { organization_id: id } } })
+      .joins(pull_requests_reviewed: :repository)
+      .where(pull_requests_reviewed: { repositories: { organization_id: id } })
+      .group(:id)
+  end
+
+  def merge_users
+    GithubUser
+      .joins(pull_requests_merged: :repository)
+      .where(pull_requests_merged: { repositories: { organization_id: id } })
       .group(:id)
   end
 
@@ -22,7 +29,7 @@ class Organization < ApplicationRecord
   end
 
   def all_tracked_users
-    pull_request_owners.tracked | participants.tracked
+    pull_request_owners.tracked | reviewers.tracked | merge_users.tracked
   end
 end
 
