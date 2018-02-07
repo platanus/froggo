@@ -15,8 +15,9 @@ Rails.application.routes.draw do
     get 'settings' => 'organizations#settings', on: :member
   end
 
-  scope path: '/api' do
-    api_version(module: "Api::V1", path: { value: "v1" }, defaults: { format: 'json' }) do
+  scope path: '/api', defaults: { format: 'json' } do
+    api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
+      resources :repositories, only: [:update]
     end
   end
 

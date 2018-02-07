@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :organization do
-    gh_id 1
+    sequence(:gh_id)
     login "organization_name"
     name "Organization Name"
     description "This is an organization's description"

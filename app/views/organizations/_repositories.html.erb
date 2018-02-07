@@ -1,0 +1,6 @@
+<div>
+  <% @organization.repositories.each do |repository| %>
+    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked').to_json %>">
+    </repository>
+  <% end %>
+</div>
