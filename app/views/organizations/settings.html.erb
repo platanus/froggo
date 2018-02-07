@@ -15,7 +15,7 @@
     <% end %>
   <% else %>
     <%= link_to t('messages.settings.obtain_admin_privilege'),
-      admin_authenticate_path(gh_org: @organization[:login])%>
+      admin_authenticate_path(gh_org: @github_organization[:login])%>
   <% end %>
   <button onclick="window.location.href='/dashboard/<%= @github_organization[:login] %>'">
       <%= t('messages.settings.button_back') %>
