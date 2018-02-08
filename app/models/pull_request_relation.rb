@@ -10,15 +10,13 @@ class PullRequestRelation < ApplicationRecord
   scope :merged_relations, -> { where(pr_relation_type: :merged_by) }
   scope :review_relations, -> { where(pr_relation_type: :reviewer) }
   scope :within_month_limit, -> do
-    joins(:pull_request)
-      .where('pull_requests.gh_updated_at > ?',
-        Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
+    where('gh_updated_at > ?', Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
   end
   scope :by_pull_request, ->(pr_id) {  where(pull_request_id: pr_id) }
+  scope :by_organizations, ->(organization_ids) { where(organization_id: organization_ids) }
 
-  scope :by_organizations, ->(organization_ids) do
-    joins(pull_request: :repository)
-      .where(pull_requests: { repositories: { organization_id: organization_ids } })
+  def self.participants_ids
+    group(:github_user_id).pluck(:github_user_id) | group(:target_user_id).pluck(:target_user_id)
   end
 end
 
