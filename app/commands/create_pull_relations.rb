@@ -11,7 +11,10 @@ class CreatePullRelations < PowerTypes::Command.new(:pull_request)
         PullRequestRelation.by_pull_request(@pull_request.id).merged_relations.empty?
       PullRequestRelation.merged_relations.create!(
         pull_request: @pull_request,
-        github_user: @pull_request.merged_by
+        github_user: @pull_request.merged_by,
+        organization_id: @pull_request.repository.organization_id,
+        gh_updated_at: @pull_request,
+        target_user_id: @pull_request.owner_id
       )
     end
   end
@@ -21,7 +24,10 @@ class CreatePullRelations < PowerTypes::Command.new(:pull_request)
       gh_user_ids_for_new_relations.each do |reviewer_id|
         PullRequestRelation.review_relations.create!(
           pull_request: @pull_request,
-          github_user_id: reviewer_id
+          github_user_id: reviewer_id,
+          organization_id: @pull_request.repository.organization_id,
+          gh_updated_at: @pull_request,
+          target_user_id: @pull_request.owner_id
         )
       end
     end
