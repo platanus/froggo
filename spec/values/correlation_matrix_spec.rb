@@ -5,7 +5,7 @@ RSpec.describe CorrelationMatrix, type: :class do
   let!(:repository) { create(:repository, organization: organization) }
 
   context 'when initialized with empty organization' do
-    subject { CorrelationMatrix.new(organization.gh_id) }
+    subject { CorrelationMatrix.new(organization.id) }
     it 'has empty data' do
       expect(subject.data).to be_empty
     end
@@ -13,11 +13,13 @@ RSpec.describe CorrelationMatrix, type: :class do
 
   context 'when initialized' do
     let!(:owner) { create(:github_user, gh_id: 3, tracked: true, login: 'gh_owner') }
+    let!(:pull_requests) { [create(:pull_request, repository: repository, owner: owner)] }
     let!(:reviewer) { create(:github_user, gh_id: 8, tracked: true, login: 'gh_reviewer') }
-    let!(:pull_requests) do
-      [create(:pull_request, repository: repository, owner: owner, reviewers: [reviewer])]
+    let!(:pr_relation) do
+      create(:pull_request_relation, pull_request: pull_requests[0], github_user: reviewer)
     end
-    subject { CorrelationMatrix.new(organization.gh_id) }
+
+    subject { CorrelationMatrix.new(organization.id) }
     it 'has zeros value' do
       expect(subject.data[[0, 0]]).to eq(0)
     end
@@ -26,11 +28,13 @@ RSpec.describe CorrelationMatrix, type: :class do
   context 'when fill_matrix' do
     let!(:owner) { create(:github_user, gh_id: 3, tracked: true, login: 'gh_owner') }
     let!(:reviewer) { create(:github_user, gh_id: 8, tracked: true, login: 'gh_reviewer') }
-    let!(:pull_requests) do
-      [create(:pull_request, repository: repository, owner: owner, reviewers: [reviewer])]
+    let!(:pull_requests) { [create(:pull_request, repository: repository, owner: owner)] }
+    before do
+      create(:pull_request_relation, pull_request: pull_requests[0], github_user: owner)
+      create(:pull_request_relation, pull_request: pull_requests[0], github_user: reviewer)
     end
 
-    subject { CorrelationMatrix.new(organization.gh_id) }
+    subject { CorrelationMatrix.new(organization.id) }
 
     it 'should change data value if exist' do
       expect do
@@ -40,15 +44,19 @@ RSpec.describe CorrelationMatrix, type: :class do
 
     it 'should assign cooperate scope correctly' do
       subject.fill_matrix
-      expect(subject.data[[0, 1]]).to be(1)
+      expect(subject.data[[subject.pos_hash[owner.id], subject.pos_hash[reviewer.id]]]).to be(1)
       expect(subject.data[[0, 0]]).to be(0)
       expect(subject.data[[1, 1]]).to be(0)
     end
 
     it 'should assign alone score correctly' do
-      create(:pull_request, repository: repository, owner: owner, merge_users: [owner])
+      new_pr = create(:pull_request, repository: repository, owner: owner)
+      create(:pull_request_relation, pull_request: new_pr, github_user: owner,
+                                     pr_relation_type: :merged_by)
+      create(:pull_request_relation, pull_request: new_pr, github_user: owner,
+                                     pr_relation_type: :reviewer)
       subject.fill_matrix
-      expect(subject.data[[0, 0]]).to be(1)
+      expect(subject.data[[subject.pos_hash[owner.id], subject.pos_hash[owner.id]]]).to be(1)
     end
   end
 end

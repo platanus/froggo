@@ -8,6 +8,6 @@ RSpec.describe GithubUser, type: :model do
 
   describe 'relationships' do
     it { should have_many(:pull_requests) }
-    it { should have_many(:pull_request_relations) }
+    it { should have_many(:pull_request_reviews) }
   end
 end
