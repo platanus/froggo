@@ -14,7 +14,7 @@ class OrganizationsController < ApplicationController
   def show
     @is_admin = organization_admin?
     @organizations = github_organizations.map { |org| org[:login] }
-    @corrmat = get_matrix(@github_organization[:id]) if @has_dashboard
+    @corrmat = get_matrix(@organization.id) if @has_dashboard
   end
 
   def create
@@ -71,8 +71,8 @@ class OrganizationsController < ApplicationController
     params.permit(:name)
   end
 
-  def get_matrix(name)
-    corrmat = CorrelationMatrix.new(name)
+  def get_matrix(org_id)
+    corrmat = CorrelationMatrix.new(org_id)
     corrmat.fill_matrix
     corrmat
   end

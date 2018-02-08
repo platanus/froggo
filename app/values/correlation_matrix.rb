@@ -1,9 +1,9 @@
 class CorrelationMatrix
-  attr_accessor :tracked_users, :data
+  attr_accessor :tracked_users, :data, :pos_hash
 
-  def initialize(org_gh_id)
-    @organization = Organization.find_by(gh_id: org_gh_id)
-    @tracked_users ||= participants
+  def initialize(org_id)
+    @organization = Organization.find(org_id)
+    @tracked_users = participants
     @pos_hash = Hash[@tracked_users.map(&:id).map.with_index { |x, i| [x, i] }]
     @data = Hash.new(0)
   end
