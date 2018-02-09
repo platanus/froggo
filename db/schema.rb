@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180205192134) do
+ActiveRecord::Schema.define(version: 20180209135716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,8 +93,16 @@ ActiveRecord::Schema.define(version: 20180205192134) do
     t.string "pr_relation_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "organization_id"
+    t.integer "target_user_id"
+    t.datetime "gh_updated_at"
+    t.index ["gh_updated_at"], name: "index_pull_request_relations_on_gh_updated_at"
     t.index ["github_user_id"], name: "index_pull_request_relations_on_github_user_id"
+    t.index ["organization_id", "gh_updated_at", "github_user_id", "pull_request_id"], name: "index_pr_relations_on_orgs_and_updated_and_user_and_prs"
+    t.index ["organization_id", "gh_updated_at", "github_user_id", "target_user_id"], name: "index_pr_relations_on_orgs_and_updated_and_all_users"
+    t.index ["organization_id"], name: "index_pull_request_relations_on_organization_id"
     t.index ["pull_request_id"], name: "index_pull_request_relations_on_pull_request_id"
+    t.index ["target_user_id"], name: "index_pull_request_relations_on_target_user_id"
   end
 
   create_table "pull_request_reviews", force: :cascade do |t|

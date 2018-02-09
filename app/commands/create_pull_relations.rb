@@ -11,26 +11,31 @@ class CreatePullRelations < PowerTypes::Command.new(:pull_request)
         PullRequestRelation.by_pull_request(@pull_request.id).merged_relations.empty?
       PullRequestRelation.merged_relations.create!(
         pull_request: @pull_request,
-        github_user: @pull_request.merged_by
+        github_user: @pull_request.merged_by,
+        organization_id: @pull_request.repository.organization_id,
+        gh_updated_at: @pull_request,
+        target_user_id: @pull_request.owner_id
       )
     end
   end
 
   def creates_from_reviews
     if @pull_request.pull_request_reviews.present?
-      gh_user_ids_for_new_relations.each do |reviewer_id|
+      PullRequestRelation.by_pull_request(@pull_request.id).destroy_all
+      last_review_for_each_user.each do |review|
         PullRequestRelation.review_relations.create!(
           pull_request: @pull_request,
-          github_user_id: reviewer_id
+          github_user_id: review.github_user_id,
+          organization_id: @pull_request.repository.organization_id,
+          gh_updated_at: review.updated_at,
+          target_user_id: @pull_request.owner_id
         )
       end
     end
   end
 
-  def gh_user_ids_for_new_relations
-    reviewer_ids = @pull_request.pull_request_reviewers.pluck(:github_user_id).uniq
-    relation_reviewers_ids = PullRequestRelation.review_relations.by_pull_request(@pull_request.id)
-                                                .pluck(:github_user_id).uniq
-    reviewer_ids - relation_reviewers_ids
+  def last_review_for_each_user
+    reviews_by_users = @pull_request.pull_request_reviews.group_by(&:github_user_id)
+    reviews_by_users.map { |_, r| r.max_by(&:updated_at) }
   end
 end

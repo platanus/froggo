@@ -10,17 +10,16 @@ class PullRequestRelation < ApplicationRecord
   scope :merged_relations, -> { where(pr_relation_type: :merged_by) }
   scope :review_relations, -> { where(pr_relation_type: :reviewer) }
   scope :within_month_limit, -> do
-    joins(:pull_request)
-      .where('pull_requests.gh_updated_at > ?',
-        Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
+    where('gh_updated_at > ?', Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
   end
   scope :by_pull_request, ->(pr_id) {  where(pull_request_id: pr_id) }
+  scope :by_organizations, ->(organization_ids) { where(organization_id: organization_ids) }
 
-  scope :by_organizations, ->(organization_ids) do
-    joins(pull_request: :repository)
-      .where(pull_requests: { repositories: { organization_id: organization_ids } })
+  def self.participants_ids
+    group(:github_user_id).pluck(:github_user_id) | group(:target_user_id).pluck(:target_user_id)
   end
 end
+# rubocop:disable LineLength
 
 # == Schema Information
 #
@@ -32,11 +31,19 @@ end
 #  pr_relation_type :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  organization_id  :integer
+#  target_user_id   :integer
+#  gh_updated_at    :datetime
 #
 # Indexes
 #
-#  index_pull_request_relations_on_github_user_id   (github_user_id)
-#  index_pull_request_relations_on_pull_request_id  (pull_request_id)
+#  index_pr_relations_on_orgs_and_updated_and_all_users     (organization_id,gh_updated_at,github_user_id,target_user_id)
+#  index_pr_relations_on_orgs_and_updated_and_user_and_prs  (organization_id,gh_updated_at,github_user_id,pull_request_id)
+#  index_pull_request_relations_on_gh_updated_at            (gh_updated_at)
+#  index_pull_request_relations_on_github_user_id           (github_user_id)
+#  index_pull_request_relations_on_organization_id          (organization_id)
+#  index_pull_request_relations_on_pull_request_id          (pull_request_id)
+#  index_pull_request_relations_on_target_user_id           (target_user_id)
 #
 # Foreign Keys
 #
