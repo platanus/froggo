@@ -19,6 +19,7 @@ class PullRequestRelation < ApplicationRecord
     group(:github_user_id).pluck(:github_user_id) | group(:target_user_id).pluck(:target_user_id)
   end
 end
+# rubocop:disable LineLength
 
 # == Schema Information
 #
@@ -36,11 +37,13 @@ end
 #
 # Indexes
 #
-#  index_pull_request_relations_on_gh_updated_at    (gh_updated_at)
-#  index_pull_request_relations_on_github_user_id   (github_user_id)
-#  index_pull_request_relations_on_organization_id  (organization_id)
-#  index_pull_request_relations_on_pull_request_id  (pull_request_id)
-#  index_pull_request_relations_on_target_user_id   (target_user_id)
+#  index_pr_relations_on_orgs_and_updated_and_all_users     (organization_id,gh_updated_at,github_user_id,target_user_id)
+#  index_pr_relations_on_orgs_and_updated_and_user_and_prs  (organization_id,gh_updated_at,github_user_id,pull_request_id)
+#  index_pull_request_relations_on_gh_updated_at            (gh_updated_at)
+#  index_pull_request_relations_on_github_user_id           (github_user_id)
+#  index_pull_request_relations_on_organization_id          (organization_id)
+#  index_pull_request_relations_on_pull_request_id          (pull_request_id)
+#  index_pull_request_relations_on_target_user_id           (target_user_id)
 #
 # Foreign Keys
 #
