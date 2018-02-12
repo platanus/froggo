@@ -1,0 +1,19 @@
+
+@import './base';
+@import './home';
+@import './dashboard';
+@import './footer';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $main-font;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}

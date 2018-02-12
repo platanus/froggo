@@ -18,7 +18,7 @@ class GithubAuthController < ApplicationController
     if permitted_params[:callback_action] == 'settings'
       redirect_to settings_organization_path(name: permitted_params[:gh_org])
     else
-      redirect_to root_path
+      redirect_to organizations_path
     end
   end
 

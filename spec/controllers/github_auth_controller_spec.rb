@@ -17,7 +17,7 @@ RSpec.describe GithubAuthController, type: :controller do
       expect(session[:client_type]).to eq('member')
     end
 
-    it { expect(subject).to redirect_to(root_path) }
+    it { expect(subject).to redirect_to(organizations_path) }
 
     context 'from dashboard settings of organization' do
       let(:gh_org) { 'test_org' }

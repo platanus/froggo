@@ -18,6 +18,10 @@ RSpec.describe GithubAuthenticable do
       def redirect_to(path)
         path
       end
+
+      def home_path
+        '/'
+      end
     end
   end
 
@@ -43,7 +47,7 @@ RSpec.describe GithubAuthenticable do
       let(:valid) { false }
 
       before do
-        expect(subject).to receive(:redirect_to).with("/oauth").and_return(true)
+        expect(subject).to receive(:redirect_to).with("/").and_return(true)
       end
 
       it { expect(subject.authenticate_github_user).to be_nil }
