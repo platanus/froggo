@@ -1,14 +1,16 @@
 Rails.application.routes.draw do
   default_url_options host: ENV['APPLICATION_HOST']
 
+  get 'home/index', as: :home
+
   get 'github/callback' => 'github_auth#callback', as: :github_callback
   get 'oauth' => 'github_auth#oauth_request'
-  get 'oauth_to_gh' => 'github_auth#authenticate!'
+  get 'oauth_to_gh' => 'github_auth#authenticate!', as: :github_authenticate
   get 'admin_oauth_to_gh' => 'github_auth#admin_authenticate!', as: :admin_authenticate
   get 'webhook/index'
   post 'github_events' => 'webhook#receive'
 
-  root to: redirect('organizations')
+  root 'home#index'
 
   resources :organizations, param: :name do
     get 'missing' => 'organizations#missing', on: :collection
