@@ -9,15 +9,17 @@
   align-items: center;
 
   &__logo {
-    margin-top: 24px;
+    margin: 24px auto;
   }
 
   &__title {
     height: 132px;
     width: 587px;
+    margin: 40px auto 24px;
     color: $home-title-color;
     font-family: $main-font;
     font-size: 56px;
+    font-weight: 400;
     letter-spacing: -1px;
     line-height: 66px;
     text-align: center;
@@ -26,9 +28,10 @@
   &__sub-title {
     height: 84px;
     width: 587px;
+    margin: 0 auto 40px;
     color: $home-title-color;
     font-family: $main-font;
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 300;
     line-height: 28px;
     text-align: center;
@@ -66,11 +69,11 @@
   &__text {
     height: 21px;
     width: 272px;
-    color: $home-title-color;
+    color: $login-btn-color;
     text-align: center;
-
+    letter-spacing: 1px;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 21px;
   }
 }
@@ -83,11 +86,13 @@
   &__title {
     height: 66px;
     width: 794px;
+    margin-top: 88px;
     color: $secondary-color;
     font-size: 56px;
     letter-spacing: -1px;
     line-height: 66px;
     text-align: center;
+    font-weight: 400;
   }
 
   &__image {
