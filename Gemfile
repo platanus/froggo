@@ -49,6 +49,8 @@ end
 
 group :development do
   gem 'annotate'
+  gem 'guard-livereload', '~> 2.5.2', require: false
+  gem "rack-livereload"
 end
 
 group :development, :test do
