@@ -24,6 +24,8 @@ es-CL:
       permission_title: Ups. No hay nada aquí.
       permission_info: ! 'El admin de %{org} no ha creado el dashboard. Envíale una ranita para que lo haga.'
       permission_button: Enviar ranita voladora
+      empty_info: Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.
+      empty_title: ¡Esta vacio!
     settings:
       button_back: Volver
       login_with_admin_session: Sesión con privilegios de admin
