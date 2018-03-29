@@ -26,6 +26,8 @@ es-CL:
       permission_button: Enviar ranita voladora
       empty_info: Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.
       empty_title: ¡Esta vacio!
+    missing:
+      info: No estas registrado en ninguna organización de github o las organizaciones a las cuales perteneces aún no aprueban a esta aplicación. En caso de lo ultimo, contacta al admin de tu organización.
     settings:
       button_back: Volver
       login_with_admin_session: Sesión con privilegios de admin
