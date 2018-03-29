@@ -127,20 +127,19 @@
   justify-content: center;
   font-family: $main-font;
 
-  &__info, &__title {
-    text-align: center;
-    color: $secondary-color;
-  }
-
   &__title {
     height: 48px;
     font-weight: 300;
     line-height: 48px;
+    text-align: center;
+    color: $secondary-color;
   }
 
-  &__info {
+  &__info {
     font-size: 16px;
     line-height: 24px;
+    text-align: center;
+    color: $secondary-color;
   }
 
   &__button {
