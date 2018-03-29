@@ -11,19 +11,11 @@
         <h1><%= @github_organization[:login] %></h1>
       </div>
 
-      <% if @is_admin %>
-      <div class="organization__setting__button">
-        <button onclick="window.location.href='<%= settings_organization_path(name: @github_organization[:login]) %>'">
-          <%= t('messages.dashboard.button_config') %>
-        </button>
-      </div>
-      <% end %>
-
       <div id="content-dashboard" class="content__dashboard">
       <% if !@has_dashboard && !@is_admin  %>
         <%= render "permission" %>
       <% elsif (@corrmat.nil? || @corrmat.tracked_users.empty?)  %>
-        <%= t('messages.dashboard.no_pullrequest') %>
+        <%= render "empty" %>
       <% else %>
         <table class="matrix-dashboard">
           <thead class="matrix__head">

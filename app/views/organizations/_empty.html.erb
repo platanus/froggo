@@ -1,0 +1,11 @@
+<div class="card">
+  <h1 class="card__title">¡Esta vacio!</h1>
+  <div class="card__info">
+    Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.
+  </div>
+  <% if @is_admin %>
+  <div class="card__button" onclick="window.location.href='<%= settings_organization_path(name: @github_organization[:login]) %>'">
+    <span class="card__button-text"><%= t('messages.dashboard.button_config') %></span>
+  </div>
+  <% end %>
+</div>
