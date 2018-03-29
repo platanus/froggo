@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :authenticate_github_user
-  before_action :load_organization, except: [:index, :missing_organizations]
+  before_action :load_organization, except: [:index, :missing]
   before_action :ensure_organization_admin, only: :settings
 
   def index
