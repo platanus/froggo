@@ -21,6 +21,9 @@ es-CL:
       button_create: Crear nuevo dashboard
       settings:
         message: Estas en las settings de
+      card_title: Ups. No hay nada aquí.
+      card_info: ! 'El admin de %{org} no ha creado el dashboard. Envíale una ranita para que lo haga.'
+      card_button: Enviar ranita voladora
     settings:
       button_back: Volver
       login_with_admin_session: Sesión con privilegios de admin

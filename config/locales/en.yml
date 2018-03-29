@@ -52,6 +52,9 @@ en:
       button_create: Create new dashboard
       settings:
         message: Currently setting
+      card_title: Ups. There's nothing here.
+      card_info: ! 'The admin from %{org} has not create dashboard. Send him a little frog asking him to do it.'
+      card_button: Send a little flying
     settings:
       button_back: Back
       login_with_admin_session: Session with admin privilege

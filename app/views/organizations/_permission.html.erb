@@ -1,9 +1,9 @@
 <div class="card">
-  <h1 class="card__title">Ups. No hay nada aquí.</h1>
+  <h1 class="card__title"><%= t('messages.dashboard.card_title') %></h1>
   <div class="card__info">
-    El admin de <%= @github_organization[:login] %> no ha creado el dashboard. Envíale una ranita para que lo haga
+    <%= t('messages.dashboard.card_info', org:  @github_organization[:login]) %>
   </div>
   <div class="card__button">
-    <span class="card__button-text">Enviar ranita voladora</span>
+    <span class="card__button-text"><%= t('messages.dashboard.card_button') %></span>
   </div>
 </div>
