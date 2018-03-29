@@ -34,12 +34,18 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     base_params = get_base_params(github_pull_request)
     users_params = { owner_id: owner.id }
 
-    if github_pull_request.respond_to?(:merged_by)
-      merged_by = GithubUserService.new.find_or_create(github_pull_request.merged_by)
-      users_params[:merged_by_id] = merged_by.id
+    if github_pull_request.respond_to?(:merged_at)
+      if github_pull_request.respond_to?(:merged_by)
+        create_user_from_response(github_pull_request.merged_by, users_params)
+      end
     end
 
     base_params.merge(users_params)
+  end
+
+  def create_user_from_response(user, users_params)
+    merged_by = GithubUserService.new.find_or_create(user)
+    users_params[:merged_by_id] = merged_by.id
   end
 
   def get_base_params(github_pull_request)
