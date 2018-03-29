@@ -22,7 +22,7 @@
 
 .info {
   height: 44px;
-  width: 100%;
+  width: $max-width - (176px * 2);
   margin: 0 auto;
   margin-top: 40px;
 }
