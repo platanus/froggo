@@ -9,7 +9,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'devise-i18n'
 gem 'enumerize'
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 gem 'jbuilder', '~> 2.5'
 gem 'octokit'
 gem 'omniauth'
