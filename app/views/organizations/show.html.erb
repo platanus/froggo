@@ -57,12 +57,12 @@
               <% end %>
             </tbody>
         </table>
+        <div class="info">
+          <p class="info__description">
+            <%=  t('messages.dashboard.info')%>
+          </p>
+        </div>
         <% end %>
-      </div>
-      <div class="info">
-        <p class="info__description">
-          <%= t('messages.dashboard.greeting') %> <b><%=  @auth_login %></b>(<%= link_to "logout", "/oauth"%>)! <%=  t('messages.dashboard.info')%>
-        </p>
       </div>
       <%= render "layouts/footer" %>
     </div>
