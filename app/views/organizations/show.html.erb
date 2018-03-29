@@ -20,8 +20,8 @@
       <% end %>
 
       <div id="content-dashboard" class="content__dashboard">
-      <% if !@has_dashboard %>
-        <%= t('messages.dashboard.track_no_permission') %>
+      <% if !@has_dashboard && !@is_admin  %>
+        <%= render "permission" %>
       <% elsif (@corrmat.nil? || @corrmat.tracked_users.empty?)  %>
         <%= t('messages.dashboard.no_pullrequest') %>
       <% else %>
