@@ -1,3 +1,23 @@
 <header class="header">
-  <img class="header__logo" src="<%= image_path('froggo-logo.svg')%>"/>
+  <% unless @github_session.nil? %>
+
+    <v-select class="orgs-selector header__selector" :options="<%= @github_session.organizations.to_json %>" label="login" :value="<%= @github_organization.to_json %>"
+              :on-change="changeOrganization">
+      <template slot="option" slot-scope="option">
+        <div class="orgs-selector__option">
+          <img class="orgs-selector__image" :src="option.avatar_url"/>
+          {{ option.login }}
+        </div>
+      </template>
+    </v-select>
+
+  <% end %>
+  <%= link_to root_path, class: 'header__logo-container' do %>
+    <img class="header__logo" src="<%= image_path('froggo-logo.svg')%>"/>
+  <% end %>
+  <% unless @github_session.nil? %>
+    <div class="header__user-menu">
+      <%= @github_session.name %>
+    </div>
+  <% end %>
 </header>

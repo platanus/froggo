@@ -2,7 +2,7 @@
 
 import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
-import Selector from '../selector.vue';
+import vSelect from 'vue-select';
 import Repository from '../repository.vue';
 import Locales from '../locales.js';
 
@@ -10,8 +10,8 @@ Vue.use(VueI18n);
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  Vue.component('selector', Selector);
   Vue.component('repository', Repository);
+  Vue.component('v-select', vSelect);
 
   new Vue({ // eslint-disable-line no-new
     el: '#app',
@@ -19,5 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
       locale: 'es',
       messages: Locales.messages,
     }),
+    data: {
+      activeOrg: null,
+    },
+    methods: {
+      changeOrganization(organization) {
+        if(organization === null) return false;
+        if(this.activeOrg !== organization.login)
+          document.location.href = `/organizations/${organization.login}`;
+      },
+    },
+    beforeMount() {
+      let pathArray = window.location.pathname.split('/');
+      if(pathArray.length > 2 && pathArray[1] === 'organizations')
+        this.activeOrg = pathArray[2];
+    },
   });
 });
