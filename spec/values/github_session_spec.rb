@@ -9,17 +9,17 @@ RSpec.describe GithubSession, type: :class do
   end
 
   let(:org_response) do
-    [create_org_response('123', 'platanus', 'member'),
-     create_org_response('456', 'my_org', 'admin')]
+    [create_org_response('123', 'platanus', 'platanus_avatar', 'member'),
+     create_org_response('456', 'my_org', 'my_org_avatar', 'admin')]
   end
 
-  let(:user_response) { JSON.parse({ 'login': 'user login' }.to_json) }
+  let(:user_response) { JSON.parse({ 'login': 'user login', 'avatar_url': 'avatar' }.to_json) }
 
   let!(:client) { double(user: user_response, organization_memberships: org_response) }
 
-  def create_org_response(id, org, role)
+  def create_org_response(id, org, avatar_url, role)
     double(
-      organization: double(id: id, login: org),
+      organization: double(id: id, login: org, avatar_url: avatar_url),
       role: role
     )
   end

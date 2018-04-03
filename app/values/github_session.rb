@@ -1,5 +1,5 @@
 class GithubSession
-  attr_accessor :session, :name, :organizations
+  attr_accessor :session, :name, :avatar_url, :organizations
 
   def initialize(session)
     @session = session
