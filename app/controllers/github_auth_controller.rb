@@ -1,6 +1,7 @@
 class GithubAuthController < ApplicationController
   def oauth_request
     session[:access_token] = nil
+    redirect_to root_path
   end
 
   def authenticate!
