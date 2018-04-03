@@ -76,7 +76,7 @@ describe GithubPullRequestService do
     )
   end
 
-  let(:client) { double(:client, pull_requests: true, pull_request: github_single_pr) }
+  let(:client) { double(:client, pull_requests: true) }
 
   def build(*_args)
     described_class.new(*_args)
@@ -121,7 +121,7 @@ describe GithubPullRequestService do
       end
     end
 
-    context "when PR doesn't have merged by" do
+    context "when PR has been merged" do
       before do
         allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
         allow(client).to receive(:pull_request).with(github_pr_response_merged.head.repo.full_name,
@@ -131,6 +131,13 @@ describe GithubPullRequestService do
       it "creates new pull request" do
         expect { service.import_github_pull_request(repository, github_pr_response_merged) }.to(
           change { PullRequest.count }.by(1)
+        )
+      end
+
+      it "assigns github user to pull request" do
+        service.import_github_pull_request(repository, github_pr_response_merged)
+        expect(PullRequest.last.merged_by).to(
+          eq(GithubUser.find_by(gh_id: github_pr_response_merged.user.id))
         )
       end
     end
