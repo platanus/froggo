@@ -1,25 +1,3 @@
-.header {
-  background-color: $primary;
-  height: 48px;
-  width: 100%;
-}
-
-.title {
-  height: 34px;
-}
-
-.title__h1 {
-  color: $white;
-  font-family: $roboto-condensed;
-  font-size: 24px;
-  font-weight: 300;
-  line-height: 45px;
-  text-align: center;
-  margin-top: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 .info {
   height: 44px;
   width: $max-width - (176px * 2);
@@ -52,11 +30,11 @@
 
 .matrix__head {
   height: 68px;
-  background-color: $secondary;
+  background-color: $bg-secondary-color;
 }
 
 .matrix__user {
-  background-color: $secondary;
+  background-color: $bg-secondary-color;
   height: 68px;
   width: 68px;
   padding: 0;

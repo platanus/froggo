@@ -2,16 +2,17 @@
 
 import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
-import Selector from '../selector.vue';
+import vSelect from 'vue-select';
+import Dropdown from 'bp-vuejs-dropdown';
 import Repository from '../repository.vue';
 import Locales from '../locales.js';
 
 Vue.use(VueI18n);
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  Vue.component('selector', Selector);
   Vue.component('repository', Repository);
+  Vue.component('v-select', vSelect);
+  Vue.component('dropdown', Dropdown);
 
   new Vue({ // eslint-disable-line no-new
     el: '#app',
@@ -19,5 +20,27 @@ document.addEventListener('DOMContentLoaded', () => {
       locale: 'es',
       messages: Locales.messages,
     }),
+    data: {
+      activeOrg: null,
+    },
+    methods: {
+      changeOrganization(organization) {
+        if (organization === null) {
+          return;
+        }
+        if (this.activeOrg !== organization.login) {
+          document.location.href = `/organizations/${organization.login}`;
+        }
+
+        return;
+      },
+    },
+    beforeMount() {
+      const pathArray = window.location.pathname.split('/');
+      const orgNameUrlPos = 1;
+      if (pathArray.length > orgNameUrlPos + 1 && pathArray[orgNameUrlPos] === 'organizations') {
+        this.activeOrg = pathArray[orgNameUrlPos + 1];
+      }
+    },
   });
 });

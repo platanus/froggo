@@ -19,7 +19,7 @@ RSpec.describe GithubAuthenticable do
         path
       end
 
-      def home_path
+      def root_path
         '/'
       end
     end

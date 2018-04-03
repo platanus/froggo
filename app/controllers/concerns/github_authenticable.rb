@@ -4,7 +4,7 @@ module GithubAuthenticable
   def authenticate_github_user
     return github_session if github_session.valid?
 
-    redirect_to home_path
+    redirect_to root_path
     nil
   end
 

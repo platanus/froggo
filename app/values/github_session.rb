@@ -1,11 +1,11 @@
 class GithubSession
-  attr_accessor :session, :name, :organizations
+  attr_accessor :session, :name, :avatar_url, :organizations
 
   def initialize(session)
     @session = session
 
     if valid?
-      set_name
+      set_user
       set_organizations
     end
   end
@@ -32,8 +32,11 @@ class GithubSession
 
   private
 
-  def set_name
-    @name = client.user['login']
+  def set_user
+    user = client.user
+
+    @name = user['login']
+    @avatar_url = user['avatar_url']
   end
 
   def set_organizations
@@ -41,7 +44,8 @@ class GithubSession
       {
         id: mem.organization.id,
         login: mem.organization.login,
-        role: mem.role
+        role: mem.role,
+        avatar_url: mem.organization.avatar_url
       }
     end
   end
