@@ -34,18 +34,32 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     base_params = get_base_params(github_pull_request)
     users_params = { owner_id: owner.id }
 
-    if github_pull_request.respond_to?(:merged_at)
-      if github_pull_request.respond_to?(:merged_by)
-        create_user_from_response(github_pull_request.merged_by, users_params)
-      end
-    end
+    merged = github_pull_request.respond_to?(:merged_at)
+    create_merger_user(github_pull_request, users_params) if merged
 
     base_params.merge(users_params)
+  end
+
+  def create_merger_user(github_pull_request, users_params)
+    if github_pull_request.respond_to?(:merged_by)
+      create_user_from_response(github_pull_request.merged_by, users_params)
+    elsif !github_pull_request.merged_at.nil?
+      create_user_from_request(github_pull_request, users_params)
+    end
   end
 
   def create_user_from_response(user, users_params)
     merged_by = GithubUserService.new.find_or_create(user)
     users_params[:merged_by_id] = merged_by.id
+  end
+
+  def create_user_from_request(github_pull_request, users_params)
+    repo_full_name = github_pull_request.head.repo.full_name
+    pr_number = github_pull_request.number
+    pr_response = client.pull_request(repo_full_name, pr_number)
+    if pr_response.respond_to?(:merged_by)
+      create_user_from_response(pr_response.merged_by, users_params)
+    end
   end
 
   def get_base_params(github_pull_request)

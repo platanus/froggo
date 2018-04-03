@@ -28,7 +28,55 @@ describe GithubPullRequestService do
     )
   end
 
-  let(:client) { double(:client, pull_requests: true) }
+  let(:github_pr_response_merged) do
+    double(
+      id: 4,
+      title: "Test",
+      number: 2,
+      state: "open",
+      html_url: "http://www.gihub.com/prueba",
+      created_at: "2017-12-12 09:17:52",
+      updated_at: "2017-12-12 09:17:52",
+      closed_at: "2017-12-12 09:17:52",
+      merged_at: "2017-12-12 09:17:52",
+      user: double(
+        id: 1,
+        login: "milla",
+        name: "Milla Jovovich",
+        email: "milla@jovovich.cl",
+        avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
+        html_url: "https://github.com/bunzli"
+      ),
+      head: double(
+        repo: double(
+          full_name: 'platanus/froggo'
+        )
+      )
+    )
+  end
+
+  let(:github_single_pr) do
+    double(
+      user: double(
+        id: 1,
+        login: "milla",
+        name: "Milla Jovovich",
+        email: "milla@jovovich.cl",
+        avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
+        html_url: "https://github.com/bunzli"
+      ),
+      merged_by: double(
+        id: 1,
+        login: "milla",
+        name: "Milla Jovovich",
+        email: "milla@jovovich.cl",
+        avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
+        html_url: "https://github.com/bunzli"
+      )
+    )
+  end
+
+  let(:client) { double(:client, pull_requests: true, pull_request: github_single_pr) }
 
   def build(*_args)
     described_class.new(*_args)
@@ -70,6 +118,20 @@ describe GithubPullRequestService do
           .to(
             change { pull_request.reload.title }.from("Old Title").to(github_pr_response.title)
           )
+      end
+    end
+
+    context "when PR doesn't have merged by" do
+      before do
+        allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
+        allow(client).to receive(:pull_request).with(github_pr_response_merged.head.repo.full_name,
+          github_pr_response_merged.number)
+                                               .and_return(github_single_pr)
+      end
+      it "creates new pull request" do
+        expect { service.import_github_pull_request(repository, github_pr_response_merged) }.to(
+          change { PullRequest.count }.by(1)
+        )
       end
     end
   end
