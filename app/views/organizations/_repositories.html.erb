@@ -1,6 +1,6 @@
 <div>
-  <% @organization.repositories.each do |repository| %>
-    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked').to_json %>">
+  <% @organization.repositories.order(last_update: :desc).each do |repository| %>
+    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'last_update').to_json %>">
     </repository>
   <% end %>
 </div>
