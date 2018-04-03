@@ -16,8 +16,16 @@
     <img class="header__logo" src="<%= image_path('froggo-logo.svg')%>"/>
   <% end %>
   <% unless @github_session.nil? %>
-    <div class="header__user-menu">
-      <%= @github_session.name %>
-    </div>
+    <dropdown class="user-menu">
+      <template slot="btn"><img class="user-menu__image" src="<%= @github_session.avatar_url %>"/></template>
+      <template slot="icon"><i class="user-menu__arrow-down"></i></template>
+      <template slot="body">
+        <div class="user-menu__body">
+          <div class="user-menu__option">
+            <%= link_to t('messages.header.close_session'), close_session_path, class: 'user-menu__option-link' %>
+          </div>
+        </div>
+      </template>
+    </dropdown>
   <% end %>
 </header>

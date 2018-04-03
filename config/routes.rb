@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'home/index', as: :home
 
   get 'github/callback' => 'github_auth#callback', as: :github_callback
-  get 'oauth' => 'github_auth#oauth_request'
+  get 'oauth' => 'github_auth#oauth_request', as: :close_session
   get 'oauth_to_gh' => 'github_auth#authenticate!', as: :github_authenticate
   get 'admin_oauth_to_gh' => 'github_auth#admin_authenticate!', as: :admin_authenticate
   get 'webhook/index'

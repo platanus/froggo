@@ -26,6 +26,8 @@ es-CL:
       permission_button: Enviar ranita voladora
       empty_info: Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.
       empty_title: ¡Esta vacio!
+    header:
+      close_session: Cerrar Sesión
     settings:
       button_back: Volver
       login_with_admin_session: Sesión con privilegios de admin
