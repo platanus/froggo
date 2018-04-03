@@ -57,6 +57,8 @@ en:
       permission_button: Send a little flying
       empty_info: Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.
       empty_title: ¡Esta vacio!
+    missing:
+      info: You are not registered in any github organizations or your current organizations still don't approve this applications. If you have this problem, contact with the admin of your organizations.
     settings:
       button_back: Back
       login_with_admin_session: Session with admin privilege

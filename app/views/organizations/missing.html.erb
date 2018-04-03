@@ -1,3 +1,14 @@
-You are not registered in any github organizations or your current organizations
-still don't approve this applications. If you have this problem, contact with the admin of your
-organizations.
+<header class="header">
+  <div class="title">
+    <h1 class="title__h1">Pull-requests stats</h1>
+  </div>
+</header>
+<div class="container missing">
+  <div class="card">
+    <h1 class="card__title"><%= t('messages.missing.title') %></h1>
+    <div class="card__info">
+      <%= t('messages.missing.info') %>
+    </div>
+  </div>
+  <%= render "layouts/footer" %>
+</div>
