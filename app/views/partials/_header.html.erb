@@ -13,7 +13,7 @@
 
   <% end %>
   <%= link_to root_path, class: 'header__logo-container' do %>
-    <img class="header__logo" src="<%= image_path('froggo-logo.svg')%>"/>
+    <%= image_tag 'froggo-logo.svg', class: 'header__logo' %>
   <% end %>
   <% unless @github_session.nil? %>
     <dropdown class="user-menu">

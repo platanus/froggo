@@ -133,9 +133,9 @@
 
   &__body {
     background-color: $white;
-    border-left: solid 1px $gray;
-    border-bottom: solid 1px $gray;
-    border-right: solid 1px $gray;
+    border-left: $menu-body-border;
+    border-bottom: $menu-body-border;
+    border-right: $menu-body-border;
     font-size: 14px;
     padding: 10px;
   }
