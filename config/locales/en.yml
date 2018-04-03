@@ -59,6 +59,8 @@ en:
       empty_title: ¡Esta vacio!
     header:
           close_session: Close Session
+    missing:
+      info: You are not registered in any github organizations or your current organizations still don't approve this applications. If you have this problem, contact with the admin of your organizations.
     settings:
       button_back: Back
       login_with_admin_session: Session with admin privilege
