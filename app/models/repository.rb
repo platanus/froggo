@@ -35,6 +35,7 @@ end
 #  updated_at                     :datetime         not null
 #  organization_id                :integer
 #  last_pull_request_modification :datetime
+#  last_update                    :datetime
 #
 # Indexes
 #
