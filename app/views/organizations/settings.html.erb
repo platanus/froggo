@@ -1,17 +1,13 @@
 <div id="app">
   <%= render 'partials/header' %>
-  <p> <%= @github_organization[:login] %></p>
-
-  <% if !@is_admin_github_session %>
-    <p> <%= t('messages.login_with_admin_session') %></p>
-    <%= render "admin_permission" %>
-  <% elsif @has_dashboard %>
-    <%= render "repositories" %>
-  <% else %>
-    <%= render "init_dashboard" %>
-  <% end %>
-  <button onclick="window.location.href='<%= organization_path(name: @github_organization[:login]) %>'">
-      <%= t('messages.settings.button_back') %>
-  </button>
+  <div class="settings">
+    <% if !@is_admin_github_session %>
+      <%= render "admin_permission" %>
+    <% elsif @has_dashboard %>
+      <%= render "repositories" %>
+    <% else %>
+      <%= render "init_dashboard" %>
+    <% end %>
+  </div>
   <%= render "partials/footer" %>
 </div>

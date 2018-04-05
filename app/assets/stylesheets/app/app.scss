@@ -19,6 +19,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body, html {
+  margin: 0 auto;
+  background-color: $bg-primary-color;
+  height: 100%;
+}
+
 .app {
   background-color: $bg-secondary-color;
 

@@ -1,2 +1,7 @@
-<%= link_to t('messages.settings.obtain_admin_privilege'),
-      admin_authenticate_path(gh_org: @github_organization[:login])%>
+<div class="card">
+<h2 class="card__title"><%= t('messages.settings.login_with_admin_session') %></h2>
+<p class="card__info"><%= t('messages.settings.login_with_admin_session_message') %></p>
+<%= link_to t('messages.settings.create_dashboard'),
+    admin_authenticate_path(gh_org: @github_organization[:login]),
+    class: "card__button card__button-text"%>
+</div>
