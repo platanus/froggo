@@ -1,8 +1,3 @@
-.container {
-  max-width: $max-width;
-  margin: 0 auto;
-}
-
 .c-presentation {
   height: 544px;
   background-color: $primary-color-light;
@@ -164,8 +159,4 @@
       text-transform: uppercase;
     }
   }
-}
-
-.missing {
-  margin-top: 48px;
 }
