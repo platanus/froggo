@@ -116,7 +116,7 @@
 }
 
 .card {
-  flex-basis: 536px;
+  height: 536px;
   width: 1088px;
   border-radius: 2px;
   background-color: $white;
@@ -141,7 +141,8 @@
     text-align: center;
     width: 850px;
     margin: 0 auto;
-    color: $secondary-color;
+    color: $primary;
+    opacity: .64;
   }
 
   &__button {
@@ -165,6 +166,52 @@
       color: $white;
       text-transform: uppercase;
       text-decoration: none;
+    }
+  }
+
+  &-extended {
+    height: 536px;
+    width: 1088px;
+    border-radius: 2px;
+    background-color: $white;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    font-family: $main-font;
+    margin-top: 96px;
+    justify-content: space-evenly;
+
+    &__header {
+      flex-basis: 41px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    &__back {
+      margin-top: 25px;
+      margin-left: 32px;
+      display: flex;
+      cursor: pointer;
+
+      &-message {
+        padding-left: 17px;
+        text-align: center;
+      }
+    }
+
+    &__user {
+      margin-top: 23px;
+      margin-right: 32px;
+      color: $primary-color;
+      text-align: center;
+    }
+
+    &__body {
+      flex-basis: 495px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
   }
 }

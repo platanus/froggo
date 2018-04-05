@@ -1,6 +1,5 @@
-<div>
+<div class="card">
   <% @organization.repositories.order(last_update: :desc).each do |repository| %>
-    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'last_update').to_json %>">
-    </repository>
+    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'last_update').to_json %>">    </repository>
   <% end %>
 </div>
