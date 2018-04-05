@@ -188,10 +188,6 @@
       display: flex;
       justify-content: space-between;
       font-size: 14px;
-
-      &--lined {
-        border-bottom: 1px solid #F2F2F2;
-      }
     }
 
     &__title {
@@ -222,14 +218,50 @@
     }
 
     &__body {
-      flex-basis: 469px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      height: 469px;
+      overflow: scroll;
     }
+
+    &__button {
+      background-color: $primary-color;
+      height: 30px;
+      width: 91px;
+      cursor: pointer;
+      color: $white;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 13px;
+      padding-top: 5px;
+      font-weight: 500;
+      line-height: 20px;
+      border-radius: 2px;
+
+      &--inactive {
+        background-color: $white;
+        color: $primary-color;
+        border: solid 2px $primary-color;
+      }
+    }
+
+    &__repo-name {
+      margin-left: 40px;
+    }
+  }
+
+  &__repository {
+    border-top: solid 1px $repository-border;
+    height: 73px;
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 15px;
+    padding-left: 32px;
   }
 }
 
 .missing {
   margin-top: 48px;
+}
+
+.bolder {
+  font-weight: 500;
 }

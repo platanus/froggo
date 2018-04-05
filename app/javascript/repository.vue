@@ -1,8 +1,14 @@
 <template>
   <div>
+<<<<<<< HEAD
     <div>{{ repository.name }} - {{ repository.last_update }} </div>
     <button v-if="repository.tracked" v-on:click="untrack()">destrackear</button>
     <button v-else v-on:click="track()">trackear</button>
+=======
+    <div v-if="repository.tracked" v-on:click="untrack()" class="card-extended__button card-extended__button--inactive">untrack</div>
+    <div v-else v-on:click="track()" class="card-extended__button">track</div>
+    <div class="card-extended__repo-name">{{ repository.name }}</div>
+>>>>>>> dc9a5e7... feat(settings): add style for repos view
   </div>
 </template>
 
