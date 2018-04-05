@@ -109,7 +109,7 @@
   font-family: $main-font;
 }
 
-.settings{
+.settings {
   display: flex;
   flex-direction: column;
   background-color: $bg-primary-color;
@@ -158,6 +158,7 @@
     cursor: pointer;
     text-decoration: none;
     text-align: center;
+    border: 1px solid $white;
 
     &-text {
       font-size: 18px;
@@ -167,6 +168,10 @@
       text-transform: uppercase;
       text-decoration: none;
     }
+  }
+
+  &__button-input {
+    padding-left: 35px;
   }
 
   &-extended {
@@ -181,7 +186,6 @@
     margin-top: 96px;
     justify-content: space-evenly;
     color: $primary;
-    font-family: Roboto;
 
     &__header {
       flex-basis: 67px;
@@ -219,7 +223,15 @@
 
     &__body {
       height: 469px;
-      overflow: scroll;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 50px;
+
+      &--scrolleable {
+        height: 469px;
+        overflow: scroll;
+      }
     }
 
     &__button {
@@ -240,6 +252,7 @@
         background-color: $white;
         color: $primary-color;
         border: solid 2px $primary-color;
+        line-height: 16px;
       }
     }
 
@@ -256,10 +269,6 @@
     padding-top: 15px;
     padding-left: 32px;
   }
-}
-
-.missing {
-  margin-top: 48px;
 }
 
 .bolder {

@@ -34,8 +34,10 @@ es-CL:
     settings:
       button_back: Volver
       login_with_admin_session: Nada por aquí, nada por allá
+      login_with_admin_session_ask: Otorgar permisos
       login_with_admin_session_message: Crea un dashboard y que empiece la fiesta!
+      login_with_admin_session_message_ask: Para comenzar necesitas logearte en github como admin
       obtain_admin_privilege: Obtener privilegios de admin en github
-      create_dashboard: Crear dashboard
+      create_dashboard: Dar permisos
       repository_title: Repositorios en
 

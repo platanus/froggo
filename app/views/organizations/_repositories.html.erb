@@ -11,9 +11,9 @@
       Admin
     </div>
   </div>
-  <div class="card-extended__body">
-   <% @organization.repositories.order(last_update: :desc).each do |repository| %>
-    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'last_update').to_json %>">
+  <div class="card-extended__body--scrolleable ">
+  <% @organization.repositories.order(last_update: :desc).each do |repository| %>
+    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'last_update').to_json %>" class="card__repository">
     </repository>
   <% end %>
   </div>
