@@ -180,12 +180,22 @@
     font-family: $main-font;
     margin-top: 96px;
     justify-content: space-evenly;
+    color: $primary;
+    font-family: Roboto;
 
     &__header {
-      flex-basis: 41px;
+      flex-basis: 67px;
       display: flex;
       justify-content: space-between;
       font-size: 14px;
+
+      &--lined {
+        border-bottom: 1px solid #F2F2F2;
+      }
+    }
+
+    &__title {
+      margin-top: 25px;
     }
 
     &__back {
@@ -198,6 +208,10 @@
         padding-left: 17px;
         text-align: center;
       }
+
+      &-arrow {
+        padding-bottom: 26px;
+      }
     }
 
     &__user {
@@ -208,7 +222,7 @@
     }
 
     &__body {
-      flex-basis: 495px;
+      flex-basis: 469px;
       display: flex;
       flex-direction: column;
       justify-content: center;
