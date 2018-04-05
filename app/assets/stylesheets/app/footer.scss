@@ -3,8 +3,6 @@ $roboto: 'Roboto', sans-serif;
 $text: #aeabcc;
 
 .footer {
-  height: 72px;
-  width: 61px;
   margin: 0 auto;
   text-align: center;
   bottom: 0;
@@ -12,9 +10,9 @@ $text: #aeabcc;
 }
 
 .footer__platanus {
-  height: 16px;
   width: 60px;
   text-align: center;
+  margin: 0 auto;
 }
 
 .footer__platanus-text {
@@ -23,4 +21,6 @@ $text: #aeabcc;
   font-size: 14px;
   font-weight: 300;
   line-height: 16px;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }

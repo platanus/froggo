@@ -21,6 +21,9 @@ body {
 
 .app {
   background-color: $bg-secondary-color;
+
+  &__container {
+    margin: 0 auto;
+    padding-top: 48px;
+  }
 }
-
-

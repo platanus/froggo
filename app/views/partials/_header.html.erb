@@ -1,5 +1,5 @@
 <header class="header">
-  <% unless @github_session.nil? %>
+  <% unless @github_session.nil? || @github_session.organizations.empty? %>
 
     <v-select class="orgs-selector header__selector" :options="<%= @github_session.organizations.to_json %>" label="login" :value="<%= @github_organization.to_json %>"
               :on-change="changeOrganization">

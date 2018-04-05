@@ -1,6 +1,6 @@
 .info {
   height: 44px;
-  width: $max-width - (176px * 2);
+  width: $app-content-width;
   margin: 0 auto;
   margin-top: 40px;
   margin-bottom: 40px;
@@ -25,7 +25,6 @@
   margin: 0 auto;
   border-spacing: 0;
   border-collapse: collapse;
-  margin-top: 40px;
 }
 
 .matrix__head {
