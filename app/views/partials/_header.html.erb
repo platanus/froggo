@@ -1,31 +1,30 @@
 <header class="header">
-  <% unless @github_session.nil? || @github_session.organizations.empty? %>
+  <div class="header__container">
+    <%= link_to root_path, class: 'header__logo-container' do %>
+      <%= image_tag 'froggo-logo.svg', class: 'header__logo' %>
+    <% end %>
+    <% unless @github_session.nil? %>
+      <div class="header__menu-container">
 
-    <v-select class="orgs-selector header__selector" :options="<%= @github_session.organizations.to_json %>" label="login" :value="<%= @github_organization.to_json %>"
-              :on-change="changeOrganization">
-      <template slot="option" slot-scope="option">
-        <div class="orgs-selector__option">
-          <img class="orgs-selector__image" :src="option.avatar_url"/>
-          {{ option.login }}
-        </div>
-      </template>
-    </v-select>
+        <% unless @github_session.organizations.empty? %>
+          <dropdown class="dashboard-menu header__dashboard-menu">
+            <%= image_tag "dashboard-menu-icon.svg", slot: 'btn' %>
+            <div class="dashboard-menu__body" slot="body" slot-scope="{ closeDropdown }">
+              <div class="dashboard-menu__title">Dashboards</div>
+              <% @github_session.organizations.each do |org| %>
+                <%= link_to org[:login], organization_path(name: org[:login]), class: 'dashboard-menu__option', '@click': 'closeDropdown'  %>
+              <% end %>
+            </div>
+          </dropdown>
+        <% end %>
 
-  <% end %>
-  <%= link_to root_path, class: 'header__logo-container' do %>
-    <%= image_tag 'froggo-logo.svg', class: 'header__logo' %>
-  <% end %>
-  <% unless @github_session.nil? %>
-    <dropdown class="user-menu">
-      <template slot="btn"><img class="user-menu__image" src="<%= @github_session.avatar_url %>"/></template>
-      <template slot="icon"><i class="user-menu__arrow-down"></i></template>
-      <template slot="body">
-        <div class="user-menu__body">
-          <div class="user-menu__option">
-            <%= link_to t('messages.header.close_session'), close_session_path, class: 'user-menu__option-link' %>
+        <dropdown class="user-menu header__user-menu">
+          <img class="user-menu__image" slot="btn" src="<%= @github_session.avatar_url %>"/>
+          <div class="user-menu__body" slot="body">
+            <%= link_to t('messages.header.close_session'), close_session_path, class: 'user-menu__option'%>
           </div>
-        </div>
-      </template>
-    </dropdown>
-  <% end %>
+        </dropdown>
+      </div>
+    <% end %>
+  </div>
 </header>
