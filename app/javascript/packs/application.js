@@ -2,8 +2,7 @@
 
 import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
-import vSelect from 'vue-select';
-import Dropdown from 'bp-vuejs-dropdown';
+import Dropdown from '../pl-dropdown.vue';
 import Repository from '../repository.vue';
 import Locales from '../locales.js';
 
@@ -11,7 +10,6 @@ Vue.use(VueI18n);
 
 document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
-  Vue.component('v-select', vSelect);
   Vue.component('dropdown', Dropdown);
 
   new Vue({ // eslint-disable-line no-new

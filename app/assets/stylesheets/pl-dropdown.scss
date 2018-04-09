@@ -1,0 +1,27 @@
+$dp-body-bg-color: #fff;
+$dp-body-border-color: #f1f1f1;
+$dp-body-border-shadow: rgba(44, 176, 157, .31);
+
+.pl-dropdown {
+  position: relative;
+
+  &__btn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  &__body {
+    position: absolute;
+    right: 0;
+    top: calc(100% - 5px);
+    background-color: $dp-body-bg-color;
+    border: .5px solid $dp-body-border-color;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px 0 $dp-body-border-shadow;
+    z-index: 1000;
+  }
+}
