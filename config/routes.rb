@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :organizations, param: :name do
     get 'missing' => 'organizations#missing', on: :collection
     get 'settings' => 'organizations#settings', on: :member
+    get 'sync_repositories' => 'organizations#sync_repos', on: :member
   end
 
   scope path: '/api', defaults: { format: 'json' } do
