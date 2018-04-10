@@ -108,3 +108,169 @@
   text-align: center;
   font-family: $main-font;
 }
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-primary-color;
+}
+
+.card {
+  height: 536px;
+  width: 1088px;
+  border-radius: 2px;
+  background-color: $white;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: $main-font;
+  margin-top: 96px;
+
+  &__title {
+    height: 48px;
+    font-weight: 300;
+    line-height: 48px;
+    text-align: center;
+    color: $secondary-color;
+  }
+
+  &__info {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    width: 850px;
+    margin: 0 auto;
+    color: $primary;
+    opacity: .64;
+  }
+
+  &__button {
+    height: 56px;
+    width: 304px;
+    border-radius: 2px;
+    background-color: $login-btn-bg;
+    margin: 0 auto;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid $white;
+
+    &-text {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 21px;
+      color: $white;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+  }
+
+  &__button-input {
+    padding-left: 35px;
+  }
+
+  &-extended {
+    height: 536px;
+    width: 1088px;
+    border-radius: 2px;
+    background-color: $white;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    font-family: $main-font;
+    margin-top: 96px;
+    justify-content: space-evenly;
+    color: $primary;
+
+    &__header {
+      flex-basis: 67px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    &__title {
+      margin-top: 25px;
+    }
+
+    &__back {
+      margin-top: 25px;
+      margin-left: 32px;
+      display: flex;
+      cursor: pointer;
+
+      &-message {
+        padding-left: 17px;
+        text-align: center;
+      }
+
+      &-arrow {
+        padding-bottom: 26px;
+      }
+    }
+
+    &__user {
+      margin-top: 23px;
+      margin-right: 32px;
+      color: $primary-color;
+      text-align: center;
+    }
+
+    &__body {
+      height: 469px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 50px;
+
+      &--scrolleable {
+        height: 469px;
+        overflow: scroll;
+      }
+    }
+
+    &__button {
+      background-color: $primary-color;
+      height: 30px;
+      width: 91px;
+      cursor: pointer;
+      color: $white;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 13px;
+      padding-top: 5px;
+      font-weight: 500;
+      line-height: 20px;
+      border-radius: 2px;
+
+      &--inactive {
+        background-color: $white;
+        color: $primary-color;
+        border: solid 2px $primary-color;
+        line-height: 16px;
+      }
+    }
+
+    &__repo-name {
+      margin-left: 40px;
+    }
+  }
+
+  &__repository {
+    border-top: solid 1px $repository-border;
+    height: 73px;
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 15px;
+    padding-left: 32px;
+  }
+}
+
+.bolder {
+  font-weight: 500;
+}

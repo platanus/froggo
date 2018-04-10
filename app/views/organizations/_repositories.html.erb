@@ -1,6 +1,20 @@
-<div>
+<div class="card-extended">
+  <div class="card-extended__header">
+    <div class="card-extended__back" onclick="window.location.href='<%= organization_path(name: @github_organization[:login]) %>'">
+      <%= image_tag("back-arrow", class: "card-extended__back-arrow") %>
+      <div class="card-extended__back-message"><%= t('messages.settings.button_back') %></div>
+    </div>
+    <div class="card-extended__title">
+      (<%= @organization.repositories.count %>) <%= t('messages.settings.repository_title') %> <span class="bolder"><%= @github_organization[:login] %></span>
+    </div>
+    <div class="card-extended__user">
+      Admin
+    </div>
+  </div>
+  <div class="card-extended__body--scrolleable ">
   <% @organization.repositories.order(last_update: :desc).each do |repository| %>
-    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'last_update').to_json %>">
+    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'last_update').to_json %>" class="card__repository">
     </repository>
   <% end %>
+  </div>
 </div>

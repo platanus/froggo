@@ -12,18 +12,19 @@
 }
 
 body {
-  margin: 0;
   padding: 0;
+  margin: 0;
   font-family: $main-font;
+  background-color: $bg-primary-color;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
 
 .app {
-  background-color: $bg-secondary-color;
-
-  &__container {
-    margin: 0 auto;
-    padding-top: 48px;
-  }
+  background-color: $bg-primary-color;
+  min-height: 99vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

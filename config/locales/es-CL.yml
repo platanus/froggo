@@ -33,6 +33,11 @@ es-CL:
       info: No estas registrado en ninguna organización de github o las organizaciones a las cuales perteneces aún no aprueban a esta aplicación. En caso de lo ultimo, contacta al admin de tu organización.
     settings:
       button_back: Volver
-      login_with_admin_session: Sesión con privilegios de admin
+      login_with_admin_session: Nada por aquí, nada por allá
+      login_with_admin_session_ask: Otorgar permisos
+      login_with_admin_session_message: Crea un dashboard y que empiece la fiesta!
+      login_with_admin_session_message_ask: Para comenzar necesitas logearte en github como admin
       obtain_admin_privilege: Obtener privilegios de admin en github
+      create_dashboard: Dar permisos
+      repository_title: Repositorios en
 

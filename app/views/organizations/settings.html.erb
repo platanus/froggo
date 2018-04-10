@@ -1,23 +1,13 @@
 <div id="app">
-  <p> <%= @github_organization[:login] %></p>
-
-  <% if @is_admin_github_session %>
-    <p> <%= t('messages.login_with_admin_session') %></p>
-
-    <% if @has_dashboard %>
+  <%= render 'partials/header' %>
+  <div class="settings">
+    <% if !@is_admin_github_session %>
+      <%= render "admin_permission" %>
+    <% elsif @has_dashboard %>
       <%= render "repositories" %>
     <% else %>
-      El dashboard no está creado
-      <%= button_to 'Inicializar Dashboard',
-            organizations_path,
-            method: :post,
-            params: { name: @github_organization[:login] } %>
+      <%= render "init_dashboard" %>
     <% end %>
-  <% else %>
-    <%= link_to t('messages.settings.obtain_admin_privilege'),
-      admin_authenticate_path(gh_org: @github_organization[:login])%>
-  <% end %>
-  <button onclick="window.location.href='<%= organization_path(name: @github_organization[:login]) %>'">
-      <%= t('messages.settings.button_back') %>
-  </button>
+  </div>
+  <%= render "partials/footer" %>
 </div>
