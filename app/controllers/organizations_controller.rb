@@ -36,6 +36,15 @@ class OrganizationsController < ApplicationController
     @is_admin_github_session = github_session.session[:client_type] == "admin"
   end
 
+  def sync_repos
+    organization = Organization.find_by(
+      gh_id: @github_organization[:id],
+      login: @github_organization[:login]
+    )
+    ImportAllRepositoriesJob.perform_later(organization, @github_session.token)
+    redirect_to settings_organization_path(name: @github_organization[:login])
+  end
+
   private
 
   def load_organization
