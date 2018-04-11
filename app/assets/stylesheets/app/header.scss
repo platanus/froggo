@@ -33,30 +33,32 @@
 
 .dashboard-menu {
   &__title {
+    min-width: 188px;
     font-family: $main-font;
     font-weight: 300;
-    font-size: 16px;
+    font-size: 15px;
     color: $primary;
-    padding: 13px 30px 13px 16px;
+    padding: 15px 42px 15px 18px;
     text-align: left;
   }
 
   &__option {
     display: block;
+    min-width: 188px;
     white-space: nowrap;
     text-decoration: none;
     color: $menu-option-color;
     font-family: $main-font;
     font-weight: 300;
-    font-size: 14px;
-    padding: 7px 30px 7px 16px;
+    font-size: 13px;
+    padding: 10px 42px 10px 18px;
     border-top-style: solid;
-    border-top-color: $primary-border;
-    border-top-width: .5px;
+    border-top-color: $dp-option-border;
+    border-top-width: 1px;
     text-align: left;
 
     &:hover {
-      background-color: $bg-secondary-color;
+      background-color: $dp-option-hover;
     }
   }
 }
@@ -78,13 +80,13 @@
     text-decoration: none;
     color: $menu-option-color;
     font-family: $main-font;
-    font-weight: 300;
-    font-size: 14px;
-    padding: 7px 30px 7px 16px;
+    font-weight: 400;
+    font-size: 13px;
+    padding: 10px 42px 10px 18px;
     text-align: left;
 
     &:hover {
-      background-color: $bg-secondary-color;
+      background-color: $dp-option-hover;
     }
   }
 }
