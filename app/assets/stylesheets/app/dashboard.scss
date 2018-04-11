@@ -15,11 +15,6 @@
   text-align: center;
 }
 
-.content-dashboard {
-  margin: 0 auto;
-  margin-top: 56px;
-}
-
 .matrix-dashboard {
   width: fit-content;
   margin: 0 auto;
@@ -104,9 +99,22 @@
   text-align: center;
 }
 
-.content__dashboard {
+.dashboard {
   text-align: center;
   font-family: $main-font;
+
+  .card-extended__header {
+    position: relative;
+    justify-content: center;
+  }
+
+  .card-extended__header-link {
+    position: absolute;
+    right: 32px;
+    margin-top: 23px;
+    color: $primary-color;
+    text-decoration: none;
+  }
 }
 
 .settings {
@@ -117,7 +125,7 @@
 
 .card {
   height: 536px;
-  width: 1088px;
+  width: $app-content-width;
   border-radius: 2px;
   background-color: $white;
   margin: 0 auto;
@@ -176,7 +184,7 @@
 
   &-extended {
     height: 536px;
-    width: 1088px;
+    width: $app-content-width;
     border-radius: 2px;
     background-color: $white;
     margin: 0 auto;

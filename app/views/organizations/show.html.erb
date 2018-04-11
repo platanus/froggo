@@ -1,7 +1,7 @@
 <div id="app" class="app">
   <%= render 'partials/header' %>
   <div class="app__container">
-    <div id="content-dashboard" class="content__dashboard">
+    <div id="content-dashboard" class="dashboard">
       <% if !@has_dashboard && !@is_admin %>
         <%= render "permission" %>
       <% elsif (@corrmat.nil? || @corrmat.tracked_users.empty?) %>
