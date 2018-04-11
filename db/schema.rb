@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410205602) do
+ActiveRecord::Schema.define(version: 20180411212734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,14 @@ ActiveRecord::Schema.define(version: 20180410205602) do
     t.index ["organization_id"], name: "index_repositories_on_organization_id"
   end
 
+  create_table "repositories_syncs", force: :cascade do |t|
+    t.bigint "organization_id"
+    t.date "synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_repositories_syncs_on_organization_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -185,4 +193,5 @@ ActiveRecord::Schema.define(version: 20180410205602) do
   add_foreign_key "pull_requests", "github_users", column: "merged_by_id"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "organizations"
+  add_foreign_key "repositories_syncs", "organizations"
 end
