@@ -1,6 +1,6 @@
 $dp-body-bg-color: #fff;
 $dp-body-border-color: #f1f1f1;
-$dp-body-border-shadow: rgba(44, 176, 157, .31);
+$dp-body-border-shadow: rgba(73, 71, 94, .07);
 
 .pl-dropdown {
   position: relative;
@@ -19,9 +19,9 @@ $dp-body-border-shadow: rgba(44, 176, 157, .31);
     right: 0;
     top: calc(100% - 5px);
     background-color: $dp-body-bg-color;
-    border: .5px solid $dp-body-border-color;
+    border: 1px solid $dp-body-border-color;
     border-radius: 2px;
-    box-shadow: 0 4px 8px 0 $dp-body-border-shadow;
+    box-shadow: 0 2px 10px 0 $dp-body-border-shadow;
     z-index: 1000;
   }
 }
