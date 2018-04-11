@@ -9,24 +9,24 @@
       </a>
     <% end %>
   </div>
-  <div class="card-extended__body--scrolleable ">
+  <div class="card-extended__body ">
     <table class="matrix-dashboard">
       <thead class="matrix__head">
-      <th class="matrix__user"></th>
-      <% @corrmat.tracked_users.each do |user| %>
-        <th class="matrix__user">
-          <div class="matrix__picture">
-            <a href="<%= user.html_url %>" title="<%= user.login %>">
-              <img class="matrix__user-img" src="<%= user.avatar_url %>">
-            </a>
-          </div>
-        </th>
-      <% end %>
+        <th class="matrix__user"></th>
+        <% @corrmat.tracked_users.each do |user| %>
+          <th class="matrix__user">
+            <div class="matrix__picture">
+              <a href="<%= user.html_url %>" title="<%= user.login %>">
+                <img class="matrix__user-img" src="<%= user.avatar_url %>">
+              </a>
+            </div>
+          </th>
+        <% end %>
       </thead>
       <tbody>
       <% @corrmat.tracked_users.each_with_index do |b, i| %>
         <tr>
-          <td>
+          <td class="matrix__user">
             <a href="<%= b.html_url %>" title="<%= b.login %>">
               <img class="matrix__user-img" src="<%= b.avatar_url %>">
             </a>
