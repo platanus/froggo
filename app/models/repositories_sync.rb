@@ -8,7 +8,7 @@ end
 #
 #  id              :integer          not null, primary key
 #  organization_id :integer
-#  synced_at       :date
+#  synced_at       :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(version: 20180411212734) do
 
   create_table "repositories_syncs", force: :cascade do |t|
     t.bigint "organization_id"
-    t.date "synced_at"
+    t.datetime "synced_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_repositories_syncs_on_organization_id"
