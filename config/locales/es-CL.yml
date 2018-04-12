@@ -13,14 +13,14 @@ es-CL:
   messages:
     dashboard:
       greeting: Hola
+      title: 'Dashboard de %{org}'
       info: La siguiente tabla contiene la información entre Reviewers (revisores) y Merges (quien realiza la unión de la rama) como una suma, a la cual llamamos colaboración. Desde arriba hacia abajo, donde el usuario A se encuentra arriba y B es el usuario en la primera columna, se lee la colaboración como cuantas colaboraciones a hecho el usuario A al usuario B.
       track_organization: Puedes seguir esta organización y crear un dashboard haciendo click aquí.
       track_no_permission: Esta organización no se encuentra registrada. Contacta al administrador de tu organización para otorgar permisos.
       no_pullrequest: Esta organización no tiene relaciones entre sus usuarios. ¡Motiva a tu equipo a usar mejores prácticas haciendo Code Review en las Pull Requests!.
       button_config: Configurar dashboard
       button_create: Crear nuevo dashboard
-      settings:
-        message: Estas en las settings de
+      settings: Configuración
       permission_title: Ups. No hay nada aquí.
       permission_info: ! 'El admin de %{org} no ha creado el dashboard. Envíale una ranita para que lo haga.'
       permission_button: Enviar ranita voladora

@@ -15,11 +15,6 @@
   text-align: center;
 }
 
-.content-dashboard {
-  margin: 0 auto;
-  margin-top: 56px;
-}
-
 .matrix-dashboard {
   width: fit-content;
   margin: 0 auto;
@@ -33,7 +28,7 @@
 }
 
 .matrix__user {
-  background-color: $bg-secondary-color;
+  background-color: $matrix-bg;
   height: 68px;
   width: 68px;
   padding: 0;
@@ -47,7 +42,6 @@
 }
 
 .matrix__picture {
-  padding: 9;
   text-align: center;
 }
 
@@ -104,9 +98,34 @@
   text-align: center;
 }
 
-.content__dashboard {
+.dashboard {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   font-family: $main-font;
+
+  .card-extended {
+    height: auto;
+
+    &__header {
+      position: relative;
+      justify-content: center;
+    }
+
+    &__header-link {
+      position: absolute;
+      right: 32px;
+      margin-top: 23px;
+      color: $primary-color;
+      text-decoration: none;
+    }
+
+    &__body {
+      height: auto;
+      background-color: $matrix-bg;
+      margin-bottom: 0;
+    }
+  }
 }
 
 .settings {
@@ -117,7 +136,7 @@
 
 .card {
   height: 536px;
-  width: 1088px;
+  width: $app-content-width;
   border-radius: 2px;
   background-color: $white;
   margin: 0 auto;
@@ -175,15 +194,7 @@
   }
 
   &-extended {
-    height: 536px;
-    width: 1088px;
-    border-radius: 2px;
-    background-color: $white;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    font-family: $main-font;
-    margin-top: 96px;
+    @extend .card;
     justify-content: space-evenly;
     color: $primary;
 
