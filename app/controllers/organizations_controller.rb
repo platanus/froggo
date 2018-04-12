@@ -37,7 +37,7 @@ class OrganizationsController < ApplicationController
     @is_admin_github_session = github_session.session[:client_type] == "admin"
   end
 
-  def sync_repos
+  def create_repositories_sync
     organization = Organization.find_by(
       gh_id: @github_organization[:id],
       login: @github_organization[:login]

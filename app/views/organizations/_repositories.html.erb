@@ -8,7 +8,9 @@
       (<%= @organization.repositories.count %>)
       <%= t('messages.settings.repository_title') %>
       <span class="bolder"><%= @github_organization[:login] %></span>
-      <a href="sync_repositories">(sync)</a>
+      <%= form_tag("repositories_syncs", method: "post", class: "sync-button") do %>
+        <%= submit_tag("sync") %>
+      <% end %>
     </div>
     <div class="card-extended__user">
       Admin

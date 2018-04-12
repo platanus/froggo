@@ -15,12 +15,13 @@ Rails.application.routes.draw do
   resources :organizations, param: :name do
     get 'missing' => 'organizations#missing', on: :collection
     get 'settings' => 'organizations#settings', on: :member
-    get 'sync_repositories' => 'organizations#sync_repos', on: :member
+    post 'repositories_syncs' => 'organizations#create_repositories_sync', on: :member
   end
 
   scope path: '/api', defaults: { format: 'json' } do
     api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
       resources :repositories, only: [:update]
+      post 'organizations/:id/repositories_syncs' => 'organizations#repositories_syncs'
     end
   end
 
