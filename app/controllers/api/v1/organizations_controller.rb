@@ -2,9 +2,12 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
   before_action :authenticate_github_user
   before_action :ensure_organization_admin
 
-  # organizations/:id/repositories_syncs
-  def repositories_syncs
-    respond_with 'hola', status: 200
+  def sync
+    OrganizationSyncJob.perform_later(
+      OrganizationSync.find_or_create_by(organization: organization),
+      @github_session.token
+    )
+    redirect_to settings_organization_path(name: organization.login)
   end
 
   private

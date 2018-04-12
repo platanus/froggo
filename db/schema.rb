@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180411212734) do
+ActiveRecord::Schema.define(version: 20180412184718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,14 @@ ActiveRecord::Schema.define(version: 20180411212734) do
     t.datetime "updated_at", null: false
     t.index ["github_user_id"], name: "index_organization_memberships_on_github_user_id"
     t.index ["organization_id"], name: "index_organization_memberships_on_organization_id"
+  end
+
+  create_table "organization_syncs", force: :cascade do |t|
+    t.bigint "organization_id"
+    t.datetime "synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_syncs_on_organization_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -159,14 +167,6 @@ ActiveRecord::Schema.define(version: 20180411212734) do
     t.index ["organization_id"], name: "index_repositories_on_organization_id"
   end
 
-  create_table "repositories_syncs", force: :cascade do |t|
-    t.bigint "organization_id"
-    t.datetime "synced_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_repositories_syncs_on_organization_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(version: 20180411212734) do
 
   add_foreign_key "organization_memberships", "github_users"
   add_foreign_key "organization_memberships", "organizations"
+  add_foreign_key "organization_syncs", "organizations"
   add_foreign_key "pull_request_relations", "github_users"
   add_foreign_key "pull_request_relations", "pull_requests"
   add_foreign_key "pull_request_reviews", "github_users"
@@ -193,5 +194,4 @@ ActiveRecord::Schema.define(version: 20180411212734) do
   add_foreign_key "pull_requests", "github_users", column: "merged_by_id"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "organizations"
-  add_foreign_key "repositories_syncs", "organizations"
 end

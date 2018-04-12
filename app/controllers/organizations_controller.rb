@@ -24,8 +24,8 @@ class OrganizationsController < ApplicationController
         login: @github_organization[:login]
       )
 
-      repo_sync = RepositoriesSync.create!(organization: organization)
-      SyncRepositoriesJob.perform_later(repo_sync, @github_session.token)
+      OrganizationSyncJob.perform_later(OrganizationSync.create!(organization: organization),
+        @github_session.token)
     end
 
     redirect_to settings_organization_path(name: @github_organization[:login])
@@ -35,17 +35,6 @@ class OrganizationsController < ApplicationController
 
   def settings
     @is_admin_github_session = github_session.session[:client_type] == "admin"
-  end
-
-  def create_repositories_sync
-    organization = Organization.find_by(
-      gh_id: @github_organization[:id],
-      login: @github_organization[:login]
-    )
-
-    repo_sync = RepositoriesSync.find_or_create_by(organization: organization)
-    SyncRepositoriesJob.perform_later(repo_sync, @github_session.token)
-    redirect_to settings_organization_path(name: @github_organization[:login])
   end
 
   private
