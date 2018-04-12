@@ -3,6 +3,8 @@ class Organization < ApplicationRecord
 
   has_many :repositories
   has_many :hooks, as: :resource
+  has_many :organization_memberships
+  has_many :members, through: :organization_memberships, source: :github_user
 
   validates :gh_id, presence: true
   validates :login, presence: true
