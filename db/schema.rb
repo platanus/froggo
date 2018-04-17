@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180412184718) do
+ActiveRecord::Schema.define(version: 20180417180211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,9 +87,11 @@ ActiveRecord::Schema.define(version: 20180412184718) do
 
   create_table "organization_syncs", force: :cascade do |t|
     t.bigint "organization_id"
-    t.datetime "synced_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "state"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.index ["organization_id"], name: "index_organization_syncs_on_organization_id"
   end
 

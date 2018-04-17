@@ -1,5 +1,26 @@
 class OrganizationSync < ApplicationRecord
+  include AASM
   belongs_to :organization
+
+  aasm column: 'state' do
+    state :created, initial: true
+    state :executing
+    state :completed
+    state :failed
+
+    event :execute, after: Proc.new { update(start_time: DateTime.current) } do
+      transitions from: :created, to: :executing
+      transitions from: :completed, to: :executing
+    end
+
+    event :fail, after: Proc.new { update(end_time: DateTime.current) } do
+      transitions from: :executing, to: :failed
+    end
+
+    event :complete, after: Proc.new { update(end_time: DateTime.current) } do
+      transitions from: :executing, to: :completed
+    end
+  end
 end
 
 # == Schema Information
@@ -8,9 +29,11 @@ end
 #
 #  id              :integer          not null, primary key
 #  organization_id :integer
-#  synced_at       :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  state           :string
+#  start_time      :datetime
+#  end_time        :datetime
 #
 # Indexes
 #

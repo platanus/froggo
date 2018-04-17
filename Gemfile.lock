@@ -10,6 +10,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (4.12.3)
+      concurrent-ruby (~> 1.0)
     actioncable (5.1.4)
       actionpack (= 5.1.4)
       nio4r (~> 2.0)
@@ -423,6 +425,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   active_model_serializers (~> 0.10)
   active_skin
   activeadmin (~> 1.1.0)
@@ -478,4 +481,4 @@ DEPENDENCIES
   webpacker!
 
 BUNDLED WITH
-   1.16.0
+   1.16.1
