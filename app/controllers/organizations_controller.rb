@@ -24,7 +24,8 @@ class OrganizationsController < ApplicationController
         login: @github_organization[:login]
       )
 
-      ImportAllRepositoriesJob.perform_later(organization, @github_session.token)
+      OrganizationSyncJob.perform_later(OrganizationSync.create!(organization: organization),
+        @github_session.token)
     end
 
     redirect_to settings_organization_path(name: @github_organization[:login])
