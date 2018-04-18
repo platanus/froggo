@@ -1,3 +1,5 @@
 class HomeController < ApplicationController
-  def index; end
+  def index
+    @user_logged_in = github_session.valid?
+  end
 end

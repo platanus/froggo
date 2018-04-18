@@ -58,7 +58,10 @@ en:
       empty_info: Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.
       empty_title: ¡Esta vacio!
     header:
-          close_session: Close session
+      close_session: Close session
+    home:
+      connect_github: Connect with Github
+      go_to_dashboard: Go to Dashboards
     missing:
       info: You are not registered in any github organizations or your current organizations still don't approve this applications. If you have this problem, contact with the admin of your organizations.
     settings:
