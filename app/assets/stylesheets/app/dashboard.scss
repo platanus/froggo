@@ -135,7 +135,7 @@
 }
 
 .card {
-  height: 536px;
+  min-height: 536px;
   width: $app-content-width;
   border-radius: 2px;
   background-color: $white;
@@ -233,16 +233,11 @@
     }
 
     &__body {
-      height: 469px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       margin-bottom: 50px;
-
-      &--scrolleable {
-        height: 469px;
-        overflow: scroll;
-      }
+      flex: 1 1 auto;
     }
 
     &__button {
