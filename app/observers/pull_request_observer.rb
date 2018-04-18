@@ -3,9 +3,13 @@ class PullRequestObserver < PowerTypes::Observer
   before_destroy :destroy_pull_request_relations
 
   def update_pull_request_relations
-    if object.saved_change_to_merged_by_id? ||
-        object.saved_change_to_last_pull_req_review_modification?
-      CreatePullRelations.for(pull_request: object)
+    if object.saved_change_to_merged_by_id?
+      service = PullRequestRelationService.new(pull_request: object)
+      service.create_merge_relation
+    end
+    if object.saved_change_to_last_pull_req_review_modification?
+      service = PullRequestRelationService.new(pull_request: object)
+      service.create_review_relations
     end
   end
 
