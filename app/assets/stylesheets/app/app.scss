@@ -22,7 +22,7 @@ body {
 
 .app {
   background-color: $bg-primary-color;
-  min-height: 99vh;
+  min-height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -31,4 +31,8 @@ body {
 
 .sync-button {
   display: inline;
+}
+
+.app__container {
+  min-height: calc(100vh - 157px);
 }
