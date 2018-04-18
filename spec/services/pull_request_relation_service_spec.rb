@@ -1,15 +1,17 @@
 require 'rails_helper'
 
-describe CreatePullRelations do
-  def perform(*_args)
-    described_class.for(*_args)
+describe PullRequestRelationService do
+  def build(*_args)
+    described_class.new(*_args)
   end
 
-  describe "receive PR" do
-    context "without any review and not merged" do
+  let(:service) { build(pull_request: pull_request) }
+
+  describe "#create_merge_relation" do
+    context "without merged data" do
       let(:pull_request) { create(:pull_request) }
       it "doesn't create any relations" do
-        expect { perform(pull_request: pull_request) }.not_to(
+        expect { service.create_merge_relation }.not_to(
           change { PullRequestRelation.count }
         )
       end
@@ -18,10 +20,21 @@ describe CreatePullRelations do
     context "with merge data" do
       let(:pull_request) { create(:pull_request_with_merge) }
       it "creates merged_by pull request relation" do
-        expect { perform(pull_request: pull_request) }.to(
+        expect { service.create_merge_relation }.to(
           change do
             PullRequestRelation.by_pull_request(pull_request.id).merged_relations.count
           end.by(1)
+        )
+      end
+    end
+  end
+
+  describe "#create_review_relations" do
+    context "without any review" do
+      let(:pull_request) { create(:pull_request) }
+      it "doesn't create any relations" do
+        expect { service.create_review_relations }.not_to(
+          change { PullRequestRelation.count }
         )
       end
     end
@@ -29,7 +42,7 @@ describe CreatePullRelations do
     context "with reviews" do
       let(:pull_request) { create(:pull_request_with_reviews, reviews_count: 3) }
       it "creates reviewer pull request relation" do
-        expect { perform(pull_request: pull_request) }.to(
+        expect { service.create_review_relations }.to(
           change do
             PullRequestRelation.by_pull_request(pull_request.id).review_relations.count
           end.by(3)
@@ -44,7 +57,7 @@ describe CreatePullRelations do
         3.times { pull_request.pull_request_reviews.create(github_user: github_user) }
       end
       it "creates only one review relation" do
-        expect { perform(pull_request: pull_request) }.to(
+        expect { service.create_review_relations }.to(
           change do
             PullRequestRelation.by_pull_request(pull_request.id).review_relations.count
           end.by(1)
