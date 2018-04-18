@@ -1,18 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe WebhookController, type: :controller do
-  describe "GET #index" do
-    # it "returns json success" do
-    #   get :index
-    #   expect(response).to have_http_status(200)
-    # end
-  end
-
   describe "POST #receive" do
-    # it "returns json success" do
-    #   @request.headers['X-Hub-Signature'] = 'sha1=fbdb1d1b18aa6c08324b7d64b71fb76370690e1d'
-    #   post :receive
-    #   expect(response).to have_http_status(200)
-    # end
+    let(:post_params) { { payload: '{}' } }
+    let(:hook_secret) { 'hook-secret' }
+    let(:x_hub_signature) do
+      'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), hook_secret,
+        post_params.to_json)
+    end
+    before do
+      allow(ENV).to receive(:fetch).with('GH_HOOK_SECRET').and_return(hook_secret)
+    end
+
+    it "returns json success" do
+      @request.headers['X-Hub-Signature'] = x_hub_signature
+      post :receive, body: post_params.to_json, format: :json
+      expect(response).to have_http_status(200)
+    end
   end
 end
