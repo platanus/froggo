@@ -6,7 +6,7 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
   end
 
   def handle_webhook_event(data)
-    data_object = data.is_a?(Hash) ? OpenStruct.new(data) : data
+    data_object = data.is_a?(Hash) ? RecursiveOpenStruct.new(data) : data
     repo = Repository.find_by(gh_id: data_object.repository.id)
 
     import_github_pull_request(repo, data_object.pull_request)
