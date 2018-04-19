@@ -6,7 +6,7 @@ class PullRequestRelationService < PowerTypes::Service.new(:pull_request)
         pull_request: @pull_request,
         github_user: @pull_request.merged_by,
         organization_id: @pull_request.repository.organization_id,
-        gh_updated_at: @pull_request,
+        gh_updated_at: @pull_request.gh_merged_at,
         target_user_id: @pull_request.owner_id
       )
     end
