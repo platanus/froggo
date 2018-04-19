@@ -1,7 +1,7 @@
 <div class="card">
-  <h1 class="card__title"><%= t('messages.dashboard.empty_title') %></h1>
+  <h1 class="card__title"><%= t('messages.dashboard.empty_title', org:  @github_organization[:login]) %></h1>
   <div class="card__info">
-    <%= t('messages.dashboard.empty_info') %>
+    <%= t('messages.dashboard.empty_info', org:  @github_organization[:login]) %>
   </div>
   <% if @is_admin %>
   <div class="card__button" onclick="window.location.href='<%= settings_organization_path(name: @github_organization[:login]) %>'">
