@@ -25,10 +25,6 @@ class GithubRepositoryService < PowerTypes::Service.new(:token)
     end
   end
 
-  def handle_webhook_event(data)
-    # Receive repository event (create or delete) and process it.
-  end
-
   private
 
   def create_hook(response, resource)

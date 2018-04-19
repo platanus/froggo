@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   get 'oauth' => 'github_auth#oauth_request', as: :close_session
   get 'oauth_to_gh' => 'github_auth#authenticate!', as: :github_authenticate
   get 'admin_oauth_to_gh' => 'github_auth#admin_authenticate!', as: :admin_authenticate
-  get 'webhook/index'
   post 'github_events' => 'webhook#receive'
 
   root 'home#index'
