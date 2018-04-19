@@ -33,6 +33,10 @@ class Organization < ApplicationRecord
   def all_tracked_users
     pull_request_owners.tracked | reviewers.tracked | merge_users.tracked
   end
+
+  def sorted_repositories
+    repositories.order('tracked DESC NULLS LAST, gh_updated_at DESC')
+  end
 end
 
 # == Schema Information

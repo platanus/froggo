@@ -10,8 +10,6 @@ class PullRequest < ApplicationRecord
 
   has_many :pull_request_relations
 
-  after_save :touch_repository
-
   scope :within_month_limit, -> do
     where('pull_requests.gh_updated_at > ?',
       Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
@@ -30,10 +28,6 @@ class PullRequest < ApplicationRecord
 
   def has_merge_users?(github_user_id)
     !merge_users.where(id: github_user_id).empty?
-  end
-
-  def touch_repository
-    repository.touch(:last_pull_request_modification)
   end
 end
 
