@@ -26,6 +26,18 @@ describe PullRequestRelationService do
           end.by(1)
         )
       end
+
+      it "creates merge relations correctly" do
+        service.create_merge_relation
+        pr_relation = PullRequestRelation.by_pull_request(pull_request.id).merged_relations.first
+        expect(pr_relation).to have_attributes(
+          pull_request: pull_request,
+          github_user: pull_request.merged_by,
+          organization_id: pull_request.repository.organization_id,
+          gh_updated_at: pull_request.gh_merged_at,
+          target_user_id: pull_request.owner_id
+        )
+      end
     end
   end
 
