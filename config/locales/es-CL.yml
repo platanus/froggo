@@ -28,6 +28,9 @@ es-CL:
       empty_title: ¡Esta vacio!
     header:
       close_session: Cerrar sesión
+    home:
+      connect_github: Conectar con Github
+      go_to_dashboard: Ver Dashboards
     missing:
       title: Estás solito en el universo
       info: No estas registrado en ninguna organización de github o las organizaciones a las cuales perteneces aún no aprueban a esta aplicación. En caso de lo ultimo, contacta al admin de tu organización.
