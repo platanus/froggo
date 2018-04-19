@@ -315,6 +315,7 @@ GEM
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    recursive-open-struct (1.1.0)
     redis (4.0.1)
     redis-namespace (1.6.0)
       redis (>= 3.0.4)
@@ -461,6 +462,7 @@ DEPENDENCIES
   rails-controller-testing
   rails-i18n
   rails_stdout_logging
+  recursive-open-struct
   redis
   redis-namespace
   responders
