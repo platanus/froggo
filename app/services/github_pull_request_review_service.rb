@@ -12,10 +12,10 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   end
 
   def handle_webhook_event(data)
-    data = OpenStruct.new(data) if data.is_a? Hash
-    if data.action == 'submitted'
-      pull_req = PullRequest.find_by(gh_id: data.pull_request.id)
-      import_github_pull_request_review(pull_req, data.review)
+    data_object = data.is_a?(Hash) ? OpenStruct.new(data) : data
+    if data_object.action == 'submitted'
+      pull_req = PullRequest.find_by(gh_id: data_object.pull_request.id)
+      import_github_pull_request_review(pull_req, data_object.review)
     end
   end
 
