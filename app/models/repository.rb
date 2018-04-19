@@ -28,7 +28,7 @@ end
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  organization_id :integer
-#  last_update     :datetime
+#  gh_updated_at   :datetime
 #
 # Indexes
 #

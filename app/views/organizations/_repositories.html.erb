@@ -17,8 +17,8 @@
     </div>
   </div>
   <div class="card-extended__body">
-  <% @organization.repositories.order(last_pull_request_modification: :desc).each do |repository| %>
-    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'last_update').to_json %>" class="card__repository">
+  <% @organization.repositories.order(gh_updated_at: :desc).each do |repository| %>
+    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'gh_updated_at').to_json %>" class="card__repository">
     </repository>
   <% end %>
   </div>
