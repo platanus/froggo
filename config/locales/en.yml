@@ -56,7 +56,7 @@ en:
       permission_info: ! 'The admin from %{org} has not create dashboard. Send him a little frog asking him to do it.'
       permission_button: Send a little flying
       empty_info: Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.
-      empty_title: ¡Esta vacio!
+      empty_title: It's empty!
     header:
       close_session: Close session
     home:
