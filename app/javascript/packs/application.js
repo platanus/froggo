@@ -7,6 +7,7 @@ import Dropdown from '../pl-dropdown.vue';
 import Repository from '../repository.vue';
 import Locales from '../locales.js';
 import HeaderTab from '../header-tab.vue';
+import User from '../user.vue';
 
 Vue.use(VueI18n);
 
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
   Vue.component('dropdown', Dropdown);
   Vue.component('header-tab', HeaderTab);
+  Vue.component('user', User);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new

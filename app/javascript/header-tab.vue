@@ -14,6 +14,9 @@ export default {
       repositoryView: true,
     }
   },
+  mounted() {
+    document.getElementById('tab-users').style.display = "none";
+  },
   methods: {
     change() {
       this.$data.repositoryView = !this.$data.repositoryView;

@@ -282,9 +282,18 @@
         text-decoration: underline;
       }
     }
+
+    &__user {
+      padding-left: 40px;
+      display: flex;
+
+      &-name {
+        margin: 6px;
+      }
+    }
   }
 
-  &__repository {
+  &__setting-element {
     border-top: solid 1px $repository-border;
     height: 73px;
     display: flex;

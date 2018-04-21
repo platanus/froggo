@@ -20,7 +20,7 @@
   </div>
   <div class="card-extended__body-list">
   <% @organization.sorted_repositories.each do |repository| %>
-    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'gh_updated_at', 'html_url').to_json %>" class="card__repository">
+    <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'gh_updated_at', 'html_url').to_json %>" class="card__setting-element">
     </repository>
   <% end %>
   </div>
