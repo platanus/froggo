@@ -201,12 +201,14 @@
     &__header {
       flex-basis: 67px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       font-size: 14px;
     }
 
     &__title {
       margin-top: 25px;
+      flex: 1 1 auto;
+      text-align: center;
     }
 
     &__back {
@@ -223,13 +225,6 @@
       &-arrow {
         padding-bottom: 26px;
       }
-    }
-
-    &__user {
-      margin-top: 23px;
-      margin-right: 32px;
-      color: $primary-color;
-      text-align: center;
     }
 
     &__body {
