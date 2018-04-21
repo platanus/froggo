@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180419130749) do
+ActiveRecord::Schema.define(version: 20180421205141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 20180419130749) do
     t.integer "gh_id"
     t.string "name"
     t.string "full_name"
-    t.boolean "tracked"
+    t.boolean "tracked", default: false
     t.string "url"
     t.string "html_url"
     t.datetime "created_at", null: false

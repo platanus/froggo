@@ -19,6 +19,7 @@ class GithubRepositoryService < PowerTypes::Service.new(:token)
       repository.html_url = gh_repository[:html_url]
       repository.full_name = gh_repository[:full_name]
       repository.gh_updated_at = gh_repository[:updated_at]
+      repository.tracked ||= false
 
       repository.save
     end
