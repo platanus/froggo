@@ -9,7 +9,7 @@
       <%= t('messages.settings.repository_title') %>
       <span class="bolder"><%= @github_organization[:login] %></span>
       <%= form_tag("/api/organizations/#{@organization.id}/sync", method: "post", class: "sync-button") do %>
-        <%= submit_tag("sync") %>
+        <%= submit_tag("sync", class: 'card-extended__little-button') %>
       <% end %>
     </div>
     <div class="card-tab">
