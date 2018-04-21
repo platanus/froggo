@@ -270,6 +270,30 @@
     padding-top: 15px;
     padding-left: 32px;
   }
+
+  &-tab {
+    padding: 4px;
+    padding-top: 15px;
+    cursor: pointer;
+
+    &__button {
+      font-size: 12px;
+      background-color: $white;
+      color: $primary-color;
+      width: 90px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 500;
+      border: 2px solid $primary-color;
+      border-radius: 2px;
+      margin-right: 10px;
+
+      &:hover {
+        background-color: $primary-color;
+        color: $white;
+      }
+    }
+  }
 }
 
 .bolder {

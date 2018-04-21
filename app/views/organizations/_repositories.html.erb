@@ -12,6 +12,11 @@
         <%= submit_tag("sync") %>
       <% end %>
     </div>
+    <div class="card-tab">
+      <div class="card-tab__button">
+        <%= t('messages.settings.admin_users') %>
+      </div>
+    </div>
   </div>
   <div class="card-extended__body">
   <% @organization.sorted_repositories.each do |repository| %>
