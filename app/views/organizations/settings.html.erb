@@ -4,7 +4,7 @@
     <% if !@is_admin_github_session %>
       <%= render "admin_permission" %>
     <% elsif @has_dashboard %>
-      <%= render "repositories" %>
+      <%= render "settings_content" %>
     <% else %>
       <%= render "init_dashboard" %>
     <% end %>
