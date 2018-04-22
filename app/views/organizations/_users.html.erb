@@ -1,4 +1,4 @@
-<% @organization.organization_memberships.each do |user| %>
+<% @organization.organization_memberships.order(tracked: :desc).each do |user| %>
   <div class="card__setting-element">
     <user :value="<%= user.attributes.slice('id', 'github_user.login', 'tracked', 'github_user.avatar_url').to_json %>"></user>
     <div class="card-extended__user">

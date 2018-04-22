@@ -14,8 +14,9 @@ export default {
       repositoryView: true,
     }
   },
+  props: ['repositories', 'users'],
   mounted() {
-    document.getElementById('tab-users').style.display = "none";
+    document.getElementById(this.users).style.display = 'none';
   },
   methods: {
     change() {
@@ -27,12 +28,12 @@ export default {
       }
     },
     activateRepostory() {
-      document.getElementById('tab-repositories').style.display = "block";
-      document.getElementById('tab-users').style.display = "none";
+      document.getElementById(this.repositories).style.display = 'block';
+      document.getElementById(this.users).style.display = 'none';
     },
     activateUsers() {
-      document.getElementById('tab-repositories').style.display = "none";
-      document.getElementById('tab-users').style.display = "block";
+      document.getElementById(this.repositories).style.display = 'none';
+      document.getElementById(this.users).style.display = 'block';
     },
   },
 }

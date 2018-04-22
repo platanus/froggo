@@ -3,8 +3,8 @@ const messages = {
     message: {
       settings: {
         button: 'Go to dashboard',
-        adminUsers: 'Admin Users',
-        adminRepos: 'Admin Repositories',
+        adminUsers: 'Manage Users',
+        adminRepos: 'Manage Repositories',
       },
     },
   },
