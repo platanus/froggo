@@ -25,7 +25,7 @@ export default {
     setTrackedStatus(status) {
       this.user.tracked = status;
 
-      axios.put(`/api/repositories/${this.user.id}`, { tracked: status })
+      axios.put(`/api/organization_memberships/${this.user.id}`, { tracked: status })
         .then(function (response) {
           console.log(response);
         })
