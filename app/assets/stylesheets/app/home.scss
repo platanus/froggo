@@ -109,5 +109,12 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  flex: 1 1 auto;
+}
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  height: 1744px;
 }
 

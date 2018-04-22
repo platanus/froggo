@@ -1,27 +1,29 @@
-<div class="c-presentation">
-  <img class="c-presentation__logo" src="<%= image_path('froggo-logo.svg')%>"/>
-  <h1 class="c-presentation__title">Code review tool for GitHub pull requests </h1>
-  <h3 class="c-presentation__sub-title">Hound comments on style violations in GitHub pull requests, allowing you and your team to better review and maintain a clean codebase. </h3>
-  <div class="c-presentation__github-login">
-    <a class="c-github-login" href="<%= @user_logged_in ? organizations_path : github_authenticate_path %>">
-      <div class="c-github-login__logo-container">
-        <img class="c-github-login__logo" src="<%= image_path('github-mark.png') %>"/>
-      </div>
-      <div class="c-github-login__text">
-        <% if @user_logged_in %>
-          <%= t('messages.home.go_to_dashboard').upcase %>
-        <% else %>
-          <%= t('messages.home.connect_github').upcase %>
-        <% end %>
-      </div>
-    </a>
+<div class="landing">
+  <div class="c-presentation">
+    <img class="c-presentation__logo" src="<%= image_path('froggo-logo.svg')%>"/>
+    <h1 class="c-presentation__title">Code review tool for GitHub pull requests </h1>
+    <h3 class="c-presentation__sub-title">Hound comments on style violations in GitHub pull requests, allowing you and your team to better review and maintain a clean codebase. </h3>
+    <div class="c-presentation__github-login">
+      <a class="c-github-login" href="<%= @user_logged_in ? organizations_path : github_authenticate_path %>">
+        <div class="c-github-login__logo-container">
+          <img class="c-github-login__logo" src="<%= image_path('github-mark.png') %>"/>
+        </div>
+        <div class="c-github-login__text">
+          <% if @user_logged_in %>
+            <%= t('messages.home.go_to_dashboard').upcase %>
+          <% else %>
+            <%= t('messages.home.connect_github').upcase %>
+          <% end %>
+        </div>
+      </a>
+    </div>
   </div>
-</div>
-<div class="c-home-dashboard">
-  <h1 class="c-home-dashboard__title">Salami tail prosciutto shank pork</h1>
-  <img class="c-home-dashboard__image" src="<%= image_path('dashboard-preview.png') %>"/>
-</div>
-<div class="c-home-footer">
-  <img class="c-home-footer__logo" src="<%= image_path 'platanus.svg' %>" />
-  <p class="c-home-footer__text">platan.us</p>
+  <div class="c-home-dashboard">
+    <h1 class="c-home-dashboard__title">Salami tail prosciutto shank pork</h1>
+    <img class="c-home-dashboard__image" src="<%= image_path('dashboard-preview.png') %>"/>
+  </div>
+  <div class="c-home-footer">
+    <img class="c-home-footer__logo" src="<%= image_path 'platanus.svg' %>" />
+    <p class="c-home-footer__text">platan.us</p>
+  </div>
 </div>
