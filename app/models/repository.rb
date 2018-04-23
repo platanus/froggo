@@ -22,7 +22,7 @@ end
 #  gh_id           :integer
 #  name            :string
 #  full_name       :string
-#  tracked         :boolean
+#  tracked         :boolean          default(FALSE)
 #  url             :string
 #  html_url        :string
 #  created_at      :datetime         not null
