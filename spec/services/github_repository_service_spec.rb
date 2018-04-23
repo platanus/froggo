@@ -145,5 +145,13 @@ describe GithubRepositoryService do
       it { expect { run_method }.to change { organization.repositories.count }.by(0) }
       it { expect(run_method.first.full_name).to eq("Tesla labs") }
     end
+
+    context "when exists old repositories in db" do
+      before do
+        create(:repository, organization: organization, gh_id: 101, full_name: "Platanus labs")
+        create(:repository, organization: organization, gh_id: 105, full_name: "I don't exist")
+      end
+      it { expect { run_method }.to change { organization.repositories.count }.by(-1) }
+    end
   end
 end

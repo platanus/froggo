@@ -10,7 +10,8 @@ class GithubRepositoryService < PowerTypes::Service.new(:token)
   end
 
   def import_all_from_organization(organization)
-    client.org_repos(organization.login).each do |gh_repository|
+    repos = client.org_repos(organization.login)
+    repos.each do |gh_repository|
       repository = organization.repositories.where(gh_id: gh_repository[:id]).first_or_initialize
 
       repository.gh_id = gh_repository[:id]
@@ -22,6 +23,11 @@ class GithubRepositoryService < PowerTypes::Service.new(:token)
 
       repository.save
     end
+    remove_old_repositories(organization, repos)
+  end
+
+  def remove_old_repositories(organization, current_repos)
+    organization.repositories.where.not(gh_id: current_repos.map { |e| e[:id] }).each(&:destroy!)
   end
 
   private
