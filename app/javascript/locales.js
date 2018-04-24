@@ -1,21 +1,25 @@
 const messages = {
   en: {
     message: {
-      selector: {
+      settings: {
         button: 'Go to dashboard',
+        adminUsers: 'Manage Users',
+        adminRepos: 'Manage Repositories',
       },
     },
   },
   es: {
     message: {
-      selector: {
+      settings: {
         button: 'Ir a dashboard',
+        adminUsers: 'Administrar Usuarios',
+        adminRepos: 'Administrar Repositorios',
       },
     },
   },
   ja: {
     message: {
-      selector: {
+      settings: {
         button: 'こんにちは、世界',
       },
     },

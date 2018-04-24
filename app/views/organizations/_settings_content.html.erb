@@ -1,0 +1,29 @@
+<div class="card-extended">
+  <div class="card-extended__header">
+    <div class="card-extended__back" onclick="window.location.href='<%= organization_path(name: @github_organization[:login]) %>'">
+      <%= image_tag("back-arrow.svg", class: "card-extended__back-arrow") %>
+      <div class="card-extended__back-message"><%= t('messages.settings.button_back') %></div>
+    </div>
+    <div class="card-extended__title">
+      (<%= @organization.repositories.count %>)
+      <%= t('messages.settings.repository_title') %>
+      <span class="bolder"><%= @github_organization[:login] %></span>
+      <%= form_tag("/api/organizations/#{@organization.id}/sync", method: "post", class: "sync-button") do %>
+        <%= submit_tag("sync", class: 'card-extended__little-button') %>
+      <% end %>
+    </div>
+    <div class="card-tab">
+      <header-tab :repositories="'tab-repositories'"
+                  :users="'tab-users'">
+      </header-tab>
+    </div>
+  </div>
+  <div class="card-extended__body-list">
+    <div id="tab-repositories">
+      <%= render "repositories" %>
+    </div>
+    <div id="tab-users">
+      <%= render "users" %>
+    </div>
+  </div>
+</div>
