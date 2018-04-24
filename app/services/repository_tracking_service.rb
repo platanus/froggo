@@ -1,15 +1,15 @@
 class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
   def track
+    set_repository_status(true)
     clear_repository
     import_pull_requests_with_reviews
     set_repository_webhook
-    set_repository_status(true)
   end
 
   def untrack
+    set_repository_status(false)
     clear_repository
     remove_repository_webhook
-    set_repository_status(false)
   end
 
   private

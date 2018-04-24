@@ -20,6 +20,7 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   end
 
   def import_github_pull_request_review(pull_request, github_pr_review)
+    return unless pull_request.repository.reload.tracked
     params = build_pull_request_review_params(github_pr_review)
 
     if pr_review = PullRequestReview.find_by(gh_id: github_pr_review.id)
