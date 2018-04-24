@@ -1,12 +1,14 @@
 class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   def import_all_from_repository(repository)
     repository.pull_requests.each do |pull_request|
+      break unless repository.tracked
       import_all_from_pull_request(pull_request)
     end
   end
 
   def import_all_from_pull_request(pull_request)
     github_pull_request_reviews(pull_request).each do |github_pull_request_review|
+      break unless pull_request.repository.tracked
       import_github_pull_request_review(pull_request, github_pull_request_review)
     end
   end
