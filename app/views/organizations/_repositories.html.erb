@@ -9,14 +9,16 @@
       <%= t('messages.settings.repository_title') %>
       <span class="bolder"><%= @github_organization[:login] %></span>
       <%= form_tag("/api/organizations/#{@organization.id}/sync", method: "post", class: "sync-button") do %>
-        <%= submit_tag("sync") %>
+        <%= submit_tag("sync", class: 'card-extended__little-button') %>
       <% end %>
     </div>
-    <div class="card-extended__user">
-      Admin
+    <div class="card-tab">
+      <div class="card-tab__button">
+        <%= t('messages.settings.admin_users') %>
+      </div>
     </div>
   </div>
-  <div class="card-extended__body">
+  <div class="card-extended__body-list">
   <% @organization.sorted_repositories.each do |repository| %>
     <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'gh_updated_at', 'html_url').to_json %>" class="card__repository">
     </repository>
