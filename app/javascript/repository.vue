@@ -2,7 +2,9 @@
   <div>
     <div v-if="repository.tracked" v-on:click="untrack()" class="card-extended__button card-extended__button--inactive">untrack</div>
     <div v-else v-on:click="track()" class="card-extended__button">track</div>
-    <div class="card-extended__repo-name">{{ repository.name }} - {{ repository.gh_updated_at }}</div>
+    <div class="card-extended__repo-name">
+      <a :href="repository.html_url" target="_blank" class="card-extended__link">{{ repository.name }} - {{ repository.gh_updated_at }}</a>
+    </div>
   </div>
 </template>
 
@@ -33,7 +35,7 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    }
+    },
   },
 }
 </script>
