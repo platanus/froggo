@@ -35,22 +35,21 @@ end
 #
 # Table name: pull_requests
 #
-#  id                                :integer          not null, primary key
-#  gh_id                             :integer
-#  title                             :string
-#  gh_number                         :integer
-#  pr_state                          :string
-#  html_url                          :string
-#  gh_created_at                     :datetime
-#  gh_updated_at                     :datetime
-#  gh_closed_at                      :datetime
-#  gh_merged_at                      :datetime
-#  created_at                        :datetime         not null
-#  updated_at                        :datetime         not null
-#  repository_id                     :integer
-#  owner_id                          :integer
-#  merged_by_id                      :integer
-#  last_pull_req_review_modification :datetime
+#  id            :integer          not null, primary key
+#  gh_id         :integer
+#  title         :string
+#  gh_number     :integer
+#  pr_state      :string
+#  html_url      :string
+#  gh_created_at :datetime
+#  gh_updated_at :datetime
+#  gh_closed_at  :datetime
+#  gh_merged_at  :datetime
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  repository_id :integer
+#  owner_id      :integer
+#  merged_by_id  :integer
 #
 # Indexes
 #
