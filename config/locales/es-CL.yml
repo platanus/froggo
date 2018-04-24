@@ -24,8 +24,8 @@ es-CL:
       permission_title: Ups. No hay nada aquí.
       permission_info: ! 'El admin de %{org} no ha creado el dashboard. Envíale una ranita para que lo haga.'
       permission_button: Enviar ranita voladora
-      empty_info: Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.
-      empty_title: ¡Está vacío!
+      empty_info: ! 'La organización %{org} esta vacia. Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.'
+      empty_title: ! ¡%{org} está vacío!
     header:
       close_session: Cerrar sesión
     home:
