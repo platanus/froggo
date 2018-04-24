@@ -233,6 +233,11 @@
       justify-content: center;
       margin-bottom: 50px;
       flex: 1 1 auto;
+
+      &-list {
+        @extend .card-extended__body;
+        justify-content: flex-start;
+      }
     }
 
     &__button {
