@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe GithubPullRequestService do
   let(:token) { "blubli" }
-  let(:repository) { create(:repository) }
 
   let(:service) { build(token: token) }
 
@@ -83,67 +82,82 @@ describe GithubPullRequestService do
   end
 
   describe "#import_github_pull_request" do
-    context "when PR doesn`t exist" do
-      it "creates new pull request" do
+    context "when repository is not tracked" do
+      let(:repository) { create(:repository, tracked: false) }
+
+      it "doesn't create any pull request" do
         expect { service.import_github_pull_request(repository, github_pr_response) }.to(
-          change { PullRequest.count }.by(1)
-        )
-      end
-
-      it "creates PR with valid data" do
-        service.import_github_pull_request(repository, github_pr_response)
-        pull_request = PullRequest.last
-
-        expect(pull_request).to have_attributes(
-          gh_id: 3,
-          gh_number: 1,
-          pr_state: "open",
-          title: "Test"
+          change { repository.pull_requests.count }.by(0)
         )
       end
     end
 
-    context "when PR exists" do
-      let!(:pull_request) do
-        create(:pull_request, gh_id: 3, title: "Old Title", repository: repository)
-      end
-
-      it "does not create new pull requests" do
-        expect { build(token: token).import_github_pull_request(repository, github_pr_response) }
-          .not_to(change { PullRequest.count })
-      end
-
-      it "updates existing pull request" do
-        expect { build(token: token).import_github_pull_request(repository, github_pr_response) }
-          .to(
-            change { pull_request.reload.title }.from("Old Title").to(github_pr_response.title)
+    context "when repository is tracked" do
+      let(:repository) { create(:repository, tracked: true) }
+      context "when PR doesn`t exist" do
+        it "creates new pull request" do
+          expect { service.import_github_pull_request(repository, github_pr_response) }.to(
+            change { repository.pull_requests.count }.by(1)
           )
-      end
-    end
+        end
 
-    context "when PR has been merged" do
-      before do
-        allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
-        allow(client).to receive(:pull_request).with(github_pr_response_merged.head.repo.full_name,
-          github_pr_response_merged.number)
-                                               .and_return(github_single_pr)
-      end
-      it "creates new pull request" do
-        expect { service.import_github_pull_request(repository, github_pr_response_merged) }.to(
-          change { PullRequest.count }.by(1)
-        )
+        it "creates PR with valid data" do
+          service.import_github_pull_request(repository, github_pr_response)
+          pull_request = PullRequest.last
+
+          expect(pull_request).to have_attributes(
+            gh_id: 3,
+            gh_number: 1,
+            pr_state: "open",
+            title: "Test"
+          )
+        end
       end
 
-      it "assigns github user to pull request" do
-        service.import_github_pull_request(repository, github_pr_response_merged)
-        expect(PullRequest.last.merged_by).to(
-          eq(GithubUser.find_by(gh_id: github_pr_response_merged.user.id))
-        )
+      context "when PR exists" do
+        let!(:pull_request) do
+          create(:pull_request, gh_id: 3, title: "Old Title", repository: repository)
+        end
+
+        it "does not create new pull requests" do
+          expect { build(token: token).import_github_pull_request(repository, github_pr_response) }
+            .not_to(change { PullRequest.count })
+        end
+
+        it "updates existing pull request" do
+          expect { build(token: token).import_github_pull_request(repository, github_pr_response) }
+            .to(
+              change { pull_request.reload.title }.from("Old Title").to(github_pr_response.title)
+            )
+        end
+      end
+
+      context "when PR has been merged" do
+        before do
+          allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
+          allow(client).to receive(:pull_request).with(
+            github_pr_response_merged.head.repo.full_name,
+            github_pr_response_merged.number
+          ).and_return(github_single_pr)
+        end
+        it "creates new pull request" do
+          expect { service.import_github_pull_request(repository, github_pr_response_merged) }.to(
+            change { PullRequest.count }.by(1)
+          )
+        end
+
+        it "assigns github user to pull request" do
+          service.import_github_pull_request(repository, github_pr_response_merged)
+          expect(PullRequest.last.merged_by).to(
+            eq(GithubUser.find_by(gh_id: github_pr_response_merged.user.id))
+          )
+        end
       end
     end
   end
 
   describe "#import_all_from_repository" do
+    let(:repository) { create(:repository, tracked: true) }
     before do
       allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
 
@@ -159,6 +173,7 @@ describe GithubPullRequestService do
   end
 
   describe "#handle_webhook_event" do
+    let(:repository) { create(:repository, tracked: true) }
     let(:event_request_data) do
       double(
         action: 'opened',
