@@ -1,4 +1,6 @@
 class PullRequestReview < ApplicationRecord
+  include PowerTypes::Observable
+
   belongs_to :pull_request
   belongs_to :github_user
 end
