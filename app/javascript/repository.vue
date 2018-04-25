@@ -3,7 +3,8 @@
     <div v-if="repository.tracked" v-on:click="untrack()" class="card-extended__button card-extended__button--inactive">untrack</div>
     <div v-else v-on:click="track()" class="card-extended__button">track</div>
     <div class="card-extended__repo-name">
-      <a :href="repository.html_url" target="_blank" class="card-extended__link">{{ repository.name }} - {{ repository.gh_updated_at }}</a>
+      <a :href="repository.html_url" target="_blank" class="card-extended__link">{{ repository.name }}</a>
+      <div class="card-extended__last-update">{{ $t("message.settings.repoUpdate") }} {{ repoDate }}</div>
     </div>
   </div>
 </template>
@@ -15,6 +16,11 @@ export default {
   data: function () {
     return {
       repository: this.value,
+    }
+  },
+  computed: {
+    repoDate() {
+      return new Date(this.repository.gh_updated_at).toLocaleDateString();
     }
   },
   props: ['value'],
