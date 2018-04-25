@@ -1,12 +1,14 @@
 class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   def import_all_from_repository(repository)
     repository.pull_requests.each do |pull_request|
+      break unless repository.tracked
       import_all_from_pull_request(pull_request)
     end
   end
 
   def import_all_from_pull_request(pull_request)
     github_pull_request_reviews(pull_request).each do |github_pull_request_review|
+      break unless pull_request.repository.tracked
       import_github_pull_request_review(pull_request, github_pull_request_review)
     end
   end
@@ -20,6 +22,7 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   end
 
   def import_github_pull_request_review(pull_request, github_pr_review)
+    return unless pull_request.repository.reload.tracked
     params = build_pull_request_review_params(github_pr_review)
 
     if pr_review = PullRequestReview.find_by(gh_id: github_pr_review.id)

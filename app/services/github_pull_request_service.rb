@@ -1,6 +1,7 @@
 class GithubPullRequestService < PowerTypes::Service.new(:token)
   def import_all_from_repository(repository)
     github_pull_requests(repository).each do |github_pull_request|
+      break unless repository.tracked
       import_github_pull_request(repository, github_pull_request)
     end
   end
@@ -13,6 +14,7 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
   end
 
   def import_github_pull_request(repository, github_pull_request)
+    return unless repository.reload.tracked
     params = build_pull_request_params(github_pull_request)
 
     if pull_request = PullRequest.find_by(gh_id: github_pull_request.id)

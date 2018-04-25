@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe GithubPullRequestReviewService do
   let(:token) { "blubli" }
-  let(:repository) { create(:repository) }
   let(:pull_request) { create(:pull_request, repository: repository) }
 
   let(:service) { build(token: token) }
@@ -26,39 +25,54 @@ describe GithubPullRequestReviewService do
   end
 
   describe "#import_github_pull_request_review" do
-    context "when review doesn't exist" do
-      it "creates new pull request review" do
+    context "when repository is not tracked" do
+      let(:repository) { create(:repository, tracked: false) }
+
+      it "doesn't create any reviews" do
         expect do
           service.import_github_pull_request_review(pull_request, github_review_response)
-        end.to(change { PullRequestReview.count }.by(1))
-      end
-
-      it "creates a pull request review with valid data" do
-        service.import_github_pull_request_review(pull_request, github_review_response)
-        pull_request_review = PullRequestReview.last
-
-        expect(pull_request_review).to have_attributes(
-          gh_id: 123,
-          github_user_id: GithubUser.find_by(gh_id: 1).id
-        )
+        end.to(change { PullRequestReview.count }.by(0))
       end
     end
 
-    context "when review exists" do
-      before do
-        create(:pull_request_review, gh_id: 123, pull_request: pull_request)
+    context "when repository is tracked" do
+      let(:repository) { create(:repository, tracked: true) }
+
+      context "and review doesn't exist" do
+        it "creates new pull request review" do
+          expect do
+            service.import_github_pull_request_review(pull_request, github_review_response)
+          end.to(change { PullRequestReview.count }.by(1))
+        end
+
+        it "creates a pull request review with valid data" do
+          service.import_github_pull_request_review(pull_request, github_review_response)
+          pull_request_review = PullRequestReview.last
+
+          expect(pull_request_review).to have_attributes(
+            gh_id: 123,
+            github_user_id: GithubUser.find_by(gh_id: 1).id
+          )
+        end
       end
 
-      it "does not create new pull request reviews" do
-        expect do
-          build(token: token).import_github_pull_request_review(pull_request,
-            github_review_response)
-        end.not_to(change { PullRequestReview.count })
+      context "and review exists" do
+        before do
+          create(:pull_request_review, gh_id: 123, pull_request: pull_request)
+        end
+
+        it "does not create new pull request reviews" do
+          expect do
+            build(token: token).import_github_pull_request_review(pull_request,
+              github_review_response)
+          end.not_to(change { PullRequestReview.count })
+        end
       end
     end
   end
 
   describe "#import_all_from_repository" do
+    let(:repository) { create(:repository, tracked: true) }
     it "calls import_all_from_pull_request" do
       expect(service).to receive(:import_all_from_pull_request)
         .with(pull_request)
@@ -70,6 +84,7 @@ describe GithubPullRequestReviewService do
 
   describe "#import_all_from_pull_request" do
     let(:client) { double(:client, pull_requests: true) }
+    let(:repository) { create(:repository, tracked: true) }
 
     before do
       allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
@@ -89,6 +104,7 @@ describe GithubPullRequestReviewService do
   end
 
   describe "#handle_webhook_event" do
+    let(:repository) { create(:repository, tracked: true) }
     let!(:event_request_data) do
       double(
         action: 'submitted',
