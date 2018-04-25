@@ -8,6 +8,7 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
 
   def untrack
     set_repository_status(false)
+    sleep(0.5) # Wait for other process to check untracked status and stop creating pull requests
     clear_repository
     remove_repository_webhook
   end
@@ -16,7 +17,6 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
 
   def clear_repository
     @repository.pull_requests.destroy_all
-    @repository.pull_request_reviews.destroy_all
   end
 
   def import_pull_requests_with_reviews
