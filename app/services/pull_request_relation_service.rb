@@ -13,7 +13,7 @@ class PullRequestRelationService < PowerTypes::Service.new(:pull_request)
   end
 
   def create_review_relations
-    if @pull_request.pull_request_reviews.present?
+    if @pull_request.pull_request_reviews.reload.present?
       PullRequestRelation.review_relations.by_pull_request(@pull_request.id).destroy_all
       last_review_for_each_user.each do |review|
         PullRequestRelation.review_relations.create!(

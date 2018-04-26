@@ -7,10 +7,6 @@ class PullRequestObserver < PowerTypes::Observer
       service = PullRequestRelationService.new(pull_request: object)
       service.create_merge_relation
     end
-    if object.saved_change_to_last_pull_req_review_modification?
-      service = PullRequestRelationService.new(pull_request: object)
-      service.create_review_relations
-    end
   end
 
   def destroy_pull_request_relations

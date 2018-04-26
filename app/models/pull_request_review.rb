@@ -1,12 +1,8 @@
 class PullRequestReview < ApplicationRecord
+  include PowerTypes::Observable
+
   belongs_to :pull_request
   belongs_to :github_user
-
-  after_save :touch_pull_request
-
-  def touch_pull_request
-    pull_request.update(last_pull_req_review_modification: Time.current)
-  end
 end
 
 # == Schema Information
