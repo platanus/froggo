@@ -198,6 +198,11 @@
     justify-content: space-evenly;
     color: $primary;
 
+    &__last-update {
+      font-size: 11px;
+      color: $secondary-color;
+    }
+
     &__header {
       flex-basis: 67px;
       display: flex;
