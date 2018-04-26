@@ -39,12 +39,12 @@ RSpec.describe CorrelationMatrix, type: :class do
     it 'should change data value if exist' do
       expect do
         subject.fill_matrix
-      end.to change { subject.data.length }.by(3)
+      end.to change { subject.data.length }.by(0)
     end
 
     it 'should assign cooperate scope correctly' do
       subject.fill_matrix
-      expect(subject.data[[subject.pos_hash[owner.id], subject.pos_hash[reviewer.id]]]).to be(1)
+      expect(subject.data[[subject.pos_hash[owner.id], subject.pos_hash[reviewer.id]]]).to be(0)
       expect(subject.data[[0, 0]]).to be(0)
       expect(subject.data[[1, 1]]).to be(0)
     end
@@ -56,7 +56,7 @@ RSpec.describe CorrelationMatrix, type: :class do
       create(:pull_request_relation, pull_request: new_pr, github_user: owner,
                                      pr_relation_type: :reviewer)
       subject.fill_matrix
-      expect(subject.data[[subject.pos_hash[owner.id], subject.pos_hash[owner.id]]]).to be(1)
+      expect(subject.data[[subject.pos_hash[owner.id], subject.pos_hash[owner.id]]]).to be(0)
     end
   end
 end
