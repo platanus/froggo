@@ -110,6 +110,15 @@
   flex-direction: column;
   justify-content: center;
   flex: 1 1 auto;
+
+  &__text {
+    text-decoration: none;
+    color: $home-footer-color;
+  }
+
+  & a:visited {
+    @extend .c-home-footer__text;
+  }
 }
 
 .landing {
