@@ -74,8 +74,8 @@ describe GithubPullRequestReviewService do
   describe "#import_all_from_repository" do
     let(:repository) { create(:repository, tracked: true) }
     it "calls import_all_from_pull_request" do
-      expect(service).to receive(:import_all_from_pull_request)
-        .with(pull_request)
+      expect(ImportPullRequestReviewsJob).to receive(:perform_later)
+        .with(pull_request, token)
         .and_return(nil)
 
       service.import_all_from_repository(repository)
