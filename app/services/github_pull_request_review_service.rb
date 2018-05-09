@@ -2,7 +2,7 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   def import_all_from_repository(repository)
     repository.pull_requests.each do |pull_request|
       break unless repository.tracked
-      import_all_from_pull_request(pull_request)
+      ImportPullRequestReviewsJob.perform_later(pull_request, @token)
     end
   end
 

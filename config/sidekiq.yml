@@ -1,5 +1,5 @@
 production:
-  :concurrency: 5
+  :concurrency: <%= ENV.fetch('SIDEKIQ_CONCURRENCY', 5) %>
 :queues:
   - default
 :schedule:
