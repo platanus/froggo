@@ -379,6 +379,8 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.4, < 5)
+    sidekiq-limit_fetch (3.4.0)
+      sidekiq (>= 4)
     sidekiq-scheduler (2.1.10)
       redis (>= 3, < 5)
       rufus-scheduler (~> 3.2)
@@ -473,6 +475,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   sidekiq
+  sidekiq-limit_fetch
   sidekiq-scheduler
   simple_token_authentication (~> 1.0)
   spring
