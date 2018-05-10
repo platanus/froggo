@@ -10,29 +10,29 @@
     <% end %>
   </div>
   <div class="card-extended__body ">
-    <table class="matrix-dashboard">
-      <thead class="matrix__head">
-        <th class="matrix__user"></th>
+    <div class="matrix-dashboard">
+      <div class="matrix__head" id="sticky-head">
+        <div class="matrix__user--head"></div>
         <% @corrmat.tracked_users.each do |user| %>
-          <th class="matrix__user">
+          <div class="matrix__user--head">
             <div class="matrix__picture">
               <a href="<%= user.html_url %>" title="<%= user.login %>">
                 <img class="matrix__user-img" src="<%= user.avatar_url %>">
               </a>
             </div>
-          </th>
+          </div>
         <% end %>
-      </thead>
-      <tbody>
+      </div>
+      <div>
       <% @corrmat.tracked_users.each_with_index do |b, i| %>
-        <tr>
-          <td class="matrix__user">
+        <div class="matrix__row">
+          <div class="matrix__user stick_vertical">
             <a href="<%= b.html_url %>" title="<%= b.login %>">
               <img class="matrix__user-img" src="<%= b.avatar_url %>">
             </a>
-          </td>
+          </div>
           <% @corrmat.tracked_users.each_with_index do |a, j| %>
-            <td class="matrix__pullrequest">
+            <div class="matrix__pullrequest">
               <span class="matrix__pullrequest__number<%= if i == j then
                                                             '-diagonal'
                                                           elsif @corrmat.data[[i, j]] == 0 then
@@ -40,12 +40,12 @@
                                                           end %>">
                 <%= @corrmat.data[[i, j]] %>
               </span>
-            </td>
+            </div>
           <% end %>
-        </tr>
+        </div>
       <% end %>
-      </tbody>
-    </table>
+      </div>
+    </div>
   </div>
 </div>
 

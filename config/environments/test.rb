@@ -3,7 +3,7 @@ Rails.application.configure do
   config.before_configuration do
     Dotenv.load(Dotenv::Railtie.root.join('.env.development'))
   end
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = Uglifier.new(harmony: true)
   config.cache_classes = true
   config.eager_load = false
   config.public_file_server.enabled = true
