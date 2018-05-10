@@ -21,7 +21,6 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
 
   def import_pull_requests_with_reviews
     GithubPullRequestService.new(token: @token).import_all_from_repository(@repository)
-    GithubPullRequestReviewService.new(token: @token).import_all_from_repository(@repository)
   end
 
   def set_repository_webhook

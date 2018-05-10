@@ -1,8 +1,10 @@
 class GithubPullRequestService < PowerTypes::Service.new(:token)
+  GITHUB_PER_PAGE = 20
+
   def import_all_from_repository(repository)
-    github_pull_requests(repository).each do |github_pull_request|
-      break unless repository.tracked
-      import_github_pull_request(repository, github_pull_request)
+    total_pages = total_prs_pages(repository)
+    (1..total_pages).each do |page|
+      ImportPullRequestsJob.perform_later(repository, page, @token)
     end
   end
 
@@ -13,6 +15,14 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     import_github_pull_request(repo, data_object.pull_request)
   end
 
+  def import_page_from_repository(repository, page)
+    github_pull_requests(repository, page: page).each do |github_pull_request|
+      break unless repository.tracked
+      pull_request = import_github_pull_request(repository, github_pull_request)
+      ImportPullRequestReviewsJob.perform_later(pull_request, @token)
+    end
+  end
+
   def import_github_pull_request(repository, github_pull_request)
     return unless repository.reload.tracked
     params = build_pull_request_params(github_pull_request)
@@ -20,14 +30,15 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     if pull_request = PullRequest.find_by(gh_id: github_pull_request.id)
       pull_request.update! params
     else
-      repository.pull_requests.create!(params)
+      pull_request = repository.pull_requests.create!(params)
     end
+    pull_request
   end
 
   private
 
-  def github_pull_requests(repository)
-    client.pull_requests(repository.full_name, state: 'all')
+  def github_pull_requests(repository, page: nil)
+    client.pull_requests(repository.full_name, state: 'all', page: page)
   end
 
   def build_pull_request_params(github_pull_request)
@@ -76,6 +87,16 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
   end
 
   def client
-    @client ||= BuildOctokitClient.for(token: @token)
+    @client ||= BuildOctokitClient.for(token: @token, per_page: GITHUB_PER_PAGE)
+  end
+
+  def total_prs_pages(repo)
+    github_pull_requests(repo)
+    if client.last_response.rels.present?
+      CGI.parse(URI.parse(client.last_response.rels[:last].href).query)
+         .symbolize_keys[:page].first.to_i
+    else
+      1
+    end
   end
 end
