@@ -35,7 +35,9 @@ class CorrelationMatrix
 
   # Get user pull requests where had been merged by himself
   def gh_user_merged_pull_req_ids(gh_user)
-    @pr_relations.where(pr_relation_type: :merged_by, github_user_id: gh_user.id)
+    @pr_relations.where(target_user_id: gh_user.id,
+                        pr_relation_type: :merged_by,
+                        github_user_id: gh_user.id)
                  .group(:pull_request_id)
                  .pluck(:pull_request_id)
   end
