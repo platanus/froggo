@@ -4,7 +4,7 @@ class CorrelationMatrix
   def initialize(org_id)
     @organization = Organization.find(org_id)
     @pr_relations = PullRequestRelation.by_organizations(org_id).within_month_limit
-    @tracked_users = participants
+    @tracked_users = @organization.tracked_members
     @pos_hash = Hash[@tracked_users.map(&:id).map.with_index { |x, i| [x, i] }]
     @data = Hash.new(0)
   end
@@ -19,11 +19,6 @@ class CorrelationMatrix
   end
 
   private
-
-  def participants
-    users = @organization.members.where(organization_memberships: { tracked: true })
-    GithubUser.where(id: users)
-  end
 
   def gh_user_interactions(gh_user)
     @pr_relations.where(target_user_id: gh_user.id)
