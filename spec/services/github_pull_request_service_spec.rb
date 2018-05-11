@@ -75,7 +75,7 @@ describe GithubPullRequestService do
     )
   end
 
-  let(:client) { double(:client, pull_requests: true) }
+  let(:client) { double(:client) }
 
   def build(*_args)
     described_class.new(*_args)
@@ -134,7 +134,8 @@ describe GithubPullRequestService do
 
       context "when PR has been merged" do
         before do
-          allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
+          allow(BuildOctokitClient).to receive(:for).with(token: token, per_page: 20)
+                                                    .and_return(client)
           allow(client).to receive(:pull_request).with(
             github_pr_response_merged.head.repo.full_name,
             github_pr_response_merged.number
@@ -156,19 +157,51 @@ describe GithubPullRequestService do
     end
   end
 
-  describe "#import_all_from_repository" do
+  describe "#import_page_from_repository" do
     let(:repository) { create(:repository, tracked: true) }
-    before do
-      allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
 
-      allow(client).to receive(:pull_requests).with(repository.full_name, state: "all")
+    before do
+      allow(BuildOctokitClient).to receive(:for).with(token: token, per_page: 20)
+                                                .and_return(client)
+
+      allow(client).to receive(:pull_requests).with(repository.full_name, state: "all", page: 1)
                                               .and_return([github_pr_response])
+
+      expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
+                                                             .and_return(nil)
     end
 
     it "calls import_github_pull_request" do
-      expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
-                                                             .and_return(nil)
-      service.import_all_from_repository(repository)
+      service.import_page_from_repository(repository, 1)
+    end
+
+    it "should have enqueued ImportPullRequestReviewsJob" do
+      ActiveJob::Base.queue_adapter = :test
+      expect { service.import_page_from_repository(repository, 1) }
+        .to have_enqueued_job(ImportPullRequestReviewsJob)
+    end
+  end
+
+  describe "#import_all_from_repository with two total pages" do
+    let(:repository) { create(:repository, tracked: true) }
+    let(:last_client_response) do
+      double(rels: { last: double(href: 'http://www.github-example.com?page=2') })
+    end
+
+    before do
+      allow(BuildOctokitClient).to receive(:for).with(token: token, per_page: 20)
+                                                .and_return(client)
+
+      allow(client).to receive(:pull_requests)
+        .with(repository.full_name, state: "all", page: nil)
+        .and_return([github_pr_response])
+      allow(client).to receive(:last_response).and_return(last_client_response)
+    end
+
+    it "should have enqueued ImportPullRequestJob twice" do
+      ActiveJob::Base.queue_adapter = :test
+      expect { service.import_all_from_repository(repository) }
+        .to have_enqueued_job(ImportPullRequestsJob).at_least(:twice)
     end
   end
 
@@ -182,7 +215,7 @@ describe GithubPullRequestService do
       )
     end
 
-    it "call import_github_pull_request" do
+    it "calls import_github_pull_request" do
       expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
                                                              .and_return(nil)
       service.handle_webhook_event(event_request_data)

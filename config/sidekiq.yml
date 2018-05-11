@@ -2,6 +2,11 @@ production:
   :concurrency: <%= ENV.fetch('SIDEKIQ_CONCURRENCY', 5) %>
 :queues:
   - default
+  - pull_requests
+  - reviews
+:limits:
+    pull_requests: <%= ENV.fetch('SIDEKIQ_PULL_REQS_CONCURRENCY', 1) %>
+    reviews: <%= ENV.fetch('SIDEKIQ_REVIEWS_CONCURRENCY', 4) %>
 :schedule:
   #  an_scheduled_task:
   #    cron: '0 * * * * *'  # Runs once per minute

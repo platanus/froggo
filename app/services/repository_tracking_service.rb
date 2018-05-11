@@ -1,5 +1,6 @@
 class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
   def track
+    return if @repository.tracked?
     set_repository_status(true)
     clear_repository
     import_pull_requests_with_reviews
@@ -7,6 +8,7 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
   end
 
   def untrack
+    return unless @repository.tracked?
     set_repository_status(false)
     sleep(0.5) # Wait for other process to check untracked status and stop creating pull requests
     clear_repository
@@ -21,7 +23,6 @@ class RepositoryTrackingService < PowerTypes::Service.new(:repository, :token)
 
   def import_pull_requests_with_reviews
     GithubPullRequestService.new(token: @token).import_all_from_repository(@repository)
-    GithubPullRequestReviewService.new(token: @token).import_all_from_repository(@repository)
   end
 
   def set_repository_webhook

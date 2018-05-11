@@ -9,29 +9,8 @@ class Organization < ApplicationRecord
   validates :gh_id, presence: true
   validates :login, presence: true
 
-  def reviewers
-    GithubUser
-      .joins(pull_requests_reviewed: :repository)
-      .where(pull_requests_reviewed: { repositories: { organization_id: id } })
-      .group(:id)
-  end
-
-  def merge_users
-    GithubUser
-      .joins(pull_requests_merged: :repository)
-      .where(pull_requests_merged: { repositories: { organization_id: id } })
-      .group(:id)
-  end
-
-  def pull_request_owners
-    GithubUser
-      .joins(pull_requests: :repository)
-      .where(pull_requests: { repositories: { organization_id: id } })
-      .group(:id)
-  end
-
-  def all_tracked_users
-    pull_request_owners.tracked | reviewers.tracked | merge_users.tracked
+  def tracked_members
+    members.where(organization_memberships: { tracked: true })
   end
 
   def sorted_repositories
