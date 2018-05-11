@@ -16,10 +16,6 @@ describe RepositoryTrackingService do
         .with(repository)
         .and_return(true)
 
-      expect_any_instance_of(GithubPullRequestReviewService).to receive(:import_all_from_repository)
-        .with(repository)
-        .and_return(true)
-
       expect_any_instance_of(GithubRepositoryService).to receive(:set_webhook)
         .with(repository)
         .and_return(true)
