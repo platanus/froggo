@@ -37,6 +37,32 @@ describe GithubRepositoryService do
     }
   end
 
+  let (:github_on_hooks_response) do
+    [
+      {
+        type: "Repository",
+        id: 26863215,
+        name: "web",
+        active: true,
+        events: ["pull_request", "pull_request_review"],
+        config: {
+          content_type: "json",
+          secret: "********",
+          url: "#{ENV['APPLICATION_HOST']}/github_events",
+          insecure_ssl: "0"
+        }
+      },
+      {
+        config: {
+          content_type: "json",
+          secret: "********",
+          url: "https://pl-froggo-fake.herokuapp.com/github_events",
+          insecure_ssl: "0"
+        }
+      }
+    ]
+  end
+
   def mock_github_response(response)
     allow(client).to receive(:create_hook)
       .with(repository.full_name,
@@ -49,6 +75,20 @@ describe GithubRepositoryService do
         events: ['pull_request', 'pull_request_review'],
         active: true)
       .and_return(response)
+  end
+
+  def mock_github_response_iteration(first_response, second_response)
+    allow(client).to receive(:create_hook)
+      .with(repository.full_name,
+        'web',
+        {
+          url: "#{ENV['APPLICATION_HOST']}/github_events",
+          content_type: 'json',
+          secret: ENV['GH_HOOK_SECRET']
+        },
+        events: ['pull_request', 'pull_request_review'],
+        active: true)
+      .and_return(first_response, second_response)
   end
 
   before do
@@ -75,6 +115,24 @@ describe GithubRepositoryService do
       it 'throws github error' do
         response = build(token: token).set_webhook(repository)
         expect(response).to eq(nil)
+      end
+    end
+
+    context 'when a hook exists in github repository' do
+      before do
+        mock_github_response_iteration(Octokit::UnprocessableEntity,
+          github_on_created_hook_response)
+        allow(client).to receive(:hooks)
+          .with(repository.full_name)
+          .and_return(github_on_hooks_response)
+        allow(client).to receive(:remove_hook)
+          .with(repository.full_name, 26863215)
+          .and_return(true)
+      end
+
+      it 'removes and create a new hook' do
+        expect { build(token: token).set_webhook(repository) }
+          .to change { Hook.all.count }.by(1)
       end
     end
   end
