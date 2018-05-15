@@ -1,7 +1,13 @@
 class GithubRepositoryService < PowerTypes::Service.new(:token)
   def set_webhook(repository)
     github_response = set_github_webhook(repository)
-    create_hook(github_response, repository) unless github_response == Octokit::NotFound
+    if github_response == Octokit::UnprocessableEntity
+      remove_old_webhook(repository)
+      github_response = set_github_webhook(repository)
+    elsif github_response == Octokit::NotFound
+      return nil
+    end
+    create_hook(github_response, repository)
   end
 
   def remove_webhook(repository)
@@ -33,6 +39,13 @@ class GithubRepositoryService < PowerTypes::Service.new(:token)
 
   private
 
+  def remove_old_webhook(repository)
+    hook = client.hooks(repository.full_name).select do
+      |h| h[:config][:url] == "#{ENV['APPLICATION_HOST']}/github_events"
+    end
+    Hook.find_by(gh_id: hook.first[:id])&.destroy
+  end
+
   def create_hook(response, resource)
     @hook = Hook.create(
       gh_id: response[:id],
@@ -59,6 +72,9 @@ class GithubRepositoryService < PowerTypes::Service.new(:token)
   rescue Octokit::NotFound => ex
     logger.error ex
     Octokit::NotFound
+  rescue Octokit::UnprocessableEntity => ex
+    logger.error ex
+    Octokit::UnprocessableEntity
   end
 
   def remove_github_webhook(repository)
