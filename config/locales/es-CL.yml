@@ -26,6 +26,7 @@ es-CL:
       permission_button: Enviar ranita voladora
       empty_info: ! 'La organización %{org} esta vacia. Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.'
       empty_title: ! ¡%{org} está vacío!
+      organizations: Organizaciones
     header:
       close_session: Cerrar sesión
     home:

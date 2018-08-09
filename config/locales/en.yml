@@ -57,6 +57,7 @@ en:
       permission_button: Send a little flying
       empty_info: ! 'The organization %{org} is empty. Check your tracked repositories or encourage your team to do more code review.'
       empty_title: ! ' %{org} is empty!'
+      organizations: Organizations
     header:
       close_session: Close session
     home:

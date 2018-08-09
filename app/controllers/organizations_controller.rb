@@ -13,7 +13,7 @@ class OrganizationsController < ApplicationController
 
   def show
     @is_admin = organization_admin?
-    @organizations = github_organizations.map { |org| org[:login] }
+    @organizations = github_organizations
     @corrmat = get_matrix(@organization.id) if @has_dashboard
   end
 
