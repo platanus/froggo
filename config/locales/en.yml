@@ -56,7 +56,10 @@ en:
       permission_info: ! 'The admin from %{org} has not create dashboard. Send him a little frog asking him to do it.'
       permission_button: Send a little flying
       empty_info: ! 'The organization %{org} is empty. Check your tracked repositories or encourage your team to do more code review.'
+      empty_team: ! 'The team %{team} is empty. Check other teams or default dashboard of the organization.'
       empty_title: ! ' %{org} is empty!'
+      organizations: Organizations
+      teams: Teams
     header:
       close_session: Close session
     home:

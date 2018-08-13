@@ -12,6 +12,7 @@ gem 'devise-i18n'
 gem 'enumerize'
 gem "font-awesome-rails"
 gem 'jbuilder', '~> 2.5'
+gem 'octicons_helper'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
@@ -60,7 +61,7 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
-  gem 'faker'
+  gem 'faker', '1.8.4'
   gem 'guard-rspec', require: false
   gem 'pry-byebug'
   gem 'pry-rails'

@@ -57,6 +57,11 @@ RSpec.describe OrganizationsController, type: :controller do
     end
 
     context "when organization exists locally" do
+      before do
+        org_teams = [{ id: 1, name: 'Core', slug: 'core' },
+                     { id: 2, name: 'Extra', slug: 'extra' }]
+        expect(github_session).to receive(:get_teams).with(organization).and_return(org_teams)
+      end
       let!(:organization) { create(:organization, gh_id: 101) }
 
       before do

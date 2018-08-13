@@ -30,6 +30,21 @@ class GithubSession
     @session['client_type'] = _session_type
   end
 
+  def get_teams(organization)
+    client.organization_teams(organization[:login])
+          .sort_by { |team| team[:slug] }
+          .map { |team| { id: team.id, name: team.name, slug: team.slug } }
+  end
+
+  def get_team_members(team)
+    client.team_members(team[:id]).map do |member|
+      {
+        id: member.id,
+        login: member.login
+      }
+    end
+  end
+
   private
 
   def set_user

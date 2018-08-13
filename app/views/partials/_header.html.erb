@@ -5,19 +5,6 @@
     <% end %>
     <% unless @github_session.nil? %>
       <div class="header__menu-container">
-
-        <% unless @github_session.organizations.empty? %>
-          <dropdown class="dashboard-menu header__dashboard-menu">
-            <%= image_tag "dashboard-menu-icon.svg", slot: 'btn' %>
-            <div class="dashboard-menu__body" slot="body" slot-scope="{ closeDropdown }">
-              <div class="dashboard-menu__title">Dashboards</div>
-              <% @github_session.organizations.each do |org| %>
-                <%= link_to org[:login], organization_path(name: org[:login]), class: 'dashboard-menu__option', '@click': 'closeDropdown'  %>
-              <% end %>
-            </div>
-          </dropdown>
-        <% end %>
-
         <dropdown class="user-menu header__user-menu">
           <img class="user-menu__image" slot="btn" src="<%= @github_session.avatar_url %>"/>
           <div class="user-menu__body" slot="body">
