@@ -5,7 +5,7 @@ RSpec.describe CorrelationMatrix, type: :class do
   let!(:repository) { create(:repository, organization: organization) }
 
   context 'when initialized with empty organization' do
-    subject { CorrelationMatrix.new(organization.id) }
+    subject { CorrelationMatrix.new(organization.id, nil) }
     it 'has empty data' do
       expect(subject.data).to be_empty
     end
@@ -19,7 +19,7 @@ RSpec.describe CorrelationMatrix, type: :class do
       create(:pull_request_relation, pull_request: pull_requests[0], github_user: reviewer)
     end
 
-    subject { CorrelationMatrix.new(organization.id) }
+    subject { CorrelationMatrix.new(organization.id, nil) }
     it 'has zeros value' do
       expect(subject.data[[0, 0]]).to eq(0)
     end
@@ -34,7 +34,7 @@ RSpec.describe CorrelationMatrix, type: :class do
       create(:pull_request_relation, pull_request: pull_requests[0], github_user: reviewer)
     end
 
-    subject { CorrelationMatrix.new(organization.id) }
+    subject { CorrelationMatrix.new(organization.id, nil) }
 
     it 'should change data value if exist' do
       expect do

@@ -13,11 +13,6 @@ class OrganizationsController < ApplicationController
 
   def show
     @is_admin = organization_admin?
-
-    @teams = github_teams
-    @team = @teams.find { |team| team[:slug] == permitted_params[:team] } if permitted_params[:team]
-    @team_members = permitted_params[:team] ? github_team_members : nil
-
     @organizations = github_organizations
     @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id)) if @has_dashboard
   end
@@ -53,6 +48,13 @@ class OrganizationsController < ApplicationController
     else
       @organization = Organization.find_by(gh_id: @github_organization[:id])
       @has_dashboard = !@organization.nil?
+      if @has_dashboard
+        @teams = github_teams
+        if permitted_params[:team]
+          @team = @teams.find { |team| team[:slug] == permitted_params[:team] }
+          @team_members = github_team_members
+        end
+      end
     end
   end
 
