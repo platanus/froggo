@@ -13,8 +13,13 @@ class OrganizationsController < ApplicationController
 
   def show
     @is_admin = organization_admin?
+
+    @teams = github_teams
+    @team = @teams.find { |team| team[:slug] == permitted_params[:team] } if permitted_params[:team]
+    @team_members = permitted_params[:team] ? github_team_members : nil
+
     @organizations = github_organizations
-    @corrmat = get_matrix(@organization.id) if @has_dashboard
+    @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id)) if @has_dashboard
   end
 
   def create
@@ -43,7 +48,6 @@ class OrganizationsController < ApplicationController
     @github_organization = github_organizations.find do |org|
       org[:login] == permitted_params[:name]
     end
-
     if @github_organization.nil?
       redirect_to '/organizations'
     else
@@ -60,6 +64,14 @@ class OrganizationsController < ApplicationController
     github_session.organizations
   end
 
+  def github_teams
+    github_session.get_teams(@organization)
+  end
+
+  def github_team_members
+    github_session.get_team_members(@team)
+  end
+
   def ensure_organization_admin
     redirect_to organization_path(name: @github_organization[:login]) unless organization_admin?
   end
@@ -69,11 +81,11 @@ class OrganizationsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:name)
+    params.permit(:name, :team)
   end
 
-  def get_matrix(org_id)
-    corrmat = CorrelationMatrix.new(org_id)
+  def get_matrix(org_id, user_ids)
+    corrmat = CorrelationMatrix.new(org_id, user_ids)
     corrmat.fill_matrix
     corrmat
   end

@@ -1,10 +1,11 @@
 class CorrelationMatrix
   attr_accessor :tracked_users, :data, :pos_hash
 
-  def initialize(org_id)
+  def initialize(org_id, user_ids)
     @organization = Organization.find(org_id)
     @pr_relations = PullRequestRelation.by_organizations(org_id).within_month_limit
     @tracked_users = @organization.tracked_members
+    @tracked_users = @tracked_users.where(gh_id: user_ids) if user_ids
     @pos_hash = Hash[@tracked_users.map(&:id).map.with_index { |x, i| [x, i] }]
     @data = Hash.new(0)
   end

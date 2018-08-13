@@ -12,6 +12,7 @@ gem 'devise-i18n'
 gem 'enumerize'
 gem "font-awesome-rails"
 gem 'jbuilder', '~> 2.5'
+gem 'octicons_helper'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
