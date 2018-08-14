@@ -14,7 +14,9 @@ class OrganizationsController < ApplicationController
   def show
     @is_admin = organization_admin?
     @organizations = github_organizations
-    @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id)) if @has_dashboard
+    if @has_dashboard
+      @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id), @month_limit)
+    end
   end
 
   def create
@@ -48,13 +50,18 @@ class OrganizationsController < ApplicationController
     else
       @organization = Organization.find_by(gh_id: @github_organization[:id])
       @has_dashboard = !@organization.nil?
-      if @has_dashboard
-        @teams = github_teams
-        if permitted_params[:team]
-          @team = @teams.find { |team| team[:slug] == permitted_params[:team] }
-          @team_members = github_team_members
-        end
-      end
+      load_matrix_params if @has_dashboard
+    end
+  end
+
+  def load_matrix_params
+    @teams = github_teams
+    if permitted_params[:team]
+      @team = @teams.find { |team| team[:slug] == permitted_params[:team] }
+      @team_members = github_team_members
+    end
+    if permitted_params[:month_limit].present?
+      @month_limit = permitted_params[:month_limit].to_i
     end
   end
 
@@ -83,11 +90,11 @@ class OrganizationsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:name, :team)
+    params.permit(:name, :team, :month_limit)
   end
 
-  def get_matrix(org_id, user_ids)
-    corrmat = CorrelationMatrix.new(org_id, user_ids)
+  def get_matrix(org_id, user_ids, month_limit)
+    corrmat = CorrelationMatrix.new(org_id, user_ids, month_limit)
     corrmat.fill_matrix
     corrmat
   end

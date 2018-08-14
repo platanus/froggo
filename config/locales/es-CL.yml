@@ -29,6 +29,9 @@ es-CL:
       empty_title: ! ¡%{org} está vacío!
       organizations: Organizaciones
       teams: Equipos
+      months: Meses
+      month: Mes
+      since: Desde
     header:
       close_session: Cerrar sesión
     home:
