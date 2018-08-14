@@ -14,7 +14,9 @@ class OrganizationsController < ApplicationController
   def show
     @is_admin = organization_admin?
     @organizations = github_organizations
-    @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id), @month_limit) if @has_dashboard
+    if @has_dashboard
+      @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id), @month_limit)
+    end
   end
 
   def create
