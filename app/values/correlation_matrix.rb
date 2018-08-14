@@ -1,9 +1,12 @@
 class CorrelationMatrix
-  attr_accessor :tracked_users, :data, :pos_hash
+  DEFAULT_MONTH_LIMIT = 9
 
-  def initialize(org_id, user_ids)
+  attr_accessor :tracked_users, :data, :pos_hash, :limit
+
+  def initialize(org_id, user_ids, limit = DEFAULT_MONTH_LIMIT)
+    @limit = limit.present? ? limit : DEFAULT_MONTH_LIMIT
     @organization = Organization.find(org_id)
-    @pr_relations = PullRequestRelation.by_organizations(org_id).within_month_limit
+    @pr_relations = PullRequestRelation.by_organizations(org_id).within_month_limit(@limit)
     @tracked_users = @organization.tracked_members
     @tracked_users = @tracked_users.where(gh_id: user_ids) if user_ids
     @pos_hash = Hash[@tracked_users.map(&:id).map.with_index { |x, i| [x, i] }]

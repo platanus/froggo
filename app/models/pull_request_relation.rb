@@ -9,8 +9,8 @@ class PullRequestRelation < ApplicationRecord
 
   scope :merged_relations, -> { where(pr_relation_type: :merged_by) }
   scope :review_relations, -> { where(pr_relation_type: :reviewer) }
-  scope :within_month_limit, -> do
-    where('gh_updated_at > ?', Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
+  scope :within_month_limit, ->(limit) do
+    where('gh_updated_at > ?', Time.current - limit.months)
   end
   scope :by_pull_request, ->(pr_id) {  where(pull_request_id: pr_id) }
   scope :by_organizations, ->(organization_ids) { where(organization_id: organization_ids) }

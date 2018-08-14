@@ -60,6 +60,9 @@ en:
       empty_title: ! ' %{org} is empty!'
       organizations: Organizations
       teams: Teams
+      months: Months
+      month: Month
+      since: Since
     header:
       close_session: Close session
     home:
