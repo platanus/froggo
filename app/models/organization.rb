@@ -9,10 +9,6 @@ class Organization < ApplicationRecord
   validates :gh_id, presence: true
   validates :login, presence: true
 
-  def tracked_members
-    members.where(organization_memberships: { tracked: true })
-  end
-
   def sorted_repositories
     repositories.order('tracked DESC NULLS LAST, gh_updated_at DESC')
   end

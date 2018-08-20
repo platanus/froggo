@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180424180910) do
+ActiveRecord::Schema.define(version: 20180820193143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,7 +78,6 @@ ActiveRecord::Schema.define(version: 20180424180910) do
   create_table "organization_memberships", force: :cascade do |t|
     t.bigint "github_user_id"
     t.bigint "organization_id"
-    t.boolean "tracked", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["github_user_id"], name: "index_organization_memberships_on_github_user_id"
