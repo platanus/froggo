@@ -1,6 +1,6 @@
 ActiveAdmin.register GithubUser do
   remove_filter :gh_id, :id
-  permit_params :name, :tracked
+  permit_params :name
   menu priority: 3
   actions :all, except: [:new, :create, :destroy]
 
@@ -9,7 +9,6 @@ ActiveAdmin.register GithubUser do
     column :login
     column :name
     column :email
-    toggle_bool_column :tracked
     column :html_url do |o|
       link_to "Link", o.html_url
     end
@@ -23,7 +22,6 @@ ActiveAdmin.register GithubUser do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :tracked
     end
     f.actions
   end
