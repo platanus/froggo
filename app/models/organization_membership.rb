@@ -10,7 +10,6 @@ end
 #  id              :integer          not null, primary key
 #  github_user_id  :integer
 #  organization_id :integer
-#  tracked         :boolean          default(TRUE)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

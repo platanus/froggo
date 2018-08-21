@@ -4,7 +4,7 @@
     <div id="content-dashboard" class="dashboard">
       <% if !@has_dashboard && !@is_admin %>
         <%= render "permission" %>
-      <% elsif (@corrmat.nil? || @corrmat.tracked_users.empty?) && !@team %>
+      <% elsif (@corrmat.nil? || @corrmat.selected_users.empty?) && !@team %>
         <%= render "empty" %>
       <% else %>
         <%= render "dashboard_table" %>

@@ -8,8 +8,6 @@ class GithubUser < ApplicationRecord
 
   validates :gh_id, presence: true
   validates :login, presence: true
-
-  scope :tracked, -> { where(tracked: true) }
 end
 
 # == Schema Information
@@ -25,7 +23,6 @@ end
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  tracked    :boolean
 #
 # Indexes
 #

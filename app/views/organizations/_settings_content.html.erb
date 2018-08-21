@@ -12,18 +12,10 @@
         <%= submit_tag("sync", class: 'card-extended__little-button') %>
       <% end %>
     </div>
-    <div class="card-tab">
-      <header-tab :repositories="'tab-repositories'"
-                  :users="'tab-users'">
-      </header-tab>
-    </div>
   </div>
   <div class="card-extended__body-list">
     <div id="tab-repositories">
       <%= render "repositories" %>
-    </div>
-    <div id="tab-users">
-      <%= render "users" %>
     </div>
   </div>
 </div>
