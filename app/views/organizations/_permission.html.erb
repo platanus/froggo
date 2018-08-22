@@ -1,9 +1,12 @@
-<div class="card">
-  <h1 class="card__title"><%= t('messages.dashboard.permission_title') %></h1>
-  <div class="card__info">
-    <%= t('messages.dashboard.permission_info', org:  @github_organization[:login]) %>
-  </div>
-  <div class="card__button">
-    <span class="card__button-text"><%= t('messages.dashboard.permission_button') %></span>
+<div class="card-extended">
+  <%= render "card_header", only_organization: true %>
+  <div class="card-extended__body">
+    <h1 class="card__title"><%= t('messages.dashboard.permission_title', org:  @github_organization[:login]) %></h1>
+    <div class="card__info">
+      <%= t('messages.dashboard.permission_info', org:  @github_organization[:login]) %>
+    </div>
+    <div class="card__button">
+      <span class="card__button-text"><%= t('messages.dashboard.permission_button') %></span>
+    </div>
   </div>
 </div>
