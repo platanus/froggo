@@ -21,7 +21,7 @@ es-CL:
       button_config: Configurar dashboard
       button_create: Crear nuevo dashboard
       settings: Configuración
-      permission_title: Ups. No hay nada aquí.
+      permission_title: Ups. No hay nada en %{org}.
       permission_info: ! 'El admin de %{org} no ha creado el dashboard. Envíale una ranita para que lo haga.'
       permission_button: Enviar ranita voladora
       empty_info: ! 'La organización %{org} esta vacía. Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.'
