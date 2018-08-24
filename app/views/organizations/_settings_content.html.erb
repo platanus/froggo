@@ -8,9 +8,7 @@
       (<%= @organization.repositories.count %>)
       <%= t('messages.settings.repository_title') %>
       <span class="bolder"><%= @github_organization[:login] %></span>
-      <%= form_tag("/api/organizations/#{@organization.id}/sync", method: "post", class: "sync-button") do %>
-        <%= submit_tag("sync", class: 'card-extended__little-button') %>
-      <% end %>
+      <sync-button url="/api/organizations/<%= @organization.id %>/sync" class="sync-button"></sync-button>
     </div>
   </div>
   <div class="card-extended__body-list">
