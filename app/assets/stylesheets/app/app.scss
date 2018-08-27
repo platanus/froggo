@@ -30,13 +30,20 @@ body {
   justify-content: flex-start;
 }
 
-.sync-button {
-  display: inline;
+.sync-organization {
+  cursor: pointer;
+  background-color: $white;
+  color: $primary-color;
+  border: solid 1px $primary-color;
+  border-radius: 4px;
+  display: inline-block;
+  width: 80px;
+  padding: 2px;
 }
 
 .sync-spinner {
   display: inline-block;
-  visibility: hidden
+  vertical-align: middle;
 }
 
 .app__container {

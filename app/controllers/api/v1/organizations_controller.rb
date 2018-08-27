@@ -7,7 +7,11 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
       OrganizationSync.find_or_create_by(organization: organization),
       @github_session.token
     )
-    redirect_to settings_organization_path(name: organization.login)
+    respond_with organization, status: 202
+  end
+
+  def check_sync
+    respond_with OrganizationSync.find_by(organization_id: params[:id])
   end
 
   private

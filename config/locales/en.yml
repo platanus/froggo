@@ -77,4 +77,5 @@ en:
       obtain_admin_privilege: Obtain github admin privileges
       create_dashboard: Create dashboard
       repository_title: Repositories in
+      error: Ocurrió un error
       admin_users: Manage users
