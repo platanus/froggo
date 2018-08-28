@@ -6,7 +6,6 @@ import VueI18n from 'vue-i18n';
 import Dropdown from '../pl-dropdown.vue';
 import Repository from '../repository.vue';
 import Locales from '../locales.js';
-import HeaderTab from '../header-tab.vue';
 import SyncOrganizationButton from '../sync-organization-button.vue';
 
 Vue.use(VueI18n);
@@ -14,7 +13,6 @@ Vue.use(VueI18n);
 document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
   Vue.component('dropdown', Dropdown);
-  Vue.component('header-tab', HeaderTab);
   Vue.component('sync-organization-button', SyncOrganizationButton);
 
   if (document.getElementById('app') !== null) {
