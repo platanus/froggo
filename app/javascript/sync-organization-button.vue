@@ -6,7 +6,6 @@
 </template>
 
 <script>
-  import Spinner from 'vue-simple-spinner';
   import axios from 'axios';
 
   export default {
@@ -15,9 +14,6 @@
       return {
         loading: false
       }
-    },
-    components: {
-      Spinner
     },
     methods: {
       load() {
