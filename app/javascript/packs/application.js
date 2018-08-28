@@ -7,7 +7,7 @@ import Dropdown from '../pl-dropdown.vue';
 import Repository from '../repository.vue';
 import Locales from '../locales.js';
 import HeaderTab from '../header-tab.vue';
-import SyncButton from '../sync-button.vue';
+import SyncOrganizationButton from '../sync-organization-button.vue';
 
 Vue.use(VueI18n);
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
   Vue.component('dropdown', Dropdown);
   Vue.component('header-tab', HeaderTab);
-  Vue.component('sync-button', SyncButton);
+  Vue.component('sync-organization-button', SyncOrganizationButton);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new
