@@ -1,0 +1,24 @@
+.button {
+  background: $primary-color;
+  height: fit-content;
+  min-width: 91px;
+  cursor: pointer;
+  color: $white;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 30px;
+  border-radius: 2px;
+  padding: 2px;
+
+  &--light {
+    background-color: $white;
+    color: $primary-color;
+    border: solid 2px $primary-color;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+  }
+}

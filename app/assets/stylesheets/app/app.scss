@@ -1,5 +1,6 @@
 
 @import './base';
+@import './button';
 @import './home';
 @import './dashboard';
 @import './footer';
@@ -28,10 +29,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-
-.sync-button {
-  display: inline;
 }
 
 .app__container {
