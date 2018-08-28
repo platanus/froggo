@@ -251,6 +251,11 @@
       }
     }
 
+    &__sync {
+      margin-top: 18px;
+      margin-right: 32px;
+    }
+
     &__body {
       display: flex;
       flex-direction: column;
@@ -261,28 +266,6 @@
       &-list {
         @extend .card-extended__body;
         justify-content: flex-start;
-      }
-    }
-
-    &__button {
-      background-color: $primary-color;
-      height: 30px;
-      width: 91px;
-      cursor: pointer;
-      color: $white;
-      text-transform: uppercase;
-      text-align: center;
-      font-size: 13px;
-      padding-top: 5px;
-      font-weight: 500;
-      line-height: 20px;
-      border-radius: 2px;
-
-      &--inactive {
-        background-color: $white;
-        color: $primary-color;
-        border: solid 2px $primary-color;
-        line-height: 16px;
       }
     }
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="sync-organization" v-on:click="load()">
-    <div v-if="!loading">{{ $t("message.settings.sync") }}</div>
-    <div v-if="loading">{{ $t("message.settings.loading") }}</div>
+  <div v-on:click="load()">
+    <div class="button" v-if="!loading">{{ $t("message.settings.sync") }}</div>
+    <div class="button button--disabled" v-else>{{ $t("message.settings.loading") }}</div>
   </div>
 </template>
 

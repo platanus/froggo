@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="repository.tracked" v-on:click="untrack()" class="card-extended__button card-extended__button--inactive">untrack</div>
-    <div v-else v-on:click="track()" class="card-extended__button">track</div>
+    <div v-if="repository.tracked" v-on:click="untrack()" class="button button--light">untrack</div>
+    <div v-else v-on:click="track()" class="button">track</div>
     <div class="card-extended__repo-name">
       <a :href="repository.html_url" target="_blank" class="card-extended__link">{{ repository.name }}</a>
       <div class="card-extended__last-update">{{ $t("message.settings.repoUpdate") }} {{ repoDate }}</div>

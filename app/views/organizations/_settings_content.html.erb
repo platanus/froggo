@@ -8,6 +8,8 @@
       (<%= @organization.repositories.count %>)
       <%= t('messages.settings.repository_title') %>
       <span class="bolder"><%= @github_organization[:login] %></span>
+    </div>
+    <div class="card-extended__sync">
       <sync-organization-button url="/api/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>" error_msg="<%= t('messages.settings.error') %>"></sync-organization-button>
     </div>
   </div>

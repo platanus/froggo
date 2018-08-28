@@ -1,5 +1,6 @@
 
 @import './base';
+@import './button';
 @import './home';
 @import './dashboard';
 @import './footer';
@@ -28,17 +29,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-
-.sync-organization {
-  cursor: pointer;
-  background-color: $white;
-  color: $primary-color;
-  border: solid 1px $primary-color;
-  border-radius: 4px;
-  display: inline-block;
-  width: 80px;
-  padding: 2px;
 }
 
 .app__container {
