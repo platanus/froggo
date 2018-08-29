@@ -31,7 +31,7 @@
             <% end %>
           <% end %>
         </div>
-      </dropdown>  
+      </dropdown>
 
       <dropdown class="select">
         <div class="select__btn" slot="btn">
@@ -49,12 +49,14 @@
             <% end %>
           <% end %>
         </div>
-      </dropdown>      
-    <% end %>       
-  <% end %>      
+      </dropdown>
+    <% end %>
+  <% end %>
   <% if @is_admin && !only_organization%>
-    <a  class="card-extended__header-link" href="<%= settings_organization_path(@github_organization[:login]) %>">
-      <%= t('messages.dashboard.settings') %>
-    </a>
+    <div class="card-extended__config">
+      <a class="button" href="<%= settings_organization_path(@github_organization[:login]) %>">
+        <%= t('messages.dashboard.settings') %>
+      </a>
+    </div>
   <% end %>
 </div>

@@ -10,7 +10,9 @@
   font-weight: 500;
   line-height: 30px;
   border-radius: 2px;
-  padding: 2px;
+  padding: 2px 5px;
+  display: block;
+  text-decoration: none;
 
   &--light {
     background-color: $white;
