@@ -5,7 +5,6 @@ test:
   working_dir: "/app"
   volumes:
   - "./vendor/bundle:/usr/local/bundle"
-  - "$CIRCLE_TEST_REPORTS/rspec:$HOME/.rspec_reports"
   environment:
     RACK_ENV: test
     POSTGRESQL_USER: postgres
