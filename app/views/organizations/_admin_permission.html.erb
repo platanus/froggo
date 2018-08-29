@@ -10,8 +10,10 @@
   <div class="card-extended__body">
     <h2 class="card__title"><%= t('messages.settings.login_with_admin_session_ask') %></h2>
     <p class="card__info"><%= t('messages.settings.login_with_admin_session_message_ask') %></p>
-    <%= link_to t('messages.settings.create_dashboard'),
-        admin_authenticate_path(gh_org: @github_organization[:login]),
-        class: "card__button card__button-text"%>
+    <div class="card-extended__dashboard-button">
+      <%= link_to t('messages.settings.create_dashboard'),
+          admin_authenticate_path(gh_org: @github_organization[:login]),
+          class: "button button--big"%>
+    </div>
   </div>
 </div>

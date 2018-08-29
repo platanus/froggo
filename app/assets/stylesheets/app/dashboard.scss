@@ -104,11 +104,6 @@
   position: fixed;
 }
 
-.organization__setting__button {
-  width: 100%;
-  text-align: center;
-}
-
 .organization__selector {
   margin-top: 30px;
   font-family: $roboto-condensed;
@@ -183,35 +178,6 @@
     opacity: .64;
   }
 
-  &__button {
-    height: 56px;
-    width: 304px;
-    border-radius: 2px;
-    background-color: $login-btn-bg;
-    margin: 0 auto;
-    margin-top: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    border: 1px solid $white;
-
-    &-text {
-      font-size: 18px;
-      font-weight: 500;
-      line-height: 21px;
-      color: $white;
-      text-transform: uppercase;
-      text-decoration: none;
-    }
-  }
-
-  &__button-input {
-    padding-left: 35px;
-  }
-
   &-extended {
     @extend .card;
     justify-content: space-evenly;
@@ -254,6 +220,17 @@
     &__sync {
       margin-top: 18px;
       margin-right: 32px;
+    }
+
+    &__config {
+      position: absolute;
+      right: 32px;
+      margin-top: 18px;
+    }
+
+    &__dashboard-button {
+      margin: 0 auto;
+      margin-top: 40px;
     }
 
     &__body {

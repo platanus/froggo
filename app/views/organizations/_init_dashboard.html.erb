@@ -10,10 +10,12 @@
   <div class="card-extended__body">
     <h2 class="card__title"><%= t('messages.settings.login_with_admin_session') %></h2>
     <p class="card__info"><%= t('messages.settings.login_with_admin_session_message') %></p>
-    <%= button_to 'Inicializar Dashboard',
-        organizations_path,
-        method: :post,
-        params: { name: @github_organization[:login] },
-        class: "card__button card__button-text card__button-input" %>
+    <div class="card-extended__dashboard-button">
+      <%= button_to 'Inicializar Dashboard',
+          organizations_path,
+          method: :post,
+          params: { name: @github_organization[:login] },
+          class: "button button--big" %>
+    </div>
   </div>
 </div>
