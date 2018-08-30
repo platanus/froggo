@@ -14,19 +14,19 @@
 </template>
 
 <script>
-  import { mixin as clickaway } from 'vue-clickaway';
+import { mixin as clickaway } from 'vue-clickaway';
 
-  export default {
-    mixins: [clickaway],
-    data() {
-      return {
-        showBody: false,
-      }
+export default {
+  mixins: [clickaway],
+  data() {
+    return {
+      showBody: false,
+    };
+  },
+  methods: {
+    closeDropdown() {
+      this.showBody = false;
     },
-    methods: {
-      closeDropdown() {
-        this.showBody = false;
-      }
-    }
-  }
+  },
+};
 </script>

@@ -25,7 +25,6 @@ package-lock.json
 
 .byebug_history
 .rubocop.yml
-.eslintrc.json
 .sscs-lint.yml
 .env.local
 .env
