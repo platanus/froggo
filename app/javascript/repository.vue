@@ -13,15 +13,15 @@
 import axios from 'axios';
 
 export default {
-  data: function () {
+  data() {
     return {
       repository: this.value,
-    }
+    };
   },
   computed: {
     repoDate() {
       return new Date(this.repository.gh_updated_at).toLocaleDateString();
-    }
+    },
   },
   props: ['value'],
   methods: {
@@ -35,13 +35,13 @@ export default {
       this.repository.tracked = status;
 
       axios.put(`/api/repositories/${this.repository.id}`, { tracked: status })
-        .then(function (response) {
+        .then((response) => {
           console.log(response);
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         });
     },
   },
-}
+};
 </script>
