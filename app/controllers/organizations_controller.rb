@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :authenticate_github_user
+  before_action :save_cookie_url
   before_action :load_organization, except: [:index, :missing]
   before_action :ensure_organization_admin, only: :settings
 
@@ -97,5 +98,9 @@ class OrganizationsController < ApplicationController
     corrmat = CorrelationMatrix.new(org_id, user_ids, month_limit)
     corrmat.fill_matrix
     corrmat
+  end
+
+  def save_cookie_url
+    cookies.permanent["froggo_#{github_session.name}_path"] = request.fullpath
   end
 end
