@@ -1,11 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe GithubSession, type: :class do
-  let!(:session) do
-    JSON.parse({
-      'access_token': 'a token',
-      'client_type': 'member'
-    }.to_json)
+  let(:cookies) do
+    ActionDispatch::Cookies::CookieJar.build({}, 'access_token': 'a token', 'client_type': 'member')
   end
 
   let(:org_response) do
@@ -34,15 +31,15 @@ RSpec.describe GithubSession, type: :class do
   end
 
   context 'when initialized with correct session' do
-    subject { GithubSession.new(session) }
+    subject { GithubSession.new(cookies) }
     it 'has the correct session info' do
-      expect(subject.session['access_token']).to eq(session['access_token'])
-      expect(subject.session['client_type']).to eq(session['client_type'])
+      expect(subject.session['access_token']).to eq(cookies['access_token'])
+      expect(subject.session['client_type']).to eq(cookies['client_type'])
     end
 
     it 'changes the session info when session changes' do
-      expect(subject.set_access_token('another token')).to eq(session['access_token'])
-      expect(subject.set_session_type('admin')).to eq(session['client_type'])
+      expect(subject.set_access_token('another token')).to eq(cookies['access_token'])
+      expect(subject.set_session_type('admin')).to eq(cookies['client_type'])
     end
 
     it { expect(subject.valid?).to eq(true) }

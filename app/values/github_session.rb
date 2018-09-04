@@ -1,8 +1,8 @@
 class GithubSession
   attr_accessor :session, :name, :avatar_url, :organizations
 
-  def initialize(session)
-    @session = session
+  def initialize(cookies)
+    @session = cookies
 
     if valid?
       set_user
@@ -19,15 +19,15 @@ class GithubSession
   end
 
   def valid?
-    !token.nil?
+    token && !token.empty?
   end
 
   def set_access_token(_token)
-    @session['access_token'] = _token
+    @session.permanent['access_token'] = _token
   end
 
   def set_session_type(_session_type)
-    @session['client_type'] = _session_type
+    @session.permanent['client_type'] = _session_type
   end
 
   def get_teams(organization)

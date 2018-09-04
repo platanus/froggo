@@ -14,8 +14,8 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe "GET #index" do
-    context "when ser does not belongs to any organizations" do
-      let(:github_session) { double(organizations: []) }
+    context "when user does not belongs to any organizations" do
+      let(:github_session) { double(organizations: [], name: 'name') }
 
       before do
         get :index
@@ -25,7 +25,7 @@ RSpec.describe OrganizationsController, type: :controller do
     end
 
     context "when user belongs to at least one organization, but no organization is selected" do
-      let(:github_session) { double(organizations: github_organizations) }
+      let(:github_session) { double(organizations: github_organizations, name: 'name') }
 
       before do
         get :index
@@ -38,9 +38,9 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe "#show" do
-    let(:github_session) { double(organizations: github_organizations) }
+    let(:github_session) { double(organizations: github_organizations, name: 'name') }
 
-    context "when user belongs the selected organization" do
+    context "when user belongs to the selected organization" do
       before do
         get :show, params: { name: "platanus" }
       end
@@ -86,7 +86,8 @@ RSpec.describe OrganizationsController, type: :controller do
     let(:github_session) do
       double(
         session: { client_type: "admin" },
-        organizations: [login: "platanus", role: role]
+        organizations: [login: "platanus", role: role],
+        name: 'name'
       )
     end
 
@@ -100,7 +101,7 @@ RSpec.describe OrganizationsController, type: :controller do
       it { expect(response).to have_http_status(200) }
     end
 
-    context "when user is admin" do
+    context "when user is member" do
       let(:role) { "member" }
 
       it { expect(response).to redirect_to('/organizations/platanus') }
