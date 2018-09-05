@@ -15,7 +15,7 @@ RSpec.describe OrganizationsController, type: :controller do
 
   describe "GET #index" do
     context "when user does not belongs to any organizations" do
-      let(:github_session) { double(organizations: [], name: 'name') }
+      let(:github_session) { double(organizations: [], name: 'name', save_froggo_path: 'path') }
 
       before do
         get :index
@@ -25,7 +25,9 @@ RSpec.describe OrganizationsController, type: :controller do
     end
 
     context "when user belongs to at least one organization, but no organization is selected" do
-      let(:github_session) { double(organizations: github_organizations, name: 'name') }
+      let(:github_session) do
+        double(organizations: github_organizations, name: 'name', save_froggo_path: 'path')
+      end
 
       before do
         get :index
@@ -38,7 +40,9 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe "#show" do
-    let(:github_session) { double(organizations: github_organizations, name: 'name') }
+    let(:github_session) do
+      double(organizations: github_organizations, name: 'name', save_froggo_path: 'path')
+    end
 
     context "when user belongs to the selected organization" do
       before do
@@ -87,7 +91,8 @@ RSpec.describe OrganizationsController, type: :controller do
       double(
         session: { client_type: "admin" },
         organizations: [login: "platanus", role: role],
-        name: 'name'
+        name: 'name',
+        save_froggo_path: 'path'
       )
     end
 

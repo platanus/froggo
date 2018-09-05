@@ -1,7 +1,6 @@
 class GithubAuthController < ApplicationController
   def oauth_request
-    cookies.permanent[:access_token] = ""
-    cookies.permanent[:client_type] = ""
+    github_session.clean_session
     redirect_to root_path
   end
 
@@ -19,7 +18,7 @@ class GithubAuthController < ApplicationController
     if permitted_params[:callback_action] == 'settings'
       redirect_to settings_organization_path(name: permitted_params[:gh_org])
     else
-      redirect_to cookies["froggo_#{github_session.name}_path"] || organizations_path
+      redirect_to github_session.froggo_path || organizations_path
     end
   end
 
@@ -32,7 +31,6 @@ class GithubAuthController < ApplicationController
   def set_session_gh_access
     session_code = request.query_parameters['code']
     result = Octokit.exchange_code_for_token(session_code, ENV['GH_AUTH_ID'], ENV['GH_AUTH_SECRET'])
-    cookies.permanent[:access_token] = result[:access_token]
-    cookies.permanent[:client_type] = permitted_params[:client_type]
+    github_session.set_session(result[:access_token], permitted_params[:client_type])
   end
 end

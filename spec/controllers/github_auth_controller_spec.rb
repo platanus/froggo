@@ -4,7 +4,14 @@ RSpec.describe GithubAuthController, type: :controller do
   describe 'GET #callback' do
     let(:github_return_code) { 'github_code' }
     let(:token_result) { { access_token: 'token' } }
-    let!(:github_session) { double(name: 'name') }
+    let(:path) { nil }
+    let!(:github_session) do
+      double(
+        name: 'name',
+        set_session: [],
+        froggo_path: path
+      )
+    end
 
     before do
       expect(Octokit).to receive(:exchange_code_for_token)
@@ -14,18 +21,7 @@ RSpec.describe GithubAuthController, type: :controller do
         .and_return(github_session)
     end
 
-    context 'from home' do
-      before do
-        get :callback, params: { client_type: :member, code: github_return_code }
-      end
-
-      it 'sets session values correctly' do
-        expect(cookies["access_token"]).to eq(token_result[:access_token])
-        expect(cookies["client_type"]).to eq('member')
-      end
-    end
-
-    context 'from home without last path in cookies' do
+    context 'from home without last path in github session' do
       before do
         get :callback, params: { client_type: :member, code: github_return_code }
       end
@@ -33,14 +29,15 @@ RSpec.describe GithubAuthController, type: :controller do
       it { expect(response).to redirect_to(organizations_path) }
     end
 
-    context 'from home with last path in cookies' do
+    context 'from home with last path in github session' do
+      let(:path) { organization_path(name: 'org') }
+
       before do
-        cookies["froggo_#{github_session.name}_path"] = organization_path(name: 'org')
         get :callback, params: { client_type: :member, code: github_return_code }
       end
 
       it {
-        expect(response).to redirect_to(cookies["froggo_#{github_session.name}_path"])
+        expect(response).to redirect_to(github_session.froggo_path)
       }
     end
 

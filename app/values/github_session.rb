@@ -22,12 +22,11 @@ class GithubSession
     token && !token.empty?
   end
 
-  def set_access_token(_token)
+  def set_session(_token, _session_type)
     @session.permanent['access_token'] = _token
-  end
-
-  def set_session_type(_session_type)
     @session.permanent['client_type'] = _session_type
+    set_user
+    set_organizations
   end
 
   def get_teams(organization)
@@ -43,6 +42,19 @@ class GithubSession
         login: member.login
       }
     end
+  end
+
+  def clean_session
+    @session.permanent['access_token'] = ""
+    @session.permanent['client_type'] = ""
+  end
+
+  def froggo_path
+    @session[froggo_path_key]
+  end
+
+  def save_froggo_path(_path)
+    @session.permanent[froggo_path_key] = _path
   end
 
   private
@@ -63,6 +75,10 @@ class GithubSession
         avatar_url: mem.organization.avatar_url
       }
     end
+  end
+
+  def froggo_path_key
+    "froggo_#{@name}_path"
   end
 
   def client

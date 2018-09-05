@@ -101,6 +101,6 @@ class OrganizationsController < ApplicationController
   end
 
   def save_cookie_url
-    cookies.permanent["froggo_#{github_session.name}_path"] = request.fullpath
+    github_session.save_froggo_path(request.fullpath)
   end
 end
