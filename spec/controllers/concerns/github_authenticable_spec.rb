@@ -11,8 +11,8 @@ RSpec.describe GithubAuthenticable do
     class DummyController
       include GithubAuthenticable
 
-      def session
-        "session"
+      def cookies
+        "cookies"
       end
 
       def redirect_to(path)
@@ -30,7 +30,7 @@ RSpec.describe GithubAuthenticable do
 
   describe "#authenticate_github_user" do
     before do
-      expect(GithubSession).to receive(:new).with(subject.session).and_return(github_session)
+      expect(GithubSession).to receive(:new).with(subject.cookies).and_return(github_session)
     end
 
     context "with valid github session" do
@@ -58,7 +58,7 @@ RSpec.describe GithubAuthenticable do
     let(:github_session) { double }
 
     before do
-      expect(GithubSession).to receive(:new).with(subject.session).and_return(github_session)
+      expect(GithubSession).to receive(:new).with(subject.cookies).and_return(github_session)
     end
 
     it { expect(subject.github_session).to eq(github_session) }

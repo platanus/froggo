@@ -4,7 +4,7 @@
     <h1 class="c-presentation__title">Code review tool for GitHub pull requests </h1>
     <h3 class="c-presentation__sub-title">Hound comments on style violations in GitHub pull requests, allowing you and your team to better review and maintain a clean codebase. </h3>
     <div class="c-presentation__github-login">
-      <a class="c-github-login" href="<%= @user_logged_in ? organizations_path : github_authenticate_path %>">
+      <a class="c-github-login" href="<%= @org_redirect %>">
         <span class="c-github-login__logo-container">
           <img class="c-github-login__logo" src="<%= image_path('github-mark.png') %>"/>
         </span>

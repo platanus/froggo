@@ -9,6 +9,6 @@ module GithubAuthenticable
   end
 
   def github_session
-    @github_session ||= GithubSession.new(session)
+    @github_session ||= GithubSession.new(cookies)
   end
 end
