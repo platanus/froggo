@@ -35,8 +35,11 @@ es-CL:
     header:
       close_session: Cerrar sesión
     home:
+      title: Herramientra para pull requests y code review
+      subtitle: Descubré cómo se distribuyen las pull requests y code reviews de Github en tu organización.
       connect_github: Conectar con Github
       go_to_dashboard: Ver Dashboards
+      dashboard_title: Así se verá tu equipo
     missing:
       title: Estás solito en el universo
       info: No estas registrado en ninguna organización de github o las organizaciones a las cuales perteneces aún no aprueban a esta aplicación. En caso de lo último, contacta al admin de tu organización.

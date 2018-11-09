@@ -66,8 +66,11 @@ en:
     header:
       close_session: Close session
     home:
+      title: Code review tool for GitHub pull requests
+      subtitle: Discover how your Github organization's code review and pull requests are distributed.
       connect_github: Connect with Github
       go_to_dashboard: Go to Dashboards
+      dashboard_title: You'll see your team like this
     missing:
       info: You are not registered in any github organizations or your current organizations still don't approve this applications. If you have this problem, contact with the admin of your organizations.
     settings:

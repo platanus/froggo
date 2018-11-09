@@ -1,8 +1,8 @@
 <div class="landing">
   <div class="c-presentation">
     <img class="c-presentation__logo" src="<%= image_path('froggo-logo.svg')%>"/>
-    <h1 class="c-presentation__title">Code review tool for GitHub pull requests </h1>
-    <h3 class="c-presentation__sub-title">Hound comments on style violations in GitHub pull requests, allowing you and your team to better review and maintain a clean codebase. </h3>
+    <h1 class="c-presentation__title"><%= t('messages.home.title') %></h1>
+    <h3 class="c-presentation__sub-title"><%= t('messages.home.subtitle') %></h3>
     <div class="c-presentation__github-login">
       <a class="c-github-login" href="<%= @org_redirect %>">
         <span class="c-github-login__logo-container">
@@ -19,7 +19,7 @@
     </div>
   </div>
   <div class="c-home-dashboard">
-    <h1 class="c-home-dashboard__title">Salami tail prosciutto shank pork</h1>
+    <h1 class="c-home-dashboard__title"><%= t('messages.home.dashboard_title') %></h1>
     <img class="c-home-dashboard__image" src="<%= image_path('dashboard-preview.png') %>"/>
   </div>
   <div class="c-home-footer">
