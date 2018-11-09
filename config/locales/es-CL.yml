@@ -35,8 +35,8 @@ es-CL:
     header:
       close_session: Cerrar sesión
     home:
-      title: Herramientra para pull requests y code review
-      subtitle: Descubré cómo se distribuyen las pull requests y code reviews de Github en tu organización.
+      title: Descubre cómo se distribuyen los Pull Requests en tu organización
+      subtitle: Gran parte de la cultura en tu organización se trasmite por Pull Requests. ¡Asegúrate que todos reciban una buena parte!
       connect_github: Conectar con Github
       go_to_dashboard: Ver Dashboards
       dashboard_title: Así se verá tu equipo
