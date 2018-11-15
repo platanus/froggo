@@ -10,12 +10,11 @@ class CorrelationMatrix
     @pr_relations = PullRequestRelation.by_organizations(org_id).within_month_limit(@limit)
     @selected_users = @organization.members
     @selected_users = @selected_users.where(gh_id: user_ids) if user_ids
-    place_current_user
+    order_current_user if @current_user
     @pos_hash = Hash[@selected_users.map(&:id).map.with_index { |x, i| [x, i] }]
     @data = Hash.new(0)
   end
 
-  # Place current user in first position and fill matrix
   def fill_matrix
     @selected_users.each_with_index do |user, index|
       gh_user_interactions(user).each do |key, value|
@@ -27,12 +26,10 @@ class CorrelationMatrix
 
   private
 
-  def place_current_user
-    if @current_user
-      @selected_users = @selected_users.order("CASE WHEN github_users.id = #{@current_user.id}" \
-                                               'THEN 1 ELSE 0 END DESC')
-                                       .order('github_users.id ASC')
-    end
+  def order_current_user
+    @selected_users = @selected_users.order("CASE WHEN github_users.id = #{@current_user.id}" \
+                                              'THEN 1 ELSE 0 END DESC')
+                                     .order('github_users.id ASC')
   end
 
   def gh_user_interactions(gh_user)

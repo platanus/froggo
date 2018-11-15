@@ -99,11 +99,11 @@ RSpec.describe CorrelationMatrix, type: :class do
     let!(:owner) { create(:github_user, gh_id: 3, login: 'gh_owner') }
     let!(:reviewer) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
     let!(:other) { create(:github_user, gh_id: 9, login: 'gh_other') }
-    let!(:owner_membership) do
-      create(:organization_membership, organization: organization, github_user: owner)
-    end
     let!(:reviewer_membership) do
       create(:organization_membership, organization: organization, github_user: reviewer)
+    end
+    let!(:owner_membership) do
+      create(:organization_membership, organization: organization, github_user: owner)
     end
     let!(:other_membership) do
       create(:organization_membership, organization: organization, github_user: other)
