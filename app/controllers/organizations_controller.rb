@@ -95,7 +95,7 @@ class OrganizationsController < ApplicationController
   end
 
   def get_matrix(org_id, user_ids, month_limit)
-    corrmat = CorrelationMatrix.new(org_id, user_ids, month_limit)
+    corrmat = CorrelationMatrix.new(org_id, user_ids, github_session.name, month_limit)
     corrmat.fill_matrix
     corrmat
   end
