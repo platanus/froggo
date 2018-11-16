@@ -1,0 +1,3 @@
+<% if @has_dashboard && !((@corrmat.nil? || @corrmat.selected_users.empty?) && !@team) %>
+  <%= render "dashboard_table" %>
+<% end %>

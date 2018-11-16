@@ -1,5 +1,7 @@
 <div class="card-extended">
-  <%= render "card_header", only_organization: false %>
+  <% if !@public_mode %>
+    <%= render "card_header", only_organization: false %>
+  <% end %>
   <div class="card-extended__body ">
     <% if @corrmat.selected_users.empty? %>
       <%= t('messages.dashboard.empty_team', team:  @team[:name]) %>
