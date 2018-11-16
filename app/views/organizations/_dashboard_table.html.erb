@@ -7,30 +7,34 @@
       <%= t('messages.dashboard.empty_team', team:  @team[:name]) %>
     <% else %>
       <div class="matrix-dashboard">
-        <div>
-          <div class="matrix__user--head" id="sticky-corner"></div>
-          <% @corrmat.selected_users.each_with_index do |b, i| %>
-            <div class="matrix__user">
-              <a href="<%= b.html_url %>" title="<%= b.login %>">
-                <img class="matrix__user-img" src="<%= b.avatar_url %>">
-              </a>
+        <div class="matrix__head" id="sticky-head">
+          <div class="matrix__user--head"></div>
+          <% @corrmat.selected_users.each_with_index do |user, i| %>
+            <div class="matrix__user--head">
+              <div class="matrix__picture">
+                <a href="<%= user.html_url %>" title="<%= user.login %>">
+                  <img class="<%= if i == @corrmat.min_variance_index then
+                              'matrix__user-img--winner'
+                              else
+                              'matrix__user-img'
+                              end %>" src="<%= user.avatar_url %>">
+                </a>
+              </div>
             </div>
           <% end %>
         </div>
-        <div class="matrix__values">
-          <div class="matrix__head" id="sticky-head">
-            <% @corrmat.selected_users.each do |user| %>
-              <div class="matrix__user--head">
-                <div class="matrix__picture">
-                  <a href="<%= user.html_url %>" title="<%= user.login %>">
-                    <img class="matrix__user-img" src="<%= user.avatar_url %>">
-                  </a>
-                </div>
-              </div>
-            <% end %>
-          </div>
-          <% @corrmat.selected_users.each_with_index do |b, i| %>
+        <div>
+          <% @corrmat.selected_users.each_with_index do |user, i| %>
             <div class="matrix__row">
+              <div class="matrix__user stick_vertical">
+                <a href="<%= user.html_url %>" title="<%= user.login %>">
+                  <img class="<%= if i == @corrmat.min_variance_index then
+                              'matrix__user-img--winner'
+                              else
+                              'matrix__user-img'
+                              end %>" src="<%= user.avatar_url %>">                
+                </a>
+              </div>
               <% @corrmat.selected_users.each_with_index do |a, j| %>
                 <div class="matrix__pullrequest">
                   <span class="matrix__pullrequest__number<%= if i == j then
@@ -49,4 +53,3 @@
     <% end %>
   </div>
 </div>
-

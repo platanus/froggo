@@ -60,6 +60,13 @@
   max-width: 48px;
   border-radius: 50%;
   border: 1px solid $secondary-border;
+
+  &--winner {
+    @extend .matrix__user-img;
+    max-height: 52px;
+    max-width: 52px;
+    border: 3px solid $winner-img;
+  }
 }
 
 .matrix__picture {
