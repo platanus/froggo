@@ -1,20 +1,8 @@
-class CalulateVariance < PowerTypes::Command.new(:data, :size)
+class CalulateVariance < PowerTypes::Command.new(:data, :size, :limit)
   def perform
-    min_index = -1
-    min_var = 9999
-    (0...@size).each do |x|
-      all_prs = []
-      (0...@size).each do |y|
-        all_prs << @data[[x, y]] if x != y
-      end
-      var = variance(all_prs)
-      if var <= min_var
-        min_index = x
-        min_var = var
-      end
-    end
-    puts min_index
-    min_index
+    @users_prs = {}
+    build_lists
+    calculate_top_variances(@limit)
   end
 
   private
@@ -24,5 +12,18 @@ class CalulateVariance < PowerTypes::Command.new(:data, :size)
     mean = list.reduce(:+) / list.length.to_r
     sum_of_squared_differences = list.map { |i| (i - mean)**2 }.reduce(:+)
     sum_of_squared_differences / list.length
+  end
+
+  def build_lists
+    (0...@size).each do |y|
+      @users_prs[y] = []
+      (0...@size).each do |x|
+        @users_prs[y] << @data[[x, y]] if x != y
+      end
+    end
+  end
+
+  def calculate_top_variances(limit)
+    Hash[@users_prs.sort_by { |_k, v| variance(v) }.first(limit)].keys
   end
 end

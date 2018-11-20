@@ -61,11 +61,19 @@
   border-radius: 50%;
   border: 1px solid $secondary-border;
 
-  &--winner {
+  &--first {
     @extend .matrix__user-img;
-    max-height: 52px;
-    max-width: 52px;
-    border: 3px solid $winner-img;
+    border: 3px solid $first-img;
+  }
+
+  &--second {
+    @extend .matrix__user-img;
+    border: 3px solid $second-img;
+  }
+
+  &--third {
+    @extend .matrix__user-img;
+    border: 3px solid $third-img;
   }
 }
 

@@ -112,7 +112,7 @@ class OrganizationsController < ApplicationController
   def get_matrix(org_id, user_ids, month_limit)
     corrmat = CorrelationMatrix.new(org_id, user_ids, github_session.name, month_limit)
     corrmat.fill_matrix
-    corrmat.min_variance_index
+    corrmat.min_variance_indexes
     corrmat
   end
 
