@@ -13,15 +13,22 @@
             <div class="matrix__user--head">
               <div class="matrix__picture">
                 <a href="<%= user.html_url %>" title="<%= user.login %>">
-                  <img class="<%= if i == @corrmat.min_variance_indexes[0] then
-                              'matrix__user-img--first'
-                              elsif i == @corrmat.min_variance_indexes[1]
-                              'matrix__user-img--second'
-                              elsif i == @corrmat.min_variance_indexes[2]
-                              'matrix__user-img--third'
-                              else
-                              'matrix__user-img'
-                              end %>" src="<%= user.avatar_url %>">
+                  <% if i == @corrmat.min_variance_indexes[0]%>
+                    <div class="matrix__user-div">
+                      <div class="matrix__user-div">
+                        <img class="matrix__user-img" src="<%= user.avatar_url %>">
+                      </div>
+                      <img class="matrix__user-crown" src="<%= image_path 'dashboard-img-crown.svg' %>">
+                    </div>
+                  <% else %>
+                    <img class="<%= if i == @corrmat.min_variance_indexes[1]
+                                'matrix__user-img--second'
+                                elsif i == @corrmat.min_variance_indexes[2]
+                                'matrix__user-img--third'
+                                else
+                                'matrix__user-img'
+                                end %>" src="<%= user.avatar_url %>">
+                  <% end %>
                 </a>
               </div>
             </div>
@@ -32,15 +39,22 @@
             <div class="matrix__row">
               <div class="matrix__user stick_vertical">
                 <a href="<%= user.html_url %>" title="<%= user.login %>">
-                  <img class="<%= if i == @corrmat.min_variance_indexes[0] then
-                              'matrix__user-img--first'
-                              elsif i == @corrmat.min_variance_indexes[1]
-                              'matrix__user-img--second'
-                              elsif i == @corrmat.min_variance_indexes[2]
-                              'matrix__user-img--third'
-                              else
-                              'matrix__user-img'
-                              end %>" src="<%= user.avatar_url %>">
+                  <% if i == @corrmat.min_variance_indexes[0]%>
+                    <div class="matrix__user-div">
+                      <div class="matrix__user-div">
+                        <img class="matrix__user-img" src="<%= user.avatar_url %>">
+                      </div>
+                      <img class="matrix__user-crown" src="<%= image_path 'dashboard-img-crown.svg' %>">
+                    </div>
+                  <% else %>
+                    <img class="<%= if i == @corrmat.min_variance_indexes[1]
+                                'matrix__user-img--second'
+                                elsif i == @corrmat.min_variance_indexes[2]
+                                'matrix__user-img--third'
+                                else
+                                'matrix__user-img'
+                                end %>" src="<%= user.avatar_url %>">
+                  <% end %>
                 </a>
               </div>
               <% @corrmat.selected_users.each_with_index do |a, j| %>

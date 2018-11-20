@@ -25,7 +25,11 @@ class CorrelationMatrix
   end
 
   def min_variance_indexes
-    @min_var_indexes ||= CalulateVariance.for(data: @data, size: @selected_users.count, limit:3)
+    @min_variance_indexes ||= CalulateVariance.for(
+      data: @data,
+      size: @selected_users.count,
+      limit: 3
+    )
   end
 
   private

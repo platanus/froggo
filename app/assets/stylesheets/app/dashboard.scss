@@ -16,11 +16,10 @@
 }
 
 .matrix-dashboard {
-  border-collapse: collapse;
-  border-spacing: 0;
-  display: flex;
+  width: fit-content;
   margin: 0 auto;
-  max-width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 .matrix__head {
@@ -29,14 +28,11 @@
   position: sticky;
   top: 0;
   height: 67px;
+  align-items: flex-end;
 }
 
 .matrix__row {
   display: flex;
-}
-
-.matrix__values {
-  overflow: auto;
 }
 
 .matrix__user {
@@ -47,6 +43,7 @@
 
   &--head {
     @extend .matrix__user;
+    height: 55px;
     flex: 0 0 65px;
     padding: 0;
     padding-top: 12px;
@@ -56,6 +53,7 @@
 }
 
 .matrix__user-img {
+  display: block;
   max-height: 48px;
   max-width: 48px;
   border-radius: 50%;
@@ -77,6 +75,25 @@
   }
 }
 
+.matrix__user-crown {
+  height: 48px;
+  width: 48px;
+  z-index: 1;
+}
+
+.matrix__user-div {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.matrix__user-div + .matrix__user-crown {
+  position: absolute;
+  right: -10px;
+  top: -16px;
+  z-index: 1;
+}
+
 .matrix__picture {
   text-align: center;
 }
@@ -87,7 +104,6 @@
   display: flex;
   flex: 0 0 66px;
   flex-direction: column;
-  height: 69px;
   justify-content: center;
   margin: -1px 0 0 -1px;
   padding: 0;
@@ -159,6 +175,7 @@
       height: auto;
       background-color: $matrix-bg;
       margin-bottom: 0;
+      overflow: auto;
     }
   }
 }
