@@ -24,8 +24,8 @@ class CorrelationMatrix
     end
   end
 
-  def min_variance_indexes
-    @min_variance_indexes ||= CalulateVariance.for(
+  def min_ranking_indexes
+    @min_ranking_indexes ||= CalculateRanking.for(
       data: @data,
       size: @selected_users.count,
       limit: 3

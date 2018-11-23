@@ -12,7 +12,7 @@
           <% @corrmat.selected_users.each_with_index do |user, i| %>
             <div class="matrix__user">
               <a href="<%= user.html_url %>" title="<%= user.login %>">
-                <% if i == @corrmat.min_variance_indexes[0]%>
+                <% if i == @corrmat.min_ranking_indexes[0]%>
                   <div class="matrix__user-div">
                     <div class="matrix__user-div">
                       <img class="matrix__user-img" src="<%= user.avatar_url %>">
@@ -20,9 +20,9 @@
                     <img class="matrix__user-crown" src="<%= image_path 'dashboard-img-crown.svg' %>">
                   </div>
                 <% else %>
-                  <img class="<%= if i == @corrmat.min_variance_indexes[1]
+                  <img class="<%= if i == @corrmat.min_ranking_indexes[1]
                               'matrix__user-img--second'
-                              elsif i == @corrmat.min_variance_indexes[2]
+                              elsif i == @corrmat.min_ranking_indexes[2]
                               'matrix__user-img--third'
                               else
                               'matrix__user-img'
@@ -38,7 +38,7 @@
               <div class="matrix__user--head">
                 <div class="matrix__picture">
                   <a href="<%= user.html_url %>" title="<%= user.login %>">
-                    <% if i == @corrmat.min_variance_indexes[0]%>
+                    <% if i == @corrmat.min_ranking_indexes[0]%>
                       <div class="matrix__user-div">
                         <div class="matrix__user-div">
                           <img class="matrix__user-img" src="<%= user.avatar_url %>">
@@ -46,9 +46,9 @@
                         <img class="matrix__user-crown" src="<%= image_path 'dashboard-img-crown.svg' %>">
                       </div>
                     <% else %>
-                      <img class="<%= if i == @corrmat.min_variance_indexes[1]
+                      <img class="<%= if i == @corrmat.min_ranking_indexes[1]
                                   'matrix__user-img--second'
-                                  elsif i == @corrmat.min_variance_indexes[2]
+                                  elsif i == @corrmat.min_ranking_indexes[2]
                                   'matrix__user-img--third'
                                   else
                                   'matrix__user-img'
