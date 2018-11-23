@@ -9,8 +9,10 @@
       <%= t('messages.settings.repository_title') %>
       <span class="bolder"><%= @github_organization[:login] %></span>
     </div>
-    <enable-public-button :organization="<%= @organization.to_json %>"></enable-public-button>
-    <div class="card-extended__sync">
+    <div class="card-extended__button-container card-extended__button-container--big">
+      <enable-public-button :organization="<%= @organization.to_json %>"></enable-public-button>
+    </div>
+    <div class="card-extended__button-container">
       <sync-organization-button url="/api/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>" error_msg="<%= t('messages.settings.error') %>"></sync-organization-button>
     </div>
   </div>
