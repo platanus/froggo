@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :controller do
   before do
-    expect(subject).to receive(:authenticate_github_user).and_return(true)
     allow(subject).to receive(:github_session).and_return(github_session)
   end
 
@@ -14,6 +13,10 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe "GET #index" do
+    before do
+      expect(subject).to receive(:authenticate_github_user).and_return(true)
+    end
+
     context "when user does not belongs to any organizations" do
       let(:github_session) { double(organizations: [], name: 'name', save_froggo_path: 'path') }
 
@@ -40,6 +43,10 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe "#show" do
+    before do
+      expect(subject).to receive(:authenticate_github_user).and_return(true)
+    end
+
     let(:github_session) do
       double(organizations: github_organizations, name: 'name', save_froggo_path: 'path')
     end
@@ -87,6 +94,10 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe "GET #settings" do
+    before do
+      expect(subject).to receive(:authenticate_github_user).and_return(true)
+    end
+
     let(:github_session) do
       double(
         session: { client_type: "admin" },
@@ -110,6 +121,31 @@ RSpec.describe OrganizationsController, type: :controller do
       let(:role) { "member" }
 
       it { expect(response).to redirect_to('/organizations/platanus') }
+    end
+  end
+
+  describe "GET #public" do
+    let(:github_session) do
+      double(organizations: github_organizations, name: 'name', save_froggo_path: 'path')
+    end
+
+    context "when admin has enabled public dashboard" do
+      let!(:organization) { create(:organization, gh_id: 101, public_enabled: true) }
+      before do
+        get :public, params: { name: organization.login }
+      end
+
+      it { expect(assigns(:organization)).to eq(organization) }
+      it { expect(assigns(:has_dashboard)).to be_truthy }
+    end
+
+    context "when admin hasn't enabled public dashboard" do
+      let!(:organization) { create(:organization, gh_id: 102, public_enabled: false) }
+      before do
+        get :public, params: { name: organization.login }
+      end
+
+      it { expect(response).to redirect_to("/organizations/#{organization.id}") }
     end
   end
 end
