@@ -40,8 +40,12 @@ class OrganizationsController < ApplicationController
   end
 
   def public
-    set_corrmat
-    @public_mode = true
+    if @organization.public_enabled
+      set_corrmat
+      @public_mode = true
+    else
+      redirect_to organization_path(@organization)
+    end
   end
 
   private
