@@ -190,14 +190,13 @@
     color: $primary;
 
     &--fullscreen {
-      height: 100vh;
-      width: 100vw;
       margin: 0;
-      overflow: auto;
-    }
+      min-height: 100vh;
+      width: 100%;
 
-    &--fullscreen .matrix__values {
-      overflow: visible;
+      .matrix__values {
+        overflow: visible;
+      }
     }
 
     &__last-update {
