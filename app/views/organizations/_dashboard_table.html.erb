@@ -20,7 +20,7 @@
         <div class="matrix__values">
           <div class="matrix__head" id="sticky-head">
             <% @corrmat.selected_users.each do |user| %>
-              <div class="matrix__user">
+              <div class="matrix__user--head">
                 <div class="matrix__picture">
                   <a href="<%= user.html_url %>" title="<%= user.login %>">
                     <img class="matrix__user-img" src="<%= user.avatar_url %>">
