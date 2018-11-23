@@ -50,6 +50,8 @@
     flex: 0 0 65px;
     padding: 0;
     padding-top: 12px;
+    position: sticky;
+    top: 0;
   }
 }
 
@@ -187,6 +189,16 @@
     justify-content: space-evenly;
     color: $primary;
 
+    &--fullscreen {
+      margin: 0;
+      min-height: 100vh;
+      width: 100%;
+
+      .matrix__values {
+        overflow: visible;
+      }
+    }
+
     &__last-update {
       font-size: 11px;
       color: $secondary-color;
@@ -248,6 +260,10 @@
         @extend .card-extended__body;
         justify-content: flex-start;
       }
+    }
+
+    &--fullscreen &__body {
+      margin: 0;
     }
 
     &__repo-name {

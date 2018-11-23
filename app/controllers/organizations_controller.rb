@@ -1,7 +1,8 @@
 class OrganizationsController < ApplicationController
-  before_action :authenticate_github_user
+  before_action :authenticate_github_user, except: [:public]
   before_action :save_cookie_url
-  before_action :load_organization, except: [:index, :missing]
+  before_action :load_organization, except: [:index, :missing, :public]
+  before_action :load_organization_by_name, only: [:public]
   before_action :ensure_organization_admin, only: :settings
 
   def index
@@ -15,9 +16,7 @@ class OrganizationsController < ApplicationController
   def show
     @is_admin = organization_admin?
     @organizations = github_organizations
-    if @has_dashboard
-      @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id), @month_limit)
-    end
+    set_corrmat
   end
 
   def create
@@ -40,6 +39,11 @@ class OrganizationsController < ApplicationController
     @is_admin_github_session = github_session.session[:client_type] == "admin"
   end
 
+  def public
+    set_corrmat
+    @public_mode = true
+  end
+
   private
 
   def load_organization
@@ -55,6 +59,11 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def load_organization_by_name
+    @organization = Organization.find_by(login: permitted_params[:name])
+    @has_dashboard = !@organization.nil?
+  end
+
   def load_matrix_params
     @teams = github_teams
     if permitted_params[:team]
@@ -63,6 +72,12 @@ class OrganizationsController < ApplicationController
     end
     if permitted_params[:month_limit].present?
       @month_limit = permitted_params[:month_limit].to_i
+    end
+  end
+
+  def set_corrmat
+    if @has_dashboard
+      @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id), @month_limit)
     end
   end
 
