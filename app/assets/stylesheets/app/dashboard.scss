@@ -60,6 +60,39 @@
   max-width: 48px;
   border-radius: 50%;
   border: 1px solid $secondary-border;
+
+  &--first {
+    @extend .matrix__user-img;
+    border: 3px solid $first-img;
+  }
+
+  &--second {
+    @extend .matrix__user-img;
+    border: 3px solid $second-img;
+  }
+
+  &--third {
+    @extend .matrix__user-img;
+    border: 3px solid $third-img;
+  }
+}
+
+.matrix__user-crown {
+  width: 100%;
+  z-index: 1;
+}
+
+.matrix__user-div {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+
+  .matrix__user-crown {
+    position: absolute;
+    right: -11px;
+    top: -6px;
+    z-index: 1;
+  }
 }
 
 .matrix__picture {

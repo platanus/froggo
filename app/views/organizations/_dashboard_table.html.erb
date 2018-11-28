@@ -9,21 +9,51 @@
       <div class="matrix-dashboard">
         <div>
           <div class="matrix__user--head" id="sticky-corner"></div>
-          <% @corrmat.selected_users.each_with_index do |b, i| %>
+          <% @corrmat.selected_users.each_with_index do |user, i| %>
             <div class="matrix__user">
-              <a href="<%= b.html_url %>" title="<%= b.login %>">
-                <img class="matrix__user-img" src="<%= b.avatar_url %>">
+              <a href="<%= user.html_url %>" title="<%= user.login %>">
+                <% if i == @corrmat.min_ranking_indexes[0]%>
+                  <div class="matrix__user-div">
+                    <div>
+                      <img class="matrix__user-img" src="<%= user.avatar_url %>">
+                    </div>
+                    <img class="matrix__user-crown" src="<%= image_path 'dashboard-img-crown.svg' %>">
+                  </div>
+                <% else %>
+                  <img class="<%= if i == @corrmat.min_ranking_indexes[1]
+                              'matrix__user-img--second'
+                              elsif i == @corrmat.min_ranking_indexes[2]
+                              'matrix__user-img--third'
+                              else
+                              'matrix__user-img'
+                              end %>" src="<%= user.avatar_url %>">
+                <% end %>
               </a>
             </div>
           <% end %>
         </div>
         <div class="matrix__values">
           <div class="matrix__head" id="sticky-head">
-            <% @corrmat.selected_users.each do |user| %>
+            <% @corrmat.selected_users.each_with_index do |user, i| %>
               <div class="matrix__user--head">
                 <div class="matrix__picture">
                   <a href="<%= user.html_url %>" title="<%= user.login %>">
-                    <img class="matrix__user-img" src="<%= user.avatar_url %>">
+                    <% if i == @corrmat.min_ranking_indexes[0]%>
+                      <div class="matrix__user-div">
+                        <div class="matrix__user-div">
+                          <img class="matrix__user-img" src="<%= user.avatar_url %>">
+                        </div>
+                        <img class="matrix__user-crown" src="<%= image_path 'dashboard-img-crown.svg' %>">
+                      </div>
+                    <% else %>
+                      <img class="<%= if i == @corrmat.min_ranking_indexes[1]
+                                  'matrix__user-img--second'
+                                  elsif i == @corrmat.min_ranking_indexes[2]
+                                  'matrix__user-img--third'
+                                  else
+                                  'matrix__user-img'
+                                  end %>" src="<%= user.avatar_url %>">
+                    <% end %>
                   </a>
                 </div>
               </div>
@@ -38,7 +68,7 @@
                                                           elsif @corrmat.data[[i, j]] == 0 then
                                                             '-0'
                                                           end %>">
-                    <%= @corrmat.data[[i, j]] %>
+                      <%= @corrmat.data[[i, j]] %>
                   </span>
                 </div>
               <% end %>
@@ -49,4 +79,3 @@
     <% end %>
   </div>
 </div>
-
