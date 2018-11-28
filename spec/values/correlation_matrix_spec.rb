@@ -3,9 +3,17 @@ require 'rails_helper'
 RSpec.describe CorrelationMatrix, type: :class do
   let!(:organization) { create(:organization) }
   let!(:repository) { create(:repository, organization: organization) }
+  let!(:owner) { create(:github_user, gh_id: 3, login: 'gh_owner') }
+  let!(:reviewer) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
+  let!(:current_user) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
+  let!(:reviewer_membership) do
+    create(:organization_membership, organization: organization, github_user: reviewer)
+  end
+  let!(:owner_membership) do
+    create(:organization_membership, organization: organization, github_user: owner)
+  end
 
   context 'when initialized with empty organization' do
-    let!(:current_user) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
     subject { CorrelationMatrix.new(organization.id, nil, current_user.login) }
     it 'has empty data' do
       expect(subject.data).to be_empty
@@ -13,18 +21,9 @@ RSpec.describe CorrelationMatrix, type: :class do
   end
 
   context 'when initialized' do
-    let!(:owner) { create(:github_user, gh_id: 3, login: 'gh_owner') }
     let!(:pull_requests) { [create(:pull_request, repository: repository, owner: owner)] }
-    let!(:reviewer) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
-    let!(:current_user) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
     let!(:pr_relation) do
       create(:pull_request_relation, pull_request: pull_requests[0], github_user: reviewer)
-    end
-    let!(:reviewer_membership) do
-      create(:organization_membership, organization: organization, github_user: reviewer)
-    end
-    let!(:owner_membership) do
-      create(:organization_membership, organization: organization, github_user: owner)
     end
 
     subject do
@@ -42,16 +41,7 @@ RSpec.describe CorrelationMatrix, type: :class do
   end
 
   context 'when fill_matrix' do
-    let!(:owner) { create(:github_user, gh_id: 3, login: 'gh_owner') }
-    let!(:reviewer) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
     let!(:pull_requests) { [create(:pull_request, repository: repository, owner: owner)] }
-    let!(:current_user) { create(:github_user, gh_id: 8, login: 'gh_owner') }
-    let!(:owner_membership) do
-      create(:organization_membership, organization: organization, github_user: owner)
-    end
-    let!(:reviewer_membership) do
-      create(:organization_membership, organization: organization, github_user: reviewer)
-    end
     before do
       create(:pull_request_relation, pull_request: pull_requests[0], github_user: owner)
       create(:pull_request_relation, pull_request: pull_requests[0], github_user: reviewer)
@@ -84,20 +74,11 @@ RSpec.describe CorrelationMatrix, type: :class do
   end
 
   context 'filter by user_ids' do
-    let!(:owner) { create(:github_user, gh_id: 3, login: 'gh_owner') }
-    let!(:reviewer) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
+    let!(:pull_requests) { [create(:pull_request, repository: repository, owner: owner)] }
     let!(:other) { create(:github_user, gh_id: 9, login: 'gh_other') }
-    let!(:owner_membership) do
-      create(:organization_membership, organization: organization, github_user: owner)
-    end
-    let!(:reviewer_membership) do
-      create(:organization_membership, organization: organization, github_user: reviewer)
-    end
     let!(:other_membership) do
       create(:organization_membership, organization: organization, github_user: other)
     end
-    let!(:pull_requests) { [create(:pull_request, repository: repository, owner: owner)] }
-    let!(:current_user) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
     before do
       create(:pull_request_relation, pull_request: pull_requests[0], github_user_id: owner.id)
       create(:pull_request_relation, pull_request: pull_requests[0], github_user_id: reviewer.id)
