@@ -86,13 +86,13 @@
   display: inline-block;
   position: relative;
   z-index: 1;
-}
 
-.matrix__user-div + .matrix__user-crown {
-  position: absolute;
-  right: -11px;
-  top: -6px;
-  z-index: 1;
+  .matrix__user-crown {
+    position: absolute;
+    right: -11px;
+    top: -6px;
+    z-index: 1;
+  }
 }
 
 .matrix__picture {
