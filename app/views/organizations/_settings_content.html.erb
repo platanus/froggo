@@ -13,7 +13,7 @@
       <enable-public-button :organization="<%= @organization.to_json %>"></enable-public-button>
     </div>
     <div class="card-extended__button-container">
-      <sync-organization-button url="/api/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>" error_msg="<%= t('messages.settings.error') %>"></sync-organization-button>
+      <sync-organization-button url="/api/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>"></sync-organization-button>
     </div>
   </div>
   <div class="card-extended__body-list">

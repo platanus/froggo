@@ -1,9 +1,10 @@
 <template>
-  <div v-if="enabled" v-on:click="toggle()" class="button button--light">Deshabilitar dashboard público</div>
-  <div v-else v-on:click="toggle()" class="button">Habilitar dashboard público</div>
+  <div v-if="enabled" v-on:click="toggle()" class="button button--light">{{ $t("message.settings.disablePublic") }}</div>
+  <div v-else v-on:click="toggle()" class="button">{{ $t("message.settings.enablePublic") }}</div>
 </template>
 
 <script>
+/* eslint-disable no-alert */
 import axios from 'axios';
 
 export default {
@@ -21,8 +22,8 @@ export default {
         .then(() => {
           this.enabled = !this.enabled;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert(this.$i18n.t('message.settings.error'));
         });
     },
   },
