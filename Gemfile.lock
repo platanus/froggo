@@ -80,6 +80,8 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (8.0.0)
+    autoprefixer-rails (8.4.1)
+      execjs
     aws-sdk (2.10.98)
       aws-sdk-resources (= 2.10.98)
     aws-sdk-core (2.10.98)
@@ -439,6 +441,7 @@ DEPENDENCIES
   activeadmin (~> 1.1.0)
   activeadmin_addons (~> 1.1.2)
   annotate
+  autoprefixer-rails
   aws-sdk (~> 2.5)
   better_errors
   binding_of_caller
@@ -492,4 +495,4 @@ DEPENDENCIES
   webpacker!
 
 BUNDLED WITH
-   1.16.1
+   1.16.4

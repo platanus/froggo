@@ -8,8 +8,8 @@ $(document).ready(() => {
     if ($('.card-extended--fullscreen')[0]) {
       return;
     }
-    if (document.documentElement.scrollTop > offsetTop) {
-      $('#sticky-head, #sticky-corner').css({ top: (document.documentElement.scrollTop) - offsetTop, position: 'relative' });
+    if ($(document).scrollTop() > offsetTop) {
+      $('#sticky-head, #sticky-corner').css({ top: ($(document).scrollTop()) - offsetTop, position: 'relative' });
     } else {
       $('#sticky-head, #sticky-corner').css({ top: 0, position: 'inherit' });
     }
