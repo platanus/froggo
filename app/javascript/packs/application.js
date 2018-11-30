@@ -5,6 +5,7 @@ import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
 import Dropdown from '../pl-dropdown.vue';
 import Repository from '../repository.vue';
+import EnablePublicButton from '../enable-public-button.vue';
 import Locales from '../locales.js';
 import SyncOrganizationButton from '../sync-organization-button.vue';
 
@@ -12,6 +13,7 @@ Vue.use(VueI18n);
 
 document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
+  Vue.component('enable-public-button', EnablePublicButton);
   Vue.component('dropdown', Dropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
 

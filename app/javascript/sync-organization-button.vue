@@ -10,7 +10,7 @@
 import axios from 'axios';
 
 export default {
-  props: ['id', 'error_msg'],
+  props: ['id'],
   data() {
     return {
       loading: false,
@@ -27,7 +27,7 @@ export default {
           this.checkSync();
         })
         .catch(() => {
-          alert(this.error_msg);
+          alert(this.$i18n.t('message.settings.error'));
         });
     },
     checkSync() {
@@ -38,7 +38,7 @@ export default {
             this.loading = false;
           } else if (res.data.state === 'failed') {
             this.loading = false;
-            alert(this.error_msg);
+            alert(this.$i18n.t('message.settings.error'));
           } else {
             setTimeout(this.checkSync(), TIMEOUT);
           }
