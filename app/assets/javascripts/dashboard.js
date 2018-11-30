@@ -27,9 +27,9 @@ $(document).ready(() => {
         upToDown = true;
       }
       if (upToDown) {
-        window.scrollBy(0, viewport.clientHeight);
+        window.scrollBy({ left: 0, top: viewport.clientHeight, behavior: 'smooth' });
       } else {
-        window.scrollBy(0, -viewport.clientHeight);
+        window.scrollBy({ left: 0, top: -viewport.clientHeight, behavior: 'smooth' });
       }
     }, autoscrollInterval);
   }
