@@ -21,15 +21,15 @@ $(document).ready(() => {
   if (window.location.href.includes('public')) {
     setInterval(() => {
       const viewport = document.documentElement;
-      if (viewport.scrollTop >= viewport.scrollHeight - viewport.clientHeight) {
+      if ($(document).scrollTop() >= viewport.scrollHeight - viewport.clientHeight) {
         upToDown = false;
-      } else if (viewport.scrollTop === 0) {
+      } else if ($(document).scrollTop() === 0) {
         upToDown = true;
       }
       if (upToDown) {
-        viewport.scrollBy(0, viewport.clientHeight);
+        window.scrollBy(0, viewport.clientHeight);
       } else {
-        viewport.scrollBy(0, -viewport.clientHeight);
+        window.scrollBy(0, -viewport.clientHeight);
       }
     }, autoscrollInterval);
   }
