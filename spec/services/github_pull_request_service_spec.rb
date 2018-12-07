@@ -137,7 +137,7 @@ describe GithubPullRequestService do
           allow(BuildOctokitClient).to receive(:for).with(token: token, per_page: 20)
                                                     .and_return(client)
           allow(client).to receive(:pull_request).with(
-            github_pr_response_merged.head.repo.full_name,
+            repository.full_name,
             github_pr_response_merged.number
           ).and_return(github_single_pr)
         end
