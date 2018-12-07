@@ -9,6 +9,15 @@ class GithubOrgMembershipService < PowerTypes::Service.new(:token)
     end
   end
 
+  def ex_members_ids(org)
+    org.members.where.not(gh_id: github_org_members(org).map(&:id)).pluck(:id)
+  end
+
+  def delete_ex_members(org, ids)
+    org.organization_memberships.where(github_user_id: ids).destroy_all
+    org.members.where(id: ids).destroy_all
+  end
+
   private
 
   def github_org_members(org)
