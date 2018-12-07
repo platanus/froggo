@@ -25,7 +25,7 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
 
   def import_github_pull_request(repository, github_pull_request)
     return unless repository.reload.tracked
-    params = build_pull_request_params(github_pull_request)
+    params = build_pull_request_params(repository, github_pull_request)
 
     if pull_request = PullRequest.find_by(gh_id: github_pull_request.id)
       pull_request.update! params
@@ -41,14 +41,14 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     client.pull_requests(repository.full_name, state: 'all', page: page)
   end
 
-  def build_pull_request_params(github_pull_request)
+  def build_pull_request_params(repository, github_pull_request)
     owner = GithubUserService.new.find_or_create(github_pull_request.user)
 
     base_params = get_base_params(github_pull_request)
     users_params = { owner_id: owner.id }
 
     if github_pull_request.respond_to?(:merged_at) && !github_pull_request.merged_at.nil?
-      user = get_merger_user(github_pull_request)
+      user = get_merger_user(repository, github_pull_request)
       merged_by = GithubUserService.new.find_or_create(user)
       users_params[:merged_by_id] = merged_by.id
     end
@@ -56,15 +56,15 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     base_params.merge(users_params)
   end
 
-  def get_merger_user(github_pull_request)
+  def get_merger_user(repository, github_pull_request)
     if github_pull_request.respond_to?(:merged_by)
       return github_pull_request.merged_by
     end
-    get_user_from_request(github_pull_request)
+    get_user_from_request(repository, github_pull_request)
   end
 
-  def get_user_from_request(github_pull_request)
-    repo_full_name = github_pull_request.head.repo.full_name
+  def get_user_from_request(repository, github_pull_request)
+    repo_full_name = repository.full_name
     pr_number = github_pull_request.number
     pr_response = client.pull_request(repo_full_name, pr_number)
     if pr_response.respond_to?(:merged_by)
