@@ -221,4 +221,33 @@ describe GithubPullRequestService do
       service.handle_webhook_event(event_request_data)
     end
   end
+
+  describe '#delete_prs' do
+    context 'with no pull request to delete' do
+      let!(:gh_ids) { [] }
+      it "doesn't delete any pull request" do
+        expect { service.delete_prs(gh_ids) }.to change { PullRequest.count }.by(0)
+      end
+    end
+
+    context 'with only one pull request to delete' do
+      let!(:gh_ids) { [10] }
+      let!(:pull_request) { create(:pull_request, gh_id: gh_ids.first) }
+      let(:pr_ids) { [pull_request.id] }
+      it 'deletes pull request' do
+        expect { service.delete_prs(pr_ids) }.to change { PullRequest.count }.by(-1)
+      end
+    end
+
+    context 'with more than one pull request to delete' do
+      let!(:gh_ids) { [10, 20, 30] }
+      let!(:pull_request1) { create(:pull_request, gh_id: gh_ids.first) }
+      let!(:pull_request2) { create(:pull_request, gh_id: gh_ids[1]) }
+      let!(:pull_request3) { create(:pull_request, gh_id: gh_ids[2]) }
+      let(:pr_ids) { [pull_request1.id, pull_request2.id, pull_request3.id] }
+      it 'deletes all pull requests' do
+        expect { service.delete_prs(pr_ids) }.to change { PullRequest.count }.by(-3)
+      end
+    end
+  end
 end
