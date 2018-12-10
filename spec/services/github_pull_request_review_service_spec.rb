@@ -120,4 +120,49 @@ describe GithubPullRequestReviewService do
       service.handle_webhook_event(event_request_data)
     end
   end
+
+  describe '#delete_prs_reviews' do
+    context 'with no reviews to delete' do
+      let!(:pr_ids) { [] }
+      it "doesn't delete any pull request review" do
+        expect { service.delete_prs_reviews(pr_ids) }.to change { PullRequestReview.count }.by(0)
+      end
+    end
+
+    context 'with only one review to delete' do
+      let!(:gh_ids) { [10] }
+      let(:pull_request1) { create(:pull_request, gh_id: gh_ids[0]) }
+      let!(:pr_ids) { [pull_request1.id] }
+      let!(:pr_review) do
+        create(:pull_request_review, gh_id: 1, pull_request: pull_request1)
+      end
+
+      it 'deletes pull request review' do
+        expect { service.delete_prs_reviews(pr_ids) }.to change { PullRequestReview.count }.by(-1)
+      end
+    end
+
+    context 'with more than one review to delete' do
+      let!(:gh_ids) { [10, 20, 30] }
+      let(:pull_request1) { create(:pull_request, gh_id: gh_ids[0]) }
+      let(:pull_request2) { create(:pull_request, gh_id: gh_ids[1]) }
+      let(:pull_request3) { create(:pull_request, gh_id: gh_ids[2]) }
+      let!(:pr_ids) { [pull_request1.id, pull_request2.id, pull_request3.id] }
+      let!(:pr_review) do
+        create(:pull_request_review, gh_id: 1, pull_request: pull_request1)
+      end
+
+      let!(:pr_review2) do
+        create(:pull_request_review, gh_id: 2, pull_request: pull_request2)
+      end
+
+      let!(:pr_review3) do
+        create(:pull_request_review, gh_id: 3, pull_request: pull_request3)
+      end
+
+      it 'deletes all pull requests reviews' do
+        expect { service.delete_prs_reviews(pr_ids) }.to change { PullRequestReview.count }.by(-3)
+      end
+    end
+  end
 end
