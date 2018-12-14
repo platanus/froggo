@@ -9,6 +9,7 @@
   font-weight: 500;
   height: fit-content;
   line-height: 30px;
+  margin-right: 10px;
   min-width: 91px;
   padding: 2px 5px;
   text-align: center;
@@ -30,5 +31,9 @@
 
   &--disabled {
     cursor: not-allowed;
+  }
+
+  &:last-child {
+    margin-right: 0;
   }
 }
