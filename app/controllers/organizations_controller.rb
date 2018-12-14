@@ -66,14 +66,22 @@ class OrganizationsController < ApplicationController
   def load_organization_by_name
     @organization = Organization.find_by(login: permitted_params[:name])
     @has_dashboard = !@organization.nil?
+    load_public_matrix_params if @has_dashboard
   end
 
   def load_matrix_params
     @teams = github_teams
     if permitted_params[:team]
       @team = @teams.find { |team| team[:slug] == permitted_params[:team] }
-      @team_members = github_team_members
+      @team_members_ids = github_team_members&.pluck(:id)
     end
+    if permitted_params[:month_limit].present?
+      @month_limit = permitted_params[:month_limit].to_i
+    end
+  end
+
+  def load_public_matrix_params
+    @team_members_ids = permitted_params[:user_ids]
     if permitted_params[:month_limit].present?
       @month_limit = permitted_params[:month_limit].to_i
     end
@@ -81,7 +89,7 @@ class OrganizationsController < ApplicationController
 
   def set_corrmat
     if @has_dashboard
-      @corrmat = get_matrix(@organization.id, @team_members&.pluck(:id), @month_limit)
+      @corrmat = get_matrix(@organization.id, @team_members_ids, @month_limit)
     end
   end
 
@@ -110,7 +118,7 @@ class OrganizationsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:name, :team, :month_limit)
+    params.permit(:name, :team, :month_limit, user_ids: [])
   end
 
   def get_matrix(org_id, user_ids, month_limit)
