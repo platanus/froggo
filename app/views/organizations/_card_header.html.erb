@@ -52,14 +52,15 @@
       </dropdown>
     <% end %>
   <% end %>
-
   <dashboard-syncing-icon id="<%= @organization.id %>"></dashboard-syncing-icon>
-
-  <% if @is_admin && !only_organization%>
-    <div class="card-extended__config">
+  <div class="card-extended__config">
+    <% if @is_admin && !only_organization%>
       <a class="button" href="<%= settings_organization_path(@github_organization[:login]) %>">
         <%= t('messages.dashboard.settings') %>
       </a>
-    </div>
-  <% end %>
+    <% end %>
+    <a class="button" href="<%= public_organization_path(name: @github_organization[:login], user_ids: @team_members_ids, month_limit: @corrmat.limit) %>">
+      <%= "Dashboard Publico"  %>
+    </a>
+  </div>
 </div>

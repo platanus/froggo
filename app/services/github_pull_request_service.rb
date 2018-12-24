@@ -35,6 +35,10 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     pull_request
   end
 
+  def delete_prs(pr_ids)
+    PullRequest.where(id: pr_ids).destroy_all
+  end
+
   private
 
   def github_pull_requests(repository, page: nil)

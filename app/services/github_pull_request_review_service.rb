@@ -32,6 +32,10 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
     end
   end
 
+  def delete_prs_reviews(pr_ids)
+    PullRequestReview.where(pull_request_id: pr_ids).destroy_all
+  end
+
   private
 
   def github_pull_request_reviews(pull_request)

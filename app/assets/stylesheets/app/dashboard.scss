@@ -276,8 +276,9 @@
     }
 
     &__config {
-      position: absolute;
-      right: 32px;
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
       margin-top: 18px;
     }
 
