@@ -8,6 +8,7 @@ import Repository from '../repository.vue';
 import EnablePublicButton from '../enable-public-button.vue';
 import Locales from '../locales.js';
 import SyncOrganizationButton from '../sync-organization-button.vue';
+import DashboardSyncingIcon from '../dashboard-syncing-icon.vue';
 
 Vue.use(VueI18n);
 
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('enable-public-button', EnablePublicButton);
   Vue.component('dropdown', Dropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
+  Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new
@@ -49,4 +51,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-

@@ -52,6 +52,7 @@
       </dropdown>
     <% end %>
   <% end %>
+  <dashboard-syncing-icon id="<%= @organization.id %>"></dashboard-syncing-icon>
   <div class="card-extended__config">
     <% if @is_admin && !only_organization%>
       <a class="button" href="<%= settings_organization_path(@github_organization[:login]) %>">
