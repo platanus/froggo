@@ -1,0 +1,138 @@
+$team-link-color: #5E9AFF;
+
+.profile {
+  &__section {
+    &+.profile__section {
+      margin-top: 5%;
+    }
+  }
+
+  &__header {
+    flex: 1;
+    padding: 0 2% 0 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .profile__picture {
+      flex: 2;
+    }
+
+    .profile__info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .profile__name {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #49465E;
+        font-size: 200%;
+      }
+      .profile__social-links {
+        flex: 1;
+        display: flex;
+        align-items: center;
+
+        a {
+          text-decoration: none;
+          color: inherit;
+
+          &:last-of-type {
+            margin-left: 1em;
+          }
+        }
+
+        .profile__link {
+          display: flex;
+          flex: 1;
+          font-size: 115%;
+
+          &.profile__team-link {
+            color: $team-link-color;
+            fill: $team-link-color;
+          }
+        }
+
+        .profile__link-icon {
+          &__padded {
+            margin-right: 0.5em;
+          }
+        }
+      }
+    }
+  }
+
+  &__content {
+    flex: 2;
+    display: flex;
+    padding: 0 2% 0 2%;
+    flex-direction: row;
+
+    .profile__score {
+      font-size: 200%;
+      color: #49465E;
+    }
+
+    .profile__text {
+      color: #5B596E;
+    }
+
+    .profile__column {
+      flex: 1;
+
+      &+.profile__column {
+        margin-left: 2%;
+      }
+
+      .profile__title {
+        color: #49465E;
+      }
+
+      .profile__row {
+        padding: 2% 0 2% 0;
+        display: flex;
+      }
+
+      .profile__rectangle {
+        border: 1px solid #E7E4ED;
+        display: flex;
+        flex-direction: column;
+
+        &:not(:last-of-type) {
+          margin-right: 2%;
+        }
+
+        &--centered {
+          align-items: center;
+        }
+
+        &--padded {
+          padding: 5%;
+        }
+
+        &__score {
+          flex: 1;
+        }
+        
+        &__weekly {
+          flex: 1;
+        }
+        
+        &__monthly {
+          flex: 3;
+        }
+        
+        &__reviewers {
+          flex: 1;
+        }
+
+        &__reviewees {
+          flex: 1;
+        }
+      }
+    }
+  }
+}

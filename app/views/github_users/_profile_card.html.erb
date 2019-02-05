@@ -1,0 +1,88 @@
+<div class="card">
+  <div class="profile__section profile__header">
+    <div class="profile__picture">
+      img
+    </div>
+
+    <div class="profile__info">
+      <div class="profile__name">
+        <%= @github_user.name || t('messages.profile.no_name') %>
+      </div>
+      <div class="profile__social-links">
+        <a href="<%= @github_user.html_url %>">
+          <div class="profile__link profile__github-link">
+            <div class="profile__link-icon profile__link-icon__padded">
+              <%= octicon "octoface" %>
+            </div>
+            <div>
+              @<%= @github_user.login %>
+            </div>
+          </div>
+        </a>
+        <!-- TODO: Hardcoded -->
+        <a href="http://google.cl">
+          <div class="profile__link profile__team-link">
+            <div class="profile__link-icon profile__link-icon__padded">
+              <!-- TODO: This should be the team's icon -->
+              <%= octicon "smiley" %>
+            </div>
+            <div>
+            </div>
+            team
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="profile__section profile__content">
+    <div class="profile__column">
+      <div class="profile__row profile__title">
+        Tu puntaje
+      </div>
+      <div class="profile__row">
+        <!-- TODO: hardcoded -->
+        <div class="profile__rectangle 
+                    profile__rectangle__score
+                    profile__rectangle--centered 
+                    profile__rectangle--padded">
+          <div class="profile__score">
+            84
+          </div>
+          <div class="profile__text">
+            + since last week
+          </div>
+        </div>
+      </div>
+      <div class="profile__row">
+        <div class="profile__text">
+          <%= t('messages.profile.hola') %>
+        </div>
+      </div>
+    </div>
+    <div class="profile__column">
+      <div class="profile__row profile__title">
+        Cantidad de PRs
+      </div>
+      <div class="profile__row">
+        <div class="profile__rectangle profile__rectangle__weekly">
+          cosas
+        </div>
+        <div class="profile__rectangle profile__rectangle__monthly">
+          más cosas
+        </div>
+      </div>
+      <div class="profile__row profile__title">
+        Top Reviewers
+      </div>
+      <div class="profile__row">
+        <div class="profile__rectangle profile__rectangle__reviewers">
+          reviewers
+        </div>
+        <div class="profile__rectangle profile__rectangle__reviewees">
+          reviewees
+      </div>
+    </div>
+  </div>
+</div>
