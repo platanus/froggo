@@ -22,6 +22,10 @@ class GithubSession
     token && !token.empty?
   end
 
+  def client
+    @client ||= BuildOctokitClient.for(token: token)
+  end
+
   def set_session(_token, _session_type)
     @session.permanent['access_token'] = _token
     @session.permanent['client_type'] = _session_type
@@ -79,9 +83,5 @@ class GithubSession
 
   def froggo_path_key
     "froggo_#{@name}_path"
-  end
-
-  def client
-    @client ||= BuildOctokitClient.for(token: token)
   end
 end
