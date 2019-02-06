@@ -28,8 +28,8 @@ package-lock.json
 .sscs-lint.yml
 .env.local
 .env
+.tern-port
 node_modules/
 /public/packs
 /public/packs-test
 /node_modules
-
