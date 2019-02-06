@@ -19,18 +19,12 @@
             </div>
           </div>
         </a>
-        <!-- TODO: Hardcoded -->
-        <a href="http://google.cl">
-          <div class="profile__link profile__team-link">
-            <div class="profile__link-icon profile__link-icon__padded">
-              <!-- TODO: This should be the team's icon -->
-              <%= octicon "smiley" %>
-            </div>
-            <div>
-            </div>
-            team
-          </div>
-        </a>
+        <clickable-dropdown
+          body-title="<%= t('messages.dashboard.teams') %>"
+          no-items-message="<%= t('messages.profile.no_teams') %>"
+          :items="<%= convert_teams_to_clickable_dropdown_items(@teams).to_json %>"
+        >
+        </clickable-dropdown>
       </div>
     </div>
 
@@ -39,7 +33,7 @@
   <div class="profile__section profile__content">
     <div class="profile__column">
       <div class="profile__row profile__title">
-        Tu puntaje
+        <%= t('messages.profile.your_score') %>
       </div>
       <div class="profile__row">
         <!-- TODO: hardcoded -->
@@ -57,13 +51,13 @@
       </div>
       <div class="profile__row">
         <div class="profile__text">
-          <%= t('messages.profile.hola') %>
+          <%= t('messages.profile.compute_score_explanation') %>
         </div>
       </div>
     </div>
     <div class="profile__column">
       <div class="profile__row profile__title">
-        Cantidad de PRs
+        <%= t('messages.profile.amount_of_prs') %>
       </div>
       <div class="profile__row">
         <div class="profile__rectangle profile__rectangle__weekly">
@@ -74,7 +68,7 @@
         </div>
       </div>
       <div class="profile__row profile__title">
-        Top Reviewers
+        <%= t('messages.profile.top_reviewers') %>
       </div>
       <div class="profile__row">
         <div class="profile__rectangle profile__rectangle__reviewers">
