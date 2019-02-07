@@ -5,7 +5,6 @@ import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
 import Dropdown from '../pl-dropdown.vue';
 import ClickableDropdown from '../clickable-dropdown';
-import ClickableDropdownItem from '../clickable-dropdown/item.vue';
 import Repository from '../repository.vue';
 import EnablePublicButton from '../enable-public-button.vue';
 import Locales from '../locales.js';
