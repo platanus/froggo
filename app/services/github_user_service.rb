@@ -16,10 +16,8 @@ class GithubUserService < PowerTypes::Service.new
   def fetch_teams_for_user(github_login, octokit_client)
     organizations_logins =
       octokit_client
-        .organizations(github_login)
-        .map do |organization|
-          organization.login
-        end
+      .organizations(github_login)
+      .map(&:login)
     teams = []
     organizations_logins.each do |organization_login|
       begin

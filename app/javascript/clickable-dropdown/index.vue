@@ -7,10 +7,10 @@
     </div>
     <div class="select__body" slot="body">
       <div v-if="bodyTitle" class="select-body__title">{{ bodyTitle }}</div>
-      <clickable-dropdown-item 
-        v-for="(item, index) in items" 
+      <clickable-dropdown-item
+        v-for="(item, index) in items"
         @item-clicked="itemClicked"
-        :key="index" 
+        :key="index"
         :text="item.name"
         :index=index
       >
@@ -39,7 +39,7 @@ export default {
      *   {
      *     name: 'Second item's displayed name',
      *   }
-     * ] 
+     * ]
      */
     noItemsMessage: {
       type: String,
@@ -47,7 +47,7 @@ export default {
     },
     items: {
       type: Array,
-      default: function() {
+      default() {
         return [];
       },
     },
@@ -55,15 +55,15 @@ export default {
   data() {
     return {
       selectedItemIndex: 0,
-    }
+    };
   },
   computed: {
-    selectedItem: function () {
+    selectedItem() {
       return this.items.length > 0 ? this.items[this.selectedItemIndex] : null;
     },
   },
   methods: {
-    itemClicked: function(itemIndex) {
+    itemClicked(itemIndex) {
       this.selectedItemIndex = itemIndex;
       this.$refs.parentDropdown.closeDropdown();
     },

@@ -6,7 +6,7 @@ class GithubUsersController < ApplicationController
     @github_session = github_session
     @teams =
       GithubUserService
-        .new
-        .fetch_teams_for_user(@github_user.login, @github_session.client)
+      .new
+      .fetch_teams_for_user(@github_user.login, @github_session.client)
   end
 end

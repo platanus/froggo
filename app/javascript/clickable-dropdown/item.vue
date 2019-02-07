@@ -14,10 +14,10 @@ export default {
     index: Number,
   },
   methods: {
-    notifyContainer: function() {
+    notifyContainer() {
       this.$emit('item-clicked', this.index);
-    }
-  }
+    },
+  },
 };
 </script>
 

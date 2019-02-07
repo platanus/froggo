@@ -20,7 +20,6 @@ describe GithubUserService do
            name: '')
   end
 
-
   def build(*_args)
     described_class.new(*_args)
   end
@@ -51,7 +50,7 @@ describe GithubUserService do
     end
 
     let (:organizations) do
-      [ organization_1, organization_2 ]
+      [organization_1, organization_2]
     end
 
     let (:team_1_data) do
@@ -75,7 +74,7 @@ describe GithubUserService do
     end
 
     let (:teams) do
-      [ team_1, team_2 ]
+      [team_1, team_2]
     end
 
     let (:octokit_client_with_teams) do

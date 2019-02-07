@@ -1,150 +1,152 @@
-$team-link-color: #5E9AFF;
+$team-link-color: #5e9aff;
+$dark-text-color: #49465e;
+$darker-text-color: #5b596e;
+$border-color: #e7e4ed;
 
 .profile {
   &__section {
-    &+.profile__section {
-      margin-top: 5%;
+    margin-top: 5%;
+
+    &:last-of-type {
+      margin-bottom: 5%;
     }
   }
 
   &__header {
-    flex: 1;
-    padding: 0 2% 0 2%;
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 0 2%;
+  }
 
-    .profile__picture {
-      flex: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2% 0 2% 0;
+  &__picture {
+    align-items: center;
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+    padding: 2% 0;
 
-      img {
-        flex: 1;
-        object-fit: fill;
-        max-width: 25%;
-        border-radius: 50%;
-        overflow: hidden;
-      }
-    }
-
-    .profile__info {
+    img {
+      border-radius: 50%;
       flex: 1;
-      display: flex;
-      flex-direction: column;
-
-      .profile__name {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #49465E;
-        font-size: 200%;
-      }
-      .profile__social-links {
-        flex: 1;
-        display: flex;
-        align-items: center;
-
-        a {
-          text-decoration: none;
-          color: inherit;
-
-          &:last-of-type {
-            margin-left: 1em;
-          }
-        }
-
-        .profile__link {
-          display: flex;
-          flex: 1;
-          font-size: 115%;
-
-          &.profile__team-link {
-            color: $team-link-color;
-            fill: $team-link-color;
-          }
-        }
-
-        .profile__link-icon {
-          &__padded {
-            margin-right: 0.5em;
-          }
-        }
-      }
+      max-width: 25%;
+      object-fit: fill;
+      overflow: hidden;
     }
   }
 
-  &__content {
-    flex: 2;
+  &__info {
     display: flex;
-    padding: 0 2% 0 2%;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  &__name {
+    align-items: center;
+    color: $dark-text-color;
+    display: flex;
+    flex: 1;
+    font-size: 200%;
+    justify-content: center;
+  }
+
+  &__social-links {
+    align-items: center;
+    display: flex;
+    flex: 1;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:last-of-type {
+      margin-left: 1em;
+    }
+  }
+
+  &__link-icon {
+    &--padded {
+      margin-right: .5em;
+    }
+  }
+
+  &__link {
+    display: flex;
+    flex: 1;
+    font-size: 115%;
+  }
+
+  &__content {
+    display: flex;
+    flex: 2;
     flex-direction: row;
+    padding: 0 2%;
 
-    .profile__score {
-      font-size: 200%;
-      color: #49465E;
+  }
+
+  &__score {
+    color: $dark-text-color;
+    font-size: 200%;
+  }
+
+  &__text {
+    color: $darker-text-color;
+  }
+
+  &__column {
+    flex: 1;
+
+    &:not(last-of-type) {
+      margin-left: 2%;
+    }
+  }
+
+  &__title {
+    color: $dark-text-color;
+  }
+
+  &__row {
+    display: flex;
+    padding: 2% 0;
+  }
+
+  &__rectangle {
+    border: 1px solid $border-color;
+    display: flex;
+    flex-direction: column;
+
+    &:not(:last-of-type) {
+      margin-right: 2%;
     }
 
-    .profile__text {
-      color: #5B596E;
+    &--centered {
+      align-items: center;
     }
 
-    .profile__column {
+    &--padded {
+      padding: 5%;
+    }
+
+    &__score {
       flex: 1;
+    }
 
-      &+.profile__column {
-        margin-left: 2%;
-      }
+    &__weekly {
+      flex: 1;
+    }
 
-      .profile__title {
-        color: #49465E;
-      }
+    &__monthly {
+      flex: 3;
+    }
 
-      .profile__row {
-        padding: 2% 0 2% 0;
-        display: flex;
-      }
+    &__reviewers {
+      flex: 1;
+    }
 
-      .profile__rectangle {
-        border: 1px solid #E7E4ED;
-        display: flex;
-        flex-direction: column;
-
-        &:not(:last-of-type) {
-          margin-right: 2%;
-        }
-
-        &--centered {
-          align-items: center;
-        }
-
-        &--padded {
-          padding: 5%;
-        }
-
-        &__score {
-          flex: 1;
-        }
-        
-        &__weekly {
-          flex: 1;
-        }
-        
-        &__monthly {
-          flex: 3;
-        }
-        
-        &__reviewers {
-          flex: 1;
-        }
-
-        &__reviewees {
-          flex: 1;
-        }
-      }
+    &__reviewees {
+      flex: 1;
     }
   }
 }
