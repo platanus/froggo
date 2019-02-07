@@ -23,6 +23,8 @@ package-lock.json
 /node_modules
 /yarn-error.log
 
+.DS_Store
+
 .byebug_history
 .rubocop.yml
 .sscs-lint.yml
