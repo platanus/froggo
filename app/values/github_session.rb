@@ -55,7 +55,6 @@ class GithubSession
       begin
         teams << octokit_client.organization_teams(organization_login)
       rescue Octokit::Error
-        # Do nothing, intentional.
         # Thrown, for example, when `octokit_client` has no visibility
         # of the organization's teams. Such teams are ignored.
       end

@@ -116,14 +116,23 @@ RSpec.describe GithubSession, type: :class do
           .with(organizations[1].login)
           .and_return(org_1_teams)
       end
-      
+
       it 'returns teams' do
-        expect(subject.fetch_teams_for_user('login')).to eq([
-          { name: 'team1' },
-          { name: 'team2' },
-          { name: 'team3' },
-          { name: 'team4' }
-        ])
+        expect(subject.fetch_teams_for_user('login')).to \
+          eq([
+               {
+                 name: 'team1'
+               },
+               {
+                 name: 'team2'
+               },
+               {
+                 name: 'team3'
+               },
+               {
+                 name: 'team4'
+               }
+             ])
       end
     end
   end

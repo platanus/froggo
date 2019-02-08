@@ -35,5 +35,4 @@ describe GithubUserService do
       expect(find).to eq(gh_user)
     end
   end
-
 end
