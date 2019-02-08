@@ -8,10 +8,6 @@ RSpec.describe GithubSession, type: :class do
     )
   end
 
-  def team_double(team_name)
-    double(to_attrs: { name: team_name })
-  end
-
   let(:cookies) do
     ActionDispatch::Cookies::CookieJar.build({}, 'access_token': 'a token', 'client_type': 'member')
   end
@@ -93,46 +89,27 @@ RSpec.describe GithubSession, type: :class do
 
     context 'when organizations have teams' do
       let(:teams) do
-        [
-          team_double('team1'),
-          team_double('team2'),
-          team_double('team3'),
-          team_double('team4')
-        ]
+        create_team = ->(id, name) { { id: id, name: name, slug: name } }
+        (0...4).map { |id| create_team.call(id, "team-#{id}") }
       end
 
-      let(:organizations) { [double(login: 'org1'), double(login: 'org2')] }
+      let(:organizations) { ['org0', 'org1'] }
+
       let(:org_0_teams) { [teams[0], teams[1]] }
       let(:org_1_teams) { [teams[2], teams[3]] }
 
       before do
-        allow(client).to receive(:organizations).and_return(organizations)
         allow(client).to \
-          receive(:organization_teams)
-          .with(organizations[0].login)
-          .and_return(org_0_teams)
-        allow(client).to \
-          receive(:organization_teams)
-          .with(organizations[1].login)
-          .and_return(org_1_teams)
+          receive(:organizations).and_return(organizations)
+        allow(subject).to \
+          receive(:get_teams).with(organizations[0]).and_return(org_0_teams)
+        allow(subject).to \
+          receive(:get_teams).with(organizations[1]).and_return(org_1_teams)
       end
 
       it 'returns teams' do
-        expect(subject.fetch_teams_for_user('login')).to \
-          eq([
-               {
-                 name: 'team1'
-               },
-               {
-                 name: 'team2'
-               },
-               {
-                 name: 'team3'
-               },
-               {
-                 name: 'team4'
-               }
-             ])
+        expect(subject.fetch_teams_for_user('some_login'))
+          .to eq([*org_0_teams, *org_1_teams])
       end
     end
   end
