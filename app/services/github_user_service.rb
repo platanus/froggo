@@ -8,20 +8,4 @@ class GithubUserService < PowerTypes::Service.new
       name: github_user_params.name
     ).find_or_create_by!(gh_id: github_user_params.id)
   end
-
-  def fetch_teams_for_user(github_login, octokit_client)
-    organizations_logins =
-      octokit_client
-      .organizations(github_login)
-      .map(&:login)
-    teams = []
-    organizations_logins.each do |organization_login|
-      begin
-        teams << octokit_client.organization_teams(organization_login)
-      rescue Octokit::Error
-        # Do nothing, intentional.
-      end
-    end
-    teams.flatten.map(&:to_attrs)
-  end
 end

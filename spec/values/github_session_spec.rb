@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe GithubSession, type: :class do
+  def create_org_response(id, org, avatar_url, role)
+    double(
+      organization: double(id: id, login: org, avatar_url: avatar_url),
+      role: role
+    )
+  end
+
+  def team_double(team_name)
+    double(to_attrs: { name: team_name })
+  end
+
   let(:cookies) do
     ActionDispatch::Cookies::CookieJar.build({}, 'access_token': 'a token', 'client_type': 'member')
   end
@@ -15,20 +26,9 @@ RSpec.describe GithubSession, type: :class do
   let!(:client) { double(user: user_response, organization_memberships: org_response) }
   subject { GithubSession.new(cookies) }
 
-  def create_org_response(id, org, avatar_url, role)
-    double(
-      organization: double(id: id, login: org, avatar_url: avatar_url),
-      role: role
-    )
-  end
-
   before do
-    expect(BuildOctokitClient).to receive(:for)
+    allow(BuildOctokitClient).to receive(:for)
       .with(token: 'a token').and_return(client)
-    expect(client).to receive(:user)
-      .and_return(user_response)
-    expect(client).to receive(:organization_memberships)
-      .and_return(org_response)
   end
 
   context 'when initialized with correct session' do
@@ -79,6 +79,52 @@ RSpec.describe GithubSession, type: :class do
     it 'erases cookies' do
       expect(cookies['access_token']).to eq("")
       expect(cookies['client_type']).to eq("")
+    end
+  end
+
+  describe 'fetch_teams_for_user' do
+    context 'when no organizations found' do
+      before { allow(client).to receive(:organizations).and_return([]) }
+
+      it 'returns an empty list' do
+        expect(subject.fetch_teams_for_user('login')).to be_empty
+      end
+    end
+
+    context 'when organizations have teams' do
+      let(:teams) do
+        [
+          team_double('team1'),
+          team_double('team2'),
+          team_double('team3'),
+          team_double('team4')
+        ]
+      end
+
+      let(:organizations) { [double(login: 'org1'), double(login: 'org2')] }
+      let(:org_0_teams) { [teams[0], teams[1]] }
+      let(:org_1_teams) { [teams[2], teams[3]] }
+
+      before do
+        allow(client).to receive(:organizations).and_return(organizations)
+        allow(client).to \
+          receive(:organization_teams)
+          .with(organizations[0].login)
+          .and_return(org_0_teams)
+        allow(client).to \
+          receive(:organization_teams)
+          .with(organizations[1].login)
+          .and_return(org_1_teams)
+      end
+      
+      it 'returns teams' do
+        expect(subject.fetch_teams_for_user('login')).to eq([
+          { name: 'team1' },
+          { name: 'team2' },
+          { name: 'team3' },
+          { name: 'team4' }
+        ])
+      end
     end
   end
 end

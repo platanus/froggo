@@ -22,10 +22,6 @@ class GithubSession
     token && !token.empty?
   end
 
-  def client
-    @client ||= BuildOctokitClient.for(token: token)
-  end
-
   def set_session(_token, _session_type)
     @session.permanent['access_token'] = _token
     @session.permanent['client_type'] = _session_type
@@ -46,6 +42,25 @@ class GithubSession
         login: member.login
       }
     end
+  end
+
+  def fetch_teams_for_user(github_login)
+    octokit_client = client
+    organizations_logins =
+      octokit_client
+      .organizations(github_login)
+      .map(&:login)
+    teams = []
+    organizations_logins.each do |organization_login|
+      begin
+        teams << octokit_client.organization_teams(organization_login)
+      rescue Octokit::Error
+        # Do nothing, intentional.
+        # Thrown, for example, when `octokit_client` has no visibility
+        # of the organization's teams. Such teams are ignored.
+      end
+    end
+    teams.flatten.map(&:to_attrs)
   end
 
   def clean_session
@@ -83,5 +98,9 @@ class GithubSession
 
   def froggo_path_key
     "froggo_#{@name}_path"
+  end
+
+  def client
+    @client ||= BuildOctokitClient.for(token: token)
   end
 end
