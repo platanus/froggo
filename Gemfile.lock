@@ -113,6 +113,7 @@ GEM
     connection_pool (2.2.1)
     crass (1.0.4)
     debug_inspector (0.0.3)
+    descriptive_statistics (2.5.1)
     devise (4.3.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -446,6 +447,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   coffee-rails (~> 4.2)
+  descriptive_statistics (~> 2.5)
   devise
   devise-i18n
   dotenv-rails
