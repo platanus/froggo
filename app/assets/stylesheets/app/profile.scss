@@ -46,7 +46,7 @@
     justify-content: center;
   }
 
-  &__social-links {
+  &__github-info {
     align-items: center;
     display: flex;
     flex: 1;
@@ -62,9 +62,7 @@
   }
 
   &__link-icon {
-    &--padded {
-      margin-right: .5em;
-    }
+    margin-right: .5em;
   }
 
   &__link {
@@ -124,23 +122,11 @@
       padding: 5%;
     }
 
-    &__score {
-      flex: 1;
-    }
-
-    &__weekly {
-      flex: 1;
-    }
-
-    &__monthly {
+    &--big {
       flex: 3;
     }
 
-    &__reviewers {
-      flex: 1;
-    }
-
-    &__reviewees {
+    &--small {
       flex: 1;
     }
   }
