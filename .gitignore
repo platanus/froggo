@@ -23,15 +23,13 @@ package-lock.json
 /node_modules
 /yarn-error.log
 
-.DS_Store
-
 .byebug_history
 .rubocop.yml
 .sscs-lint.yml
 .env.local
 .env
-.tern-port
 node_modules/
 /public/packs
 /public/packs-test
 /node_modules
+
