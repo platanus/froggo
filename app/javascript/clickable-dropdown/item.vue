@@ -4,10 +4,6 @@
 
 <script>
 
-/*
- * Represents each item within ClickableDropdown.
- * Emits `item-clicked` when an item is clicked`
- */
 export default {
   props: {
     text: String,

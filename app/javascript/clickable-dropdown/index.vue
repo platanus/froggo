@@ -22,25 +22,9 @@
 <script>
 import ClickableDropdownItem from './item.vue';
 
-/*
- * Dropdown with select-like items.
- * Uses Froggo's styles.
- */
 export default {
   props: {
     bodyTitle: String,
-    /*
-     * Contains the data that will be used to render
-     * each option in the dropdown. Shape is as follows:
-     * [
-     *   {
-     *     name: 'First item's displayed name',
-     *   },
-     *   {
-     *     name: 'Second item's displayed name',
-     *   }
-     * ]
-     */
     noItemsMessage: {
       type: String,
       defaut: '',

@@ -9,10 +9,6 @@ class GithubUserService < PowerTypes::Service.new
     ).find_or_create_by!(gh_id: github_user_params.id)
   end
 
-  # Performs a request to retrieve all teams associated
-  # to the github username given by `github_login`.
-  # Teams' visiblity depends on authentication privileges
-  # in `octokit_client`.
   def fetch_teams_for_user(github_login, octokit_client)
     organizations_logins =
       octokit_client
