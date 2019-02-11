@@ -1,7 +1,9 @@
-class ContributionRanker::ComputeScore < 
+class ContributionRanker::ComputeScore <
   PowerTypes::Command.new(:self_reviewed_prs, :per_user_reviews)
+  # rubocop:disable Metrics/AbcSize
   def perform
     return 0 unless user_reviewed_someone_else?
+
     stats = compute_stats
     (
       @self_reviewed_prs * stats[:sqrt_mean] + \
@@ -13,9 +15,10 @@ class ContributionRanker::ComputeScore <
       1
     ) * (1 / stats[:sqrt_mean])
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
-  
+
   def compute_stats
     mean = @per_user_reviews.mean
     std = @per_user_reviews.standard_deviation
@@ -24,12 +27,12 @@ class ContributionRanker::ComputeScore <
       sqrt_mean: Math.sqrt(mean),
       std: std,
       sqrt_std: Math.sqrt(std),
-      non_zeros_std: (non_zeros @per_user_reviews).standard_deviation,
+      non_zeros_std: (non_zeros @per_user_reviews).standard_deviation
     }
   end
 
   def user_reviewed_someone_else?
-    not (non_zeros @per_user_reviews).empty?
+    !(non_zeros @per_user_reviews).empty?
   end
 
   def non_zeros(list_of_numbers)

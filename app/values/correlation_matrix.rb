@@ -25,9 +25,8 @@ class CorrelationMatrix
   end
 
   def min_ranking_indexes
-    @min_ranking_indexes ||= CalculateRanking.for(
-      data: @data,
-      size: @selected_users.count,
+    @min_ranking_indexes ||= ContributionRanker::RankContributions.for(
+      users_contributions: @data,
       limit: 3
     )
   end
