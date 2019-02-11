@@ -44,6 +44,19 @@ class GithubSession
     end
   end
 
+  def fetch_teams_for_user(github_login)
+    teams = []
+    client.organizations(github_login).each do |organization|
+      begin
+        teams << get_teams(organization)
+      rescue Octokit::Error
+        # Thrown, for example, when `octokit_client` has no visibility
+        # of the organization's teams. Such teams are ignored.
+      end
+    end
+    teams.flatten
+  end
+
   def clean_session
     @session.permanent['access_token'] = ""
     @session.permanent['client_type'] = ""

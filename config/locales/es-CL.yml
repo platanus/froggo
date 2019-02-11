@@ -52,3 +52,10 @@ es-CL:
       obtain_admin_privilege: Obtener privilegios de admin en github
       create_dashboard: Dar permisos
       repository_title: Repositorios en
+    profile:
+      no_name: Sin nombre
+      no_teams: Sin equipos
+      compute_score_explanation: "Que cómo obtuvimos este puntaje? Fácil: blah blah..."
+      amount_of_prs: Cantidad de PRs
+      top_reviewers: Top reviewers
+      your_score: Tu puntaje

@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     get 'public' => 'organizations#public', on: :member
   end
 
+  resources :users, only: [:show], controller: 'github_users'
+
   scope path: '/api', defaults: { format: 'json' } do
     api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
       resources :repositories, only: [:update]

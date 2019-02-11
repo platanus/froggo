@@ -1,0 +1,80 @@
+<div class="card">
+  <div class="profile__section profile__header">
+    <div class="profile__picture">
+      <img src="<%= @github_user.avatar_url %>" />
+    </div>
+    <div class="profile__info">
+      <div class="profile__name">
+        <%= @github_user.name || t('messages.profile.no_name') %>
+      </div>
+      <div class="profile__github-info">
+        <a href="<%= @github_user.html_url %>">
+          <div class="profile__link">
+            <div class="profile__link-icon">
+              <%= octicon "octoface" %>
+            </div>
+            <div>
+              @<%= @github_user.login %>
+            </div>
+          </div>
+        </a>
+        <clickable-dropdown
+          body-title="<%= t('messages.dashboard.teams') %>"
+          no-items-message="<%= t('messages.profile.no_teams') %>"
+          :items="<%= convert_teams_to_clickable_dropdown_items(@teams).to_json %>"
+        >
+        </clickable-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="profile__section profile__content">
+    <div class="profile__column">
+      <div class="profile__row profile__title">
+        <%= t('messages.profile.your_score') %>
+      </div>
+      <div class="profile__row">
+        <!-- TODO: hardcoded -->
+        <div class="profile__rectangle 
+                    profile__rectangle--small
+                    profile__rectangle--centered 
+                    profile__rectangle--padded">
+          <div class="profile__score">
+            84
+          </div>
+          <div class="profile__text">
+            + since last week
+          </div>
+        </div>
+      </div>
+      <div class="profile__row">
+        <div class="profile__text">
+          <%= t('messages.profile.compute_score_explanation') %>
+        </div>
+      </div>
+    </div>
+    <div class="profile__column">
+      <div class="profile__row profile__title">
+        <%= t('messages.profile.amount_of_prs') %>
+      </div>
+      <div class="profile__row">
+        <div class="profile__rectangle profile__rectangle--small">
+          10
+        </div>
+        <div class="profile__rectangle profile__rectangle--big">
+          20
+        </div>
+      </div>
+      <div class="profile__row profile__title">
+        <%= t('messages.profile.top_reviewers') %>
+      </div>
+      <div class="profile__row">
+        <div class="profile__rectangle profile__rectangle--small">
+          Juan
+        </div>
+        <div class="profile__rectangle profile__rectangle--small">
+          Pedro
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
