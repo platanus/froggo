@@ -9,7 +9,7 @@ class ContributionRanker::ComputeScore <
       @self_reviewed_prs * stats[:sqrt_mean] + \
       stats[:sqrt_mean] + \
       stats[:std] + \
-      stats[:mean] + Math.sqrt((stats[:std] - stats[:non_zeros_std])**2) + \
+      stats[:mean] + Math::sqrt((stats[:std] - stats[:non_zeros_std])**2) + \
       @per_user_reviews.count(0) * stats[:sqrt_mean] * 4.5 + \
       (stats[:mean] - @per_user_reviews.min) * 11 + \
       1
@@ -20,14 +20,16 @@ class ContributionRanker::ComputeScore <
   private
 
   def compute_stats
-    mean = @per_user_reviews.mean
-    std = @per_user_reviews.standard_deviation
+    mean = Statistics::mean @per_user_reviews
+    std = Statistics::standard_deviation @per_user_reviews
     {
       mean: mean,
-      sqrt_mean: Math.sqrt(mean),
+      sqrt_mean: Math::sqrt(mean),
       std: std,
-      sqrt_std: Math.sqrt(std),
-      non_zeros_std: (non_zeros @per_user_reviews).standard_deviation
+      sqrt_std: Math::sqrt(std),
+      non_zeros_std: Statistics::standard_deviation(
+        non_zeros(@per_user_reviews)
+      )
     }
   end
 
