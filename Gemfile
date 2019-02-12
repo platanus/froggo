@@ -73,5 +73,3 @@ end
 group :production, :development, :test do
   gem 'tzinfo-data'
 end
-
-gem "descriptive_statistics", "~> 2.5"
