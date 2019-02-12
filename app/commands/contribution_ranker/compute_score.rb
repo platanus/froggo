@@ -5,13 +5,16 @@ class ContributionRanker::ComputeScore <
     return 0 unless user_reviewed_someone_else?
 
     stats = compute_stats
+    zeros_penalty = @per_user_reviews.count(0) * stats[:sqrt_mean]
+    std_penalty =
+      stats[:mean] * Math::sqrt((stats[:std] - stats[:non_zeros_std])**2)
     (
-      @self_reviewed_prs * stats[:sqrt_mean] + \
-      stats[:sqrt_mean] + \
-      stats[:std] + \
-      stats[:mean] + Math::sqrt((stats[:std] - stats[:non_zeros_std])**2) + \
-      @per_user_reviews.count(0) * stats[:sqrt_mean] * 4.5 + \
-      (stats[:mean] - @per_user_reviews.min) * 11 + \
+      @self_reviewed_prs * stats[:sqrt_mean] +
+      stats[:sqrt_mean] +
+      stats[:std] +
+      std_penalty +
+      zeros_penalty * 4.5 +
+      (stats[:mean] - @per_user_reviews.min) * 11 +
       1
     ) * (1 / stats[:sqrt_mean])
   end
