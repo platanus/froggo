@@ -35,6 +35,11 @@ class GithubSession
           .map { |team| { id: team.id, name: team.name, slug: team.slug } }
   end
 
+  def find_team_in_organization(organization, team_slug)
+    get_teams(organization)
+      .find { |organization_team| organization_team[:slug] == team_slug }
+  end
+
   def get_team_members(team)
     client.team_members(team[:id]).map do |member|
       {
