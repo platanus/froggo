@@ -1,7 +1,7 @@
 class CorrelationMatrix
   DEFAULT_MONTH_LIMIT = 9
 
-  attr_accessor :selected_users, :data, :pos_hash, :limit
+  attr_accessor :selected_users, :data, :limit
 
   def initialize(org_id, user_ids, current_user, limit = DEFAULT_MONTH_LIMIT)
     @current_user = GithubUser.find_by(login: current_user)
@@ -11,16 +11,23 @@ class CorrelationMatrix
     @selected_users = @organization.members
     @selected_users = @selected_users.where(gh_id: user_ids) if user_ids
     order_current_user if @current_user
-    @pos_hash = Hash[@selected_users.map(&:id).map.with_index { |x, i| [x, i] }]
     @data = Hash.new(0)
   end
 
   def fill_matrix
-    @selected_users.each_with_index do |user, index|
-      gh_user_interactions(user).each do |key, value|
-        @data[[index, @pos_hash[key]]] += value
+    amount_of_users = @selected_users.length
+    users_ids = @selected_users.map(&:id)
+    map_user_id_to_index =
+      Hash[users_ids.map.with_index { |user_id, index| [user_id, index] }]
+    current_user_id = users_ids.first
+    other_users_ids = users_ids.drop(1)
+    (0...amount_of_users).each do |next_swapped_index|
+      fill_row(current_user_id, other_users_ids, map_user_id_to_index)
+      unless next_swapped_index == amount_of_users - 1
+        tmp = current_user_id
+        current_user_id = other_users_ids[next_swapped_index]
+        other_users_ids[next_swapped_index] = tmp
       end
-      @data[[index, index]] = user_alone_prs(user)
     end
   end
 
@@ -33,41 +40,24 @@ class CorrelationMatrix
 
   private
 
+  def fill_row(current_user_id, other_users_ids, map_user_id_to_index)
+    current_user_contributions = ComputeGithubContributions.for(
+      user_id: current_user_id,
+      other_users_ids: other_users_ids,
+      pr_relations: @pr_relations
+    )
+    current_user_row = map_user_id_to_index[current_user_id]
+    @data[[current_user_row, current_user_row]] =
+      current_user_contributions[:self_reviewed_prs]
+    other_users_ids.each_with_index do |other_user_id, other_user_index|
+      @data[[current_user_row, map_user_id_to_index[other_user_id]]] =
+        current_user_contributions[:per_user_contributions][other_user_index]
+    end
+  end
+
   def order_current_user
     @selected_users = @selected_users.order("CASE WHEN github_users.id = #{@current_user.id}" \
                                               'THEN 1 ELSE 0 END DESC')
                                      .order('github_users.id ASC')
-  end
-
-  def gh_user_interactions(gh_user)
-    @pr_relations.where(target_user_id: gh_user.id)
-                 .where(github_user_id: @selected_users.pluck(:id))
-                 .where.not(github_user_id: gh_user.id)
-                 .group(:github_user_id).count
-  end
-
-  def user_alone_prs(user)
-    merged_pr_ids = gh_user_merged_pull_req_ids(user)
-    coop_pr_ids = gh_user_coop_pull_req_ids(user, merged_pr_ids)
-    merged_pr_ids.length - coop_pr_ids.length
-  end
-
-  # Get user pull requests where had been merged by himself
-  def gh_user_merged_pull_req_ids(gh_user)
-    @pr_relations.where(target_user_id: gh_user.id,
-                        pr_relation_type: :merged_by,
-                        github_user_id: gh_user.id)
-                 .group(:pull_request_id)
-                 .pluck(:pull_request_id)
-  end
-
-  # Get pull requests where others users had reviewed
-  # Params:
-  # +pr_ids+ pull request ids to filter
-  def gh_user_coop_pull_req_ids(gh_user, pr_ids)
-    @pr_relations.where(pull_request_id: pr_ids, pr_relation_type: :reviewer)
-                 .where.not(github_user_id: gh_user.id)
-                 .group(:pull_request_id)
-                 .pluck(:pull_request_id)
   end
 end
