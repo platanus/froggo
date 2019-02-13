@@ -3,12 +3,15 @@
     :body-title="dropdownTitle"
     :no-items-message="noTeamsMessage"
     :items="teams"
-    @item-clicked="teamSelected"
+    @item-clicked="computeScore"
   >
   </clickable-dropdown>
 </template>
 
 <script>
+
+import { mapActions } from 'vuex';
+
 export default {
   props: {
     teams: Array,
@@ -20,9 +23,9 @@ export default {
     };
   },
   methods: {
-    teamSelected(event) {
-      // TODO:
-    }
+    ...mapActions([
+      'computeScore',
+    ])
   },
 }
 </script>

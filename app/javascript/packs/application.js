@@ -3,14 +3,19 @@
 
 import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
-import Dropdown from '../pl-dropdown.vue';
-import TeamsDropdown from '../teams-dropdown.vue';
-import ClickableDropdown from '../clickable-dropdown';
-import Repository from '../repository.vue';
-import EnablePublicButton from '../enable-public-button.vue';
+import Vuex from 'vuex';
+
+import Dropdown from '../components/pl-dropdown.vue';
+import TeamsDropdown from '../components/teams-dropdown.vue';
+import ClickableDropdown from '../components/clickable-dropdown';
+import Repository from '../components/repository.vue';
+import EnablePublicButton from '../components/enable-public-button.vue';
+import SyncOrganizationButton from '../components/sync-organization-button.vue';
+import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
+import ProfileScoreDisplay from '../components/profile-score-display.vue';
+
 import Locales from '../locales.js';
-import SyncOrganizationButton from '../sync-organization-button.vue';
-import DashboardSyncingIcon from '../dashboard-syncing-icon.vue';
+import store from '../store';
 
 Vue.use(VueI18n);
 
@@ -22,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
+  Vue.component('profile-score-display', ProfileScoreDisplay);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new
@@ -30,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         locale: 'es',
         messages: Locales.messages,
       }),
+      store,
       data: {
         activeOrg: null,
       },
