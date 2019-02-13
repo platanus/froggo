@@ -18,12 +18,8 @@
             </div>
           </div>
         </a>
-        <clickable-dropdown
-          body-title="<%= t('messages.dashboard.teams') %>"
-          no-items-message="<%= t('messages.profile.no_teams') %>"
-          :items="<%= convert_teams_to_clickable_dropdown_items(@teams).to_json %>"
-        >
-        </clickable-dropdown>
+        <teams-dropdown :teams="<%= @teams.to_json %>">
+        </teams-dropdown>
       </div>
     </div>
   </div>

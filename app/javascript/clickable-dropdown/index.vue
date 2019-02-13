@@ -11,7 +11,7 @@
         v-for="(item, index) in items"
         @item-clicked="itemClicked"
         :key="index"
-        :text="item.name"
+        :item="item"
         :index=index
       >
       </clickable-dropdown-item>
@@ -47,9 +47,10 @@ export default {
     },
   },
   methods: {
-    itemClicked(itemIndex) {
-      this.selectedItemIndex = itemIndex;
+    itemClicked(event) {
+      this.selectedItemIndex = event.index;
       this.$refs.parentDropdown.closeDropdown();
+      this.$emit('item-clicked', event);
     },
   },
   components: {
