@@ -41,6 +41,14 @@ export default {
       selectedItemIndex: 0,
     };
   },
+  created() {
+    this.$emit('created', {
+      selected: {
+        index: this.selectedItemIndex,
+        item: this.selectedItem,
+      },
+    });
+  },
   computed: {
     selectedItem() {
       return this.items.length > 0 ? this.items[this.selectedItemIndex] : null;

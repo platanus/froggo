@@ -32,7 +32,14 @@ class GithubSession
   def get_teams(organization)
     client.organization_teams(organization[:login])
           .sort_by { |team| team[:slug] }
-          .map { |team| { id: team.id, name: team.name, slug: team.slug } }
+          .map do |team|
+            {
+              id: team.id,
+              name: team.name,
+              slug: team.slug,
+              organization_id: Organization.find_by(gh_id: organization[:id]).id
+            }
+          end
   end
 
   def get_team_members(team_id)

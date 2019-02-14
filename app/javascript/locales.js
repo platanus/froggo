@@ -15,7 +15,7 @@ const messages = {
       profile: {
         noTeams: 'No teams',
         teamsDropdownTitle: 'Teams',
-      }
+      },
     },
   },
   es: {
@@ -34,7 +34,7 @@ const messages = {
       profile: {
         noTeams: 'Sin equipos',
         teamsDropdownTitle: 'Equipos',
-      }
+      },
     },
   },
   ja: {

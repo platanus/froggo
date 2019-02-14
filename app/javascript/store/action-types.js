@@ -1,0 +1,1 @@
+export const COMPUTE_SCORE = 'COMPUTE_SCORE';

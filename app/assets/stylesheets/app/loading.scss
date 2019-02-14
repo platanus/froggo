@@ -4,9 +4,12 @@
   border-radius: 50%;
   border-top: 4px solid $primary-color;
   height: 30px;
-  margin: 19px 8px 0;
-  padding: 5px;
   width: 30px;
+
+  &--padded {
+    padding: 5px;
+    margin: 19px 8px 0;
+  }
 }
 
 @keyframes spin {

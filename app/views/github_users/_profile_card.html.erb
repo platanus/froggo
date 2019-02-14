@@ -18,7 +18,9 @@
             </div>
           </div>
         </a>
-        <teams-dropdown :teams="<%= @teams.to_json %>">
+        <teams-dropdown
+           user-id="<%= @github_user.id %>"
+           :teams="<%= @teams.to_json %>">
         </teams-dropdown>
       </div>
     </div>

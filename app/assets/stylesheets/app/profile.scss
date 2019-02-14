@@ -80,8 +80,11 @@
   }
 
   &__score {
+    display: flex;
+    align-items: center;
     color: $secondary-color;
     font-size: 200%;
+    padding: 2%;
   }
 
   &__text {
