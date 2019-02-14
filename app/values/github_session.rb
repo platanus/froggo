@@ -37,7 +37,7 @@ class GithubSession
               id: team.id,
               name: team.name,
               slug: team.slug,
-              organization_id: Organization.find_by(gh_id: organization[:id]).id
+              organization_id: organization[:id]
             }
           end
   end
@@ -53,12 +53,16 @@ class GithubSession
 
   def fetch_teams_for_user(github_login)
     teams = []
-    client.organizations(github_login).each do |organization|
+    client.organizations(github_login).each do |github_organization|
       begin
-        teams << get_teams(organization)
-      rescue Octokit::Error
-        # Thrown, for example, when `octokit_client` has no visibility
-        # of the organization's teams. Such teams are ignored.
+        teams << get_teams(
+          Organization.find_by!(gh_id: github_organization[:id])
+        )
+      rescue Octokit::Error, ActiveRecord::RecordNotFound
+        # Octokit::Error Thrown, for example, when `octokit_client` has
+        # no visibility of the organization's teams. Such teams are ignored.
+        # ActiveRecord::RecordNotFound thrown when this app isn't aware of
+        # the retrieved github organization.
       end
     end
     teams.flatten
