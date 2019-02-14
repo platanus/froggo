@@ -25,10 +25,7 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
   def users_score_within_team
     organization = Organization.find(score_params[:org_id])
     user_id = score_params[:user_id].to_i
-    other_users_ids = other_team_members_ids(
-      user_id,
-      github_session.find_team_in_organization(organization, score_params[:team])
-    )
+    other_users_ids = other_team_members_ids(user_id, score_params[:team_id].to_i)
     pr_relations = PullRequestRelation
                    .by_organizations(organization.id)
                    .within_week_limit(score_params[:weeks].to_i || 1)
@@ -39,11 +36,11 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
 
   private
 
-  def other_team_members_ids(user_id, team)
-    team_members_gh_ids = github_session.get_team_members(team)&.pluck(:id)
+  def other_team_members_ids(user_id, team_id)
+    team_members_gh_ids = github_session.get_team_members(team_id)&.pluck(:id)
     GithubUser
       .where(gh_id: team_members_gh_ids)
-      .map(&:id)
+      .pluck(:id)
       .reject { |id| id == user_id }
   end
 
@@ -76,6 +73,6 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
   end
 
   def score_params
-    params.permit(:org_id, :team, :user_id, :weeks)
+    params.permit(:org_id, :team_id, :user_id, :weeks)
   end
 end

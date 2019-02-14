@@ -53,19 +53,21 @@ RSpec.describe CorrelationMatrix, type: :class do
       expect { subject.fill_matrix }.to change { subject.data.length }.by(4)
     end
 
-    it 'should assign cooperate scope correctly' do
+    it 'data should include contributions between pairs of users' do
       subject.fill_matrix
-      expect(subject.data[[0, 0]]).to be(0)
-      expect(subject.data[[1, 1]]).to be(0)
+      expect(subject.data[[0, 1]]).to be(1)
+      expect(subject.data[[1, 0]]).to be(0)
     end
 
-    it 'should assign alone score correctly' do
+    it 'data should include self contributions' do
       new_pr = create(:pull_request, repository: repository, owner: owner)
       create(:pull_request_relation, pull_request: new_pr, github_user: owner,
                                      pr_relation_type: :merged_by)
       create(:pull_request_relation, pull_request: new_pr, github_user: owner,
                                      pr_relation_type: :reviewer)
       subject.fill_matrix
+      expect(subject.data[[0, 0]]).to be(1)
+      expect(subject.data[[1, 1]]).to be(0)
     end
   end
 

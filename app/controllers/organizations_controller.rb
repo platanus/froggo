@@ -106,7 +106,7 @@ class OrganizationsController < ApplicationController
   end
 
   def github_team_members
-    github_session.get_team_members(@team)
+    github_session.get_team_members(@team[:id])
   end
 
   def ensure_organization_admin

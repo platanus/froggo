@@ -17,24 +17,20 @@ class ComputeGithubContributions <
 
   def per_user_contributions
     map_other_user_id_to_index = Hash[
-      @other_users_ids.map.with_index do |id, index|
-        [id, index]
-      end
+      @other_users_ids.map.with_index { |id, index| [id, index] }
     ]
     result = Array.new(@other_users_ids.length, 0)
     gh_user_interactions.each do |other_user_id, contributions_for_user|
-      result[
-        map_other_user_id_to_index[other_user_id]
-      ] = contributions_for_user
+      result[map_other_user_id_to_index[other_user_id]] = contributions_for_user
     end
     result
   end
 
   def gh_user_interactions
     @pr_relations.where(target_user_id: @user_id)
-                 .where(github_user_id: [@user_id, *@other_users_ids])
-                 .where.not(github_user_id: @user_id)
-                 .group(:github_user_id).count
+                 .where(github_user_id: @other_users_ids)
+                 .group(:github_user_id)
+                 .count
   end
 
   # Get user pull requests that had been merged by himself.

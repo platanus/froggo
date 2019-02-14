@@ -46,11 +46,11 @@ class CorrelationMatrix
       other_users_ids: other_users_ids,
       pr_relations: @pr_relations
     )
-    current_user_row = map_user_id_to_index[current_user_id]
-    @data[[current_user_row, current_user_row]] =
+    current_user_index = map_user_id_to_index[current_user_id]
+    @data[[current_user_index, current_user_index]] =
       current_user_contributions[:self_reviewed_prs]
     other_users_ids.each_with_index do |other_user_id, other_user_index|
-      @data[[current_user_row, map_user_id_to_index[other_user_id]]] =
+      @data[[current_user_index, map_user_id_to_index[other_user_id]]] =
         current_user_contributions[:per_user_contributions][other_user_index]
     end
   end
