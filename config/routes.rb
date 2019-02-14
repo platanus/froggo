@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       post 'organizations/:id/sync' => 'organizations#sync'
       get 'organizations/:id/check_sync' => 'organizations#check_sync'
       get 'organizations/:org_id/teams/:team_id/users/:user_id/score' =>
-        'organizations#users_score_within_team'
+        'users#score'
     end
   end
 
