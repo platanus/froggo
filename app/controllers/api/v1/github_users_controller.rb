@@ -1,4 +1,4 @@
-class Api::V1::UsersController < Api::V1::BaseController
+class Api::V1::GithubUsersController < Api::V1::BaseController
   before_action :authenticate_github_user
 
   def score
