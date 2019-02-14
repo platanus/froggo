@@ -12,6 +12,9 @@ class PullRequestRelation < ApplicationRecord
   scope :within_month_limit, ->(limit) do
     where('gh_updated_at > ?', Time.current - limit.months)
   end
+  scope :within_week_limit, ->(limit) do
+    where('gh_updated_at > ?', Time.current - limit.weeks)
+  end
   scope :by_pull_request, ->(pr_id) {  where(pull_request_id: pr_id) }
   scope :by_organizations, ->(organization_ids) { where(organization_id: organization_ids) }
 
@@ -49,4 +52,5 @@ end
 #
 #  fk_rails_...  (github_user_id => github_users.id)
 #  fk_rails_...  (pull_request_id => pull_requests.id)
-#
+
+# rubocop:enable LineLength

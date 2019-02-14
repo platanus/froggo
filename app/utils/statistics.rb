@@ -4,14 +4,14 @@ module Statistics
   def mean(array)
     return nil if array.empty?
 
-    array.sum / array.length
+    array.sum.to_f / array.length
   end
 
   def variance(array)
     return nil if array.empty?
 
     mean = mean array
-    array.map { |number| (number - mean)**2 }.sum / array.length
+    array.map { |number| (number - mean)**2 }.sum.to_f / array.length
   end
 
   def standard_deviation(array)

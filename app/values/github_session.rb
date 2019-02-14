@@ -35,8 +35,8 @@ class GithubSession
           .map { |team| { id: team.id, name: team.name, slug: team.slug } }
   end
 
-  def get_team_members(team)
-    client.team_members(team[:id]).map do |member|
+  def get_team_members(team_id)
+    client.team_members(team_id).map do |member|
       {
         id: member.id,
         login: member.login
