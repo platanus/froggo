@@ -42,12 +42,7 @@ export default {
     };
   },
   created() {
-    this.$emit('created', {
-      selected: {
-        index: this.selectedItemIndex,
-        item: this.selectedItem,
-      },
-    });
+    this.$emit('created', { selectedItem: this.selectedItem });
   },
   computed: {
     selectedItem() {

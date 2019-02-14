@@ -28,8 +28,10 @@ export default {
       this.dispatchComputeScore(item);
     },
 
-    onDropdownCreated({ selected: { item } }) {
-      this.dispatchComputeScore(item);
+    onDropdownCreated({ selectedItem }) {
+      if (selectedItem) {
+        this.dispatchComputeScore(selectedItem);
+      }
     },
 
     dispatchComputeScore(team) {
