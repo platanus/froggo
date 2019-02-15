@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-icon--padded" v-if="loading"></div>
+  <div class="loading-icon loading-icon--padded" v-if="loading"></div>
 </template>
 
 <script>
