@@ -7,21 +7,19 @@
     </div>
     <div class="select__body" slot="body">
       <div v-if="bodyTitle" class="select-body__title">{{ bodyTitle }}</div>
-      <clickable-dropdown-item
+      <div
         v-for="(item, index) in items"
-        @item-clicked="itemClicked"
+        class="select__option"
+        @click="itemClicked({ item, index })"
         :key="index"
-        :item="item"
-        :index=index
       >
-      </clickable-dropdown-item>
+        {{ item.name }}
+      </div>
     </div>
   </dropdown>
 </template>
 
 <script>
-import ClickableDropdownItem from './item.vue';
-
 export default {
   props: {
     bodyTitle: String,
@@ -35,18 +33,19 @@ export default {
         return [];
       },
     },
+    defaultIndex: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
-      selectedItemIndex: 0,
+      selectedItemIndex: this.defaultIndex,
     };
-  },
-  created() {
-    this.$emit('created', { selectedItem: this.selectedItem });
   },
   computed: {
     selectedItem() {
-      return this.items.length > 0 ? this.items[this.selectedItemIndex] : null;
+      return this.items[this.selectedItemIndex]; // Could be `undefined`.
     },
   },
   methods: {
@@ -55,9 +54,6 @@ export default {
       this.$refs.parentDropdown.closeDropdown();
       this.$emit('item-clicked', event);
     },
-  },
-  components: {
-    ClickableDropdownItem,
   },
 };
 </script>

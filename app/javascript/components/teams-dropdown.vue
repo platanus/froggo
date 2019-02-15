@@ -3,13 +3,14 @@
     :body-title="dropdownTitle"
     :no-items-message="noTeamsMessage"
     :items="teams"
+    :default-index="defaultTeamIndex"
     @item-clicked="onItemClicked"
-    @created="onDropdownCreated"
   >
   </clickable-dropdown>
 </template>
 
 <script>
+import ClickableDropdown from './clickable-dropdown';
 import { COMPUTE_SCORE } from '../store/action-types';
 
 export default {
@@ -21,17 +22,15 @@ export default {
     return {
       dropdownTitle: this.$t('message.profile.teamsDropdownTitle'),
       noTeamsMessage: this.$t('message.profile.noTeams'),
+      defaultTeamIndex: 0,
     };
+  },
+  created() {
+    this.dispatchComputeScore(this.teams[this.defaultTeamIndex]);
   },
   methods: {
     onItemClicked({ item }) {
       this.dispatchComputeScore(item);
-    },
-
-    onDropdownCreated({ selectedItem }) {
-      if (selectedItem) {
-        this.dispatchComputeScore(selectedItem);
-      }
     },
 
     dispatchComputeScore(team) {
@@ -39,9 +38,12 @@ export default {
         teamId: team.id,
         organizationId: team.organization_id,
         userId: parseInt(this.userId, 10),
-        weeksAgo: 1,
+        weeksAgo: 36,
       });
     },
+  },
+  components: {
+    ClickableDropdown,
   },
 };
 </script>
