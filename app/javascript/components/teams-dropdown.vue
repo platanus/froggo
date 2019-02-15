@@ -26,7 +26,10 @@ export default {
     };
   },
   created() {
-    this.dispatchComputeScore(this.teams[this.defaultTeamIndex]);
+    const selectedTeam = this.teams[this.defaultTeamIndex];
+    if (selectedTeam) {
+      this.dispatchComputeScore(selectedTeam);
+    }
   },
   methods: {
     onItemClicked({ item }) {
@@ -38,7 +41,7 @@ export default {
         teamId: team.id,
         organizationId: team.organization_id,
         userId: parseInt(this.userId, 10),
-        weeksAgo: 36,
+        weeksAgo: 1,
       });
     },
   },

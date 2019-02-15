@@ -61,8 +61,6 @@ class GithubSession
       rescue Octokit::Error, ActiveRecord::RecordNotFound
         # Octokit::Error Thrown, for example, when `octokit_client` has
         # no visibility of the organization's teams. Such teams are ignored.
-        # ActiveRecord::RecordNotFound thrown when this app isn't aware of
-        # the retrieved github organization.
       end
     end
     teams.flatten
