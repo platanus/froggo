@@ -81,10 +81,7 @@ RSpec.describe GithubSession, type: :class do
   describe 'fetch_teams_for_user' do
     context 'when no organizations found' do
       before { allow(client).to receive(:organizations).and_return([]) }
-
-      it 'returns an empty list' do
-        expect(subject.fetch_teams_for_user('login')).to be_empty
-      end
+      it { expect(subject.fetch_teams_for_user('login')).to be_empty }
     end
 
     context 'when organizations have teams' do
@@ -93,18 +90,19 @@ RSpec.describe GithubSession, type: :class do
         (0...4).map { |id| create_team.call(id, "team-#{id}") }
       end
 
-      let(:organizations) { ['org0', 'org1'] }
+      let(:github_organizations) do
+        [{ id: 0 }, { id: 1 }]
+      end
 
       let(:org_0_teams) { [teams[0], teams[1]] }
       let(:org_1_teams) { [teams[2], teams[3]] }
 
       before do
+        allow(Organization).to receive(:find_by!).and_return(create(:organization))
         allow(client).to \
-          receive(:organizations).and_return(organizations)
+          receive(:organizations).and_return(github_organizations)
         allow(subject).to \
-          receive(:get_teams).with(organizations[0]).and_return(org_0_teams)
-        allow(subject).to \
-          receive(:get_teams).with(organizations[1]).and_return(org_1_teams)
+          receive(:get_teams).and_return(org_0_teams, org_1_teams)
       end
 
       it 'returns teams' do

@@ -12,6 +12,10 @@ const messages = {
         disablePublic: 'Disable public dashboard',
         enablePublic: 'Enable public dashboard',
       },
+      profile: {
+        noTeams: 'No teams',
+        teamsDropdownTitle: 'Teams',
+      },
     },
   },
   es: {
@@ -26,6 +30,10 @@ const messages = {
         error: 'Ocurrió un error',
         disablePublic: 'Deshabilitar dashboard público',
         enablePublic: 'Habilitar dashboard público',
+      },
+      profile: {
+        noTeams: 'Sin equipos',
+        teamsDropdownTitle: 'Equipos',
       },
     },
   },

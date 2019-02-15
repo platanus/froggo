@@ -32,7 +32,14 @@ class GithubSession
   def get_teams(organization)
     client.organization_teams(organization[:login])
           .sort_by { |team| team[:slug] }
-          .map { |team| { id: team.id, name: team.name, slug: team.slug } }
+          .map do |team|
+            {
+              id: team.id,
+              name: team.name,
+              slug: team.slug,
+              organization_id: organization[:id]
+            }
+          end
   end
 
   def get_team_members(team_id)
@@ -46,12 +53,14 @@ class GithubSession
 
   def fetch_teams_for_user(github_login)
     teams = []
-    client.organizations(github_login).each do |organization|
+    client.organizations(github_login).each do |github_organization|
       begin
-        teams << get_teams(organization)
-      rescue Octokit::Error
-        # Thrown, for example, when `octokit_client` has no visibility
-        # of the organization's teams. Such teams are ignored.
+        teams << get_teams(
+          Organization.find_by!(gh_id: github_organization[:id])
+        )
+      rescue Octokit::Error, ActiveRecord::RecordNotFound
+        # Octokit::Error Thrown, for example, when `octokit_client` has
+        # no visibility of the organization's teams. Such teams are ignored.
       end
     end
     teams.flatten
