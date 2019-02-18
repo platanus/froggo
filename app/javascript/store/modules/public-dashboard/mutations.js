@@ -1,5 +1,5 @@
 import { 
-  CREATE_USER_ENTRY,
+  CREATE_PUBLIC_USER_ENTRY,
   PUBLIC_USER_SCORE_START_FETCHING,
   PUBLIC_USER_SCORE_RECEIVED,
   PUBLIC_USER_SCORE_FETCH_ERROR,
@@ -8,7 +8,7 @@ import {
 import { defaultUserData } from './state';
 
 export default {
-  [CREATE_USER_ENTRY](state, githubUserLogin) {
+  [CREATE_PUBLIC_USER_ENTRY](state, githubUserLogin) {
     state.mapGithubUserToScores = {
       ...state.mapGithubUserToScores,
       [githubUserLogin]: {
@@ -22,12 +22,11 @@ export default {
   },
 
   [PUBLIC_USER_SCORE_RECEIVED](
-    state, { githubUserLogin, thisWeeksScore, lastWeeksScore }) {
+    state, { githubUserLogin, thisWeeksScore }) {
     state.mapGithubUserToScores[githubUserLogin] = {
       ...state.mapGithubUserToScores[githubUserLogin],
       fetching: false,
       thisWeeksScore,
-      lastWeeksScore,
     };
   },
 

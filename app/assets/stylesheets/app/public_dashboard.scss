@@ -1,10 +1,10 @@
-$card-width: 40%;
-$card-margin: $card-width / 8;
+$pd-card-width: 40%;
+$pd-card-margin: $pd-card-width / 8;
 
 .pd-card {
   @extend .card;
-  width: $card-width;
-  margin: $card-margin 0 0 $card-margin;
+  width: $pd-card-width;
+  margin: $pd-card-margin 0 0 $pd-card-margin;
   padding: 1% 0;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@ $card-margin: $card-width / 8;
   &__container {
     display: flex;
     flex-wrap: wrap;
-    padding-bottom: $card-margin;
+    padding-bottom: $pd-card-margin;
     height: 100vh;
   }
 

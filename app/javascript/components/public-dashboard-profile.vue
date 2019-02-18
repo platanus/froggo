@@ -2,7 +2,7 @@
   <div class="pd-card">
     <div class="pd-card__upper-half">
       <div class="profile__picture">
-        <img :src=imageUrl>
+        <img :src=imageUrl />
       </div>
       <div class="profile__github-info">
         <a :href="githubUrl">
@@ -24,7 +24,7 @@
     <div v-else class="pd-card__lower-half">
       <div class="pd-card__number-container">
         <div class="pd-card__number">
-          {{ userData.thisWeeksScore }}
+          {{ userData.thisWeeksScore.toFixed(0) }}
         </div>
         <div class="pd-card__text">
           puntaje esta semana
@@ -37,24 +37,17 @@
 <script>
 import { mapState } from 'vuex';
 
-import { CREATE_USER_ENTRY } from '../store/mutation-types';
+import { CREATE_PUBLIC_USER_ENTRY } from '../store/mutation-types';
 import { COMPUTE_USERS_ORGANIZATION_WIDE_SCORE } from '../store/action-types';
 
 export default {
   props: {
-    userId: String,
     organizationId: String,
-    githubLogin: {
-      type: String,
-      default: '??',
-    },
-    imageUrl: {
-      type: String,
-      default: 'https://avatars2.githubusercontent.com/u/66601?s=88&v=4',
-    },
+    githubLogin: String,
+    imageUrl: String,
   },
   created() {
-    this.$store.commit(CREATE_USER_ENTRY, this.githubLogin);
+    this.$store.commit(CREATE_PUBLIC_USER_ENTRY, this.githubLogin);
     this.$store.dispatch(
       COMPUTE_USERS_ORGANIZATION_WIDE_SCORE, {
         githubUserLogin: this.githubLogin,
