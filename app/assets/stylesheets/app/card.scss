@@ -1,0 +1,140 @@
+.card {
+  border-radius: 2px;
+  background-color: $white;
+  font-family: $main-font;
+  
+  &__title {
+    height: 48px;
+    font-weight: 300;
+    line-height: 48px;
+    text-align: center;
+    color: $secondary-color;
+  }
+
+  &__info {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    width: 850px;
+    margin: 0 auto;
+    color: $primary;
+    opacity: .64;
+  }
+
+  &-extended {
+    @extend .card;
+    justify-content: space-evenly;
+    color: $primary;
+    width: $app-content-width;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 48px;
+    min-height: 536px;
+
+    &--fullscreen {
+      margin: 0;
+      min-height: 100vh;
+      width: 100%;
+
+      .matrix__values {
+        overflow: visible;
+      }
+    }
+
+    &__last-update {
+      font-size: 11px;
+      color: $secondary-color;
+    }
+
+    &__header {
+      flex-basis: 67px;
+      display: flex;
+      justify-content: flex-start;
+      font-size: 14px;
+    }
+
+    &__title {
+      margin-top: 25px;
+      flex: 1 1 auto;
+      text-align: center;
+    }
+
+    &__back {
+      margin-top: 25px;
+      margin-left: 32px;
+      display: flex;
+      cursor: pointer;
+
+      &-message {
+        padding-left: 17px;
+        text-align: center;
+      }
+
+      &-arrow {
+        padding-bottom: 26px;
+      }
+    }
+
+    &__button-container {
+      margin-top: 18px;
+      margin-right: 32px;
+
+      &--big {
+        min-width: 240px;
+      }
+    }
+
+    &__config {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
+
+    &__dashboard-button {
+      margin: 0 auto;
+      margin-top: 40px;
+    }
+
+    &__body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 50px;
+      flex: 1 1 auto;
+
+      &-list {
+        @extend .card-extended__body;
+        justify-content: flex-start;
+      }
+    }
+
+    &--fullscreen &__body {
+      margin: 0;
+    }
+
+    &__repo-name {
+      margin-left: 40px;
+    }
+
+    &__link {
+      color: $black;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &__user {
+      padding-left: 40px;
+      display: flex;
+
+      &-name {
+        margin: 6px;
+      }
+    }
+  }
+}

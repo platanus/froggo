@@ -1,0 +1,50 @@
+$card-width: 40%;
+$card-margin: $card-width / 8;
+
+.pd-card {
+  @extend .card;
+  width: $card-width;
+  margin: $card-margin 0 0 $card-margin;
+  display: flex;
+  flex-direction: column;
+
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: $card-margin;
+    height: 100vh;
+  }
+
+  &__upper-half {
+    flex: 1;
+  }
+
+  &__lower-half {
+    flex: 1;
+    display: flex;
+  }
+
+  &__number-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &:not(:last-child) {
+      border-right: 1px solid $light-border;
+    }
+  }
+
+  &__number {
+    font-size: 150%;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__text {
+    flex: 1;
+    color: $secondary-color;
+  }
+}
