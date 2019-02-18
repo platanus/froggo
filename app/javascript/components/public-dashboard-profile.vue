@@ -7,9 +7,6 @@
       <div class="profile__github-info">
         <a :href="githubUrl">
           <div class="profile__link">
-            <div class="profile__link-icon">
-              icon |
-            </div>
             <div>
               @{{ githubLogin }}
             </div>
