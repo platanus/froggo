@@ -23,6 +23,8 @@ $card-margin: $card-width / 8;
   &__lower-half {
     flex: 1;
     display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 2% 0;
   }
 

@@ -3,7 +3,7 @@
   <div class="pd-card__container">
     <% @organization.members.each do |github_user| %>
       <public-dashboard-profile
-         user-id="<%= github_user.id %>"
+         organization-id="<%= @organization.id %>"
          github-login="<%= github_user.login %>"
          image-url="<%= github_user.avatar_url %>"
        >

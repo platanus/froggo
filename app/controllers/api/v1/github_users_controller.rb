@@ -3,8 +3,12 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def score
     organization = Organization.find(score_params[:org_id])
-    user_id = score_params[:user_id].to_i
-    other_users_ids = other_team_members_ids(user_id, score_params[:team_id].to_i)
+    user_id = GithubUser.find_by(login: score_params[:github_login]).id
+    other_users_ids = if score_params[:team_id]
+                        other_team_members_ids(user_id, score_params[:team_id].to_i)
+                      else
+                        organization.members.pluck(:id)
+                      end
     pr_relations = PullRequestRelation
                    .by_organizations(organization.id)
                    .within_week_limit(score_params[:weeks].to_i || 1)
@@ -36,6 +40,6 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   end
 
   def score_params
-    params.permit(:org_id, :team_id, :user_id, :weeks)
+    params.permit(:org_id, :team_id, :github_login, :weeks)
   end
 end

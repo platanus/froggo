@@ -17,21 +17,17 @@
         </a>
       </div>
     </div>
-    <div class="pd-card__lower-half">
+    <div v-if="userData.fetching" class="pd-card__lower-half">
+      <div class="loading-icon loading-icon--flex-centered">
+      </div>
+    </div>
+    <div v-else class="pd-card__lower-half">
       <div class="pd-card__number-container">
         <div class="pd-card__number">
-          130
+          {{ userData.thisWeeksScore }}
         </div>
         <div class="pd-card__text">
           puntaje esta semana
-        </div>
-      </div>
-      <div class="pd-card__number-container">
-        <div class="pd-card__number">
-          + 38%
-        </div>
-        <div class="pd-card__text">
-          diferencia semana anterior
         </div>
       </div>
     </div>
@@ -39,9 +35,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
+import { CREATE_USER_ENTRY } from '../store/mutation-types';
+import { COMPUTE_USERS_ORGANIZATION_WIDE_SCORE } from '../store/action-types';
+
 export default {
   props: {
     userId: String,
+    organizationId: String,
     githubLogin: {
       type: String,
       default: '??',
@@ -51,10 +53,24 @@ export default {
       default: 'https://avatars2.githubusercontent.com/u/66601?s=88&v=4',
     },
   },
+  created() {
+    this.$store.commit(CREATE_USER_ENTRY, this.githubLogin);
+    this.$store.dispatch(
+      COMPUTE_USERS_ORGANIZATION_WIDE_SCORE, {
+        githubUserLogin: this.githubLogin,
+        organizationId: this.organizationId,
+      }
+    );
+  },
   computed: {
     githubUrl() {
       return `https://github.com/${this.githubLogin}`;
-    }
+    },
+    ...mapState({
+      userData(state) {
+        return state.publicDashboard.mapGithubUserToScores[this.githubLogin];
+      },
+    }),
   },
 }
 </script>

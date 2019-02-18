@@ -8,10 +8,10 @@ import {
 import { COMPUTE_SCORE } from '../../action-types';
 
 export default {
-  [COMPUTE_SCORE]({ commit }, { organizationId, teamId, userId, weeksAgo }) {
+  [COMPUTE_SCORE]({ commit }, { organizationId, teamId, githubUserLogin, weeksAgo }) {
     commit(SCORE_START_FETCHING);
-    axios.get(`/api/organizations/${organizationId}/teams/\
-      ${teamId}/users/${userId}/score?weeks=${weeksAgo}`)
+    axios.get(`/api/organizations/${organizationId}/users/${githubUserLogin}\
+/score?team_id=${teamId}&weeks=${weeksAgo}`)
       .then(response => {
         commit(SCORE_RECEIVED, { score: response.data.response.score });
       })
