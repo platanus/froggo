@@ -5,6 +5,7 @@ $card-margin: $card-width / 8;
   @extend .card;
   width: $card-width;
   margin: $card-margin 0 0 $card-margin;
+  padding: 1% 0;
   display: flex;
   flex-direction: column;
 
@@ -22,6 +23,7 @@ $card-margin: $card-width / 8;
   &__lower-half {
     flex: 1;
     display: flex;
+    padding: 2% 0;
   }
 
   &__number-container {
