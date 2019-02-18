@@ -2,16 +2,16 @@
   <div class="pd-card">
     <div class="pd-card__upper-half">
       <div class="profile__picture">
-        <img src="https://avatars3.githubusercontent.com/u/228037?v=4"/>
+        <img :src=imageUrl>
       </div>
       <div class="profile__github-info">
-        <a href="https://google.cl">
+        <a :href="githubUrl">
           <div class="profile__link">
             <div class="profile__link-icon">
-              icon | 
+              icon |
             </div>
             <div>
-              @thelogin
+              @{{ githubLogin }}
             </div>
           </div>
         </a>
@@ -40,5 +40,21 @@
 
 <script>
 export default {
+  props: {
+    userId: String,
+    githubLogin: {
+      type: String,
+      default: '??',
+    },
+    imageUrl: {
+      type: String,
+      default: 'https://avatars2.githubusercontent.com/u/66601?s=88&v=4',
+    },
+  },
+  computed: {
+    githubUrl() {
+      return `https://github.com/${this.githubLogin}`;
+    }
+  },
 }
 </script>

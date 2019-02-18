@@ -1,15 +1,13 @@
 <div id="app" class="app">
   <%= render 'partials/header' %>
   <div class="pd-card__container">
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
-    <public-dashboard-profile></public-dashboard-profile>
+    <% @organization.members.each do |github_user| %>
+      <public-dashboard-profile
+         user-id="<%= github_user.id %>"
+         github-login="<%= github_user.login %>"
+         image-url="<%= github_user.avatar_url %>"
+       >
+      </public-dashboard-profile>
+    <% end %>
   </div>
 </div>
