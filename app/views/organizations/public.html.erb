@@ -1,3 +1,9 @@
-<% if @has_dashboard && !((@corrmat.nil? || @corrmat.selected_users.empty?) && !@team) %>
-  <%= render "dashboard_table" %>
-<% end %>
+<div id="app" class="app">
+  <%= render 'partials/header' %>
+  <div class="pd-card__container">
+    <public-dashboard-profile></public-dashboard-profile>
+    <public-dashboard-profile></public-dashboard-profile>
+    <public-dashboard-profile></public-dashboard-profile>
+    <public-dashboard-profile></public-dashboard-profile>
+  </div>
+</div>

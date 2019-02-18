@@ -11,6 +11,7 @@ import EnablePublicButton from '../components/enable-public-button.vue';
 import SyncOrganizationButton from '../components/sync-organization-button.vue';
 import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
 import ProfileScoreDisplay from '../components/profile-score-display.vue';
+import PublicDashboardProfile from '../components/public-dashboard-profile.vue';
 
 import Locales from '../locales.js';
 import store from '../store';
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
   Vue.component('profile-score-display', ProfileScoreDisplay);
+  Vue.component('public-dashboard-profile', PublicDashboardProfile);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new
