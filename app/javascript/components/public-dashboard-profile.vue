@@ -2,14 +2,12 @@
   <div class="pd-card">
     <div class="pd-card__upper-half">
       <div class="profile__picture">
-        <img :src=imageUrl />
+        <img :src="imageUrl" />
       </div>
       <div class="profile__github-info">
         <a :href="githubUrl">
           <div class="profile__link">
-            <div>
-              @{{ githubLogin }}
-            </div>
+            @{{ githubLogin }}
           </div>
         </a>
       </div>

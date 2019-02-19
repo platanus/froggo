@@ -12,7 +12,7 @@ export default {
     { commit }, { githubUserLogin, organizationId }) {
     commit(PUBLIC_USER_SCORE_START_FETCHING, githubUserLogin);
     axios
-      .get(`/api/organizations/${organizationId}\
+      .get(`/api/organizations/${organizationId}
 /users/${githubUserLogin}/score?weeks=1`)
       .then(response => {
         commit(
