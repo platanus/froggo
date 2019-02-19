@@ -6,6 +6,9 @@ class GithubUser < ApplicationRecord
   has_many :pull_requests_reviewed, through: :pull_request_reviews, source: :pull_request
   has_many :pull_requests_merged, class_name: 'PullRequest', foreign_key: :merged_by_id
 
+  has_many :organization_memberships
+  has_many :organizations, through: :organization_memberships, source: :organization
+
   validates :gh_id, presence: true
   validates :login, presence: true
 end
