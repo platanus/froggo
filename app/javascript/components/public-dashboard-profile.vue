@@ -1,6 +1,6 @@
 <template>
-  <div class="pd-card">
-    <div class="pd-card__upper-half">
+  <div class="card public-dashboard-card">
+    <div class="public-dashboard-card__upper-half">
       <div class="profile__picture">
         <img :src="imageUrl" />
       </div>
@@ -12,16 +12,16 @@
         </a>
       </div>
     </div>
-    <div v-if="userData.fetching" class="pd-card__lower-half">
+    <div v-if="userData.fetching" class="public-dashboard-card__lower-half">
       <div class="loading-icon loading-icon--flex-centered">
       </div>
     </div>
-    <div v-else class="pd-card__lower-half">
-      <div class="pd-card__number-container">
-        <div class="pd-card__number">
+    <div v-else class="public-dashboard-card__lower-half">
+      <div class="public-dashboard-card__number-container">
+        <div class="public-dashboard-card__number">
           {{ userData.thisWeeksScore.toFixed(0) }}
         </div>
-        <div class="pd-card__text">
+        <div class="public-dashboard-card__text">
           puntaje esta semana
         </div>
       </div>

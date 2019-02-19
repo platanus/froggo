@@ -1,8 +1,7 @@
 $pd-card-width: 40%;
 $pd-card-margin: $pd-card-width / 8;
 
-.pd-card {
-  @extend .card;
+.public-dashboard-card {
   display: flex;
   flex-direction: column;
   margin: $pd-card-margin 0 0 $pd-card-margin;
