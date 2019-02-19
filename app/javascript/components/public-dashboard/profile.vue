@@ -34,8 +34,8 @@
 <script>
 import { mapState } from 'vuex';
 
-import { CREATE_PUBLIC_USER_ENTRY } from '../store/mutation-types';
-import { COMPUTE_USERS_ORGANIZATION_WIDE_SCORE } from '../store/action-types';
+import { CREATE_PUBLIC_USER_ENTRY } from '../../store/mutation-types';
+import { COMPUTE_USERS_ORGANIZATION_WIDE_SCORE } from '../../store/action-types';
 
 export default {
   props: {
