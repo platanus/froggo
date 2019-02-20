@@ -32,9 +32,6 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import { COMPUTE_USERS_ORGANIZATION_WIDE_SCORE } from '../../store/action-types';
-import { DEFAULT_USER_DATA } from '../../store/modules/public-dashboard/state';
-
 export default {
   props: {
     organizationId: String,
