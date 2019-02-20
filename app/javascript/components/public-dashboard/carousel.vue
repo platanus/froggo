@@ -1,6 +1,6 @@
 <template>
-  <carousel 
-    :per-page="1" 
+  <carousel
+    :per-page="1"
     :loop="true"
     :autoplay="true"
     :paginationEnabled="false"
@@ -9,7 +9,7 @@
     tagName="public-dashboard-slide"
     @pageChange="onPageChange"
   >
-    <public-dashboard-slide 
+    <public-dashboard-slide
       v-for="(githubUsers, index) in chunkedUsers"
       :key="index"
       :organization-id="organizationId"
@@ -60,7 +60,7 @@ export default {
           }
         );
       });
-    }
-  }
+    },
+  },
 };
 </script>

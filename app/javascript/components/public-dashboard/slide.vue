@@ -1,7 +1,7 @@
 <template>
   <slide>
-    <div class="pd-card__container">
-      <public-dashboard-profile 
+    <div class="public-dashboard-card__container">
+      <public-dashboard-profile
         v-for="(user, index) in githubUsers"
         :key="index"
         :githubLogin="user.githubLogin"
@@ -27,5 +27,5 @@ export default {
     githubUsers: Array,
     organizationId: String,
   },
-}
+};
 </script>

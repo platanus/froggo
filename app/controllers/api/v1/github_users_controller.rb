@@ -9,7 +9,9 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def organization_score
     render json: { response: {
-      score: compute_score_for_user(organization.members.pluck(:id))
+      score: compute_score_for_user(
+        organization.members.pluck(:id).reject { |id| id == github_user.id }
+      )
     } }, status: 200
   end
 
@@ -31,7 +33,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     team_members_gh_ids =
       github_session
       .get_team_members(permitted_params[:team_id].to_i)
-      .pluck(:id)
+      &.pluck(:id)
     GithubUser
       .where(gh_id: team_members_gh_ids)
       .pluck(:id)
