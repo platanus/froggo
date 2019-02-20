@@ -19,7 +19,7 @@
     <div v-else class="public-dashboard-card__lower-half">
       <div class="public-dashboard-card__number-container">
         <div class="public-dashboard-card__number">
-          {{ userData.thisWeeksScore.toFixed(0) }}
+          {{ userData.scoreThisWeek.toFixed(0) }}
         </div>
         <div class="public-dashboard-card__text">
           puntaje esta semana
@@ -30,10 +30,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
-import { CREATE_PUBLIC_USER_ENTRY } from '../store/mutation-types';
-import { COMPUTE_USERS_ORGANIZATION_WIDE_SCORE } from '../store/action-types';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -41,24 +38,14 @@ export default {
     githubLogin: String,
     imageUrl: String,
   },
-  created() {
-    this.$store.commit(CREATE_PUBLIC_USER_ENTRY, this.githubLogin);
-    this.$store.dispatch(
-      COMPUTE_USERS_ORGANIZATION_WIDE_SCORE, {
-        githubUserLogin: this.githubLogin,
-        organizationId: this.organizationId,
-      }
-    );
-  },
   computed: {
     githubUrl() {
       return `https://github.com/${this.githubLogin}`;
     },
-    ...mapState({
-      userData(state) {
-        return state.publicDashboard.mapGithubUserToScores[this.githubLogin];
-      },
-    }),
+    ...mapGetters(['_userData']),
+    userData() {
+      return this._userData(this.githubLogin);
+    },
   },
 };
 </script>

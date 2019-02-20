@@ -1,12 +1,18 @@
 <div id="app" class="app">
-  <div class="public-dashboard-card__container">
-    <% @organization.members.each do |github_user| %>
-      <public-dashboard-profile
-         organization-id="<%= @organization.id %>"
-         github-login="<%= github_user.login %>"
-         image-url="<%= github_user.avatar_url %>"
-       >
-      </public-dashboard-profile>
-    <% end %>
-  </div>
+  <public-dashboard-carousel
+     organization-id="<%= @organization.id %>"
+     :github-users=
+     "<%=
+       @organization
+       .members
+       .map do |member|
+         {
+           'githubLogin': member.login,
+           'imageUrl': member.avatar_url,
+         }
+       end
+       .to_json
+     %>"
+  >
+  </public-dashboard-carousel>
 </div>
