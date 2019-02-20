@@ -1,0 +1,139 @@
+.card {
+  border-radius: 2px;
+  background-color: $white;
+  font-family: $main-font;
+
+  &__title {
+    color: $secondary-color;
+    font-weight: 300;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+  }
+
+  &__info {
+    color: $primary;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 auto;
+    opacity: .64;
+    text-align: center;
+    width: 850px;
+  }
+
+  &-extended {
+    @extend .card;
+    color: $primary;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    margin-top: 48px;
+    min-height: 536px;
+    width: $app-content-width;
+
+    &--fullscreen {
+      margin: 0;
+      min-height: 100vh;
+      width: 100%;
+
+      .matrix__values {
+        overflow: visible;
+      }
+    }
+
+    &__last-update {
+      font-size: 11px;
+      color: $secondary-color;
+    }
+
+    &__header {
+      display: flex;
+      flex-basis: 67px;
+      font-size: 14px;
+      justify-content: flex-start;
+    }
+
+    &__title {
+      flex: 1 1 auto;
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    &__back {
+      cursor: pointer;
+      display: flex;
+      margin-left: 32px;
+      margin-top: 25px;
+
+      &-message {
+        padding-left: 17px;
+        text-align: center;
+      }
+
+      &-arrow {
+        padding-bottom: 26px;
+      }
+    }
+
+    &__button-container {
+      margin-right: 32px;
+      margin-top: 18px;
+
+      &--big {
+        min-width: 240px;
+      }
+    }
+
+    &__config {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
+
+    &__dashboard-button {
+      margin: 0 auto;
+      margin-top: 40px;
+    }
+
+    &__body {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 50px;
+
+      &-list {
+        @extend .card-extended__body;
+        justify-content: flex-start;
+      }
+    }
+
+    &--fullscreen &__body {
+      margin: 0;
+    }
+
+    &__repo-name {
+      margin-left: 40px;
+    }
+
+    &__link {
+      color: $black;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &__user {
+      display: flex;
+      padding-left: 40px;
+
+      &-name {
+        margin: 6px;
+      }
+    }
+  }
+}

@@ -10,6 +10,11 @@
     margin: 19px 8px 0;
     padding: 5px;
   }
+
+  &--flex-centered {
+    align-self: center;
+    justify-self: center;
+  }
 }
 
 @keyframes spin {

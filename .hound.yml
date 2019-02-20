@@ -10,4 +10,4 @@ tslint:
   config_file: tslint.json
 scss:
   enabled: true
-  config_file: ".scss-lint.yml"
+  config_file: ".stylelintrc.json"

@@ -16,7 +16,7 @@ import { COMPUTE_SCORE } from '../store/action-types';
 export default {
   props: {
     teams: Array,
-    userId: String,
+    githubLogin: String,
   },
   data() {
     return {
@@ -40,7 +40,7 @@ export default {
       this.$store.dispatch(COMPUTE_SCORE, {
         teamId: team.id,
         organizationId: team.organization_id,
-        userId: parseInt(this.userId, 10),
+        githubUserLogin: this.githubLogin,
         weeksAgo: 1,
       });
     },

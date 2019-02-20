@@ -14,6 +14,8 @@ es-CL:
     dashboard:
       greeting: Hola
       title: 'Dashboard de %{org}'
+      public:
+        title: 'Dashboard Público'
       info: La siguiente tabla contiene la información entre los reviewers (el que revisa la pull request) y mergees (quien realiza el merge de la rama), donde los numeros de la tabla son la suma a la cual llamamos colaboración. En la vertical desde arriba hacia abajo son los reviews o merges que esa persona ha realizado a los demás miembros. En la horizontal son a quienes ha asignado a sus pull requests.
       track_organization: Puedes seguir esta organización y crear un dashboard haciendo click aquí.
       track_no_permission: Esta organización no se encuentra registrada. Contacta al administrador de tu organización para otorgar permisos.

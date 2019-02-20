@@ -1,0 +1,53 @@
+$pd-card-width: 40%;
+$pd-card-margin: $pd-card-width / 8;
+
+.public-dashboard-card {
+  display: flex;
+  flex-direction: column;
+  margin: $pd-card-margin 0 0 $pd-card-margin;
+  padding: 1% 0;
+  width: $pd-card-width;
+
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+    padding-bottom: $pd-card-margin;
+  }
+
+  &__upper-half {
+    flex: 1;
+  }
+
+  &__lower-half {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding: 2% 0;
+  }
+
+  &__number-container {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+
+    &:not(:last-child) {
+      border-right: 1px solid $light-border;
+    }
+  }
+
+  &__number {
+    align-items: flex-end;
+    display: flex;
+    flex: 1;
+    font-size: 150%;
+  }
+
+  &__text {
+    color: $secondary-color;
+    flex: 1;
+  }
+}

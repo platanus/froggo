@@ -26,8 +26,10 @@ Rails.application.routes.draw do
       put 'organizations/:id/update_public_enabled' => 'organizations#update_public_enabled'
       post 'organizations/:id/sync' => 'organizations#sync'
       get 'organizations/:id/check_sync' => 'organizations#check_sync'
-      get 'organizations/:org_id/teams/:team_id/users/:user_id/score' =>
-        'github_users#score'
+      get 'organizations/:org_id/users/:github_login/score' =>
+        'github_users#organization_score'
+      get 'organizations/:org_id/teams/:team_id/users/:github_login/score' =>
+        'github_users#team_score'
     end
   end
 
