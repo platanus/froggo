@@ -24,7 +24,7 @@ import { Carousel } from 'vue-carousel';
 import chunk from 'lodash.chunk';
 
 import PublicDashboardSlide from './slide';
-import { COMPUTE_USERS_ORGANIZATION_WIDE_SCORE } from '../../store/action-types';
+import { COMPUTE_SCORES } from '../../store/action-types';
 
 const USERS_PER_SLIDE = 4;
 
@@ -54,7 +54,7 @@ export default {
     dispatchComputeScoreForChunk(chunkIndex) {
       this.chunkedUsers[chunkIndex].forEach(user => {
         this.$store.dispatch(
-          COMPUTE_USERS_ORGANIZATION_WIDE_SCORE, {
+          COMPUTE_SCORES, {
             githubUserLogin: user.githubLogin,
             organizationId: this.organizationId,
           }

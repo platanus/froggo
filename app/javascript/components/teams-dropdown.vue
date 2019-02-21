@@ -11,7 +11,7 @@
 
 <script>
 import ClickableDropdown from './clickable-dropdown';
-import { COMPUTE_SCORE } from '../store/action-types';
+import { COMPUTE_SCORES } from '../store/action-types';
 
 export default {
   props: {
@@ -55,11 +55,10 @@ export default {
     },
 
     dispatchComputeScore(team) {
-      this.$store.dispatch(COMPUTE_SCORE, {
+      this.$store.dispatch(COMPUTE_SCORES, {
         teamId: team.id,
         organizationId: team.organization_id,
         githubUserLogin: this.githubLogin,
-        weeksAgo: 1,
       });
     },
 

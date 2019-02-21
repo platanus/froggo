@@ -1,11 +1,11 @@
 import {
-  PUBLIC_USER_SCORE_START_FETCHING,
-  PUBLIC_USER_SCORE_RECEIVED,
-  PUBLIC_USER_SCORE_FETCH_ERROR,
+  USER_SCORE_START_FETCHING,
+  USER_SCORE_RECEIVED,
+  USER_SCORE_FETCH_ERROR,
 } from '../../mutation-types';
 
 export default {
-  [PUBLIC_USER_SCORE_START_FETCHING](state, githubUserLogin) {
+  [USER_SCORE_START_FETCHING](state, githubUserLogin) {
     state.mapGithubUserToScores = {
       ...state.mapGithubUserToScores,
       [githubUserLogin]: {
@@ -15,19 +15,20 @@ export default {
     };
   },
 
-  [PUBLIC_USER_SCORE_RECEIVED](
-    state, { githubUserLogin, thisWeeksScore }) {
+  [USER_SCORE_RECEIVED](
+    state, { githubUserLogin, thisWeeksScore, lastWeeksScore }) {
     state.mapGithubUserToScores = {
       ...state.mapGithubUserToScores,
       [githubUserLogin]: {
         ...state.mapGithubUserToScores[githubUserLogin],
         fetching: false,
         scoreThisWeek: thisWeeksScore,
+        scoreLastWeek: lastWeeksScore,
       },
     };
   },
 
-  [PUBLIC_USER_SCORE_FETCH_ERROR](state, { githubUserLogin, error }) {
+  [USER_SCORE_FETCH_ERROR](state, { githubUserLogin, error }) {
     state.mapGithubUserToScores = {
       ...state.mapGithubUserToScores,
       [githubUserLogin]: {
