@@ -24,9 +24,9 @@ export default {
     githubLogin: String,
   },
   computed: {
-    ...mapGetters(['_userData']),
+    ...mapGetters(['getUserData']),
     userData() {
-      return this._userData(this.githubLogin);
+      return this.getUserData(this.githubLogin);
     },
   },
   components: {

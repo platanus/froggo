@@ -128,7 +128,7 @@
     font-size: 150%;
 
     &--positive {
-      color: #0f0;
+      color: $green;
     }
 
     &--zero {
@@ -136,7 +136,7 @@
     }
 
     &--negative {
-      color: #f00;
+      color: $red;
     }
   }
 

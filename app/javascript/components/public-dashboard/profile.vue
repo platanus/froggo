@@ -31,8 +31,6 @@ import { mapGetters } from 'vuex';
 
 import ProfileScores from '../profile/scores.vue';
 
-const MAX_PERCENTUAL_DIFFERENCE = 999;
-
 export default {
   props: {
     organizationId: String,
@@ -43,9 +41,9 @@ export default {
     githubUrl() {
       return `https://github.com/${this.githubLogin}`;
     },
-    ...mapGetters(['_userData']),
+    ...mapGetters(['getUserData']),
     userData() {
-      return this._userData(this.githubLogin);
+      return this.getUserData(this.githubLogin);
     },
   },
   components: {

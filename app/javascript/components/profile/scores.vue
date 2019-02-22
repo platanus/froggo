@@ -34,8 +34,10 @@ export default {
       if (this.scoreThisWeek === this.scoreLastWeek) {
         return 0;
       }
+
       return Math.min(
         MAX_PERCENTUAL_DIFFERENCE,
+        // eslint-disable-next-line no-magic-numbers
         (this.scoreThisWeek - this.scoreLastWeek) / this.scoreLastWeek * 100
       );
     },
