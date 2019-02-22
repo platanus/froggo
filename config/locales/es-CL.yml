@@ -58,6 +58,6 @@ es-CL:
       no_name: Sin nombre
       no_teams: Sin equipos
       compute_score_explanation: "Que cómo obtuvimos este puntaje? Fácil: blah blah..."
-      amount_of_prs: Cantidad de PRs
-      top_reviewers: Top reviewers
       your_score: Tu puntaje
+      recommended_reviewers: Te recomendamos mandar tu próximo PR a alguna de estas personas
+      not_recommended_reviewers: Evita mandarle otro PR a estas personas

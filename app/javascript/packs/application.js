@@ -12,6 +12,7 @@ import SyncOrganizationButton from '../components/sync-organization-button.vue';
 import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
 import ProfileScoreRectangle from '../components/profile/score-rectangle.vue';
 import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
+import SmallProfile from '../components/profile/small.vue';
 
 import Locales from '../locales.js';
 import store from '../store';
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
   Vue.component('profile-score-rectangle', ProfileScoreRectangle);
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
+  Vue.component('small-profile', SmallProfile);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new

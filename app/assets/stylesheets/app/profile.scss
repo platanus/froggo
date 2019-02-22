@@ -88,6 +88,40 @@
     padding: 2%;
   }
 
+  &__summary {
+    display: flex;
+    padding: 2%;
+    max-width: 30%;
+    text-decoration: none;
+
+    &--is-small {
+      flex: 1;
+    }
+
+    &--is-big {
+      flex: 3;
+    }
+
+    &--text {
+      align-items: center;
+      display: flex;
+      flex: 3;
+      margin: 5%;
+    }
+  }
+
+  &__avatar {
+    img {
+      border-radius: 50%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+  }
+
+  &--is-small {
+    flex: 1;
+  }
+
   &__text {
     color: $secondary-color;
   }
@@ -117,6 +151,7 @@
   &__rectangle {
     border: 1px solid $primary-border;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
 
     &:not(:last-of-type) {

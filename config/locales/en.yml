@@ -83,3 +83,10 @@ en:
       create_dashboard: Create dashboard
       repository_title: Repositories in
       admin_users: Manage users
+    profile:
+      no_name: No name
+      no_teams: No teams
+      compute_score_explanation: "How did we come up with this value? Easy: blah blah..."
+      your_score: Your score
+      recommended_reviewers: We recommend you request a review from one of these persons 
+      not_recommended_reviewers: Avoid requesting reviews from these persons
