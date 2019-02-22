@@ -9,7 +9,7 @@ class GithubUsersController < ApplicationController
 
   # GET /me
   def me
-    redirect_to user_path(GithubUser.find_by!(login: github_session.name))
+    redirect_to user_path(github_session.user)
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path
   end

@@ -1,13 +1,8 @@
 class GithubSession
-  attr_accessor :session, :name, :avatar_url, :organizations
+  attr_reader :session
 
   def initialize(cookies)
     @session = cookies
-
-    if valid?
-      set_user
-      set_organizations
-    end
   end
 
   def token
@@ -22,11 +17,24 @@ class GithubSession
     token && !token.empty?
   end
 
+  def user
+    @user ||= GithubUserService.new.find_or_create client.user
+  end
+
+  def organizations
+    @organizations ||= client.organization_memberships.map do |mem|
+      {
+        id: mem.organization.id,
+        login: mem.organization.login,
+        role: mem.role,
+        avatar_url: mem.organization.avatar_url
+      }
+    end
+  end
+
   def set_session(_token, _session_type)
     @session.permanent['access_token'] = _token
     @session.permanent['client_type'] = _session_type
-    set_user
-    set_organizations
   end
 
   def get_teams(organization)
@@ -79,26 +87,8 @@ class GithubSession
 
   private
 
-  def set_user
-    user = client.user
-
-    @name = user['login']
-    @avatar_url = user['avatar_url']
-  end
-
-  def set_organizations
-    @organizations = client.organization_memberships.map do |mem|
-      {
-        id: mem.organization.id,
-        login: mem.organization.login,
-        role: mem.role,
-        avatar_url: mem.organization.avatar_url
-      }
-    end
-  end
-
   def froggo_path_key
-    "froggo_#{@name}_path"
+    "froggo_#{user.login}_path"
   end
 
   def client

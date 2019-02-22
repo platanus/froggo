@@ -12,6 +12,8 @@ RSpec.describe OrganizationsController, type: :controller do
     ]
   end
 
+  let(:user) { create(:github_user) }
+
   describe "GET #index" do
     before do
       expect(subject).to receive(:authenticate_github_user).and_return(true)
@@ -71,7 +73,8 @@ RSpec.describe OrganizationsController, type: :controller do
       before do
         org_teams = [{ id: 1, name: 'Core', slug: 'core' },
                      { id: 2, name: 'Extra', slug: 'extra' }]
-        expect(github_session).to receive(:get_teams).with(organization).and_return(org_teams)
+        allow(github_session).to receive(:get_teams).with(organization) { org_teams }
+        allow(github_session).to receive(:user) { user }
       end
       let!(:organization) { create(:organization, gh_id: 101) }
 
@@ -126,7 +129,12 @@ RSpec.describe OrganizationsController, type: :controller do
 
   describe "GET #public" do
     let(:github_session) do
-      double(organizations: github_organizations, name: 'name', save_froggo_path: 'path')
+      double(
+        organizations: github_organizations,
+        name: 'name',
+        save_froggo_path: 'path',
+        user: user
+      )
     end
 
     context "when admin has enabled public dashboard" do
