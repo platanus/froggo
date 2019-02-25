@@ -11,7 +11,7 @@
 
 <script>
 import ClickableDropdown from './clickable-dropdown';
-import { COMPUTE_SCORES } from '../store/action-types';
+import { PROCESS_NEW_TEAM } from '../store/action-types';
 
 export default {
   props: {
@@ -27,7 +27,7 @@ export default {
   mounted() {
     const selectedTeam = this.teams[this.defaultTeamIndex];
     if (selectedTeam) {
-      this.dispatchComputeScore(selectedTeam);
+      this.onTeamSelected(selectedTeam);
     }
   },
   computed: {
@@ -50,12 +50,11 @@ export default {
   },
   methods: {
     onItemClicked({ item }) {
-      this.dispatchComputeScore(item);
-      this.makeTeamDefault(item);
+      this.onTeamSelected(item);
     },
 
-    dispatchComputeScore(team) {
-      this.$store.dispatch(COMPUTE_SCORES, {
+    onTeamSelected(team) {
+      this.$store.dispatch(PROCESS_NEW_TEAM, {
         teamId: team.id,
         organizationId: team.organization_id,
         githubUserLogin: this.githubLogin,

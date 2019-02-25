@@ -15,6 +15,15 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     } }, status: 200
   end
 
+  def team_review_recommendations
+    render json: { response: {
+      recommendations: GetReviewRecommendations.for(
+        github_user_id: github_user.id,
+        other_users_ids: other_team_members_ids
+      )
+    } }, status: 200
+  end
+
   private
 
   def compute_score_for_user(other_users_ids)

@@ -42,34 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="profile__column">
-      <% [
-           {
-             recommendations: @recommendations[:best],
-             title: t('messages.profile.recommended_reviewers')
-           },
-           {
-             recommendations: @recommendations[:worst],
-             title: t('messages.profile.not_recommended_reviewers')
-           }
-         ].each do |section|
-       %>
-        <div class="profile__row profile__title">
-          <%= section[:title] %>
-        </div>
-        <div class="profile__row">
-          <div class="profile__rectangle profile__rectangle--small">
-            <% section[:recommendations].each do |user| %>
-              <small-profile
-                github-login="<%= user.login %>"
-                link-to-profile="<%= user_path user %>"
-                avatar-url="<%= user.avatar_url %>"
-              >
-              </small-profile>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+    <review-recommendations>
+    </review-recommendations>
   </div>
 </div>

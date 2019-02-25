@@ -30,6 +30,8 @@ Rails.application.routes.draw do
         'github_users#organization_score'
       get 'organizations/:org_id/teams/:team_id/users/:github_login/score' =>
         'github_users#team_score'
+      get 'teams/:team_id/users/:github_login/recommendations' =>
+        'github_users#team_review_recommendations'
     end
   end
 
