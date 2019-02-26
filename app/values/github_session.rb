@@ -51,14 +51,12 @@ class GithubSession
     end
   end
 
-  def fetch_teams_for_user(github_login)
+  def fetch_teams_for_user(github_user)
     teams = []
-    client.organizations(github_login).each do |github_organization|
+    github_user.organizations.each do |organization|
       begin
-        teams << get_teams(
-          Organization.find_by!(gh_id: github_organization[:id])
-        )
-      rescue Octokit::Error, ActiveRecord::RecordNotFound
+        teams << get_teams(organization)
+      rescue Octokit::Error
         # Octokit::Error Thrown, for example, when `octokit_client` has
         # no visibility of the organization's teams. Such teams are ignored.
       end

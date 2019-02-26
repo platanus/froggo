@@ -80,33 +80,34 @@ RSpec.describe GithubSession, type: :class do
 
   describe 'fetch_teams_for_user' do
     context 'when no organizations found' do
-      before { allow(client).to receive(:organizations).and_return([]) }
-      it { expect(subject.fetch_teams_for_user('login')).to be_empty }
+      let(:user) { create(:github_user) }
+      before { allow(user).to receive(:organizations).and_return([]) }
+      it { expect(subject.fetch_teams_for_user(user)).to be_empty }
     end
 
     context 'when organizations have teams' do
       let(:teams) do
-        create_team = ->(id, name) { { id: id, name: name, slug: name } }
-        (0...4).map { |id| create_team.call(id, "team-#{id}") }
+        Array.new(4).map { double('team') }
       end
 
-      let(:github_organizations) do
-        [{ id: 0 }, { id: 1 }]
+      let(:user) { create(:github_user) }
+
+      let(:organizations) do
+        [create(:organization), create(:organization)]
       end
 
       let(:org_0_teams) { [teams[0], teams[1]] }
       let(:org_1_teams) { [teams[2], teams[3]] }
 
       before do
-        allow(Organization).to receive(:find_by!).and_return(create(:organization))
-        allow(client).to \
-          receive(:organizations).and_return(github_organizations)
+        allow(user).to \
+          receive(:organizations).and_return(organizations)
         allow(subject).to \
           receive(:get_teams).and_return(org_0_teams, org_1_teams)
       end
 
       it 'returns teams' do
-        expect(subject.fetch_teams_for_user('some_login'))
+        expect(subject.fetch_teams_for_user(user))
           .to eq([*org_0_teams, *org_1_teams])
       end
     end
