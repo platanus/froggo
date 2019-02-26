@@ -22,18 +22,36 @@ export default {
     return {
       dropdownTitle: this.$t('message.profile.teamsDropdownTitle'),
       noTeamsMessage: this.$t('message.profile.noTeams'),
-      defaultTeamIndex: 0,
     };
   },
-  created() {
+  mounted() {
     const selectedTeam = this.teams[this.defaultTeamIndex];
     if (selectedTeam) {
       this.dispatchComputeScore(selectedTeam);
     }
   },
+  computed: {
+    defaultTeamIndex() {
+      if (!localStorage.mapUserToDefaultTeam) {
+        return 0;
+      }
+      const mapUserToDefaultTeam = JSON.parse(localStorage.mapUserToDefaultTeam);
+      if (!mapUserToDefaultTeam.hasOwnProperty(this.githubLogin)) {
+        return 0;
+      }
+      const teamId = mapUserToDefaultTeam[this.githubLogin];
+      const index = this.teams.findIndex(team => team.id === teamId);
+      if (index >= 0) {
+        return index;
+      }
+
+      return 0;
+    },
+  },
   methods: {
     onItemClicked({ item }) {
       this.dispatchComputeScore(item);
+      this.makeTeamDefault(item);
     },
 
     dispatchComputeScore(team) {
@@ -43,6 +61,15 @@ export default {
         githubUserLogin: this.githubLogin,
         weeksAgo: 1,
       });
+    },
+
+    makeTeamDefault(team) {
+      const mapUserToDefaultTeam =
+        localStorage.mapUserToDefaultTeam ?
+          JSON.parse(localStorage.mapUserToDefaultTeam) :
+          {};
+      mapUserToDefaultTeam[this.githubLogin] = team.id;
+      localStorage.mapUserToDefaultTeam = JSON.stringify(mapUserToDefaultTeam);
     },
   },
   components: {
