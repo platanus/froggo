@@ -20,19 +20,23 @@ RSpec.describe GithubSession, type: :class do
   let(:user_response) { JSON.parse({ 'login': 'user login', 'avatar_url': 'avatar' }.to_json) }
 
   let!(:client) { double(user: user_response, organization_memberships: org_response) }
+
+  let(:user) { create(:github_user) }
+
   subject { GithubSession.new(cookies) }
 
   before do
     allow(BuildOctokitClient).to receive(:for)
       .with(token: 'a token').and_return(client)
+    allow_any_instance_of(GithubUserService).to\
+      receive(:find_or_create).with(user_response).and_return(user)
   end
 
   context 'when initialized with correct session' do
     it 'has the correct info' do
       expect(subject.session['access_token']).to eq(cookies['access_token'])
       expect(subject.session['client_type']).to eq(cookies['client_type'])
-      expect(subject.name).to eq(client.user["login"])
-      expect(subject.avatar_url).to eq(client.user["avatar_url"])
+      expect(subject.user).to eq(user)
       expect(subject.organizations).to eq(
         [
           {

@@ -3,10 +3,10 @@
     <%= link_to root_path, class: 'header__logo-container' do %>
       <%= image_tag 'froggo-logo.svg', class: 'header__logo' %>
     <% end %>
-    <% unless @github_session.nil? %>
+    <% unless @github_user.nil? %>
       <div class="header__menu-container">
         <dropdown class="user-menu header__user-menu">
-          <img class="user-menu__image" slot="btn" src="<%= @github_session.avatar_url %>"/>
+          <img class="user-menu__image" slot="btn" src="<%= @github_user.avatar_url %>"/>
           <div class="user-menu__body" slot="body">
             <%= link_to t('messages.header.close_session'), close_session_path, class: 'user-menu__option'%>
           </div>
