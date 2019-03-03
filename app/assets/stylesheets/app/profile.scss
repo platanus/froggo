@@ -109,37 +109,6 @@
     padding: 2% 0;
   }
 
-  &__number-container {
-    align-items: center;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: center;
-
-    &:not(:last-child) {
-      border-right: 1px solid $light-border;
-    }
-  }
-
-  &__number {
-    align-items: flex-end;
-    display: flex;
-    flex: 1;
-    font-size: 150%;
-
-    &--positive {
-      color: $green;
-    }
-
-    &--zero {
-      color: $orange;
-    }
-
-    &--negative {
-      color: $red;
-    }
-  }
-
   &__scores {
     display: flex;
     flex: 1;

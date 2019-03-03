@@ -1,19 +1,19 @@
 <template>
-  <div class="profile__number-container">
+  <div class="colored-number">
     <div
-      class="profile__number"
+      class="colored-number__value"
       :class="colored
         ? {
-            'profile__number--positive': value > 0,
-            'profile__number--zero': value === 0,
-            'profile__number--negative': value < 0,
+            'colored-number__value--positive': value > 0,
+            'colored-number__value--zero': value === 0,
+            'colored-number__value--negative': value < 0,
           }
         : false
       "
     >
       {{ value.toFixed(1) }} {{ unit }}
     </div>
-    <div class="profile__text">
+    <div class="colored-number__text">
       {{ text }}
     </div>
   </div>
