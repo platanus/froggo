@@ -9,12 +9,13 @@ RSpec.describe GithubAuthController, type: :controller do
       double(
         name: 'name',
         set_session: [],
-        froggo_path: path
+        froggo_path: path,
+        user: 1
       )
     end
 
     before do
-      expect(Octokit).to receive(:exchange_code_for_token)
+      allow(Octokit).to receive(:exchange_code_for_token)
         .with(github_return_code, ENV['GH_AUTH_ID'], ENV['GH_AUTH_SECRET'])
         .and_return(token_result)
       allow(subject).to receive(:github_session)
@@ -26,7 +27,7 @@ RSpec.describe GithubAuthController, type: :controller do
         get :callback, params: { client_type: :member, code: github_return_code }
       end
 
-      it { expect(response).to redirect_to(organizations_path) }
+      it { expect(response).to redirect_to(user_path(github_session.user)) }
     end
 
     context 'from home with last path in github session' do
@@ -37,7 +38,7 @@ RSpec.describe GithubAuthController, type: :controller do
       end
 
       it {
-        expect(response).to redirect_to(github_session.froggo_path)
+        expect(response).to redirect_to(user_path(github_session.user))
       }
     end
 

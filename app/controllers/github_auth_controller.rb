@@ -18,7 +18,7 @@ class GithubAuthController < ApplicationController
     if permitted_params[:callback_action] == 'settings'
       redirect_to settings_organization_path(name: permitted_params[:gh_org])
     else
-      redirect_to github_session.froggo_path || organizations_path
+      redirect_to user_path(github_user) || organizations_path
     end
   end
 

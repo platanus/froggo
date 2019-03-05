@@ -16,8 +16,7 @@ RSpec.describe HomeController, type: :controller do
         get :index
       end
 
-      it { expect(response).to have_http_status(:success) }
-      it { expect(assigns(:request_login_url)).to eq(user_path(user)) }
+      it { expect(response).to have_http_status(302) }
     end
 
     context "when user is not authenticated" do
