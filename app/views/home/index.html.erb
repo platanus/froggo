@@ -9,11 +9,7 @@
           <img class="c-github-login__logo" src="<%= image_path('github-mark.png') %>"/>
         </span>
         <div class="c-github-login__text">
-          <% if @user_logged_in %>
-            <%= t('messages.home.go_to_dashboard').upcase %>
-          <% else %>
-            <%= t('messages.home.connect_github').upcase %>
-          <% end %>
+          <%= t('messages.home.connect_github').upcase %>
         </div>
       </a>
     </div>
