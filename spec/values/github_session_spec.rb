@@ -90,8 +90,17 @@ RSpec.describe GithubSession, type: :class do
     end
 
     context 'when organizations have teams' do
+      let(:team1) { double(id: 1) }
+
+      let(:team2) { double(id: 2) }
+
+      let(:team3) { double(id: 3) }
+
+      let(:team4) { double(id: 4) }
+
       let(:teams) do
-        Array.new(4).map { double('team') }
+        # Array.new(4).map { double('team') }
+        [team1, team2, team3, team4]
       end
 
       let(:user) { create(:github_user) }
@@ -104,12 +113,20 @@ RSpec.describe GithubSession, type: :class do
       let(:org_1_teams) { [teams[2], teams[3]] }
 
       before do
+        allow(team1).to \
+          receive(:[]).and_return(team1.id)
+        allow(team2).to \
+          receive(:[]).and_return(team2.id)
+        allow(team3).to \
+          receive(:[]).and_return(team3.id)
+        allow(team4).to \
+          receive(:[]).and_return(team4.id)
         allow(user).to \
           receive(:organizations).and_return(organizations)
-        allow(client).to \
-          receive(:team_member?).and_return(true)
         allow(subject).to \
           receive(:get_teams).and_return(org_0_teams, org_1_teams)
+        allow(client).to \
+          receive(:team_member?).and_return(true)
       end
 
       it 'returns teams' do

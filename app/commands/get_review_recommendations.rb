@@ -5,7 +5,8 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
       .sort_by { |_, times_reviewed| times_reviewed }
     {
       best: sorted_map.first(3).map { |user_id, _| GithubUser.find(user_id) },
-      worst: sorted_map.last(3).map { |user_id, _| GithubUser.find(user_id) }
+      worst: sorted_map.last(3).map { |user_id, _| GithubUser.find(user_id) } - \
+        sorted_map.first(3).map { |user_id, _| GithubUser.find(user_id) }
     }
   end
 
