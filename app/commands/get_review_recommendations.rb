@@ -15,6 +15,7 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
     appearance_counter =
       PullRequestRelation
       .review_relations
+      .within_month_limit(1)
       .where(github_user_id: @github_user_id, target_user_id: @other_users_ids)
       .pluck(:target_user_id)
       .each_with_object(Hash.new(0)) { |user_id, counter| counter[user_id] += 1 }
