@@ -63,10 +63,12 @@ class GithubSession
     teams = []
     github_user.organizations.each do |organization|
       begin
+        organization_teams = [organization]
         all_teams = get_teams(organization)
         all_teams.each do |team|
           teams << team if client.team_member?(team[:id], github_user.login)
         end
+        teams << organization_teams
       rescue Octokit::Error
         # Octokit::Error Thrown, for example, when `octokit_client` has
         # no visibility of the organization's teams. Such teams are ignored.

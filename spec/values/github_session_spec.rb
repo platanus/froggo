@@ -130,7 +130,7 @@ RSpec.describe GithubSession, type: :class do
 
       it 'returns teams' do
         expect(subject.fetch_teams_for_user(user))
-          .to eq([*org_0_teams, *org_1_teams])
+          .to eq([organizations[0], *org_0_teams, organizations[1], *org_1_teams])
       end
     end
   end
