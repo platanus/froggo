@@ -122,8 +122,6 @@ RSpec.describe GithubSession, type: :class do
           receive(:[]).and_return(team4.id)
         allow(user).to \
           receive(:organizations).and_return(organizations)
-        allow(client).to \
-          receive(:team_member?).and_return(true)
         allow(subject).to \
           receive(:get_teams).and_return(org_0_teams, org_1_teams)
         allow(client).to \
