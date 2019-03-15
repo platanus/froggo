@@ -9,12 +9,12 @@ import {
 import { COMPUTE_SCORES } from '../../action-types';
 
 function computeOrganizationScore(organizationId, githubUserLogin, { from, to }) {
-  return axios.get(`/api/organizations/${organizationId}
+  return axios.get(`/api/organizations/${organizationId}\
 /users/${githubUserLogin}/score?from=${from}&to=${to}`);
 }
 
 function computeTeamScore(organizationId, githubUserLogin, teamId, { from, to }) {
-  return axios.get(`/api/organizations/${organizationId}/teams/${teamId}
+  return axios.get(`/api/organizations/${organizationId}/teams/${teamId}\
 /users/${githubUserLogin}/score?from=${from}&to=${to}`);
 }
 
