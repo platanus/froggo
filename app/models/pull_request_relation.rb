@@ -15,6 +15,9 @@ class PullRequestRelation < ApplicationRecord
   scope :within_week_limit, ->(limit) do
     where('gh_updated_at > ?', Time.current - limit.weeks)
   end
+  scope :within_dates, ->(from, to) do
+    where('gh_updated_at >= ? and gh_updated_at <= ?', from, to)
+  end
   scope :by_pull_request, ->(pr_id) {  where(pull_request_id: pr_id) }
   scope :by_organizations, ->(organization_ids) { where(organization_id: organization_ids) }
 

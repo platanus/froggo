@@ -1,0 +1,34 @@
+.colored-number {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+
+  &:not(:last-child) {
+    border-right: 1px solid $light-border;
+  }
+
+  &__value {
+    align-items: flex-end;
+    display: flex;
+    flex: 1;
+    font-size: 150%;
+
+    &--positive {
+      color: $green;
+    }
+
+    &--zero {
+      color: $orange;
+    }
+
+    &--negative {
+      color: $red;
+    }
+  }
+
+  &__text {
+    color: $secondary-color;
+  }
+}

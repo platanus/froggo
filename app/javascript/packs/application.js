@@ -10,7 +10,7 @@ import Repository from '../components/repository.vue';
 import EnablePublicButton from '../components/enable-public-button.vue';
 import SyncOrganizationButton from '../components/sync-organization-button.vue';
 import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
-import ProfileScoreDisplay from '../components/profile-score-display.vue';
+import ProfileScoreRectangle from '../components/profile/score-rectangle.vue';
 import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
 
 import Locales from '../locales.js';
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
-  Vue.component('profile-score-display', ProfileScoreDisplay);
+  Vue.component('profile-score-rectangle', ProfileScoreRectangle);
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
 
   if (document.getElementById('app') !== null) {

@@ -31,16 +31,10 @@
         <%= t('messages.profile.your_score') %>
       </div>
       <div class="profile__row">
-        <!-- TODO: hardcoded -->
-        <div class="profile__rectangle 
-                    profile__rectangle--small
-                    profile__rectangle--centered 
-                    profile__rectangle--padded">
-          <profile-score-display></profile-score-display>
-          <div class="profile__text">
-            + since last week
-          </div>
-        </div>
+        <profile-score-rectangle
+          github-login="<%= @github_user.login %>"
+        >
+        </profile-score-rectangle>
       </div>
       <div class="profile__row">
         <div class="profile__text">

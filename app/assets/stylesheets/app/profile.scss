@@ -109,17 +109,18 @@
     padding: 2% 0;
   }
 
+  &__scores {
+    display: flex;
+    flex: 1;
+  }
+
   &__rectangle {
     border: 1px solid $primary-border;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
 
     &:not(:last-of-type) {
       margin-right: 2%;
-    }
-
-    &--centered {
-      align-items: center;
     }
 
     &--padded {

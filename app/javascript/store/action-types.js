@@ -1,3 +1,2 @@
-export const COMPUTE_SCORE = 'COMPUTE_SCORE';
-export const COMPUTE_USERS_ORGANIZATION_WIDE_SCORE =
-  'COMPUTE_USERS_ORGANIZATION_WIDE_SCORE';
+/* eslint-disable import/prefer-default-export */
+export const COMPUTE_SCORES = 'COMPUTE_SCORES';

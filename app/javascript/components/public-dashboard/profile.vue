@@ -16,21 +16,20 @@
       <div class="loading-icon loading-icon--flex-centered">
       </div>
     </div>
-    <div v-else class="public-dashboard-card__lower-half">
-      <div class="public-dashboard-card__number-container">
-        <div class="public-dashboard-card__number">
-          {{ userData.scoreThisWeek.toFixed(0) }}
-        </div>
-        <div class="public-dashboard-card__text">
-          puntaje esta semana
-        </div>
-      </div>
-    </div>
+    <profile-scores
+      v-else
+      container-class="public-dashboard-card__lower-half"
+      :score-this-week="userData.scoreThisWeek"
+      :score-last-week="userData.scoreLastWeek"
+    >
+    </profile-scores>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+
+import ProfileScores from '../profile/scores.vue';
 
 export default {
   props: {
@@ -42,10 +41,13 @@ export default {
     githubUrl() {
       return `https://github.com/${this.githubLogin}`;
     },
-    ...mapGetters(['_userData']),
+    ...mapGetters(['getUserData']),
     userData() {
-      return this._userData(this.githubLogin);
+      return this.getUserData(this.githubLogin);
     },
+  },
+  components: {
+    ProfileScores,
   },
 };
 </script>

@@ -51,10 +51,13 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   def pr_relations
     @pr_relations ||= PullRequestRelation
                       .by_organizations(organization.id)
-                      .within_week_limit(permitted_params[:weeks].to_i || 1)
+                      .within_dates(
+                        permitted_params[:from] || Date.new,
+                        permitted_params[:to] || Date.today
+                      )
   end
 
   def permitted_params
-    params.permit(:org_id, :team_id, :github_login, :weeks)
+    params.permit(:org_id, :team_id, :github_login, :from, :to)
   end
 end
