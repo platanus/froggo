@@ -1,6 +1,6 @@
 <template>
   <a :href="linkToProfile" class="profile__summary">
-    <div class="profile__avatar profile__summary--is-small">
+    <div class="profile__avatar profile__summary--small">
       <img :src="avatarUrl" />
     </div>
     <div class="profile__text profile__summary--text">

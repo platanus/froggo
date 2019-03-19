@@ -99,7 +99,6 @@ RSpec.describe GithubSession, type: :class do
       let(:team4) { double(id: 4) }
 
       let(:teams) do
-        # Array.new(4).map { double('team') }
         [team1, team2, team3, team4]
       end
 

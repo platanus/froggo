@@ -65,9 +65,7 @@ class GithubSession
       begin
         all_teams = get_teams(organization)
         all_teams.each do |team|
-          if client.team_member?(team[:id], github_user.login)
-            teams << team
-          end
+          teams << team if client.team_member?(team[:id], github_user.login)
         end
       rescue Octokit::Error
         # Octokit::Error Thrown, for example, when `octokit_client` has
