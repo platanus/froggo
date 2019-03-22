@@ -23,7 +23,7 @@ describe GetReviewRecommendations do
   let(:github_user_id) { requesting_user.id }
 
   context 'no other users in the team' do
-    let(:other_users_ids) {[]}
+    let(:other_users_ids) { [] }
 
     it 'returns empty list of most recommended users' do
       expect(perform_with_predefined_args[:best]).to be_empty
@@ -60,7 +60,13 @@ describe GetReviewRecommendations do
     end
 
     context 'with previous review requests' do
-      let!(:pull_request_1) { create(:pull_request_relation, github_user_id: github_user_id, target_user_id: other_user1.id) }
+      let!(:pull_request_1) do
+        create(
+          :pull_request_relation,
+          github_user_id: other_user1.id,
+          target_user_id: github_user_id
+        )
+      end
 
       it 'returns list with 3 users with least requests as most recommended' do
         expect(perform_with_predefined_args[:best]).to contain_exactly(other_user2, other_user3, other_user4)
@@ -86,9 +92,27 @@ describe GetReviewRecommendations do
     end
 
     context 'with previous review requests' do
-      let!(:pull_request_1) { create(:pull_request_relation, github_user_id: github_user_id, target_user_id: other_user1.id) }
-      let!(:pull_request_2) { create(:pull_request_relation, github_user_id: github_user_id, target_user_id: other_user3.id) }
-      let!(:pull_request_3) { create(:pull_request_relation, github_user_id: github_user_id, target_user_id: other_user4.id) }
+      let!(:pull_request_1) do
+        create(
+          :pull_request_relation,
+          github_user_id: other_user1.id,
+          target_user_id: github_user_id
+        )
+      end
+      let!(:pull_request_2) do
+        create(
+          :pull_request_relation,
+          github_user_id: other_user3.id,
+          target_user_id: github_user_id
+        )
+      end
+      let!(:pull_request_3) do
+        create(
+          :pull_request_relation,
+          github_user_id: other_user4.id,
+          target_user_id: github_user_id
+        )
+      end
 
       it 'returns list with 3 users with least requests as most recommended' do
         expect(perform_with_predefined_args[:best]).to contain_exactly(other_user2, other_user5, other_user6)
@@ -102,7 +126,14 @@ describe GetReviewRecommendations do
 
   context 'requests older than 1 month have been made' do
     let(:other_users_ids) { [other_user1.id, other_user2.id, other_user3.id, other_user4.id] }
-    let!(:pull_request_1) { create(:pull_request_relation, github_user_id: github_user_id, target_user_id: other_user4.id, gh_updated_at: Time.now - 2.months) }
+    let!(:pull_request_1) do
+      create(
+        :pull_request_relation,
+        github_user_id: other_user4.id,
+        target_user_id: github_user_id,
+        gh_updated_at: Time.current - 2.months
+      )
+    end
 
     it 'requests older than 1 month are not considered' do
       expect(perform_with_predefined_args[:worst]).to contain_exactly(other_user4)

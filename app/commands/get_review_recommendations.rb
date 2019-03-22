@@ -19,8 +19,8 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
       PullRequestRelation
       .review_relations
       .within_month_limit(REVIEW_MONTH_LIMIT)
-      .where(github_user_id: @github_user_id, target_user_id: @other_users_ids)
-      .pluck(:target_user_id)
+      .where(github_user_id: @other_users_ids, target_user_id: @github_user_id)
+      .pluck(:github_user_id)
       .each_with_object(Hash.new(0)) { |user_id, counter| counter[user_id] += 1 }
     fill_missing_users_from_appearance_counter(appearance_counter)
     appearance_counter
