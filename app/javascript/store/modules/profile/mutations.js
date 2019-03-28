@@ -5,8 +5,6 @@ import {
   RECOMMENDATIONS_RECEIVED,
   START_FETCHING_RECOMMENDATIONS,
   ORGANIZATION_TEAMS_RECEIVED,
-  SELECTED_TEAM_INDEX,
-  SELECTED_ORGANIZATION_INDEX,
 } from '../../mutation-types';
 
 export default {
@@ -14,7 +12,7 @@ export default {
     state.selectedTeamId = teamId;
   },
 
-  [PROFILE_ORGANIZATION_SELECTED](state, organizationId){
+  [PROFILE_ORGANIZATION_SELECTED](state, organizationId) {
     state.selectedOrganizationId = organizationId;
   },
 

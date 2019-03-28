@@ -12,7 +12,6 @@
 <script>
 import ClickableDropdown from './clickable-dropdown';
 import { PROCESS_NEW_TEAM } from '../store/action-types';
-import { mapState } from 'vuex';
 
 export default {
   props: {
@@ -59,7 +58,6 @@ export default {
         teamId: team.id,
         organizationId: team.organization_id,
         githubUserLogin: this.githubLogin,
-        teams: this.teams,
       });
     },
 

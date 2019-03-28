@@ -14,13 +14,11 @@ import {
   RECOMMENDATIONS_RECEIVED,
   START_FETCHING_RECOMMENDATIONS,
   ORGANIZATION_TEAMS_RECEIVED,
-  SELECTED_TEAM_INDEX,
-  SELECTED_ORGANIZATION_INDEX,
 } from '../../mutation-types';
 
 export default {
   [PROCESS_NEW_TEAM](
-    { commit, dispatch }, { teamId, organizationId, githubUserLogin, teams }) {
+    { commit, dispatch }, { teamId, organizationId, githubUserLogin}) {
     commit(PROFILE_TEAM_SELECTED, teamId);
     dispatch(COMPUTE_SCORES, {
       teamId,
@@ -31,12 +29,12 @@ export default {
   },
 
   [PROCESS_NEW_ORGANIZATION](
-    { commit }, {organizationId, githubUserLogin, teams, selectedTeamId}) {
+    { commit }, { organizationId, teams }) {
     let teamIndex;
     commit(PROFILE_ORGANIZATION_SELECTED, organizationId);
     const organizationTeams = [];
     for (teamIndex in teams) {
-      if (teams[teamIndex].organization_id == organizationId) {
+      if (teams[teamIndex].organization_id === organizationId) {
         organizationTeams.push(teams[teamIndex]);
       }
     }
