@@ -18,10 +18,14 @@
             </div>
           </div>
         </a>
-        <teams-dropdown
-           github-login="<%= @github_user.login %>"
-           :teams="<%= @teams.to_json %>">
-        </teams-dropdown>
+        <organizations-dropdown
+          github-login="<%= @github_user.login%>"
+          :organizations="<%= @github_user.organizations.to_json %>"
+          :teams="<%= @teams.to_json%>">
+        </organizations-dropdown>
+        <organization-teams-dropdown
+          github-login="<%= @github_user.login %>">
+        </organization-teams-dropdown>
       </div>
     </div>
   </div>

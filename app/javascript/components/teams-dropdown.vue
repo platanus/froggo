@@ -12,11 +12,12 @@
 <script>
 import ClickableDropdown from './clickable-dropdown';
 import { PROCESS_NEW_TEAM } from '../store/action-types';
+import { mapState } from 'vuex';
 
 export default {
   props: {
-    teams: Array,
     githubLogin: String,
+    teams: Array,
   },
   data() {
     return {
@@ -24,7 +25,7 @@ export default {
       noTeamsMessage: this.$t('message.profile.noTeams'),
     };
   },
-  mounted() {
+  updated() {
     const selectedTeam = this.teams[this.defaultTeamIndex];
     if (selectedTeam) {
       this.onTeamSelected(selectedTeam);
@@ -44,7 +45,6 @@ export default {
       if (index >= 0) {
         return index;
       }
-
       return 0;
     },
   },
@@ -59,6 +59,7 @@ export default {
         teamId: team.id,
         organizationId: team.organization_id,
         githubUserLogin: this.githubLogin,
+        teams: this.teams,
       });
     },
 

@@ -13,7 +13,9 @@ import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
 import ProfileScoreRectangle from '../components/profile/score-rectangle.vue';
 import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
 import ReviewRecommendations from '../components/profile/recommendations.vue';
-import UsersRectangle from '../components/profile/users-rectangle.vue'
+import UsersRectangle from '../components/profile/users-rectangle.vue';
+import OrganizationsDropdown from '../components/organizations-dropdown.vue';
+import OrganizationTeamsDropdown from '../components/organization-teams-dropdown.vue';
 
 import Locales from '../locales.js';
 import store from '../store';
@@ -31,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
   Vue.component('review-recommendations', ReviewRecommendations);
   Vue.component('users-rectangle', UsersRectangle);
+  Vue.component('organizations-dropdown', OrganizationsDropdown);
+  Vue.component('organization-teams-dropdown', OrganizationTeamsDropdown);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new
