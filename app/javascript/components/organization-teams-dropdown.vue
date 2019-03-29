@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import TeamsDropdown from './teams-dropdown';
 import { mapState } from 'vuex';
+import TeamsDropdown from './teams-dropdown';
 
 export default {
   props: {
@@ -17,7 +17,7 @@ export default {
     TeamsDropdown,
   },
   computed: mapState({
-  	organizationTeams: state=> state.profile.organizationTeams,
+    organizationTeams: state => state.profile.organizationTeams,
   }),
 };
 </script>

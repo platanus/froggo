@@ -50,7 +50,7 @@ export default {
   methods: {
     onItemClicked({ item }) {
       this.onTeamSelected(item);
-      this.makeTeamDefault(item)
+      this.makeTeamDefault(item);
     },
 
     onTeamSelected(team) {

@@ -18,7 +18,7 @@ import {
 
 export default {
   [PROCESS_NEW_TEAM](
-    { commit, dispatch }, { teamId, organizationId, githubUserLogin}) {
+    { commit, dispatch }, { teamId, organizationId, githubUserLogin }) {
     commit(PROFILE_TEAM_SELECTED, teamId);
     dispatch(COMPUTE_SCORES, {
       teamId,
@@ -33,7 +33,7 @@ export default {
     let teamIndex;
     commit(PROFILE_ORGANIZATION_SELECTED, organizationId);
     const organizationTeams = [];
-    for (teamIndex in teams) {
+    for (teamIndex; teamIndex < teams.length; teamIndex++) {
       if (teams[teamIndex].organization_id === organizationId) {
         organizationTeams.push(teams[teamIndex]);
       }

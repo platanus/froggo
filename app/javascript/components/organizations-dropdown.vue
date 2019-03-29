@@ -52,7 +52,7 @@ export default {
   methods: {
     onItemClicked({ item }) {
       this.onOrganizationSelected(item);
-      this.makeOrganizationDefault(item)
+      this.makeOrganizationDefault(item);
     },
 
     onOrganizationSelected(organization) {
