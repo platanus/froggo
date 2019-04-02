@@ -48,6 +48,7 @@ export default {
       if (this.items === null) {
         return 0;
       }
+
       return this.items[this.selectedItemIndex];
     },
   },

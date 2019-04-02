@@ -47,7 +47,7 @@ export default {
       return FroggoLocalStorage.get(
         'mapUserToDefaultOrganization',
         this.githubLogin,
-        this.organizations,
+        this.organizations
       );
     },
 
@@ -67,8 +67,8 @@ export default {
       FroggoLocalStorage.set(
         'mapUserToDefaultOrganization',
         this.githubLogin,
-        organization.id,
-      )
+        organization.id
+      );
     },
   },
   components: {
