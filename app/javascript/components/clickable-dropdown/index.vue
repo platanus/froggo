@@ -2,7 +2,7 @@
   <dropdown ref="parentDropdown" class="select">
     <div class="select__btn" slot="btn">
       <span class="select__title">
-        {{ selectedItem ? selectedItem.name || selectedItem.login : noItemsMessage }}
+        {{ selectedItem ? selectedItem.name : noItemsMessage }}
       </span>
     </div>
     <div class="select__body" slot="body">
@@ -13,7 +13,7 @@
           @click="itemClicked({ item, index })"
           :key="index"
         >
-          {{ item.name || item.login }}
+          {{ item.name }}
         </div>
     </div>
   </dropdown>
@@ -45,6 +45,9 @@ export default {
   },
   computed: {
     selectedItem() {
+      if (this.items === null) {
+        return 0;
+      }
       return this.items[this.selectedItemIndex];
     },
   },

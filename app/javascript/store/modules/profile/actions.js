@@ -19,6 +19,8 @@ import {
 export default {
   [PROCESS_NEW_TEAM](
     { commit, dispatch }, { teamId, organizationId, githubUserLogin }) {
+    console.log(teamId);
+    console.log(organizationId);
     commit(PROFILE_TEAM_SELECTED, teamId);
     dispatch(COMPUTE_SCORES, {
       teamId,
@@ -32,13 +34,10 @@ export default {
     { commit }, { organizationId, teams }) {
     let teamIndex = 0;
     commit(PROFILE_ORGANIZATION_SELECTED, organizationId);
-    const organizationTeams = [];
-    for (teamIndex; teamIndex < teams.length; teamIndex++) {
-      if (teams[teamIndex].organization_id === organizationId) {
-        organizationTeams.push(teams[teamIndex]);
-      }
-    }
-    commit(ORGANIZATION_TEAMS_RECEIVED, organizationTeams);
+    commit(
+      ORGANIZATION_TEAMS_RECEIVED,
+      teams.filter(team => team.organization_id === organizationId)
+    );
   },
 
   [COMPUTE_RECOMMENDATIONS]({ commit }, { teamId, githubUserLogin }) {
