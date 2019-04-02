@@ -19,8 +19,6 @@ import {
 export default {
   [PROCESS_NEW_TEAM](
     { commit, dispatch }, { teamId, organizationId, githubUserLogin }) {
-    console.log(teamId);
-    console.log(organizationId);
     commit(PROFILE_TEAM_SELECTED, teamId);
     dispatch(COMPUTE_SCORES, {
       teamId,

@@ -2,7 +2,7 @@
   <clickable-dropdown
     :body-title="dropdownTitle"
     :no-items-message="noOrganizationsMessage"
-    :items="organizations_with_name"
+    :items="organizationsWithName"
     :default-index="defaultOrganizationIndex"
     @item-clicked="onItemClicked"
   >
@@ -21,14 +21,14 @@ export default {
     teams: Array,
   },
   data() {
-    const named_organizations = this.organizations;
-    named_organizations.forEach(function(item) {
-      item.name = item.login;
-    });
+    const namedOrganizations = this.organizations;
+    namedOrganizations.forEach((organization) =>
+      organization.name = organization.login);
+
     return {
       dropdownTitle: this.$t('message.profile.organizationsDropdownTitle'),
       noOrganizationsMessage: this.$t('message.profile.noOrganizations'),
-      organizations_with_name: named_organizations,
+      organizationsWithName: namedOrganizations,
     };
   },
   computed: {
