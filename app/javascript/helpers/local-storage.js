@@ -6,14 +6,12 @@ function get(map, key, values) {
   if (!mapKeyToValue.hasOwnProperty(key)) {
     return 0;
   }
-  if (values === null) {
-    return 0;
-  }
   const valueId = mapKeyToValue[key];
   const index = values.findIndex(value => value.id === valueId);
   if (index >= 0) {
     return index;
   }
+
   return 0;
 }
 

@@ -32,7 +32,6 @@ export default {
 
   [PROCESS_NEW_ORGANIZATION](
     { commit }, { organizationId, teams }) {
-    let teamIndex = 0;
     commit(PROFILE_ORGANIZATION_SELECTED, organizationId);
     commit(
       ORGANIZATION_TEAMS_RECEIVED,

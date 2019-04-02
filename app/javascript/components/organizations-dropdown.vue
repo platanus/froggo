@@ -38,15 +38,16 @@ export default {
       if (selectedOrganization) {
         this.onOrganizationSelected(selectedOrganization);
       }
+
       return index;
     },
   },
   methods: {
     getDefaultOrganizationIndex() {
       return FroggoLocalStorage.get(
-        "mapUserToDefaultOrganization",
+        'mapUserToDefaultOrganization',
         this.githubLogin,
-        this.organizations
+        this.organizations,
       );
     },
 
@@ -64,9 +65,9 @@ export default {
 
     makeOrganizationDefault(organization) {
       FroggoLocalStorage.set(
-        "mapUserToDefaultOrganization",
+        'mapUserToDefaultOrganization',
         this.githubLogin,
-        organization.id
+        organization.id,
       )
     },
   },
