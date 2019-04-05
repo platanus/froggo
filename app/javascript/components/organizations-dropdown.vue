@@ -23,7 +23,7 @@ export default {
   data() {
     const namedOrganizations = this.organizations;
     namedOrganizations.forEach((organization) =>
-      organization.name = organization.login);
+      (organization.name = organization.login));
 
     return {
       dropdownTitle: this.$t('message.profile.organizationsDropdownTitle'),
