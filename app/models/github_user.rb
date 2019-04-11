@@ -1,5 +1,6 @@
 class GithubUser < ApplicationRecord
   has_many :pull_request_relations
+  has_many :pull_request_review_requests, dependent: :nullify
 
   has_many :pull_requests, foreign_key: :owner_id
   has_many :pull_request_reviews

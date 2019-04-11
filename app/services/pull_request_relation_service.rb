@@ -21,7 +21,8 @@ class PullRequestRelationService < PowerTypes::Service.new(:pull_request)
           github_user_id: review.github_user_id,
           organization_id: @pull_request.repository.organization_id,
           gh_updated_at: review.updated_at,
-          target_user_id: @pull_request.owner_id
+          target_user_id: @pull_request.owner_id,
+          recommendation_behaviour: review.recommendation_behaviour
         )
       end
     end

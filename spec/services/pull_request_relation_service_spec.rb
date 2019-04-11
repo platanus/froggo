@@ -76,5 +76,22 @@ describe PullRequestRelationService do
         )
       end
     end
+    context "with review with recommendation behaviour" do
+      let(:pull_request) { create(:pull_request) }
+      let(:github_user) { create(:github_user) }
+      before do
+        pull_request.pull_request_reviews.create(
+          github_user: github_user,
+          recommendation_behaviour: :obedient
+        )
+      end
+
+      it "review relation has same recommendation_behaviour" do
+        service.create_review_relations
+        pull_request_relation = PullRequestRelation.last
+
+        expect(pull_request_relation.recommendation_behaviour).to eq("obedient")
+      end
+    end
   end
 end
