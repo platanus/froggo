@@ -61,3 +61,4 @@ es-CL:
       your_score: Tu puntaje
       recommended_reviewers: Te recomendamos mandar tu próximo PR a alguna de estas personas
       not_recommended_reviewers: Evita mandarle otro PR a estas personas
+      no_recommendations: No tenemos recomendaciones para ti dado que no perteneces a ningún equipo
