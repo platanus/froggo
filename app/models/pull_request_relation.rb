@@ -6,9 +6,14 @@ class PullRequestRelation < ApplicationRecord
   enumerize :pr_relation_type, in: [:merged_by, :reviewer]
   validates :pr_relation_type, presence: true
   validates_inclusion_of :pr_relation_type, in: %w(merged_by reviewer)
+  enumerize :recommendation_behaviour, in: [:obedient, :indifferent, :rebel, :not_defined]
 
   scope :merged_relations, -> { where(pr_relation_type: :merged_by) }
   scope :review_relations, -> { where(pr_relation_type: :reviewer) }
+  scope :obedient_behaviour, -> { where(recommendation_behaviour: :obedient) }
+  scope :indifferent_behaviour, -> { where(recommendation_behaviour: :indifferent) }
+  scope :rebel_behaviour, -> { where(recommendation_behaviour: :rebel) }
+  scope :not_defined_behaviour, -> { where(recommendation_behaviour: :not_defined) }
   scope :within_month_limit, ->(limit) do
     where('gh_updated_at > ?', Time.current - limit.months)
   end
@@ -26,20 +31,20 @@ class PullRequestRelation < ApplicationRecord
   end
 end
 # rubocop:disable LineLength
-
 # == Schema Information
 #
 # Table name: pull_request_relations
 #
-#  id               :integer          not null, primary key
-#  pull_request_id  :integer
-#  github_user_id   :integer
-#  pr_relation_type :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  organization_id  :integer
-#  target_user_id   :integer
-#  gh_updated_at    :datetime
+#  id                       :integer          not null, primary key
+#  pull_request_id          :integer
+#  github_user_id           :integer
+#  pr_relation_type         :string
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  organization_id          :integer
+#  target_user_id           :integer
+#  gh_updated_at            :datetime
+#  recommendation_behaviour :string           default("not_defined")
 #
 # Indexes
 #
@@ -55,5 +60,6 @@ end
 #
 #  fk_rails_...  (github_user_id => github_users.id)
 #  fk_rails_...  (pull_request_id => pull_requests.id)
+#
 
 # rubocop:enable LineLength

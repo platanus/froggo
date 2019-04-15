@@ -18,6 +18,7 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
   def import_page_from_repository(repository, page)
     github_pull_requests(repository, page: page).each do |github_pull_request|
       break unless repository.tracked
+
       pull_request = import_github_pull_request(repository, github_pull_request)
       ImportPullRequestReviewsJob.perform_later(pull_request, @token)
     end
@@ -25,12 +26,14 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
 
   def import_github_pull_request(repository, github_pull_request)
     return unless repository.reload.tracked
+
     params = build_pull_request_params(repository, github_pull_request)
 
     if pull_request = PullRequest.find_by(gh_id: github_pull_request.id)
       pull_request.update! params
     else
       pull_request = repository.pull_requests.create!(params)
+      add_requested_reviewers_to_pull_request(pull_request, github_pull_request)
     end
     pull_request
   end
@@ -64,6 +67,7 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     if github_pull_request.respond_to?(:merged_by)
       return github_pull_request.merged_by
     end
+
     get_user_from_request(repository, github_pull_request)
   end
 
@@ -102,5 +106,22 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     else
       1
     end
+  end
+
+  def add_requested_reviewers_to_pull_request(pull_request, github_pull_request)
+    requested_reviewers = github_pull_request.requested_reviewers
+    requested_reviewers.each do |reviewer|
+      user = GithubUserService.new.find_or_create(reviewer)
+      base_params = get_request_base_params(github_pull_request)
+      user_params = { github_user_id: user.id }
+      base_params.merge(user_params)
+      pull_request.pull_request_review_requests.create!(base_params)
+    end
+  end
+
+  def get_request_base_params(github_pull_request)
+    {
+      gh_id: github_pull_request.id
+    }
   end
 end

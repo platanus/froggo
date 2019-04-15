@@ -9,6 +9,7 @@ class PullRequest < ApplicationRecord
   has_many :pull_request_reviewers, through: :pull_request_reviews, source: :github_user
 
   has_many :pull_request_relations
+  has_many :pull_request_review_requests, dependent: :destroy
 
   scope :within_month_limit, -> do
     where('pull_requests.gh_updated_at > ?',

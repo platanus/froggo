@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181123143041) do
+ActiveRecord::Schema.define(version: 20190412195233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 20181123143041) do
     t.integer "organization_id"
     t.integer "target_user_id"
     t.datetime "gh_updated_at"
+    t.string "recommendation_behaviour", default: "not_defined"
     t.index ["gh_updated_at"], name: "index_pull_request_relations_on_gh_updated_at"
     t.index ["github_user_id"], name: "index_pull_request_relations_on_github_user_id"
     t.index ["organization_id", "gh_updated_at", "github_user_id", "pull_request_id"], name: "index_pr_relations_on_orgs_and_updated_and_user_and_prs"
@@ -124,12 +125,23 @@ ActiveRecord::Schema.define(version: 20181123143041) do
     t.index ["target_user_id"], name: "index_pull_request_relations_on_target_user_id"
   end
 
+  create_table "pull_request_review_requests", force: :cascade do |t|
+    t.bigint "pull_request_id"
+    t.bigint "github_user_id"
+    t.integer "gh_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["github_user_id"], name: "index_pull_request_review_requests_on_github_user_id"
+    t.index ["pull_request_id"], name: "index_pull_request_review_requests_on_pull_request_id"
+  end
+
   create_table "pull_request_reviews", force: :cascade do |t|
     t.bigint "pull_request_id"
     t.bigint "github_user_id"
     t.integer "gh_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "recommendation_behaviour", default: "not_defined"
     t.index ["github_user_id"], name: "index_pull_request_reviews_on_github_user_id"
     t.index ["pull_request_id"], name: "index_pull_request_reviews_on_pull_request_id"
   end
@@ -188,6 +200,8 @@ ActiveRecord::Schema.define(version: 20181123143041) do
   add_foreign_key "organization_syncs", "organizations"
   add_foreign_key "pull_request_relations", "github_users"
   add_foreign_key "pull_request_relations", "pull_requests"
+  add_foreign_key "pull_request_review_requests", "github_users"
+  add_foreign_key "pull_request_review_requests", "pull_requests"
   add_foreign_key "pull_request_reviews", "github_users"
   add_foreign_key "pull_request_reviews", "pull_requests"
   add_foreign_key "pull_requests", "github_users", column: "merged_by_id"

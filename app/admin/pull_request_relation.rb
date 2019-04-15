@@ -26,6 +26,7 @@ ActiveAdmin.register PullRequestRelation do
     end
     column :gh_created_at
     column :gh_merged_at
+    column :recommendation_behaviour
 
     actions
   end

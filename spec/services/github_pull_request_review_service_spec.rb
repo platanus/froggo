@@ -6,17 +6,45 @@ describe GithubPullRequestReviewService do
 
   let(:service) { build(token: token) }
 
-  let!(:github_review_response) do
-    double(
-      id: 123,
-      user: double(
-        id: 1,
+  let(:users) do
+    Array.new(7) do
+      |index| double(
+        id: index + 1,
+        gh_id: index + 1,
         login: "milla",
         name: "Milla Jovovich",
         email: "milla@jovovich.cl",
         avatar_url: 'url_to_avatar',
         html_url: 'url_to_html'
       )
+    end
+  end
+
+  let!(:github_review_response) do
+    double(
+      id: 123,
+      user: users[0]
+    )
+  end
+
+  let!(:github_review_response2) do
+    double(
+      id: 123,
+      user: users[3]
+    )
+  end
+
+  let!(:github_review_response3) do
+    double(
+      id: 123,
+      user: users[5]
+    )
+  end
+
+  let!(:github_review_response4) do
+    double(
+      id: 123,
+      user: users[6]
     )
   end
 
@@ -39,6 +67,21 @@ describe GithubPullRequestReviewService do
       let(:repository) { create(:repository, tracked: true) }
 
       context "and review doesn't exist" do
+        before do
+          allow(service).to receive(:team_review_request_recommendations)
+            .and_return ({
+              best: [users[0], users[1], users[2]],
+              worst: [users[3], users[4], users[5]]
+            })
+          allow(pull_request).to receive(:pull_request_review_requests)
+            .and_return([
+                          double(pull_request_id: 123, github_user_id: 1),
+                          double(pull_request_id: 123, github_user_id: 6),
+                          double(pull_request_id: 123, github_user_id: 7)
+                        ])
+          users.each { |user| allow(user).to receive(:[]).and_return(user.gh_id) }
+        end
+
         it "creates new pull request review" do
           expect do
             service.import_github_pull_request_review(pull_request, github_review_response)
@@ -53,6 +96,50 @@ describe GithubPullRequestReviewService do
             gh_id: 123,
             github_user_id: GithubUser.find_by(gh_id: 1).id
           )
+        end
+
+        context "with recommendation is followed" do
+          it "defines behaviour as obedient" do
+            service.import_github_pull_request_review(pull_request, github_review_response)
+            pull_request_review = PullRequestReview.last
+
+            expect(pull_request_review).to have_attributes(
+              recommendation_behaviour: "obedient"
+            )
+          end
+        end
+
+        context "with recommendation isn't followed" do
+          it "defines behaviour as indifferent" do
+            service.import_github_pull_request_review(pull_request, github_review_response4)
+            pull_request_review = PullRequestReview.last
+
+            expect(pull_request_review).to have_attributes(
+              recommendation_behaviour: "indifferent"
+            )
+          end
+        end
+
+        context "with not recommended is disregarded" do
+          it "defines behaviour as rebel" do
+            service.import_github_pull_request_review(pull_request, github_review_response3)
+            pull_request_review = PullRequestReview.last
+
+            expect(pull_request_review).to have_attributes(
+              recommendation_behaviour: "rebel"
+            )
+          end
+        end
+
+        context "with review wasn't requested" do
+          it "defines behaviour as not_defined" do
+            service.import_github_pull_request_review(pull_request, github_review_response2)
+            pull_request_review = PullRequestReview.last
+
+            expect(pull_request_review).to have_attributes(
+              recommendation_behaviour: "not_defined"
+            )
+          end
         end
       end
 

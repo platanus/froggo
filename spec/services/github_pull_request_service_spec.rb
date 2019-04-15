@@ -23,7 +23,25 @@ describe GithubPullRequestService do
         email: "milla@jovovich.cl",
         avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
         html_url: "https://github.com/bunzli"
-      )
+      ),
+      requested_reviewers: [
+        double(
+          id: 2,
+          login: "john",
+          name: "John Doe",
+          email: "john@doe.cl",
+          avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
+          html_url: "https://github.com/bunzli"
+        ),
+        double(
+          id: 3,
+          login: "jane",
+          name: "Jane Doe",
+          email: "jane@doe.cl",
+          avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
+          html_url: "https://github.com/bunzli"
+        )
+      ]
     )
   end
 
@@ -46,6 +64,7 @@ describe GithubPullRequestService do
         avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
         html_url: "https://github.com/bunzli"
       ),
+      requested_reviewers: [],
       head: double(
         repo: double(
           full_name: 'platanus/froggo'
@@ -111,6 +130,13 @@ describe GithubPullRequestService do
             pr_state: "open",
             title: "Test"
           )
+        end
+
+        it "creates reviews_requested for PR" do
+          service.import_github_pull_request(repository, github_pr_response)
+          pull_request = PullRequest.last
+
+          expect(pull_request.pull_request_review_requests.length).to eq(2)
         end
       end
 
