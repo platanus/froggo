@@ -4,7 +4,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   def team_score
     render json: { response: {
       score: compute_score_for_user(other_team_members_ids)
-    } }, status: 200
+    } }, status: :ok
   end
 
   def organization_score
@@ -12,7 +12,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
       score: compute_score_for_user(
         organization.members.pluck(:id).reject { |id| id == github_user.id }
       )
-    } }, status: 200
+    } }, status: :ok
   end
 
   def team_review_recommendations
@@ -21,7 +21,16 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
         github_user_id: github_user.id,
         other_users_ids: other_team_members_ids
       )
-    } }, status: 200
+    } }, status: :ok
+  end
+
+  def organization_recommendation_statistics
+    render json: { response: {
+      statistics: ComputeUserStatistics.for(
+        github_user_id: github_user.id,
+        organization_id: permitted_params[:org_id]
+      )
+    } }, status: :ok
   end
 
   private

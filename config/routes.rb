@@ -28,6 +28,8 @@ Rails.application.routes.draw do
       get 'organizations/:id/check_sync' => 'organizations#check_sync'
       get 'organizations/:org_id/users/:github_login/score' =>
         'github_users#organization_score'
+      get 'organizations/:org_id/users/:github_login/statistics' =>
+        'github_users#organization_recommendation_statistics'
       get 'organizations/:org_id/teams/:team_id/users/:github_login/score' =>
         'github_users#team_score'
       get 'teams/:team_id/users/:github_login/recommendations' =>
