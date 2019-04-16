@@ -11,7 +11,7 @@
         : false
       "
     >
-      {{ value.toFixed(1) }} {{ unit }}
+      {{ value.toFixed(0) }} {{ unit }}
     </div>
     <div class="colored-number__text">
       {{ text }}

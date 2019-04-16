@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {
-  COMPUTE_SCORES,
+  COMPUTE_STATISTICS,
   COMPUTE_RECOMMENDATIONS,
   PROCESS_NEW_TEAM,
 } from '../../action-types';
@@ -17,8 +17,7 @@ export default {
   [PROCESS_NEW_TEAM](
     { commit, dispatch }, { teamId, organizationId, githubUserLogin }) {
     commit(PROFILE_TEAM_SELECTED, teamId);
-    dispatch(COMPUTE_SCORES, {
-      teamId,
+    dispatch(COMPUTE_STATISTICS, {
       organizationId,
       githubUserLogin,
     });

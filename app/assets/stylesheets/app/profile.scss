@@ -77,7 +77,9 @@
     flex: 2;
     flex-direction: row;
     padding: 0 2%;
-
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
   }
 
   &__score {
@@ -168,6 +170,10 @@
 
     &--small {
       flex: 1;
+    }
+
+    &--black-border {
+      border-color: $black;
     }
   }
 }
