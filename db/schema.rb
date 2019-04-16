@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190412195233) do
+ActiveRecord::Schema.define(version: 20190412203725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20190412195233) do
     t.string "name"
     t.boolean "tracked"
     t.boolean "public_enabled"
+    t.integer "default_team_id"
   end
 
   create_table "pull_request_relations", force: :cascade do |t|

@@ -53,7 +53,8 @@ es-CL:
       login_with_admin_session_message_ask: Para comenzar necesitas logearte en github como admin
       obtain_admin_privilege: Obtener privilegios de admin en github
       create_dashboard: Dar permisos
-      repository_title: Repositorios en
+      repository_title: repositorios en
+      default_team: Equipo default
     profile:
       no_name: Sin nombre
       no_teams: Sin equipos
