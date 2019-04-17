@@ -5,6 +5,12 @@ describe GithubPullRequestService do
 
   let(:service) { build(token: token) }
 
+  let(:users) do
+    Array.new(3) do
+      create(:github_user)
+    end
+  end
+
   let(:github_pr_response) do
     double(
       id: 3,
@@ -16,31 +22,10 @@ describe GithubPullRequestService do
       updated_at: "2017-12-12 09:17:52",
       closed_at: "2017-12-12 09:17:52",
       merged_at: nil,
-      user: double(
-        id: 1,
-        login: "milla",
-        name: "Milla Jovovich",
-        email: "milla@jovovich.cl",
-        avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
-        html_url: "https://github.com/bunzli"
-      ),
+      user: users[0],
       requested_reviewers: [
-        double(
-          id: 2,
-          login: "john",
-          name: "John Doe",
-          email: "john@doe.cl",
-          avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
-          html_url: "https://github.com/bunzli"
-        ),
-        double(
-          id: 3,
-          login: "jane",
-          name: "Jane Doe",
-          email: "jane@doe.cl",
-          avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
-          html_url: "https://github.com/bunzli"
-        )
+        users[1],
+        users[2]
       ]
     )
   end
@@ -56,14 +41,7 @@ describe GithubPullRequestService do
       updated_at: "2017-12-12 09:17:52",
       closed_at: "2017-12-12 09:17:52",
       merged_at: "2017-12-12 09:17:52",
-      user: double(
-        id: 1,
-        login: "milla",
-        name: "Milla Jovovich",
-        email: "milla@jovovich.cl",
-        avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
-        html_url: "https://github.com/bunzli"
-      ),
+      user: users[0],
       requested_reviewers: [],
       head: double(
         repo: double(
@@ -75,22 +53,8 @@ describe GithubPullRequestService do
 
   let(:github_single_pr) do
     double(
-      user: double(
-        id: 1,
-        login: "milla",
-        name: "Milla Jovovich",
-        email: "milla@jovovich.cl",
-        avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
-        html_url: "https://github.com/bunzli"
-      ),
-      merged_by: double(
-        id: 1,
-        login: "milla",
-        name: "Milla Jovovich",
-        email: "milla@jovovich.cl",
-        avatar_url: "https://avatars2.githubusercontent.com/u/741483?v=4",
-        html_url: "https://github.com/bunzli"
-      )
+      user: users[0],
+      merged_by: users[0]
     )
   end
 
@@ -138,6 +102,16 @@ describe GithubPullRequestService do
 
           expect(pull_request.pull_request_review_requests.length).to eq(2)
         end
+
+        it 'creates reviews requested with valid data' do
+          service.import_github_pull_request(repository, github_pr_response)
+          pull_request = PullRequest.last
+
+          expect(pull_request.pull_request_review_requests.first).to have_attributes(
+            pull_request_id: pull_request.id,
+            github_user_id: users[1].id
+          )
+        end
       end
 
       context "when PR exists" do
@@ -156,6 +130,19 @@ describe GithubPullRequestService do
               change { pull_request.reload.title }.from("Old Title").to(github_pr_response.title)
             )
         end
+
+        it 'adds new requested_reviewers' do
+          service.import_github_pull_request(repository, github_pr_response)
+
+          expect(pull_request.pull_request_review_requests.length).to eq(2)
+        end
+
+        it "doesn't add existing requested_reviewers" do
+          service.import_github_pull_request(repository, github_pr_response)
+          service.import_github_pull_request(repository, github_pr_response)
+
+          expect(pull_request.pull_request_review_requests.length).to eq(2)
+        end
       end
 
       context "when PR has been merged" do
@@ -167,6 +154,7 @@ describe GithubPullRequestService do
             github_pr_response_merged.number
           ).and_return(github_single_pr)
         end
+
         it "creates new pull request" do
           expect { service.import_github_pull_request(repository, github_pr_response_merged) }.to(
             change { PullRequest.count }.by(1)
