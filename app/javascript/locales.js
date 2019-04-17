@@ -16,6 +16,10 @@ const messages = {
         noTeams: 'No teams',
         teamsDropdownTitle: 'Teams',
       },
+      admin: {
+        noDefaultTeam: 'No default team',
+        defaultTeamDropdownTitle: 'Default Team',
+      }
     },
   },
   es: {
@@ -35,6 +39,10 @@ const messages = {
         noTeams: 'Sin equipos',
         teamsDropdownTitle: 'Equipos',
       },
+      admin: {
+        noDefaultTeam: 'Sin equipo default',
+        defaultTeamDropdownTitle: 'Equipo Default',
+      }
     },
   },
   ja: {

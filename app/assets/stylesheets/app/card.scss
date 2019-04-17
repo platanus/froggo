@@ -60,6 +60,12 @@
       text-align: center;
     }
 
+    &__label {
+      flex: 1 1 auto;
+      margin-top: 25px;
+      text-align: right;
+    }
+
     &__back {
       cursor: pointer;
       display: flex;
@@ -72,7 +78,7 @@
       }
 
       &-arrow {
-        padding-bottom: 26px;
+        height: 15%;
       }
     }
 

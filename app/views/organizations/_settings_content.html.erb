@@ -1,19 +1,30 @@
 <div class="card-extended">
   <div class="card-extended__header">
     <div class="card-extended__back" onclick="window.location.href='<%= organization_path(name: @github_organization[:login]) %>'">
-      <%= image_tag("back-arrow.svg", class: "card-extended__back-arrow") %>
+      <%# <%= image_tag("back-arrow.svg", class: "card-extended__back-arrow") %>
       <div class="card-extended__back-message"><%= t('messages.settings.button_back') %></div>
     </div>
-    <div class="card-extended__title">
-      (<%= @organization.repositories.count %>)
-      <%= t('messages.settings.repository_title') %>
-      <span class="bolder"><%= @github_organization[:login] %></span>
+    <div class="card-extended__label">
+      <%= t('messages.settings.default_team') %>
+      <% @github_organization[:default_team_id].nil? %>
     </div>
+    <teams-dropdown
+      :teams="<%= @teams.to_json %>"
+      :organization="<%= @organization.to_json %>"
+      :admin-mode="true">
+    </teams-dropdown>
     <div class="card-extended__button-container card-extended__button-container--big">
       <enable-public-button :organization="<%= @organization.to_json %>"></enable-public-button>
     </div>
     <div class="card-extended__button-container">
       <sync-organization-button url="/api/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>"></sync-organization-button>
+    </div>
+  </div>
+  <div class="card-extended__header">
+    <div class="card-extended__title">
+      (<%= @organization.repositories.count %>)
+      <%= t('messages.settings.repository_title') %>
+      <span class="bolder"><%= @github_organization[:login] %></span>
     </div>
   </div>
   <div class="card-extended__body-list">
