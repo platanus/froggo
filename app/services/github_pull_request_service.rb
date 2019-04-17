@@ -33,8 +33,8 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
       pull_request.update! params
     else
       pull_request = repository.pull_requests.create!(params)
-      add_requested_reviewers_to_pull_request(pull_request, github_pull_request)
     end
+    add_requested_reviewers_to_pull_request(pull_request, github_pull_request)
     pull_request
   end
 
@@ -109,19 +109,21 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
   end
 
   def add_requested_reviewers_to_pull_request(pull_request, github_pull_request)
-    requested_reviewers = github_pull_request.requested_reviewers
-    requested_reviewers.each do |reviewer|
-      user = GithubUserService.new.find_or_create(reviewer)
-      base_params = get_request_base_params(github_pull_request)
-      user_params = { github_user_id: user.id }
-      base_params.merge(user_params)
-      pull_request.pull_request_review_requests.create!(base_params)
+    github_pull_request.requested_reviewers.each do |reviewer|
+      unless PullRequestReviewRequest.find_by(
+        github_user_id: reviewer.id,
+        pull_request_id: pull_request.id
+      )
+        base_params = get_request_base_params(github_pull_request, reviewer.id)
+        pull_request.pull_request_review_requests.create!(base_params)
+      end
     end
   end
 
-  def get_request_base_params(github_pull_request)
+  def get_request_base_params(github_pull_request, reviewer_id)
     {
-      gh_id: github_pull_request.id
+      gh_id: github_pull_request.id,
+      github_user_id: reviewer_id
     }
   end
 end
