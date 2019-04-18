@@ -22,11 +22,7 @@ describe GithubPullRequestService do
       updated_at: "2017-12-12 09:17:52",
       closed_at: "2017-12-12 09:17:52",
       merged_at: nil,
-      user: users[0],
-      requested_reviewers: [
-        users[1],
-        users[2]
-      ]
+      user: users[0]
     )
   end
 
@@ -95,23 +91,6 @@ describe GithubPullRequestService do
             title: "Test"
           )
         end
-
-        it "creates reviews_requested for PR" do
-          service.import_github_pull_request(repository, github_pr_response)
-          pull_request = PullRequest.last
-
-          expect(pull_request.pull_request_review_requests.length).to eq(2)
-        end
-
-        it 'creates reviews requested with valid data' do
-          service.import_github_pull_request(repository, github_pr_response)
-          pull_request = PullRequest.last
-
-          expect(pull_request.pull_request_review_requests.first).to have_attributes(
-            pull_request_id: pull_request.id,
-            github_user_id: users[1].id
-          )
-        end
       end
 
       context "when PR exists" do
@@ -129,19 +108,6 @@ describe GithubPullRequestService do
             .to(
               change { pull_request.reload.title }.from("Old Title").to(github_pr_response.title)
             )
-        end
-
-        it 'adds new requested_reviewers' do
-          service.import_github_pull_request(repository, github_pr_response)
-
-          expect(pull_request.pull_request_review_requests.length).to eq(2)
-        end
-
-        it "doesn't add existing requested_reviewers" do
-          service.import_github_pull_request(repository, github_pr_response)
-          service.import_github_pull_request(repository, github_pr_response)
-
-          expect(pull_request.pull_request_review_requests.length).to eq(2)
         end
       end
 
@@ -221,18 +187,57 @@ describe GithubPullRequestService do
 
   describe "#handle_webhook_event" do
     let(:repository) { create(:repository, tracked: true) }
-    let(:event_request_data) do
-      double(
-        action: 'opened',
-        pull_request: github_pr_response,
-        repository: double(id: repository.gh_id)
-      )
+
+    context 'when event data has requested_reviewers field' do
+      let(:event_request_data) do
+        double(
+          action: 'review_requested',
+          pull_request: github_pr_response,
+          repository: double(id: repository.gh_id),
+          requested_reviewers: [users[1], users[2]]
+        )
+      end
+
+      let!(:pull_request) do
+        create(:pull_request, gh_id: 3, title: "Old Title", repository: repository)
+      end
+
+      before do
+        allow(event_request_data).to receive(:key?).with('requested_reviewers').and_return(true)
+      end
+
+      it "calls import_github_pull_request" do
+        expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
+                                                               .and_return(pull_request)
+        service.handle_webhook_event(event_request_data)
+      end
+
+      it 'calls add_requested_reviewers_to_pull_request' do
+        expect(service).to receive(:add_requested_reviewers_to_pull_request)
+          .with(pull_request, github_pr_response, [users[1], users[2]])
+          .and_return(nil)
+        service.handle_webhook_event(event_request_data)
+      end
     end
 
-    it "calls import_github_pull_request" do
-      expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
-                                                             .and_return(nil)
-      service.handle_webhook_event(event_request_data)
+    context 'when event data has not requested_reviewers field' do
+      let(:event_request_data) do
+        double(
+          action: 'opened',
+          pull_request: github_pr_response,
+          repository: double(id: repository.gh_id)
+        )
+      end
+
+      before do
+        allow(event_request_data).to receive(:key?).with('requested_reviewers').and_return(false)
+      end
+
+      it "calls import_github_pull_request" do
+        expect(service).to receive(:import_github_pull_request).with(repository, github_pr_response)
+                                                               .and_return(nil)
+        service.handle_webhook_event(event_request_data)
+      end
     end
   end
 
@@ -262,6 +267,52 @@ describe GithubPullRequestService do
       it 'deletes all pull requests' do
         expect { service.delete_prs(pr_ids) }.to change { PullRequest.count }.by(-3)
       end
+    end
+  end
+
+  describe '#add_requested_reviewers_to_pull_request' do
+    let(:repository) { create(:repository, tracked: true) }
+    let!(:pull_request) do
+      create(:pull_request, gh_id: 3, title: "Old Title", repository: repository)
+    end
+    let(:requested_reviewers) { [users[1], users[2]] }
+
+    it 'adds new requested reviewers' do
+      service.add_requested_reviewers_to_pull_request(
+        pull_request,
+        github_pr_response,
+        requested_reviewers
+      )
+
+      expect(pull_request.pull_request_review_requests.length).to eq(2)
+    end
+
+    it 'pull request review requested has valid data' do
+      service.add_requested_reviewers_to_pull_request(
+        pull_request,
+        github_pr_response,
+        requested_reviewers
+      )
+
+      expect(pull_request.pull_request_review_requests.first).to have_attributes(
+        pull_request_id: pull_request.id,
+        github_user_id: users[1].id
+      )
+    end
+
+    it 'does not add existing requested reviewers' do
+      service.add_requested_reviewers_to_pull_request(
+        pull_request,
+        github_pr_response,
+        requested_reviewers
+      )
+      service.add_requested_reviewers_to_pull_request(
+        pull_request,
+        github_pr_response,
+        requested_reviewers
+      )
+
+      expect(pull_request.pull_request_review_requests.length).to eq(2)
     end
   end
 end

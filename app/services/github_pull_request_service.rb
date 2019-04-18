@@ -12,7 +12,14 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     data_object = data.is_a?(Hash) ? RecursiveOpenStruct.new(data) : data
     repo = Repository.find_by(gh_id: data_object.repository.id)
 
-    import_github_pull_request(repo, data_object.pull_request)
+    pull_request = import_github_pull_request(repo, data_object.pull_request)
+    if data_object.key?("requested_reviewers")
+      add_requested_reviewers_to_pull_request(
+        pull_request,
+        data_object.pull_request,
+        data_object.requested_reviewers
+      )
+    end
   end
 
   def import_page_from_repository(repository, page)
@@ -34,12 +41,23 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     else
       pull_request = repository.pull_requests.create!(params)
     end
-    add_requested_reviewers_to_pull_request(pull_request, github_pull_request)
     pull_request
   end
 
   def delete_prs(pr_ids)
     PullRequest.where(id: pr_ids).destroy_all
+  end
+
+  def add_requested_reviewers_to_pull_request(pull_request, gh_pull_request, requested_reviewers)
+    requested_reviewers.each do |reviewer|
+      unless PullRequestReviewRequest.find_by(
+        github_user_id: reviewer.id,
+        pull_request_id: pull_request.id
+      )
+        base_params = get_request_base_params(gh_pull_request, reviewer.id)
+        pull_request.pull_request_review_requests.create!(base_params)
+      end
+    end
   end
 
   private
@@ -105,18 +123,6 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
          .symbolize_keys[:page].first.to_i
     else
       1
-    end
-  end
-
-  def add_requested_reviewers_to_pull_request(pull_request, github_pull_request)
-    github_pull_request.requested_reviewers.each do |reviewer|
-      unless PullRequestReviewRequest.find_by(
-        github_user_id: reviewer.id,
-        pull_request_id: pull_request.id
-      )
-        base_params = get_request_base_params(github_pull_request, reviewer.id)
-        pull_request.pull_request_review_requests.create!(base_params)
-      end
     end
   end
 
