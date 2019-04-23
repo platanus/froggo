@@ -203,7 +203,7 @@ describe GithubPullRequestService do
       end
 
       before do
-        allow(event_request_data).to receive(:key?).with('requested_reviewers').and_return(true)
+        allow(event_request_data).to receive(:key?).with(:requested_reviewers).and_return(true)
       end
 
       it "calls import_github_pull_request" do
@@ -230,7 +230,7 @@ describe GithubPullRequestService do
       end
 
       before do
-        allow(event_request_data).to receive(:key?).with('requested_reviewers').and_return(false)
+        allow(event_request_data).to receive(:key?).with(:requested_reviewers).and_return(false)
       end
 
       it "calls import_github_pull_request" do
