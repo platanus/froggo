@@ -13,7 +13,7 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     repo = Repository.find_by(gh_id: data_object.repository.id)
 
     pull_request = import_github_pull_request(repo, data_object.pull_request)
-    if data_object.key?("requested_reviewers")
+    if data_object.key?(:requested_reviewers)
       add_requested_reviewers_to_pull_request(
         pull_request,
         data_object.pull_request,
