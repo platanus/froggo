@@ -82,7 +82,9 @@ en:
       obtain_admin_privilege: Obtain github admin privileges
       create_dashboard: Create dashboard
       repository_title: Repositories in
+      repository_count: repositories
       admin_users: Manage users
+      default_team: Default team
     profile:
       no_name: No name
       no_teams: No teams

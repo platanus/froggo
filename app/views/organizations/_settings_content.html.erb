@@ -1,12 +1,11 @@
 <div class="card-extended">
   <div class="card-extended__header">
     <div class="card-extended__back" onclick="window.location.href='<%= organization_path(name: @github_organization[:login]) %>'">
-      <%# <%= image_tag("back-arrow.svg", class: "card-extended__back-arrow") %>
+      <%= image_tag("back-arrow.svg", class: "card-extended__back-arrow") %>
       <div class="card-extended__back-message"><%= t('messages.settings.button_back') %></div>
     </div>
     <div class="card-extended__label">
       <%= t('messages.settings.default_team') %>
-      <% @github_organization[:default_team_id].nil? %>
     </div>
     <teams-dropdown
       :teams="<%= @teams.to_json %>"
@@ -20,14 +19,17 @@
       <sync-organization-button url="/api/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>"></sync-organization-button>
     </div>
   </div>
-  <div class="card-extended__header">
-    <div class="card-extended__title">
-      (<%= @organization.repositories.count %>)
+  <div class="card-extended__body">
+    <div class="card-extended__body-title">
       <%= t('messages.settings.repository_title') %>
-      <span class="bolder"><%= @github_organization[:login] %></span>
+      <%= @github_organization[:login] %>
     </div>
-  </div>
-  <div class="card-extended__body-list">
-    <%= render "repositories" %>
+    <div class="card-extended__body-subtitle">
+      (<%= @organization.repositories.count %>)
+      <%= t('messages.settings.repository_count') %>
+    </div>
+    <div class="card-extended__body-list">
+      <%= render "repositories" %>
+    </div>
   </div>
 </div>

@@ -18,7 +18,7 @@ const messages = {
       },
       admin: {
         noDefaultTeam: 'No default team',
-        defaultTeamDropdownTitle: 'Default Team',
+        defaultTeamDropdownTitle: 'Default team',
       }
     },
   },
@@ -41,7 +41,7 @@ const messages = {
       },
       admin: {
         noDefaultTeam: 'Sin equipo default',
-        defaultTeamDropdownTitle: 'Equipo Default',
+        defaultTeamDropdownTitle: 'Equipo default',
       }
     },
   },
