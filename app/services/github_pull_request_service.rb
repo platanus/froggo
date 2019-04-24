@@ -17,7 +17,7 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
       add_requested_reviewers_to_pull_request(
         pull_request,
         data_object.pull_request,
-        data_object.requested_reviewers
+        data_object&.requested_reviewers&.users
       )
     end
   end

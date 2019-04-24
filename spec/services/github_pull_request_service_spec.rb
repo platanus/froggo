@@ -194,7 +194,9 @@ describe GithubPullRequestService do
           action: 'review_requested',
           pull_request: github_pr_response,
           repository: double(id: repository.gh_id),
-          requested_reviewers: [users[1], users[2]]
+          requested_reviewers: double(
+            users: [users[1], users[2]]
+          )
         )
       end
 
