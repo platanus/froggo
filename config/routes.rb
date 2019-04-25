@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
       resources :repositories, only: [:update]
       put 'organizations/:id/update_public_enabled' => 'organizations#update_public_enabled'
+      put 'organizations/:id/update' => 'organizations#update'
       post 'organizations/:id/sync' => 'organizations#sync'
       get 'organizations/:id/check_sync' => 'organizations#check_sync'
       get 'organizations/:org_id/users/:github_login/score' =>

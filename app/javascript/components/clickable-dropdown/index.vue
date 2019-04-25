@@ -45,7 +45,9 @@ export default {
   },
   computed: {
     selectedItem() {
-      return this.items[this.selectedItemIndex]; // Could be `undefined`.
+      return this.selectedItemIndex !== -1 ?
+        this.items[this.selectedItemIndex] :
+        null;
     },
   },
   methods: {

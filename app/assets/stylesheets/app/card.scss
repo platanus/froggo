@@ -51,6 +51,7 @@
       display: flex;
       flex-basis: 67px;
       font-size: 14px;
+      height: 0;
       justify-content: flex-start;
     }
 
@@ -58,6 +59,12 @@
       flex: 1 1 auto;
       margin-top: 25px;
       text-align: center;
+    }
+
+    &__label {
+      flex: 1 1 auto;
+      margin-top: 25px;
+      text-align: right;
     }
 
     &__back {
@@ -73,6 +80,7 @@
 
       &-arrow {
         padding-bottom: 26px;
+        max-width: 26px;
       }
     }
 
@@ -106,6 +114,21 @@
 
       &-list {
         @extend .card-extended__body;
+        justify-content: flex-start;
+      }
+
+      &-title {
+        color: $secondary-color;
+        font-size: 200%;
+        margin-left: 32px;
+        margin-top: 32px;
+        justify-content: flex-start;
+      }
+
+      &-subtitle {
+        display: flex;
+        margin-left: 32px;
+        margin-top: 10px;
         justify-content: flex-start;
       }
     }
