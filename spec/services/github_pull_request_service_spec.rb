@@ -194,18 +194,12 @@ describe GithubPullRequestService do
           action: 'review_requested',
           pull_request: github_pr_response,
           repository: double(id: repository.gh_id),
-          requested_reviewers: double(
-            users: [users[1], users[2]]
-          )
+          requested_reviewer: users[1]
         )
       end
 
       let!(:pull_request) do
         create(:pull_request, gh_id: 3, title: "Old Title", repository: repository)
-      end
-
-      before do
-        allow(event_request_data).to receive(:key?).with(:requested_reviewers).and_return(true)
       end
 
       it "calls import_github_pull_request" do
@@ -216,7 +210,7 @@ describe GithubPullRequestService do
 
       it 'calls add_requested_reviewers_to_pull_request' do
         expect(service).to receive(:add_requested_reviewers_to_pull_request)
-          .with(pull_request, github_pr_response, [users[1], users[2]])
+          .with(pull_request, github_pr_response, users[1])
           .and_return(nil)
         service.handle_webhook_event(event_request_data)
       end
@@ -277,23 +271,23 @@ describe GithubPullRequestService do
     let!(:pull_request) do
       create(:pull_request, gh_id: 3, title: "Old Title", repository: repository)
     end
-    let(:requested_reviewers) { [users[1], users[2]] }
+    let(:requested_reviewer) { users[1] }
 
     it 'adds new requested reviewers' do
       service.add_requested_reviewers_to_pull_request(
         pull_request,
         github_pr_response,
-        requested_reviewers
+        requested_reviewer
       )
 
-      expect(pull_request.pull_request_review_requests.length).to eq(2)
+      expect(pull_request.pull_request_review_requests.length).to eq(1)
     end
 
     it 'pull request review requested has valid data' do
       service.add_requested_reviewers_to_pull_request(
         pull_request,
         github_pr_response,
-        requested_reviewers
+        requested_reviewer
       )
 
       expect(pull_request.pull_request_review_requests.first).to have_attributes(
@@ -306,15 +300,15 @@ describe GithubPullRequestService do
       service.add_requested_reviewers_to_pull_request(
         pull_request,
         github_pr_response,
-        requested_reviewers
+        requested_reviewer
       )
       service.add_requested_reviewers_to_pull_request(
         pull_request,
         github_pr_response,
-        requested_reviewers
+        requested_reviewer
       )
 
-      expect(pull_request.pull_request_review_requests.length).to eq(2)
+      expect(pull_request.pull_request_review_requests.length).to eq(1)
     end
   end
 end
