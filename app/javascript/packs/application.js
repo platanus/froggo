@@ -6,6 +6,7 @@ import VueI18n from 'vue-i18n';
 
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
+import OrganizationsDropdown from '../components/organizations-dropdown.vue';
 import Repository from '../components/repository.vue';
 import EnablePublicButton from '../components/enable-public-button.vue';
 import SyncOrganizationButton from '../components/sync-organization-button.vue';
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('enable-public-button', EnablePublicButton);
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
+  Vue.component('organizations-dropdown', OrganizationsDropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
   Vue.component('profile-score-rectangle', ProfileScoreRectangle);

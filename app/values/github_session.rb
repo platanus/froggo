@@ -75,6 +75,10 @@ class GithubSession
     teams.flatten
   end
 
+  def fetch_organizations_for_user(github_user)
+    github_user.organizations
+  end
+
   def clean_session
     @session.permanent['access_token'] = ""
     @session.permanent['client_type'] = ""

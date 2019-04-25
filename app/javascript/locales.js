@@ -15,6 +15,8 @@ const messages = {
       profile: {
         noTeams: 'No teams',
         teamsDropdownTitle: 'Teams',
+        noOrganizations: 'No organizations',
+        organizationsDropdownTitle: 'Organizations',
       },
       admin: {
         noDefaultTeam: 'No default team',
@@ -38,6 +40,8 @@ const messages = {
       profile: {
         noTeams: 'Sin equipos',
         teamsDropdownTitle: 'Equipos',
+        noOrganizations: 'Sin organizaciones',
+        organizationsDropdownTitle: 'Organizaciones',
       },
       admin: {
         noDefaultTeam: 'Sin equipo default',
