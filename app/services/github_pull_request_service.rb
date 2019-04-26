@@ -49,11 +49,12 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
   end
 
   def add_requested_reviewers_to_pull_request(pull_request, gh_pull_request, requested_reviewer)
+    reviewer = GithubUser.find_by(gh_id: requested_reviewer.id)
     unless PullRequestReviewRequest.find_by(
-      github_user_id: requested_reviewer.id,
+      github_user_id: reviewer.id,
       pull_request_id: pull_request.id
     )
-      base_params = get_request_base_params(gh_pull_request, requested_reviewer.id)
+      base_params = get_request_base_params(gh_pull_request, reviewer.id)
       pull_request.pull_request_review_requests.create!(base_params)
     end
   end
