@@ -1,5 +1,5 @@
 <template>
-  <div class="profile__column">
+  <div class="profile-recommendations">
     <users-rectangle
       :being-fetched="fetchingRecommendations"
       :recommendations="recommendations"
