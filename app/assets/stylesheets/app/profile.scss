@@ -1,9 +1,11 @@
 .profile {
+  padding: 30px;
+
   &__section {
     margin-top: 5%;
 
-    &:last-of-type {
-      margin-bottom: 5%;
+    &:first-of-type {
+      margin-top: 0;
     }
   }
 
@@ -170,7 +172,6 @@
 
 .profile-header {
   display: flex;
-  padding: 30px;
   align-items: center;
   justify-content: space-between;
 }
