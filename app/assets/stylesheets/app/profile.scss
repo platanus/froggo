@@ -198,12 +198,12 @@
   &__username {
     display: flex;
     align-items: center;
-    color: #666;
+    color: $gray;
     margin-top: 5px;
     text-decoration: none;
 
     svg {
-      fill: #666;
+      fill: $gray;
       margin-right: 5px;
     }
   }
@@ -215,7 +215,7 @@
   align-items: flex-end;
 
   &__hint {
-    color: #666;
+    color: $gray;
     font-size: 14px;
     letter-spacing: .5px;
     text-transform: uppercase;
