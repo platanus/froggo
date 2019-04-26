@@ -1,14 +1,15 @@
 class RecommendationBehaviourMatrix
-  attr_accessor :organization_members, :data
+  attr_accessor :team_members, :data
 
-  def initialize(organization_id)
+  def initialize(organization_id, default_ids)
     @organization = Organization.find(organization_id)
-    @organization_members = @organization.members
+    @team_members = @organization.members
+    @team_members = @team_members.where(gh_id: default_ids) if default_ids
     @data = Hash.new(0)
   end
 
   def fill_matrix
-    users_ids = @organization_members.map(&:id)
+    users_ids = @team_members.map(&:id)
     map_user_id_to_index =
       Hash[users_ids.map.with_index { |user_id, index| [user_id, index] }]
     map_user_id_to_index.each do |user_id_and_index|

@@ -1,5 +1,5 @@
 <div class="card-extended__body">
-  <% if @behaviour_matrix.organization_members.empty? %>
+  <% if @behaviour_matrix.team_members.empty? %>
     <%= t('messages.dashboard.empty_team', team: '') %>
   <% else %>
     <div class="matrix-dashboard">

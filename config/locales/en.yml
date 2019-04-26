@@ -88,6 +88,7 @@ en:
       repository_count: repositories
       admin_users: Manage users
       default_team: Default team
+      behaviour_title: Behaviour in
     profile:
       no_name: No name
       no_teams: No teams
