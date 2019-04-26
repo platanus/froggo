@@ -3,7 +3,7 @@ class OrganizationsController < ApplicationController
   before_action :save_cookie_url
   before_action :load_organization, except: [:index, :missing, :public]
   before_action :load_organization_by_name, only: [:public]
-  before_action :ensure_organization_admin, only: :settings
+  # before_action :ensure_organization_admin, only: :settings
 
   def index
     if github_organizations.empty?
@@ -37,6 +37,7 @@ class OrganizationsController < ApplicationController
 
   def settings
     @is_admin_github_session = github_session.session[:client_type] == "admin"
+    set_behaviour_matrix
   end
 
   def public
@@ -93,6 +94,10 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def set_behaviour_matrix
+    @behaviour_matrix = get_behaviour_matrix(@organization.id)
+  end
+
   def redirect_to_default_organization
     redirect_to organization_path(name: github_session.organizations.first[:login])
   end
@@ -126,6 +131,12 @@ class OrganizationsController < ApplicationController
     corrmat.fill_matrix
     corrmat.min_ranking_indexes
     corrmat
+  end
+
+  def get_behaviour_matrix(organization_id)
+    behaviour_matrix = RecommendationBehaviourMatrix.new(organization_id)
+    behaviour_matrix.fill_matrix
+    behaviour_matrix
   end
 
   def save_cookie_url
