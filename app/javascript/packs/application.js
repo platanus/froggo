@@ -10,7 +10,6 @@ import Repository from '../components/repository.vue';
 import EnablePublicButton from '../components/enable-public-button.vue';
 import SyncOrganizationButton from '../components/sync-organization-button.vue';
 import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
-import ProfileScoreRectangle from '../components/profile/score-rectangle.vue';
 import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
 import ReviewRecommendations from '../components/profile/recommendations.vue';
 import UsersRectangle from '../components/profile/users-rectangle.vue';
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
-  Vue.component('profile-score-rectangle', ProfileScoreRectangle);
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
   Vue.component('review-recommendations', ReviewRecommendations);
   Vue.component('users-rectangle', UsersRectangle);
