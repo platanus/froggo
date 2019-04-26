@@ -255,6 +255,8 @@
   &__user {
     display: flex;
     align-items: center;
+    color: $primary;
+    text-decoration: none;
     margin-bottom: 15px;
 
     &:last-child {

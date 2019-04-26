@@ -7,16 +7,17 @@
     </div>
     <div class="profile-recommendations-users__users">
       <div v-if="beingFetched" class="loading-icon"></div>
-      <div
+      <a
         v-else
         class="profile-recommendations-users__user"
         v-for="user in recommendations[type]"
-        :key="user.id">
+        :key="user.id"
+        :href="`/users/${user.id}`">
         <img class="profile-recommendations-users__picture" :src="user.avatar_url" />
         <div class="profile-recommendations-users__username">
           {{ user.login }}
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </template>
