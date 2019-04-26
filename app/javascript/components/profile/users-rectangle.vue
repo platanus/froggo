@@ -1,6 +1,7 @@
 <template>
   <div
     class="profile-recommendations-users"
+    :class="`profile-recommendations-users--${type}`">
     <div class="profile-recommendations-users__title">
       {{ title }}
     </div>

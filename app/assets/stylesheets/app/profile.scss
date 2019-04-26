@@ -232,6 +232,16 @@
 .profile-recommendations-users {
   flex: 1;
 
+  &--best {
+    .profile-recommendations-users__title {
+      color: $primary-color;
+    }
+
+    .profile-recommendations-users__users {
+      border-color: $primary-color;
+    }
+  }
+
   &:not(:first-child) {
     margin-left: 40px;
   }
