@@ -6,7 +6,7 @@
       {{ title }}
     </div>
     <div class="profile-recommendations-users__users">
-      <div v-if="beingFetched" class="loading-icon"></div>
+      <div v-if="beingFetched || !recommendations" class="loading-icon"></div>
       <a
         v-else
         class="profile-recommendations-users__user"
