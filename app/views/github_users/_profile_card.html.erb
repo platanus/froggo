@@ -28,7 +28,7 @@
     <% if @teams.empty? %>
       <%= t('messages.profile.no_recommendations') %>
     <% end %>
-    <review-recommendations />
+    <profile-recommendations />
   </div>
   <div class="profile__section">
     <profile-statistics github-login="<%= @github_user.login %>" />
