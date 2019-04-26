@@ -15,11 +15,13 @@ const messages = {
       profile: {
         noTeams: 'No teams',
         teamsDropdownTitle: 'Teams',
+        recommendedReviewers: 'You should assign your next PR to...',
+        notRecommendedReviewers: 'Avoid assigning your next PR to...',
       },
       admin: {
         noDefaultTeam: 'No default team',
         defaultTeamDropdownTitle: 'Default team',
-      }
+      },
     },
   },
   es: {
@@ -38,6 +40,8 @@ const messages = {
       profile: {
         noTeams: 'Sin equipos',
         teamsDropdownTitle: 'Equipos',
+        recommendedReviewers: 'Deberías mandar tu próximo PR a...',
+        notRecommendedReviewers: 'Evita mandar tu próximo PR a...',
       },
       admin: {
         noDefaultTeam: 'Sin equipo default',

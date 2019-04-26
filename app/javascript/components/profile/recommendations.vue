@@ -4,14 +4,14 @@
       :being-fetched="fetchingRecommendations"
       :recommendations="recommendations"
       type="best"
-      title="Te recomendamos mandar tu próximo PR a una de estas personas"
+      :title="$i18n.t('message.profile.recommendedReviewers')"
     >
     </users-rectangle>
     <users-rectangle
       :being-fetched="fetchingRecommendations"
       :recommendations="recommendations"
       type="worst"
-      title="Evita mandarle otro PR a una de estas personas"
+      :title="$i18n.t('message.profile.notRecommendedReviewers')"
     >
     </users-rectangle>
   </div>
