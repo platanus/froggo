@@ -14,7 +14,6 @@ import ProfileScoreRectangle from '../components/profile/score-rectangle.vue';
 import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
 import ReviewRecommendations from '../components/profile/recommendations.vue';
 import UsersRectangle from '../components/profile/users-rectangle.vue';
-import ProfileStatisticsRectangle from '../components/profile/statistics-rectangle.vue';
 import ProfileStatistics from '../components/profile/statistics.vue';
 
 import Locales from '../locales.js';
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
   Vue.component('review-recommendations', ReviewRecommendations);
   Vue.component('users-rectangle', UsersRectangle);
-  Vue.component('profile-statistics-rectangle', ProfileStatisticsRectangle);
   Vue.component('profile-statistics', ProfileStatistics);
 
   if (document.getElementById('app') !== null) {

@@ -17,6 +17,11 @@ const messages = {
         teamsDropdownTitle: 'Teams',
         recommendedReviewers: 'You should assign your next PR to...',
         notRecommendedReviewers: 'Avoid assigning your next PR to...',
+        statistics: {
+          obedientCount: 'Obeyed recommendations',
+          indifferentCount: 'Ignored recommendations',
+          rebelCount: 'Rejected recommendations',
+        },
       },
       admin: {
         noDefaultTeam: 'No default team',
@@ -42,6 +47,11 @@ const messages = {
         teamsDropdownTitle: 'Equipos',
         recommendedReviewers: 'Deberías mandar tu próximo PR a...',
         notRecommendedReviewers: 'Evita mandar tu próximo PR a...',
+        statistics: {
+          obedientCount: 'Recomendaciones seguidas',
+          indifferentCount: 'Recomendaciones ignoradas',
+          rebelCount: 'Recomendaciones no seguidas',
+        },
       },
       admin: {
         noDefaultTeam: 'Sin equipo default',

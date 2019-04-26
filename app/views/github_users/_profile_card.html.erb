@@ -30,9 +30,7 @@
     <% end %>
     <review-recommendations />
   </div>
-  <div class="profile__section profile__content">
-    <profile-statistics-rectangle
-      github-login="<%= @github_user.login %>">
-    </profile-statistics-rectangle>
+  <div class="profile__section">
+    <profile-statistics github-login="<%= @github_user.login %>" />
   </div>
 </div>

@@ -271,3 +271,10 @@
   }
 }
 
+.profile-statistics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $gray;
+  padding: 40px;
+}
