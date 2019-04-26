@@ -155,24 +155,14 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    padding: 5%;
+    flex: 1;
 
     &:not(:last-of-type) {
       margin-right: 2%;
     }
 
-    &--padded {
-      padding: 5%;
-    }
-
-    &--big {
-      flex: 3;
-    }
-
-    &--small {
-      flex: 1;
-    }
-
-    &--black-border {
+    &--statistics {
       border-color: $black;
     }
   }

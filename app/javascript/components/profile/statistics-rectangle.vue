@@ -1,9 +1,6 @@
 <template>
   <div class="profile__rectangle
-              profile__rectangle--small
-              profile__rectangle--padded
-              profile__rectangle--neutral
-              profile__rectangle--black-border">
+              profile__rectangle--statistics">
     <div v-if="userStatistics.fetching" class="loading-icon">
     </div>
     <profile-statistics

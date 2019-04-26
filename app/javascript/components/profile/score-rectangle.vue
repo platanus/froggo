@@ -1,7 +1,5 @@
 <template>
-  <div class="profile__rectangle
-              profile__rectangle--small
-              profile__rectangle--padded">
+  <div class="profile__rectangle">
     <div v-if="userData.fetching" class="loading-icon">
     </div>
     <profile-scores
