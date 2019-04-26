@@ -9,14 +9,6 @@
     }
   }
 
-  &__header {
-    align-items: center;
-    display: flex;
-    flex: 2;
-    flex-direction: row;
-    padding: 0 2%;
-  }
-
   &__picture {
     align-items: center;
     display: flex;
@@ -31,21 +23,6 @@
       object-fit: fill;
       overflow: hidden;
     }
-  }
-
-  &__info {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-  }
-
-  &__name {
-    align-items: center;
-    color: $secondary-color;
-    display: flex;
-    flex: 1;
-    font-size: 200%;
-    justify-content: center;
   }
 
   &__github-info {
@@ -64,109 +41,10 @@
     }
   }
 
-  &__link-icon {
-    margin-right: .5em;
-  }
-
   &__link {
     display: flex;
     flex: 1;
     font-size: 115%;
-  }
-
-  &__content {
-    display: flex;
-    flex: 2;
-    flex-direction: row;
-    padding: 0 2%;
-    position: -webkit-sticky;
-    position: sticky;
-    bottom: 0;
-  }
-
-  &__score {
-    align-items: center;
-    color: $secondary-color;
-    display: flex;
-    font-size: 200%;
-    padding: 2%;
-  }
-
-  &__summary {
-    display: flex;
-    padding: 2%;
-    max-width: 30%;
-    text-decoration: none;
-
-    &--small {
-      flex: 1;
-    }
-
-    &--big {
-      flex: 3;
-    }
-
-    &--text {
-      align-items: center;
-      display: flex;
-      flex: 3;
-      margin: 5%;
-    }
-  }
-
-  &__avatar {
-    img {
-      border-radius: 50%;
-      max-width: 100%;
-      overflow: hidden;
-    }
-  }
-
-  &--small {
-    flex: 1;
-  }
-
-  &__text {
-    color: $secondary-color;
-  }
-
-  &__column {
-    flex: 1;
-
-    &:not(last-of-type) {
-      margin-left: 2%;
-    }
-  }
-
-  &__title {
-    color: $secondary-color;
-  }
-
-  &__row {
-    display: flex;
-    padding: 2% 0;
-  }
-
-  &__scores {
-    display: flex;
-    flex: 1;
-  }
-
-  &__rectangle {
-    border: 1px solid $primary-border;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 5%;
-    flex: 1;
-
-    &:not(:last-of-type) {
-      margin-right: 2%;
-    }
-
-    &--statistics {
-      border-color: $black;
-    }
   }
 }
 
