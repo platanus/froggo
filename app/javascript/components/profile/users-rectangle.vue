@@ -1,13 +1,9 @@
 <template>
-  <div class="profile__column">
-    <div class="profile__row profile__title">
+  <div
+    class="profile-recommendations-users"
+    <div class="profile-recommendations-users__title">
       {{ title }}
     </div>
-    <div class="profile__row">
-      <div class="profile__rectangle
-                  profile__rectangle--small
-                  profile__rectangle--padded">
-        <div v-if="beingFetched" class="loading-icon"></div>
         <small-profile
           v-else
           v-for="user in recommendations[type]"
@@ -17,6 +13,8 @@
           :avatar-url="user.avatar_url"
         >
         </small-profile>
+    <div class="profile-recommendations-users__users">
+      <div v-if="beingFetched" class="loading-icon"></div>
       </div>
     </div>
   </div>

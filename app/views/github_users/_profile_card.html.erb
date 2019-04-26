@@ -23,13 +23,12 @@
         </teams-dropdown>
       </div>
     </div>
-    <div class="profile__column profile__title">
-      <% if @teams.empty? %>
-        <%= t('messages.profile.no_recommendations') %>
-      <% end %>
-      <review-recommendations>
-      </review-recommendations>
-    </div>
+  </div>
+  <div class="profile__section">
+    <% if @teams.empty? %>
+      <%= t('messages.profile.no_recommendations') %>
+    <% end %>
+    <review-recommendations />
   </div>
   <div class="profile__section profile__content">
     <profile-statistics-rectangle

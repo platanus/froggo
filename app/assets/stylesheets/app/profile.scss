@@ -228,3 +228,18 @@
   align-items: flex-start;
   justify-content: space-between;
 }
+
+.profile-recommendations-users {
+  flex: 1;
+
+  &:not(:first-child) {
+    margin-left: 40px;
+  }
+
+  &__users {
+    border: 1px solid $primary-border;
+    padding: 20px;
+    margin-top: 15px;
+  }
+}
+
