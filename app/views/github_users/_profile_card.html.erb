@@ -21,13 +21,14 @@
           </a>
           <organizations-dropdown
             github-login="<%= @github_user.login %>"
-            :organizations="<%= @organizations.to_json %>">
+            :organizations="<%= @organizations.to_json %>"
+            :teams="<%= @teams.to_json %>">
           </organizations-dropdown>
         </div>
       </div>
     </div>
     <div class="profile__column profile__title">
-      <% if @teams.empty? %>
+      <% if @organizations.empty? %>
         <%= t('messages.profile.no_recommendations') %>
       <% end %>
       <review-recommendations>
