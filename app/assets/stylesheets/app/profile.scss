@@ -177,3 +177,57 @@
     }
   }
 }
+
+.profile-header {
+  display: flex;
+  padding: 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+
+  &__picture {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  &__info {
+    margin-left: 25px;
+  }
+
+  &__name {
+    font-size: 26px;
+  }
+
+  &__username {
+    display: flex;
+    align-items: center;
+    color: #666;
+    margin-top: 5px;
+    text-decoration: none;
+
+    svg {
+      fill: #666;
+      margin-right: 5px;
+    }
+  }
+}
+
+.profile-teams {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  &__hint {
+    color: #666;
+    font-size: 14px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+}
