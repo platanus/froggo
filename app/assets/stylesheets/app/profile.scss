@@ -241,5 +241,23 @@
     padding: 20px;
     margin-top: 15px;
   }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__picture {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 }
 
