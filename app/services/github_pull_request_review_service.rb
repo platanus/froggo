@@ -99,9 +99,14 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   end
 
   def other_team_members_id(owner_id)
+    team_members = client.team_members(DEFAULT_TEAM_ID).map do |member|
+      {
+        id: member.id,
+        login: member.login
+      }
+    end
     team_members_gh_ids =
-      github_session
-      .get_team_members(DEFAULT_TEAM_ID)
+      team_members
       &.pluck(:id)
     GithubUser
       .where(gh_id: team_members_gh_ids)
