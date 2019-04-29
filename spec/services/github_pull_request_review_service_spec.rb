@@ -7,44 +7,70 @@ describe GithubPullRequestReviewService do
   let(:service) { build(token: token) }
 
   let(:users) do
-    Array.new(7) do
-      |index| double(
-        id: index + 1,
-        gh_id: index + 1,
-        login: "milla",
-        name: "Milla Jovovich",
-        email: "milla@jovovich.cl",
-        avatar_url: 'url_to_avatar',
-        html_url: 'url_to_html'
+    create_list(
+      :github_user,
+      7,
+      login: 'milla',
+      name: 'Milla Jovovich',
+      email: 'milla@jovovich.cl',
+      avatar_url: 'url_to_avatar',
+      html_url: 'url_to_html'
+    )
+  end
+
+  let(:github_review_response) do
+    double(
+      id: 123,
+      user: double(
+        id: users[0].gh_id,
+        login: users[0].login,
+        name: users[0].name,
+        email: users[0].email,
+        avatar_url: users[0].avatar_url,
+        html_url: users[0].html_url
       )
-    end
-  end
-
-  let!(:github_review_response) do
-    double(
-      id: 123,
-      user: users[0]
     )
   end
 
-  let!(:github_review_response2) do
+  let(:github_review_response2) do
     double(
       id: 123,
-      user: users[3]
+      user: double(
+        id: users[3].gh_id,
+        login: users[3].login,
+        name: users[3].name,
+        email: users[3].email,
+        avatar_url: users[3].avatar_url,
+        html_url: users[3].html_url
+      )
     )
   end
 
-  let!(:github_review_response3) do
+  let(:github_review_response3) do
     double(
       id: 123,
-      user: users[5]
+      user: double(
+        id: users[5].gh_id,
+        login: users[5].login,
+        name: users[5].name,
+        email: users[5].email,
+        avatar_url: users[5].avatar_url,
+        html_url: users[5].html_url
+      )
     )
   end
 
-  let!(:github_review_response4) do
+  let(:github_review_response4) do
     double(
       id: 123,
-      user: users[6]
+      user: double(
+        id: users[6].gh_id,
+        login: users[6].login,
+        name: users[6].name,
+        email: users[6].email,
+        avatar_url: users[6].avatar_url,
+        html_url: users[6].html_url
+      )
     )
   end
 
@@ -75,11 +101,22 @@ describe GithubPullRequestReviewService do
             })
           allow(pull_request).to receive(:pull_request_review_requests)
             .and_return([
-                          double(pull_request_id: 123, github_user_id: 1),
-                          double(pull_request_id: 123, github_user_id: 6),
-                          double(pull_request_id: 123, github_user_id: 7)
+                          create(
+                            :pull_request_review_request,
+                            pull_request_id: pull_request.id,
+                            github_user_id: users[0].id
+                          ),
+                          create(
+                            :pull_request_review_request,
+                            pull_request_id: pull_request.id,
+                            github_user_id: users[5].id
+                          ),
+                          create(
+                            :pull_request_review_request,
+                            pull_request_id: pull_request.id,
+                            github_user_id: users[6].id
+                          )
                         ])
-          users.each { |user| allow(user).to receive(:[]).and_return(user.gh_id) }
         end
 
         it "creates new pull request review" do
@@ -94,7 +131,7 @@ describe GithubPullRequestReviewService do
 
           expect(pull_request_review).to have_attributes(
             gh_id: 123,
-            github_user_id: GithubUser.find_by(gh_id: 1).id
+            github_user_id: users[0].id
           )
         end
 
@@ -102,7 +139,6 @@ describe GithubPullRequestReviewService do
           it "defines behaviour as obedient" do
             service.import_github_pull_request_review(pull_request, github_review_response)
             pull_request_review = PullRequestReview.last
-
             expect(pull_request_review).to have_attributes(
               recommendation_behaviour: "obedient"
             )

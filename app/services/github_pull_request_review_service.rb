@@ -73,8 +73,9 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   end
 
   def get_behaviour(pull_request, gh_pull_request_review)
+    reviewer = GithubUser.find_by(gh_id: gh_pull_request_review.user.id)
     pull_request.pull_request_review_requests.each do |request|
-      if request.github_user_id == gh_pull_request_review.user.id
+      if request.github_user_id === reviewer.id
         recommendations = team_review_request_recommendations(pull_request.owner_id)
         best_recommendations_ids = recommendations[:best].map { |user| user[:gh_id] }
         worst_recommendations_ids = recommendations[:worst].map { |user| user[:gh_id] }
