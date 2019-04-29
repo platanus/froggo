@@ -5,6 +5,7 @@ class RecommendationBehaviourMatrix
     @organization = Organization.find(organization_id)
     @team_members = @organization.members
     @team_members = @team_members.where(gh_id: default_ids) if default_ids
+    @team_members = order_by_total_statistics
     @data = Hash.new(0)
   end
 
@@ -20,12 +21,20 @@ class RecommendationBehaviourMatrix
   private
 
   def fill_row(user_id, user_index)
-    user_statistics = ComputeUserStatistics.for(
-      github_user_id: user_id,
-      organization_id: @organization.id
-    )
+    user_statistics = compute_user_statistics(user_id)
     @data[[user_index, 0]] = user_statistics[:obedient]
     @data[[user_index, 1]] = user_statistics[:indifferent]
     @data[[user_index, 2]] = user_statistics[:rebel]
+  end
+
+  def order_by_total_statistics
+    @team_members.sort_by { |user| -compute_user_statistics(user.id)[:total] }
+  end
+
+  def compute_user_statistics(user_id)
+    ComputeUserStatistics.for(
+      github_user_id: user_id,
+      organization_id: @organization.id
+    )
   end
 end

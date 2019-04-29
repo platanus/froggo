@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe RecommendationBehaviourMatrix, type: :class do
   let!(:organization) { create(:organization) }
   let!(:repository) { create(:repository, organization: organization) }
-  let!(:owner) { create(:github_user, gh_id: 3, login: 'gh_owner') }
   let!(:reviewer) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
+  let!(:owner) { create(:github_user, gh_id: 3, login: 'gh_owner') }
   let!(:reviewer_membership) do
     create(:organization_membership, organization: organization, github_user: reviewer)
   end
@@ -20,7 +20,7 @@ RSpec.describe RecommendationBehaviourMatrix, type: :class do
     create(
       :pull_request_relation,
       pull_request: pull_requests[0],
-      github_user: reviewer,
+      github_user_id: reviewer.id,
       recommendation_behaviour: :obedient
     )
   end
@@ -28,7 +28,7 @@ RSpec.describe RecommendationBehaviourMatrix, type: :class do
     create(
       :pull_request_relation,
       pull_request: pull_requests[1],
-      github_user: reviewer,
+      github_user_id: reviewer.id,
       recommendation_behaviour: :obedient
     )
   end
@@ -36,14 +36,16 @@ RSpec.describe RecommendationBehaviourMatrix, type: :class do
     create(
       :pull_request_relation,
       pull_request: pull_requests[2],
-      github_user: reviewer,
+      github_user_id: reviewer.id,
       recommendation_behaviour: :indifferent
     )
   end
 
+  let!(:default_ids) { [owner.gh_id, reviewer.gh_id] }
+
   context 'when initialized' do
     subject do
-      RecommendationBehaviourMatrix.new(organization.id)
+      RecommendationBehaviourMatrix.new(organization.id, default_ids)
     end
 
     it 'values are zero' do
@@ -53,7 +55,7 @@ RSpec.describe RecommendationBehaviourMatrix, type: :class do
 
   context 'when matrix is filled' do
     subject do
-      RecommendationBehaviourMatrix.new(organization.id)
+      RecommendationBehaviourMatrix.new(organization.id, default_ids)
     end
 
     it 'should mutate data' do
@@ -65,6 +67,16 @@ RSpec.describe RecommendationBehaviourMatrix, type: :class do
       expect(subject.data[[0, 0]]).to eq(2)
       expect(subject.data[[0, 1]]).to eq(1)
       expect(subject.data[[0, 2]]).to eq(0)
+    end
+  end
+
+  context 'when matrix is ordered' do
+    subject do
+      RecommendationBehaviourMatrix.new(organization.id, default_ids)
+    end
+
+    it 'should place user with most statistics first' do
+      expect(subject.team_members.first).to have_attributes(gh_id: 3)
     end
   end
 end

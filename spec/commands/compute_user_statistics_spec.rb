@@ -93,5 +93,11 @@ describe ComputeUserStatistics do
         expect(perform_user_and_org_with_relations[:rebel]).to eq(0)
       end
     end
+
+    context 'total field fits all criteria' do
+      it 'saves correct amount of relations' do
+        expect(perform_user_and_org_with_relations[:total]).to eq(3)
+      end
+    end
   end
 end

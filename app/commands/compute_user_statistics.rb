@@ -6,7 +6,8 @@ class ComputeUserStatistics < PowerTypes::Command.new(:github_user_id, :organiza
       obedient: times_obedient,
       indifferent: times_indifferent,
       rebel: times_rebel,
-      not_defined: times_not_defined
+      not_defined: times_not_defined,
+      total: times_obedient + times_indifferent + times_rebel
     }
   end
 
