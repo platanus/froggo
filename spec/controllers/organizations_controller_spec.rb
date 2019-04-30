@@ -101,16 +101,19 @@ RSpec.describe OrganizationsController, type: :controller do
       expect(subject).to receive(:authenticate_github_user).and_return(true)
     end
 
-    let(:github_session) do
+    let!(:github_session) do
       double(
         session: { client_type: "admin" },
-        organizations: [login: "platanus", role: role],
+        organizations: [login: "platanus", role: role, id: 101],
         name: 'name',
         save_froggo_path: 'path'
       )
     end
 
+    let!(:organization) { create(:organization, gh_id: 101, default_team_id: nil) }
+
     before do
+      allow(github_session).to receive(:get_teams).and_return([])
       get :settings, params: { name: "platanus" }
     end
 

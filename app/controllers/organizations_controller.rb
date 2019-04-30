@@ -38,7 +38,9 @@ class OrganizationsController < ApplicationController
   def settings
     @is_admin_github_session = github_session.session[:client_type] == "admin"
     load_behaviour_matrix_params
-    set_behaviour_matrix
+    if @default_team_members_ids
+      set_behaviour_matrix
+    end
   end
 
   def public
@@ -84,8 +86,10 @@ class OrganizationsController < ApplicationController
 
   def load_behaviour_matrix_params
     @teams = github_teams
-    @team = @teams.find { |team| team[:id] == @organization.default_team_id }
-    @default_team_members_ids = github_team_members&.pluck(:id)
+    if @organization.default_team_id
+      @team = @teams.find { |team| team[:id] == @organization.default_team_id }
+      @default_team_members_ids = github_team_members&.pluck(:id)
+    end
   end
 
   def load_public_matrix_params
