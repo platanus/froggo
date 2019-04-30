@@ -55,8 +55,9 @@ es-CL:
       create_dashboard: Dar permisos
       repository_title: Repositorios en
       repository_count: repositorios
-      default_team: Equipo default 
+      default_team: Equipo default
     profile:
+      teams_dropdown_hint: Ver recomendaciones para...
       no_name: Sin nombre
       no_teams: Sin equipos
       compute_score_explanation: "Que cómo obtuvimos este puntaje? Fácil: blah blah..."

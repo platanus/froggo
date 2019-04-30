@@ -40,6 +40,11 @@ body {
   min-height: calc(100vh - 157px);
 }
 
+.container {
+  width: $app-content-width;
+  margin: 0 auto;
+}
+
 /* Adding custom size for devices */
 /* stylelint-disable vendor-prefix media-feature-name-no-vendor-prefix */
 @media only screen
