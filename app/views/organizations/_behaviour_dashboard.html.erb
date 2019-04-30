@@ -3,8 +3,8 @@
     <%= t('messages.dashboard.empty_team', team: '') %>
   <% else %>
     <div class="matrix-dashboard">
-      <div>
-        <div class="matrix__user--head" id="sticky-corner"></div>
+      <div class="matrix__column">
+        <div class="matrix__user-head" id="sticky-corner"></div>
           <% @behaviour_matrix.team_members.each do |user| %>
             <div class="matrix__user">
               <a href="<%= user_path(user) %>" title="<%= user.login %>">
@@ -14,7 +14,7 @@
           <% end %>
       </div>
       <div class="matrix__values">
-        <div class="matrix__behaviour--head" id="sticky-head">
+        <div class="matrix__behaviour-head" id="sticky-head">
           <div class="matrix__behaviour">
             <%= t('messages.dashboard.obedient') %>
           </div>
@@ -24,18 +24,19 @@
           <div class="matrix__behaviour">
             <%= t('messages.dashboard.rebel') %>
           </div>
-      </div>
-      <% @behaviour_matrix.team_members.each_with_index do |user, i| %>
-        <div class="matrix__row">
-          <% (0...3).each do |j| %>
-            <div class="matrix__behaviour--value">
-              <span class="matrix__pullrequest__number">
-                <%= @behaviour_matrix.data[[i, j]] %>
-              </span>
-            </div>
-          <% end %>
         </div>
-      <% end %>
+        <% @behaviour_matrix.team_members.each_with_index do |user, i| %>
+          <div class="matrix__row">
+            <% (0...3).each do |j| %>
+              <div class="matrix__behaviour-value">
+                <span class="matrix__behaviour-number">
+                  <%= @behaviour_matrix.data[[i, j]] %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>
