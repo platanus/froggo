@@ -8,6 +8,7 @@ class GithubUsersController < ApplicationController
     @recommendations = GetReviewRecommendations.for(
       github_user_id: @github_user.id, other_users_ids: GithubUser.all.pluck(:id)
     )
+    @organizations = @github_user.organizations
   end
 
   # GET /me

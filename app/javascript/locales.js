@@ -15,6 +15,8 @@ const messages = {
       profile: {
         noTeams: 'No teams',
         teamsDropdownTitle: 'Teams',
+        noOrganizations: 'No organizations',
+        organizationsDropdownTitle: 'Organizations',
         recommendedReviewers: 'You should assign your next PR to...',
         notRecommendedReviewers: 'Avoid assigning your next PR to...',
         statistics: {
@@ -45,6 +47,8 @@ const messages = {
       profile: {
         noTeams: 'Sin equipos',
         teamsDropdownTitle: 'Equipos',
+        noOrganizations: 'Sin organizaciones',
+        organizationsDropdownTitle: 'Organizaciones',
         recommendedReviewers: 'Deberías mandar tu próximo PR a...',
         notRecommendedReviewers: 'Evita mandar tu próximo PR a...',
         statistics: {
