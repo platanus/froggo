@@ -18,6 +18,20 @@ class GithubOrgMembershipService < PowerTypes::Service.new(:token)
     org.members.where(id: ids).destroy_all
   end
 
+  def import_default_team_members(org)
+    all_memberships = OrganizationMembership.where(organization_id: org.id)
+    all_memberships.each do |membership|
+      membership.update!(default_team_membership: false)
+    end
+    default_team_members = client.team_members(org.default_team_id)
+    default_team_members.each do |member|
+      member_user = GithubUser.find_by(gh_id: member.id)
+      org_membership = OrganizationMembership.find_by(github_user_id: member_user&.id,
+                                                      organization_id: org.id)
+      org_membership&.update!(default_team_membership: true)
+    end
+  end
+
   private
 
   def github_org_members(org)

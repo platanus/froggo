@@ -16,6 +16,8 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
 
   def update
     if organization.update_attributes(update_params)
+      GithubOrgMembershipService.new(token: @github_session.token)
+                                .import_default_team_members(organization)
       render json: { response: 'Updated' }, status: 200
     else
       render json: { response: 'Bad request', errors: @user.errors.messages }, status: 400
