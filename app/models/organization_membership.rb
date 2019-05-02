@@ -3,15 +3,17 @@ class OrganizationMembership < ApplicationRecord
   belongs_to :organization
 end
 
+
 # == Schema Information
 #
 # Table name: organization_memberships
 #
-#  id              :integer          not null, primary key
-#  github_user_id  :integer
-#  organization_id :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                      :integer          not null, primary key
+#  github_user_id          :integer
+#  organization_id         :integer
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  default_team_membership :boolean          default(FALSE)
 #
 # Indexes
 #
