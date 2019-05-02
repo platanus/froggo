@@ -1,18 +1,12 @@
 .profile {
+  padding: 40px;
+
   &__section {
     margin-top: 5%;
 
-    &:last-of-type {
-      margin-bottom: 5%;
+    &:first-of-type {
+      margin-top: 0;
     }
-  }
-
-  &__header {
-    align-items: center;
-    display: flex;
-    flex: 2;
-    flex-direction: row;
-    padding: 0 2%;
   }
 
   &__picture {
@@ -31,21 +25,6 @@
     }
   }
 
-  &__info {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-  }
-
-  &__name {
-    align-items: center;
-    color: $secondary-color;
-    display: flex;
-    flex: 1;
-    font-size: 200%;
-    justify-content: center;
-  }
-
   &__github-info {
     align-items: center;
     display: flex;
@@ -62,118 +41,120 @@
     }
   }
 
-  &__link-icon {
-    margin-right: .5em;
-  }
-
   &__link {
     display: flex;
     flex: 1;
     font-size: 115%;
   }
+}
 
-  &__content {
-    display: flex;
-    flex: 2;
-    flex-direction: row;
-    padding: 0 2%;
-    position: -webkit-sticky;
-    position: sticky;
-    bottom: 0;
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+
+  &__picture {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
   }
 
-  &__score {
+  &__info {
+    margin-left: 25px;
+  }
+
+  &__name {
+    font-size: 26px;
+  }
+
+  &__username {
+    display: flex;
     align-items: center;
-    color: $secondary-color;
-    display: flex;
-    font-size: 200%;
-    padding: 2%;
-  }
-
-  &__summary {
-    display: flex;
-    padding: 2%;
-    max-width: 30%;
+    color: $light-primary;
+    margin-top: 5px;
     text-decoration: none;
 
-    &--small {
-      flex: 1;
-    }
-
-    &--big {
-      flex: 3;
-    }
-
-    &--text {
-      align-items: center;
-      display: flex;
-      flex: 3;
-      margin: 5%;
+    svg {
+      fill: $light-primary;
+      margin-right: 5px;
     }
   }
+}
 
-  &__avatar {
-    img {
-      border-radius: 50%;
-      max-width: 100%;
-      overflow: hidden;
+.profile-teams {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  &__hint {
+    color: $light-primary;
+    font-size: 14px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+}
+
+.profile-recommendations {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.profile-recommendations-users {
+  flex: 1;
+
+  &--best {
+    .profile-recommendations-users__title {
+      color: $primary-color;
+    }
+
+    .profile-recommendations-users__users {
+      border-color: $primary-color;
     }
   }
 
-  &--small {
-    flex: 1;
+  &:not(:first-child) {
+    margin-left: 40px;
   }
 
-  &__text {
-    color: $secondary-color;
-  }
-
-  &__column {
-    flex: 1;
-
-    &:not(last-of-type) {
-      margin-left: 2%;
-    }
-  }
-
-  &__title {
-    color: $secondary-color;
-  }
-
-  &__row {
-    display: flex;
-    padding: 2% 0;
-  }
-
-  &__scores {
-    display: flex;
-    flex: 1;
-  }
-
-  &__rectangle {
+  &__users {
     border: 1px solid $primary-border;
+    padding: 20px;
+    margin-top: 15px;
+  }
+
+  &__user {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    align-items: center;
+    color: $primary;
+    text-decoration: none;
+    margin-bottom: 15px;
 
-    &:not(:last-of-type) {
-      margin-right: 2%;
-    }
-
-    &--padded {
-      padding: 5%;
-    }
-
-    &--big {
-      flex: 3;
-    }
-
-    &--small {
-      flex: 1;
-    }
-
-    &--black-border {
-      border-color: $black;
+    &:last-child {
+      margin-bottom: 0;
     }
   }
+
+  &__picture {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.profile-statistics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $gray;
+  padding: 40px;
 }

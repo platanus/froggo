@@ -11,11 +11,9 @@ import Repository from '../components/repository.vue';
 import EnablePublicButton from '../components/enable-public-button.vue';
 import SyncOrganizationButton from '../components/sync-organization-button.vue';
 import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
-import ProfileScoreRectangle from '../components/profile/score-rectangle.vue';
 import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
-import ReviewRecommendations from '../components/profile/recommendations.vue';
-import UsersRectangle from '../components/profile/users-rectangle.vue';
-import ProfileStatisticsRectangle from '../components/profile/statistics-rectangle.vue';
+import ProfileRecommendations from '../components/profile/recommendations.vue';
+import ProfileRecommendationsUsers from '../components/profile/recommendations-users.vue';
 import ProfileStatistics from '../components/profile/statistics.vue';
 
 import Locales from '../locales.js';
@@ -31,11 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('organizations-dropdown', OrganizationsDropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
-  Vue.component('profile-score-rectangle', ProfileScoreRectangle);
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
-  Vue.component('review-recommendations', ReviewRecommendations);
-  Vue.component('users-rectangle', UsersRectangle);
-  Vue.component('profile-statistics-rectangle', ProfileStatisticsRectangle);
+  Vue.component('profile-recommendations', ProfileRecommendations);
+  Vue.component('profile-recommendations-users', ProfileRecommendationsUsers);
   Vue.component('profile-statistics', ProfileStatistics);
 
   if (document.getElementById('app') !== null) {

@@ -1,43 +1,37 @@
-<div class="card">
-  <div class="profile__section profile__header">
-    <div class="profile__column">
-      <div class="profile__picture">
-        <img src="<%= @github_user.avatar_url %>" />
-      </div>
-      <div class="profile__info">
-        <div class="profile__name">
-          <%= @github_user.name || t('messages.profile.no_name') %>
-        </div>
-        <div class="profile__github-info">
-          <a href="<%= @github_user.html_url %>">
-            <div class="profile__link">
-              <div class="profile__link-icon">
-                <%= octicon "octoface" %>
-              </div>
-              <div>
-                @<%= @github_user.login %>
-              </div>
-            </div>
-          </a>
-          <organizations-dropdown
-            github-login="<%= @github_user.login %>"
-            :organizations="<%= @organizations.to_json %>"
-            :teams="<%= @teams.to_json %>">
-          </organizations-dropdown>
+<div class="card profile">
+  <div class="profile__section">
+    <div class="profile-header">
+      <div class="profile-info">
+        <%= image_tag @github_user.avatar_url, class: 'profile-info__picture' %>
+        <div class="profile-info__info">
+          <div class="profile-info__name">
+            <%= @github_user.name || t('messages.profile.no_name') %>
+          </div>
+          <%= link_to @github_user.html_url, class: 'profile-info__username' do %>
+            <%= octicon "octoface" %>
+            <span>@<%= @github_user.login %></span>
+          <% end %>
         </div>
       </div>
-    </div>
-    <div class="profile__column profile__title">
-      <% if @organizations.empty? %>
-        <%= t('messages.profile.no_recommendations') %>
-      <% end %>
-      <review-recommendations>
-      </review-recommendations>
+      <div class="profile-teams">
+        <div class="profile-teams__hint">
+          <%= t('messages.profile.teams_dropdown_hint') %>
+        </div>
+        <organizations-dropdown
+          github-login="<%= @github_user.login %>"
+          :organizations="<%= @organizations.to_json %>"
+          :teams="<%= @teams.to_json %>">
+        </organizations-dropdown>
+      </div>
     </div>
   </div>
-  <div class="profile__section profile__content">
-    <profile-statistics-rectangle
-      github-login="<%= @github_user.login %>">
-    </profile-statistics-rectangle>
+  <div class="profile__section">
+    <% if @teams.empty? %>
+      <%= t('messages.profile.no_recommendations') %>
+    <% end %>
+    <profile-recommendations />
+  </div>
+  <div class="profile__section">
+    <profile-statistics github-login="<%= @github_user.login %>" />
   </div>
 </div>

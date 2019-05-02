@@ -1,31 +1,22 @@
 <template>
-  <div class="profile__column">
-    <users-rectangle
+  <div class="profile-recommendations">
+    <profile-recommendations-users
       :being-fetched="fetchingRecommendations"
       :recommendations="recommendations"
       type="best"
-      title="Te recomendamos mandar tu próximo PR a una de estas personas"
-    >
-    </users-rectangle>
-    <users-rectangle
+      :title="$i18n.t('message.profile.recommendedReviewers')" />
+    <profile-recommendations-users
       :being-fetched="fetchingRecommendations"
       :recommendations="recommendations"
       type="worst"
-      title="Evita mandarle otro PR a una de estas personas"
-    >
-    </users-rectangle>
+      :title="$i18n.t('message.profile.notRecommendedReviewers')" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
-import UsersRectangle from './users-rectangle'
-
 export default {
-  components: {
-    UsersRectangle,
-  },
   computed: mapState({
     recommendations: state => state.profile.recommendations,
     fetchingRecommendations: state => state.profile.fetchingRecommendations,
