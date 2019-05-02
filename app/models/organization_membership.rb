@@ -3,7 +3,6 @@ class OrganizationMembership < ApplicationRecord
   belongs_to :organization
 end
 
-
 # == Schema Information
 #
 # Table name: organization_memberships
