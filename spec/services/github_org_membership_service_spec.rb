@@ -10,7 +10,8 @@ describe GithubOrgMembershipService do
   let(:client) { double }
   let(:organization) { create(:organization) }
   let(:user) do
-    double(
+    create(
+      :github_user,
       login: 'TestUser',
       id: 10,
       avatar_url: 'user avatar',
@@ -20,7 +21,8 @@ describe GithubOrgMembershipService do
     )
   end
   let(:user2) do
-    double(
+    create(
+      :github_user,
       login: 'TestUser2',
       id: 20,
       avatar_url: 'user avatar',
@@ -121,6 +123,59 @@ describe GithubOrgMembershipService do
           service.delete_ex_members(organization, ids)
           organization.reload
         end.to change { organization.organization_memberships.count }.by(0)
+      end
+    end
+  end
+
+  describe '#import_default_team_members' do
+    let!(:organization_membership1) do
+      create(
+        :organization_membership,
+        github_user: user,
+        organization: organization,
+        is_member_of_default_team: true
+      )
+    end
+
+    let!(:organization_membership2) do
+      create(
+        :organization_membership,
+        github_user: user2,
+        organization: organization,
+        is_member_of_default_team: true
+      )
+    end
+
+    let!(:gh_user) { double(id: user.gh_id) }
+
+    let!(:gh_user_2) { double(id: user2.gh_id) }
+
+    context 'when empty team is selected as default' do
+      before do
+        allow(client).to receive(:team_members).with(organization.default_team_id).and_return([])
+        service.import_default_team_members(organization)
+      end
+
+      it 'resets all default team memberships to false' do
+        expect(OrganizationMembership.find_by(github_user_id: user.id).is_member_of_default_team)
+          .to be(false)
+        expect(OrganizationMembership.find_by(github_user_id: user2.id).is_member_of_default_team)
+          .to be(false)
+      end
+    end
+
+    context 'when not empty team is selected as default' do
+      before do
+        allow(client).to receive(:team_members)
+          .with(organization.default_team_id).and_return([gh_user])
+        service.import_default_team_members(organization)
+      end
+
+      it 'asigns default team membership to correct users' do
+        expect(OrganizationMembership.find_by(github_user_id: user.id).is_member_of_default_team)
+          .to be(true)
+        expect(OrganizationMembership.find_by(github_user_id: user2.id).is_member_of_default_team)
+          .to be(false)
       end
     end
   end
