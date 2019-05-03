@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20190502193942) do
     t.bigint "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "default_team_membership", default: false
+    t.boolean "is_member_of_default_team", default: false
     t.index ["github_user_id"], name: "index_organization_memberships_on_github_user_id"
     t.index ["organization_id"], name: "index_organization_memberships_on_organization_id"
   end

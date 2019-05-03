@@ -1,6 +1,6 @@
 class Api::V1::OrganizationsController < Api::V1::BaseController
   before_action :authenticate_github_user
-  before_action :ensure_organization_admin
+  # before_action :ensure_organization_admin
 
   def sync
     OrganizationSyncJob.perform_later(
@@ -16,8 +16,10 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
 
   def update
     if organization.update_attributes(update_params)
-      GithubOrgMembershipService.new(token: @github_session.token)
-                                .import_default_team_members(organization)
+      if organization.saved_change_to_attribute?(:default_team_id)
+        GithubOrgMembershipService.new(token: @github_session.token)
+                                  .import_default_team_members(organization)
+      end
       render json: { response: 'Updated' }, status: 200
     else
       render json: { response: 'Bad request', errors: @user.errors.messages }, status: 400
