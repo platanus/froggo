@@ -21,6 +21,13 @@
   </div>
   <div class="card-extended__body">
     <div class="card-extended__body-title">
+      <%= t('messages.settings.behaviour_title') %>
+      <%= @github_organization[:login] %>
+    </div>
+    <div>
+      <%= render "behaviour_dashboard" %>
+    </div>
+    <div class="card-extended__body-title">
       <%= t('messages.settings.repository_title') %>
       <%= @github_organization[:login] %>
     </div>

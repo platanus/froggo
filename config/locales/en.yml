@@ -65,6 +65,9 @@ en:
       months: Months
       month: Month
       since: Since
+      obedient: Obedient
+      indifferent: Indifferent
+      rebel: Rebel
     header:
       close_session: Close session
     home:
@@ -85,11 +88,12 @@ en:
       repository_count: repositories
       admin_users: Manage users
       default_team: Default team
+      behaviour_title: Behaviour in
     profile:
       no_name: No name
       no_teams: No teams
       compute_score_explanation: "How did we come up with this value? Easy: blah blah..."
       your_score: Your score
-      recommended_reviewers: We recommend you request a review from one of these persons 
+      recommended_reviewers: We recommend you request a review from one of these persons
       not_recommended_reviewers: Avoid requesting reviews from these persons
       no_recommendations: You don't belong to any organization so there are no recommendations for you

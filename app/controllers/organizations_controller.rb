@@ -37,6 +37,10 @@ class OrganizationsController < ApplicationController
 
   def settings
     @is_admin_github_session = github_session.session[:client_type] == "admin"
+    load_behaviour_matrix_params
+    if @default_team_members_ids
+      set_behaviour_matrix
+    end
   end
 
   def public
@@ -80,6 +84,14 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def load_behaviour_matrix_params
+    @teams = github_teams
+    if @organization.default_team_id
+      @team = @teams.find { |team| team[:id] == @organization.default_team_id }
+      @default_team_members_ids = github_team_members&.pluck(:id)
+    end
+  end
+
   def load_public_matrix_params
     @team_members_ids = permitted_params[:user_ids]
     if permitted_params[:month_limit].present?
@@ -91,6 +103,10 @@ class OrganizationsController < ApplicationController
     if @has_dashboard
       @corrmat = get_matrix(@organization.id, @team_members_ids, @month_limit)
     end
+  end
+
+  def set_behaviour_matrix
+    @behaviour_matrix = get_behaviour_matrix(@organization.id, @default_team_members_ids)
   end
 
   def redirect_to_default_organization
@@ -126,6 +142,12 @@ class OrganizationsController < ApplicationController
     corrmat.fill_matrix
     corrmat.min_ranking_indexes
     corrmat
+  end
+
+  def get_behaviour_matrix(organization_id, default_team_members_ids)
+    behaviour_matrix = RecommendationBehaviourMatrix.new(organization_id, default_team_members_ids)
+    behaviour_matrix.fill_matrix
+    behaviour_matrix
   end
 
   def save_cookie_url

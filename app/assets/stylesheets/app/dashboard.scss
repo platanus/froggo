@@ -35,6 +35,11 @@
   display: flex;
 }
 
+.matrix__column {
+  flex-direction: column;
+  display: flex;
+}
+
 .matrix__values {
   overflow: auto;
 }
@@ -44,15 +49,16 @@
   height: 68px;
   padding: 8px;
   flex: 0 0 66px;
+}
 
-  &--head {
-    @extend .matrix__user;
-    flex: 0 0 65px;
-    padding: 0;
-    padding-top: 12px;
-    position: sticky;
-    top: 0;
-  }
+.matrix__user-head {
+  background-color: $matrix-bg;
+  height: 68px;
+  flex: 0 0 65px;
+  padding: 0;
+  padding-top: 12px;
+  position: sticky;
+  top: 0;
 }
 
 .matrix__user-img {
@@ -139,6 +145,49 @@
 
 .matrix__pullrequest__number-0 {
   color: $gray;
+}
+
+.matrix__behaviour {
+  background-color: $matrix-bg;
+  height: 68px;
+  padding: 15px;
+  flex: 0 0 90px;
+}
+
+.matrix__behaviour-head {
+  display: flex;
+  background-color: $bg-secondary-color;
+  position: sticky;
+  top: 0;
+  height: 77px;
+  text-align: center;
+}
+
+.matrix__behaviour-value {
+  background-color: $white;
+  border: .5px solid $primary-border;
+  display: flex;
+  flex: 0 0 99px;
+  flex-direction: column;
+  height: 69px;
+  justify-content: center;
+  margin: -1px 0 0 -1px;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  width: 66px;
+}
+
+.matrix__behaviour-number {
+  height: 36px;
+  width: 50px;
+  color: $black;
+  font-family: $roboto-condensed;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 36px;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .stuck {

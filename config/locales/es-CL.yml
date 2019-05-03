@@ -34,6 +34,9 @@ es-CL:
       months: Meses
       month: Mes
       since: Desde
+      obedient: Obediente
+      indifferent: Indiferente
+      rebel: Rebelde
     header:
       close_session: Cerrar sesión
     home:
@@ -56,6 +59,7 @@ es-CL:
       repository_title: Repositorios en
       repository_count: repositorios
       default_team: Equipo default
+      behaviour_title: Comportamiento en
     profile:
       teams_dropdown_hint: Ver recomendaciones para...
       no_name: Sin nombre

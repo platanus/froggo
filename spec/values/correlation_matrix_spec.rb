@@ -5,7 +5,7 @@ RSpec.describe CorrelationMatrix, type: :class do
   let!(:repository) { create(:repository, organization: organization) }
   let!(:owner) { create(:github_user, gh_id: 3, login: 'gh_owner') }
   let!(:reviewer) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
-  let!(:current_user) { create(:github_user, gh_id: 8, login: 'gh_reviewer') }
+  let!(:current_user) { create(:github_user, gh_id: 3, login: 'gh_owner') }
   let!(:reviewer_membership) do
     create(:organization_membership, organization: organization, github_user: reviewer)
   end
