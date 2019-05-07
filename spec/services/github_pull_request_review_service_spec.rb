@@ -3,6 +3,7 @@ require 'rails_helper'
 describe GithubPullRequestReviewService do
   let(:token) { "blubli" }
   let(:pull_request) { create(:pull_request, repository: repository) }
+  let(:organization) { create(:organization, default_team_id: 0) }
 
   let(:service) { build(token: token) }
 
@@ -80,17 +81,22 @@ describe GithubPullRequestReviewService do
 
   describe "#import_github_pull_request_review" do
     context "when repository is not tracked" do
-      let(:repository) { create(:repository, tracked: false) }
+      let(:repository) { create(:repository, tracked: false, organization: organization) }
+      let(:include_recommendation) { true }
 
       it "doesn't create any reviews" do
         expect do
-          service.import_github_pull_request_review(pull_request, github_review_response)
+          service.import_github_pull_request_review(pull_request,
+            github_review_response,
+            organization.default_team_id,
+            include_recommendation)
         end.to(change { PullRequestReview.count }.by(0))
       end
     end
 
     context "when repository is tracked" do
-      let(:repository) { create(:repository, tracked: true) }
+      let(:repository) { create(:repository, tracked: true, organization: organization) }
+      let(:include_recommendation) { true }
 
       context "and review doesn't exist" do
         before do
@@ -121,12 +127,18 @@ describe GithubPullRequestReviewService do
 
         it "creates new pull request review" do
           expect do
-            service.import_github_pull_request_review(pull_request, github_review_response)
+            service.import_github_pull_request_review(pull_request,
+              github_review_response,
+              organization.default_team_id,
+              include_recommendation)
           end.to(change { PullRequestReview.count }.by(1))
         end
 
         it "creates a pull request review with valid data" do
-          service.import_github_pull_request_review(pull_request, github_review_response)
+          service.import_github_pull_request_review(pull_request,
+            github_review_response,
+            organization.default_team_id,
+            include_recommendation)
           pull_request_review = PullRequestReview.last
 
           expect(pull_request_review).to have_attributes(
@@ -137,7 +149,10 @@ describe GithubPullRequestReviewService do
 
         context "with recommendation is followed" do
           it "defines behaviour as obedient" do
-            service.import_github_pull_request_review(pull_request, github_review_response)
+            service.import_github_pull_request_review(pull_request,
+              github_review_response,
+              organization.default_team_id,
+              include_recommendation)
             pull_request_review = PullRequestReview.last
             expect(pull_request_review).to have_attributes(
               recommendation_behaviour: "obedient"
@@ -147,7 +162,10 @@ describe GithubPullRequestReviewService do
 
         context "with recommendation isn't followed" do
           it "defines behaviour as indifferent" do
-            service.import_github_pull_request_review(pull_request, github_review_response4)
+            service.import_github_pull_request_review(pull_request,
+              github_review_response4,
+              organization.default_team_id,
+              include_recommendation)
             pull_request_review = PullRequestReview.last
 
             expect(pull_request_review).to have_attributes(
@@ -158,7 +176,10 @@ describe GithubPullRequestReviewService do
 
         context "with not recommended is disregarded" do
           it "defines behaviour as rebel" do
-            service.import_github_pull_request_review(pull_request, github_review_response3)
+            service.import_github_pull_request_review(pull_request,
+              github_review_response3,
+              organization.default_team_id,
+              include_recommendation)
             pull_request_review = PullRequestReview.last
 
             expect(pull_request_review).to have_attributes(
@@ -169,7 +190,10 @@ describe GithubPullRequestReviewService do
 
         context "with review wasn't requested" do
           it "defines behaviour as not_defined" do
-            service.import_github_pull_request_review(pull_request, github_review_response2)
+            service.import_github_pull_request_review(pull_request,
+              github_review_response2,
+              organization.default_team_id,
+              include_recommendation)
             pull_request_review = PullRequestReview.last
 
             expect(pull_request_review).to have_attributes(
@@ -187,7 +211,9 @@ describe GithubPullRequestReviewService do
         it "does not create new pull request reviews" do
           expect do
             build(token: token).import_github_pull_request_review(pull_request,
-              github_review_response)
+              github_review_response,
+              organization.default_team_id,
+              include_recommendation)
           end.not_to(change { PullRequestReview.count })
         end
       end
@@ -195,7 +221,8 @@ describe GithubPullRequestReviewService do
   end
 
   describe "#import_all_from_repository" do
-    let(:repository) { create(:repository, tracked: true) }
+    let(:repository) { create(:repository, tracked: true, organization: organization) }
+
     it "calls import_all_from_pull_request" do
       expect(ImportPullRequestReviewsJob).to receive(:perform_later)
         .with(pull_request, token)
@@ -207,7 +234,8 @@ describe GithubPullRequestReviewService do
 
   describe "#import_all_from_pull_request" do
     let(:client) { double(:client, pull_requests: true) }
-    let(:repository) { create(:repository, tracked: true) }
+    let(:repository) { create(:repository, tracked: true, organization: organization) }
+    let(:include_recommendation) { false }
 
     before do
       allow(BuildOctokitClient).to receive(:for).with(token: token).and_return(client)
@@ -219,7 +247,10 @@ describe GithubPullRequestReviewService do
 
     it "calls import_github_pull_request_review" do
       expect(service).to receive(:import_github_pull_request_review)
-        .with(pull_request, github_review_response)
+        .with(pull_request,
+          github_review_response,
+          organization.default_team_id,
+          include_recommendation)
         .and_return(nil)
 
       service.import_all_from_pull_request(pull_request)
@@ -227,18 +258,23 @@ describe GithubPullRequestReviewService do
   end
 
   describe "#handle_webhook_event" do
-    let(:repository) { create(:repository, tracked: true) }
+    let(:repository) { create(:repository, tracked: true, organization: organization) }
     let!(:event_request_data) do
       double(
         action: 'submitted',
         review: github_review_response,
-        pull_request: double(id: pull_request.gh_id)
+        pull_request: double(id: pull_request.gh_id),
+        repository: double(id: repository.gh_id)
       )
     end
+    let(:include_recommendation) { true }
 
     it "calls import_github_pull_request_review" do
       expect(service).to receive(:import_github_pull_request_review)
-        .with(pull_request, github_review_response)
+        .with(pull_request,
+          github_review_response,
+          organization.default_team_id,
+          include_recommendation)
         .and_return(nil)
       service.handle_webhook_event(event_request_data)
     end
