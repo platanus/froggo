@@ -148,8 +148,6 @@ describe GithubOrgMembershipService do
 
     let!(:gh_user) { double(id: user.gh_id) }
 
-    let!(:gh_user_2) { double(id: user2.gh_id) }
-
     context 'when empty team is selected as default' do
       before do
         allow(client).to receive(:team_members).with(organization.default_team_id).and_return([])
