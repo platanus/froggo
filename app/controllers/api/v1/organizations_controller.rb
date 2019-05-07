@@ -1,6 +1,7 @@
 class Api::V1::OrganizationsController < Api::V1::BaseController
   before_action :authenticate_github_user
   before_action :ensure_organization_admin
+  after_action :update_organization_default_team_memberships, only: [:update]
 
   def sync
     OrganizationSyncJob.perform_later(
@@ -50,5 +51,12 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
 
   def update_params
     params.permit(:public_enabled, :default_team_id)
+  end
+
+  def update_organization_default_team_memberships
+    if organization.saved_change_to_attribute?(:default_team_id)
+      GithubOrgMembershipService.new(token: @github_session.token)
+                                .import_default_team_members(organization)
+    end
   end
 end
