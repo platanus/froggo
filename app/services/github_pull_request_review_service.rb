@@ -116,8 +116,8 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
 
   def team_review_request_recommendations(owner_id, organization_dt_id)
     GetReviewRecommendations.for(
-      user_id: owner_id,
-      other_users_id: other_team_members_id(owner_id, organization_dt_id)
+      github_user_id: owner_id,
+      other_users_ids: other_team_members_id(owner_id, organization_dt_id)
     )
   end
 
