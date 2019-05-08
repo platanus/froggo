@@ -4,6 +4,8 @@ class ProcessWebhookEvent < PowerTypes::Command.new(request: nil, event: nil)
       GithubPullRequestService.new(token: nil).handle_webhook_event(@request)
     elsif @event == 'pull_request_review'
       GithubPullRequestReviewService.new(token: nil).handle_webhook_event(@request)
+    elseif @event == 'membership'
+      Github::ProcessMembershipEvent.for(event_paylod: @request)
     end
   end
 end
