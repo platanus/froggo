@@ -38,7 +38,7 @@ ActiveAdmin.register GithubUser do
         panel "User Organizations" do
           table_for user.organization_memberships do
             column :id
-            column (:name) { |membership| Organization.find(membership.organization_id).login }
+            column (:name) { |membership| membership.organization.login }
             column :is_member_of_default_team
           end
         end
