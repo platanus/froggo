@@ -13,11 +13,11 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     repo = Repository.find_by(gh_id: data_object.repository.id)
 
     pull_request = import_github_pull_request(repo, data_object.pull_request)
-    if data_object.key?(:requested_reviewers)
+    if data_object.action === "review_requested"
       add_requested_reviewers_to_pull_request(
         pull_request,
         data_object.pull_request,
-        data_object&.requested_reviewers&.users
+        data_object.requested_reviewer
       )
     end
   end
@@ -48,15 +48,14 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     PullRequest.where(id: pr_ids).destroy_all
   end
 
-  def add_requested_reviewers_to_pull_request(pull_request, gh_pull_request, requested_reviewers)
-    requested_reviewers.each do |reviewer|
-      unless PullRequestReviewRequest.find_by(
-        github_user_id: reviewer.id,
-        pull_request_id: pull_request.id
-      )
-        base_params = get_request_base_params(gh_pull_request, reviewer.id)
-        pull_request.pull_request_review_requests.create!(base_params)
-      end
+  def add_requested_reviewers_to_pull_request(pull_request, gh_pull_request, requested_reviewer)
+    reviewer = GithubUser.find_by(gh_id: requested_reviewer.id)
+    unless PullRequestReviewRequest.find_by(
+      github_user_id: reviewer.id,
+      pull_request_id: pull_request.id
+    )
+      base_params = get_request_base_params(gh_pull_request, reviewer.id)
+      pull_request.pull_request_review_requests.create!(base_params)
     end
   end
 
