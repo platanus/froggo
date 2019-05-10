@@ -8,7 +8,7 @@
     <% else %>
       <div class="matrix-dashboard">
         <div>
-          <div class="matrix__user--head" id="sticky-corner"></div>
+          <div class="matrix__user-head" id="sticky-corner"></div>
           <% @corrmat.selected_users.each_with_index do |user, i| %>
             <div class="matrix__user">
               <%= render partial: 'ranked_user_avatar',
@@ -21,7 +21,7 @@
         <div class="matrix__values">
           <div class="matrix__head" id="sticky-head">
             <% @corrmat.selected_users.each_with_index do |user, i| %>
-              <div class="matrix__user--head">
+              <div class="matrix__user-head">
                 <div class="matrix__picture">
                   <%= render partial: 'ranked_user_avatar',
                     locals: { user: user,
