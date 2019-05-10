@@ -28,9 +28,11 @@ class OrganizationsController < ApplicationController
 
   def settings
     @is_admin_github_session = github_session.session[:client_type] == "admin"
-    load_behaviour_matrix_params
-    if @default_team_members_ids
-      set_behaviour_matrix
+    if @has_dashboard
+      load_behaviour_matrix_params
+      if @default_team_members_ids
+        set_behaviour_matrix
+      end
     end
   end
 
