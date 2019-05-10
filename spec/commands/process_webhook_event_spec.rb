@@ -26,4 +26,14 @@ describe ProcessWebhookEvent do
       perform(request, event)
     end
   end
+
+  context 'membership event' do
+    let!(:event) { 'membership' }
+    let!(:request) { {} }
+
+    it 'calls process membership event' do
+      expect_any_instance_of(Github::ProcessMembershipEvent).to receive(:perform)
+      perform(request, event)
+    end
+  end
 end
