@@ -2,7 +2,7 @@ class Github::OrganizationWebhookService < PowerTypes::Service.new(:organization
   def set
     client.create_org_hook(@organization.login, hook_config, hook_options)
     true
-  rescue Octokit::UnprocessableEntity => e
+  rescue Octokit::UnprocessableEntity
     false
   end
 
@@ -11,7 +11,8 @@ class Github::OrganizationWebhookService < PowerTypes::Service.new(:organization
   def hook_config
     {
       url: "#{ENV['APPLICATION_HOST']}/github_events",
-      content_type: 'json'
+      content_type: 'json',
+      secret: ENV['GH_HOOK_SECRET']
     }
   end
 

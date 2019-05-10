@@ -5,7 +5,13 @@ describe Github::OrganizationWebhookService do
   let(:organization) { create(:organization, login: "Platanus") }
 
   let(:client) { double(:client, pull_requests: true) }
-  let(:webook_config) { { url: "#{ENV['APPLICATION_HOST']}/github_events", content_type: 'json' } }
+  let(:webook_config) do
+    {
+      url: "#{ENV['APPLICATION_HOST']}/github_events",
+      content_type: 'json',
+      secret: ENV['GH_HOOK_SECRET']
+    }
+  end
   let(:webook_options) { { events: ["membership"], active: true } }
   let(:webhook_create_response) { double(:webhook_create_response) }
 
@@ -39,7 +45,7 @@ describe Github::OrganizationWebhookService do
                                                   .and_raise(Octokit::UnprocessableEntity)
       end
 
-      it 'creates the webhook' do
+      it 'does not create the webhook' do
         expect(service.set).to eq(false)
       end
     end
