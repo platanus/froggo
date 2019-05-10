@@ -20,5 +20,6 @@ class GetRecommendations < PowerTypes::Command.new(:github_user, :organization)
       .where(organization_id: @organization.id, is_member_of_default_team: true)
       .pluck(:github_user_id)
       .reject { |id| id == @github_user.id }
+      .sort
   end
 end
