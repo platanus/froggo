@@ -2,13 +2,7 @@ class CreateOrganization < PowerTypes::Command.new(:token, :github_organization)
   def perform
     return if organization_exists?
 
-    organization = Organization.create!(
-      gh_id: @github_organization[:id],
-      login: @github_organization[:login]
-    )
-
-    trigger_sync_for organization
-    set_webhook_to organization
+    create_organization
   end
 
   private
@@ -17,8 +11,20 @@ class CreateOrganization < PowerTypes::Command.new(:token, :github_organization)
     !Organization.find_by(gh_id: @github_organization[:id]).nil?
   end
 
-  def trigger_sync_for(organization)
-    organization_sync = OrganizationSync.create!(organization: organization)
+  def create_organization
+    ActiveRecord::Base.transaction do
+      @organization = Organization.create!(
+        gh_id: @github_organization[:id],
+        login: @github_organization[:login]
+      )
+      @organization_sync = OrganizationSync.create!(organization: @organization)
+    end
+
+    trigger_sync_for @organization_sync
+    set_webhook_to @organization
+  end
+
+  def trigger_sync_for(organization_sync)
     OrganizationSyncJob.perform_later(organization_sync, @token)
   end
 
