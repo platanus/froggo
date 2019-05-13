@@ -60,6 +60,7 @@ es-CL:
       repository_count: repositorios
       default_team: Equipo default
       behaviour_title: Comportamiento en
+      no_default_team: Selecciona un equipo default para ver tus estadísticas
     profile:
       teams_dropdown_hint: Ver recomendaciones para...
       no_name: Sin nombre
