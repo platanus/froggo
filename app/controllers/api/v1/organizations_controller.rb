@@ -4,10 +4,15 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
   after_action :update_organization_default_team_memberships, only: [:update]
 
   def sync
+    Github::OrganizationWebhookService.new(
+      token: @github_session.token,
+      organization: organization
+    ).set
     OrganizationSyncJob.perform_later(
       OrganizationSync.find_or_create_by(organization: organization),
       @github_session.token
     )
+
     respond_with organization, status: 202
   end
 

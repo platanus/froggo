@@ -20,16 +20,7 @@ class OrganizationsController < ApplicationController
   end
 
   def create
-    if @organization.nil?
-      organization = Organization.create!(
-        gh_id: @github_organization[:id],
-        login: @github_organization[:login]
-      )
-
-      OrganizationSyncJob.perform_later(OrganizationSync.create!(organization: organization),
-        @github_session.token)
-    end
-
+    CreateOrganization.for(token: @github_session.token, github_organization: @github_organization)
     redirect_to settings_organization_path(name: @github_organization[:login])
   end
 
@@ -37,9 +28,11 @@ class OrganizationsController < ApplicationController
 
   def settings
     @is_admin_github_session = github_session.session[:client_type] == "admin"
-    load_behaviour_matrix_params
-    if @default_team_members_ids
-      set_behaviour_matrix
+    if @has_dashboard
+      load_behaviour_matrix_params
+      if @default_team_members_ids
+        set_behaviour_matrix
+      end
     end
   end
 
