@@ -28,8 +28,8 @@ describe Github::ProcessMembershipEvent do
     let(:action) { 'added' }
 
     it 'user is added to default team in local DB' do
-      perform
-      expect(OrganizationMembership.last.is_member_of_default_team).to be(true)
+      expect { perform }.to change { organization_membership.reload.is_member_of_default_team }
+        .from(false).to(true)
     end
   end
 
@@ -45,8 +45,8 @@ describe Github::ProcessMembershipEvent do
     let(:action) { 'removed' }
 
     it 'user is removed from default team in local DB' do
-      perform
-      expect(OrganizationMembership.last.is_member_of_default_team).to be(false)
+      expect { perform }.to change { organization_membership.reload.is_member_of_default_team }
+        .from(true).to(false)
     end
   end
 end

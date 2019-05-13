@@ -30,8 +30,8 @@ describe Github::OrganizationWebhookService do
   describe "#set" do
     context "when webhook does not exist" do
       before do
-        allow(client).to receive(:create_org_hook).with("Platanus", webook_config, webook_options)
-                                                  .and_return(webhook_create_response)
+        expect(client).to receive(:create_org_hook).with("Platanus", webook_config, webook_options)
+                                                   .and_return(webhook_create_response)
       end
 
       it 'creates the webhook' do
@@ -41,8 +41,8 @@ describe Github::OrganizationWebhookService do
 
     context "when webhook exists" do
       before do
-        allow(client).to receive(:create_org_hook).with("Platanus", webook_config, webook_options)
-                                                  .and_raise(Octokit::UnprocessableEntity)
+        expect(client).to receive(:create_org_hook).with("Platanus", webook_config, webook_options)
+                                                   .and_raise(Octokit::UnprocessableEntity)
       end
 
       it 'does not create the webhook' do

@@ -32,7 +32,7 @@ describe ProcessWebhookEvent do
     let!(:request) { {} }
 
     it 'calls process membership event' do
-      expect_any_instance_of(Github::ProcessMembershipEvent).to receive(:perform)
+      expect(Github::ProcessMembershipEvent).to receive(:for).with(event_payload: request)
       perform(request, event)
     end
   end
