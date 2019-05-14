@@ -124,10 +124,7 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
   def other_team_members_id(owner_id, organization_id)
     OrganizationMembership.where(organization_id: organization_id,
                                  is_member_of_default_team: true)
-                          .map do |membership|
-      {
-        user_id: membership.github_user_id
-      }.reject { |user_id| user_id == owner_id }
-    end
+                          .pluck(:github_user_id)
+                          .reject { |user_id| user_id == owner_id }
   end
 end
