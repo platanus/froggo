@@ -16,6 +16,7 @@ class SlackCommandsService < PowerTypes::Service.new(:params)
 
   def reply_next_pr_recommendation
     return I18n.t('messages.slack.wrong_params') if wrong_params?
+    return I18n.t('messages.slack.no_recommendations') if user_not_authorized?
 
     I18n.t('messages.slack.recommended_users', users: recommended_users.join(', '))
   end
@@ -53,6 +54,6 @@ class SlackCommandsService < PowerTypes::Service.new(:params)
   def user_not_authorized?
     membership = OrganizationMembership.find_by(github_user_id: github_user.id,
                                                 organization_id: organization.id)
-    membership.nil? || !membership.is_member_of_default_team
+    !membership&.is_member_of_default_team
   end
 end

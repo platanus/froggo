@@ -35,6 +35,10 @@ describe SlackCommandsService do
     allow(I18n).to receive(:t)
       .with('messages.slack.wrong_params')
       .and_return('Avíspate')
+
+    allow(I18n).to receive(:t)
+      .with('messages.slack.no_recommendations')
+      .and_return('No puedes ver esto')
   end
 
   context 'command is /froggo' do
@@ -73,10 +77,29 @@ describe SlackCommandsService do
     it { expect(service.reply).to eq('Avíspate') }
   end
 
-  context 'command is /next_pr and organization doesn\'t exist' do
+  context 'command is /next_pr and user doesn\'t exist' do
     let(:params) { { 'command' => '/next_pr', 'text' => 'billgates platanus' } }
 
     it { expect(service.reply).to eq('Avíspate') }
+  end
+
+  context 'command is /next_pr and user doesn\'t belong to default team' do
+    let(:params) { { 'command' => '/next_pr', 'text' => 'isidoravs platanus' } }
+
+    before do
+      create(:organization_membership, github_user_id: github_user.id,
+                                       organization_id: organization.id,
+                                       is_member_of_default_team: false)
+    end
+
+    it { expect(service.reply).to eq('No puedes ver esto') }
+  end
+
+  context 'command is /next_pr and user doesn\'t belong to organization' do
+    let(:params) { { 'command' => '/next_pr', 'text' => 'isidoravs budacom' } }
+    let(:organization) { create(:organization, login: 'budacom') }
+
+    it { expect(service.reply).to eq('No puedes ver esto') }
   end
 
   context 'command is /next_pr and user doesn\'t belong to default team' do
