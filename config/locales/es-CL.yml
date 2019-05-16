@@ -61,6 +61,11 @@ es-CL:
       default_team: Equipo default
       behaviour_title: Comportamiento en
       no_default_team: Selecciona un equipo default para ver tus estadísticas
+    slack:
+      hello: croak!
+      recommended_users: Asigna tu próximo PR a %{users}
+      no_recommendations: "Ups, no perteneces a esa organización o a su team default :frog:"
+      wrong_params: Croak! No entendí... recuerda poner algo como `/next_pr bunzli platanus`
     profile:
       teams_dropdown_hint: Ver recomendaciones para...
       no_name: Sin nombre

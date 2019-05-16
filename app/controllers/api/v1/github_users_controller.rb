@@ -56,6 +56,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
       .where(gh_id: team_members_gh_ids)
       .pluck(:id)
       .reject { |id| id == github_user.id }
+      .sort
   end
 
   def organization

@@ -90,6 +90,11 @@ en:
       default_team: Default team
       behaviour_title: Behaviour in
       no_default_team: Select default team to check your statistics
+    slack:
+      hello: croak!
+      recommended_users: Send your next PR to %{users}
+      no_recommendations: "Ups, you don't belong to that organization or it's default team :frog:"
+      wrong_params: Croak! I don't understand... remember to write something like `/next_pr bunzli platanus`
     profile:
       no_name: No name
       no_teams: No teams

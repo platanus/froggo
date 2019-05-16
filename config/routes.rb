@@ -20,6 +20,11 @@ Rails.application.routes.draw do
   resources :users, only: [:show], controller: 'github_users'
   get 'me' => 'github_users#me'
 
+  scope path: '/slack', module: 'slack' do
+    resources :commands, only: [:create]
+    resources :events, only: [:create]
+  end
+
   scope path: '/api', defaults: { format: 'json' } do
     api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
       resources :repositories, only: [:update]
