@@ -103,3 +103,4 @@ en:
       recommended_reviewers: We recommend you request a review from one of these persons
       not_recommended_reviewers: Avoid requesting reviews from these persons
       no_recommendations: You don't belong to any organization so there are no recommendations for you
+      give_permissions: Give permissions for new organization

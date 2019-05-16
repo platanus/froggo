@@ -13,6 +13,13 @@
           <% end %>
         </div>
       </div>
+      <% if @github_session.user.id === @github_user.id %>
+        <div class="card-extended__dashboard-button">
+          <%= link_to t('messages.profile.give_permissions'),
+            org_authenticate_path,
+            class: "button button--big"%>
+        </div>
+      <% end %>
       <div class="profile-teams">
         <div class="profile-teams__hint">
           <%= t('messages.profile.teams_dropdown_hint') %>
