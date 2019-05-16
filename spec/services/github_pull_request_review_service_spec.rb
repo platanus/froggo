@@ -273,7 +273,7 @@ describe GithubPullRequestReviewService do
       expect(service).to receive(:import_github_pull_request_review)
         .with(pull_request,
           github_review_response,
-          organization.default_team_id,
+          organization.id,
           include_recommendation)
         .and_return(nil)
       service.handle_webhook_event(event_request_data)
