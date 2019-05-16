@@ -89,6 +89,7 @@ en:
       admin_users: Manage users
       default_team: Default team
       behaviour_title: Behaviour in
+      no_default_team: Select default team to check your statistics
     profile:
       no_name: No name
       no_teams: No teams

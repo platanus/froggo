@@ -24,9 +24,15 @@
       <%= t('messages.settings.behaviour_title') %>
       <%= @github_organization[:login] %>
     </div>
-    <div>
-      <%= render "behaviour_dashboard" %>
-    </div>
+    <% if @organization.default_team_id.nil? %>
+      <div class="card-extended__body-subtitle">
+        <%= t('messages.settings.no_default_team') %>
+      </div>
+    <% else %>
+      <div>
+        <%= render "behaviour_dashboard" %>
+      </div>
+    <% end %>
     <div class="card-extended__body-title">
       <%= t('messages.settings.repository_title') %>
       <%= @github_organization[:login] %>
