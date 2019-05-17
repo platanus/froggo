@@ -9,6 +9,11 @@
           <img class="user-menu__image" slot="btn" src="<%= @github_session.user.avatar_url %>"/>
           <div class="user-menu__body" slot="body">
             <%= link_to t('messages.header.close_session'), close_session_path, class: 'user-menu__option'%>
+            <% if @github_session.user.id === @github_user.id %>
+              <%= link_to t('messages.profile.give_permissions'),
+                  org_authenticate_path,
+                  class: 'user-menu__option'%>
+            <% end %>
           </div>
         </dropdown>
       </div>
