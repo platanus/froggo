@@ -1,7 +1,8 @@
 class SlackCommandsService < PowerTypes::Service.new(:params)
   COMMAND_RESPONSES = {
     '/froggo' => :reply_hello,
-    '/next_pr' => :reply_next_pr_recommendation
+    '/next_pr' => :reply_next_pr_recommendation,
+    '/summary' => :reply_summary
   }
 
   def reply
@@ -15,10 +16,19 @@ class SlackCommandsService < PowerTypes::Service.new(:params)
   end
 
   def reply_next_pr_recommendation
-    return I18n.t('messages.slack.wrong_params') if wrong_params?
+    return I18n.t('messages.slack.next_pr_wrong_params') if wrong_params?
     return I18n.t('messages.slack.no_recommendations') if user_not_authorized?
 
     I18n.t('messages.slack.recommended_users', users: recommended_users.join(', '))
+  end
+
+  def reply_summary
+    return I18n.t('messages.slack.summary_wrong_params') if wrong_params?
+    return I18n.t('messages.slack.no_recommendations') if user_not_authorized?
+
+    I18n.t('messages.slack.summary', obedient_count: statistics[:obedient],
+                                     indifferent_count: statistics[:indifferent],
+                                     rebel_count: statistics[:rebel])
   end
 
   def command
@@ -45,6 +55,13 @@ class SlackCommandsService < PowerTypes::Service.new(:params)
     recommendations = GetRecommendations.for(github_user: github_user,
                                              organization: organization)
     recommendations[:best].pluck(:login)
+  end
+
+  def statistics
+    @statistics ||= ComputeUserStatistics.for(
+      github_user_id: github_user.id,
+      organization_id: organization.id
+    )
   end
 
   def wrong_params?

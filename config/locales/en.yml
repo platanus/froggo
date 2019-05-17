@@ -92,9 +92,11 @@ en:
       no_default_team: Select default team to check your statistics
     slack:
       hello: croak!
+      summary: "Your scores: \n %{obedient_count} followed recommendations | %{indifferent_count} ignored recommendations | %{rebel_count} not followed recommendations"
       recommended_users: Send your next PR to %{users}
       no_recommendations: "Ups, you don't belong to that organization or it's default team :frog:"
-      wrong_params: Croak! I don't understand... remember to write something like `/next_pr bunzli platanus`
+      next_pr_wrong_params: Croak! I don't understand... remember to write something like `/next_pr bunzli platanus`
+      summary_wrong_params: Croak! I don't understand... remember to write something like `/summary bunzli platanus`
     profile:
       no_name: No name
       no_teams: No teams
