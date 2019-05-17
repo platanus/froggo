@@ -55,14 +55,26 @@ RSpec.describe GithubAuthController, type: :controller do
       it { expect(response).to redirect_to(settings_organization_path(name: gh_org)) }
     end
 
-    context 'from home modify organizations' do
-      before do
-        get :callback, params: { client_type: :member,
-                                 code: github_return_code,
-                                 callback_action: 'add_organization' }
+    context 'configure organizations' do
+      context 'from home' do
+        before do
+          get :callback, params: { client_type: :member,
+                                   code: github_return_code,
+                                   callback_action: 'add_organization' }
+        end
+
+        it { expect(response).to redirect_to(user_path(github_session.user)) }
       end
 
-      it { expect(response).to redirect_to(user_path(github_session.user)) }
+      context 'when grant is not revoked' do
+        before do
+          allow(subject).to receive(:delete_application_grant).and_return(false)
+        end
+        it 'does not redirect to github auth' do
+          subject.organization_authenticate!
+          expect { expect(GetGithubAuthUrl).to_not receive(:for) }
+        end
+      end
     end
   end
 end
