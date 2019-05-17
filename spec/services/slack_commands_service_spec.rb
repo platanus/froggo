@@ -65,7 +65,7 @@ describe SlackCommandsService do
   context 'command is /next_pr and params are correct' do
     let(:params) { { 'command' => '/next_pr', 'text' => 'isidoravs platanus' } }
 
-    before do
+    let!(:membership) do
       create(:organization_membership, github_user_id: github_user.id,
                                        organization_id: organization.id,
                                        is_member_of_default_team: true)
@@ -101,7 +101,7 @@ describe SlackCommandsService do
   context 'command is /next_pr and user doesn\'t belong to default team' do
     let(:params) { { 'command' => '/next_pr', 'text' => 'isidoravs platanus' } }
 
-    before do
+    let!(:membership) do
       create(:organization_membership, github_user_id: github_user.id,
                                        organization_id: organization.id,
                                        is_member_of_default_team: false)
