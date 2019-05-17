@@ -10,7 +10,8 @@ RSpec.describe GithubAuthController, type: :controller do
         name: 'name',
         set_session: [],
         froggo_path: path,
-        user: 1
+        user: 1,
+        token: 'token'
       )
     end
 
@@ -52,6 +53,16 @@ RSpec.describe GithubAuthController, type: :controller do
       end
 
       it { expect(response).to redirect_to(settings_organization_path(name: gh_org)) }
+    end
+
+    context 'from home modify organizations' do
+      before do
+        get :callback, params: { client_type: :member,
+                                 code: github_return_code,
+                                 callback_action: 'add_organization' }
+      end
+
+      it { expect(response).to redirect_to(user_path(github_session.user)) }
     end
   end
 end

@@ -14,7 +14,9 @@ class GithubAuthController < ApplicationController
   end
 
   def organization_authenticate!
-    redirect_to GetGithubAuthUrl.for(callback_action: :add_organization, client_type: :member)
+    if delete_application_grant
+      redirect_to GetGithubAuthUrl.for(callback_action: :add_organization, client_type: :member)
+    end
   end
 
   def callback
@@ -22,8 +24,7 @@ class GithubAuthController < ApplicationController
     if permitted_params[:callback_action] == 'settings'
       redirect_to settings_organization_path(name: permitted_params[:gh_org])
     elsif permitted_params[:callback_action] == 'add_organization'
-      delete_application_grant
-      authenticate!
+      redirect_to user_path(github_user) || organizations_path
     else
       redirect_to user_path(github_user) || organizations_path
     end
@@ -47,5 +48,8 @@ class GithubAuthController < ApplicationController
     Octokit.client.as_app do |client|
       client.delete "/applications/#{ENV['GH_AUTH_ID']}/grants/#{github_session.token}"
     end
+    true
+  rescue Octokit::ApplicationCredentialsRequired, Octokit::Unauthorized
+    false
   end
 end
