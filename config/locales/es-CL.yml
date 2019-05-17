@@ -63,9 +63,11 @@ es-CL:
       no_default_team: Selecciona un equipo default para ver tus estadísticas
     slack:
       hello: croak!
+      summary: "Tus puntajes son: \n %{obedient_count} recomendaciones seguidas | %{indifferent_count} recomendaciones ignoradas | %{rebel_count} recomendaciones no seguidas"
       recommended_users: Asigna tu próximo PR a %{users}
       no_recommendations: "Ups, no perteneces a esa organización o a su team default :frog:"
-      wrong_params: Croak! No entendí... recuerda poner algo como `/next_pr bunzli platanus`
+      next_pr_wrong_params: Croak! No entendí... recuerda poner algo como `/next_pr bunzli platanus`
+      summary_wrong_params: Croak! No entendí... recuerda poner algo como `/summary bunzli platanus`
     profile:
       teams_dropdown_hint: Ver recomendaciones para...
       no_name: Sin nombre
