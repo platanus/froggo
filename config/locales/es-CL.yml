@@ -77,3 +77,4 @@ es-CL:
       recommended_reviewers: Te recomendamos mandar tu próximo PR a alguna de estas personas
       not_recommended_reviewers: Evita mandarle otro PR a estas personas
       no_recommendations: No tenemos recomendaciones para ti dado que no perteneces a ninguna organización
+      give_permissions: Configurar organizaciones
