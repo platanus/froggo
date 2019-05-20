@@ -222,7 +222,7 @@ describe GithubPullRequestReviewService do
         it "does not create new pull request reviews" do
           expect do
             build(token: token).import_github_pull_request_review(pull_request,
-              github_review_response,
+              github_review_response2,
               organization.default_team_id,
               include_recommendation)
           end.not_to(change { PullRequestReview.count })

@@ -46,7 +46,8 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
       organization_id,
       include_recommendation)
 
-    if pr_review = PullRequestReview.find_by(gh_id: github_pr_review.id)
+    if pr_review = PullRequestReview.find_by(pull_request_id: pull_request.id,
+                                             github_user_id: params[:github_user_id])
       pr_review.update! params
     else
       pull_request.pull_request_reviews.create!(params)
@@ -76,7 +77,8 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
       github_user_id: user.id
     )
 
-    if include_recommendation && PullRequestReview.find_by(gh_id: github_pr_review.id).nil?
+    if include_recommendation && PullRequestReview.find_by(pull_request_id: pull_request.id,
+                                                           github_user_id: user.id).nil?
       review_params[:recommendation_behaviour] = get_behaviour(pull_request,
         github_pr_review,
         organization_id)
@@ -126,5 +128,6 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
                                  is_member_of_default_team: true)
                           .pluck(:github_user_id)
                           .reject { |user_id| user_id == owner_id }
+                          .sort
   end
 end
