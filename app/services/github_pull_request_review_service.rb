@@ -76,7 +76,7 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
       github_user_id: user.id
     )
 
-    if include_recommendation
+    if include_recommendation && PullRequestReview.find_by(gh_id: github_pr_review.id).nil?
       review_params[:recommendation_behaviour] = get_behaviour(pull_request,
         github_pr_review,
         organization_id)

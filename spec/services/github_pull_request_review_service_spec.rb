@@ -205,7 +205,18 @@ describe GithubPullRequestReviewService do
 
       context "and review exists" do
         before do
-          create(:pull_request_review, gh_id: 123, pull_request: pull_request)
+          create(
+            :pull_request_review,
+            gh_id: 123,
+            pull_request: pull_request,
+            github_user: users[3],
+            recommendation_behaviour: :obedient
+          )
+          allow(service).to receive(:team_review_request_recommendations)
+            .and_return ({
+              best: [users[0], users[1], users[2]],
+              worst: [users[3], users[4], users[5]]
+            })
         end
 
         it "does not create new pull request reviews" do
@@ -215,6 +226,21 @@ describe GithubPullRequestReviewService do
               organization.default_team_id,
               include_recommendation)
           end.not_to(change { PullRequestReview.count })
+        end
+
+        it 'does not update behaviour' do
+          build(token: token).import_github_pull_request_review(
+            pull_request,
+            github_review_response2,
+            organization.default_team_id,
+            include_recommendation
+          )
+          expect(PullRequestReview.last).to have_attributes(
+            gh_id: 123,
+            pull_request_id: pull_request.id,
+            github_user_id: users[3].id,
+            recommendation_behaviour: 'obedient'
+          )
         end
       end
     end
