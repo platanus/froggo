@@ -10,6 +10,28 @@ RSpec.describe OrganizationSync, type: :model do
       it '#execute changes state from created to executing' do
         expect { subject.execute }.to change(subject, :state).from('created').to('executing')
       end
+
+      context '#execute completed' do
+        before do
+          subject.execute
+          subject.complete
+        end
+
+        it '#execute changes state from completed to executing' do
+          expect { subject.execute }.to change(subject, :state).from('completed').to('executing')
+        end
+      end
+
+      context '#execute failed' do
+        before do
+          subject.execute
+          subject.fail
+        end
+
+        it '#execute changes state from failed to executing' do
+          expect { subject.execute }.to change(subject, :state).from('failed').to('executing')
+        end
+      end
     end
 
     context '#fail' do
