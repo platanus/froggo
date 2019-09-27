@@ -206,12 +206,12 @@ describe GithubRepositoryService do
     end
 
     context "when exists old repositories in db" do
-      let!(:org_repo) {
+      let!(:org_repo) do
         create(:repository, organization: organization, gh_id: 101, full_name: "Platanus labs")
-      }
-      let!(:not_org_repo) {
+      end
+      let!(:not_org_repo) do
         create(:repository, organization: organization, gh_id: 105, full_name: "I don't exist")
-      }
+      end
 
       before do
         allow(service).to receive(:remove_webhook)
