@@ -6,7 +6,7 @@ class Repository < ApplicationRecord
 
   has_many :pull_requests, dependent: :destroy
   has_many :pull_request_reviews, through: :pull_requests
-  has_many :hooks, as: :resource, dependent: :destroy
+  has_many :hooks, as: :resource, dependent: :destroy, inverse_of: :resource
 
   validates :gh_id, presence: true
   validates :full_name, presence: true
