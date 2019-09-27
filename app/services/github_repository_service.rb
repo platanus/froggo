@@ -34,7 +34,10 @@ class GithubRepositoryService < PowerTypes::Service.new(:token)
   end
 
   def remove_old_repositories(organization, current_repos)
-    organization.repositories.where.not(gh_id: current_repos.map { |e| e[:id] }).each(&:destroy!)
+    organization.repositories.where.not(gh_id: current_repos.map { |e| e[:id] }).each do |repo|
+      remove_webhook(repo)
+      repo.destroy
+    end
   end
 
   private
