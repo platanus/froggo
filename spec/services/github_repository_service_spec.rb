@@ -180,13 +180,14 @@ describe GithubRepositoryService do
         }
       ]
     end
+    let(:service) { build(token: token) }
 
     before do
       allow(client).to receive(:org_repos).with(organization.login).and_return(github_repositories)
     end
 
     def run_method
-      build(token: token).import_all_from_organization(organization)
+      service.import_all_from_organization(organization)
       organization.repositories.reload
     end
 
@@ -205,11 +206,22 @@ describe GithubRepositoryService do
     end
 
     context "when exists old repositories in db" do
+      let!(:org_repo) { create(:repository, organization: organization, gh_id: 101, full_name: "Platanus labs") }
+      let!(:not_org_repo) { create(:repository, organization: organization, gh_id: 105, full_name: "I don't exist") }
+
       before do
-        create(:repository, organization: organization, gh_id: 101, full_name: "Platanus labs")
-        create(:repository, organization: organization, gh_id: 105, full_name: "I don't exist")
+        allow(service).to receive(:remove_webhook)
       end
+
       it { expect { run_method }.to change { organization.repositories.count }.by(-1) }
+      it do
+        run_method
+        expect(service).to have_received(:remove_webhook).with(not_org_repo).once
+      end
+      it do
+        run_method
+        expect(service).not_to have_received(:remove_webhook).with(org_repo)
+      end
     end
   end
 end
