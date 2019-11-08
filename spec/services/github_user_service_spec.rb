@@ -17,7 +17,16 @@ describe GithubUserService do
            avatar_url: '',
            html_url: '',
            email: '',
-           name: '')
+           name: nil)
+  end
+
+  let (:user3) do
+    double(login: 'a user',
+           id: gh_user.gh_id,
+           avatar_url: '',
+           html_url: '',
+           email: '',
+           name: 'jaime')
   end
 
   def build(*_args)
@@ -33,6 +42,12 @@ describe GithubUserService do
     it 'find an existing user in BD' do
       find = build.find_or_create(user2)
       expect(find).to eq(gh_user)
+    end
+
+    it 'updates name of existing user' do
+      gh_user.update(name: nil)
+      find = build.find_or_create(user3)
+      expect(find.name).to eq(user3.name)
     end
   end
 end
