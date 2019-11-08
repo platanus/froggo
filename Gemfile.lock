@@ -429,7 +429,7 @@ GEM
     xdan-datetimepicker-rails (2.5.4)
       jquery-rails
       rails (>= 3.2.16)
-    yard (0.9.12)
+    yard (0.9.20)
 
 PLATFORMS
   ruby
