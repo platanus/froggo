@@ -271,7 +271,8 @@ GEM
     public_suffix (3.0.1)
     puma (3.11.0)
     rack (2.0.3)
-    rack-cors (0.4.1)
+    rack-cors (1.0.6)
+      rack (>= 1.6.0)
     rack-livereload (0.3.16)
       rack
     rack-protection (2.0.0)
@@ -466,7 +467,7 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma (~> 3.7)
-  rack-cors (~> 0.4.0)
+  rack-cors (~> 1.0.6)
   rack-livereload
   rack-timeout
   rails (~> 5.1.4)
