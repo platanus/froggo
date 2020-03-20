@@ -8,7 +8,7 @@ gem 'activeadmin_addons', '~> 1.1.2'
 gem "autoprefixer-rails"
 gem 'aws-sdk', '~> 2.5'
 gem 'coffee-rails', '~> 4.2'
-gem 'devise'
+gem 'devise', '~> 4.4.3'
 gem 'devise-i18n'
 gem 'enumerize'
 gem "font-awesome-rails"
