@@ -2,7 +2,7 @@
   "name": "froggo",
   "private": true,
   "engines": {
-    "node": "10.16.3"
+    "node": "^10.15.2"
   },
   "dependencies": {
     "@rails/webpacker": "^3.0.2",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "eslint-plugin-vue": "^4.7.1",
+    "node-sass": "^4.9.0",
     "webpack-dev-server": "^2.9.7"
   }
 }
