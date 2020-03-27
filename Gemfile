@@ -59,7 +59,7 @@ end
 
 group :development, :test do
   gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'binding_of_caller', '~> 0.8.0'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker', '1.8.4'
