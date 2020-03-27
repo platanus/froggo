@@ -21,7 +21,7 @@ wait_services(){
   count=0
   # Chain tests together by using &&
   until (
-    test_service '$POSTGRESQL_HOST' '$POSTGRESQL_PORT' && \
+    test_service '$DB_HOST' '$DB_PORT' && \
     echo "Services ready"
   )
   do
