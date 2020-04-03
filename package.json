@@ -22,5 +22,6 @@
     "eslint-plugin-vue": "^4.7.1",
     "node-sass": "^4.9.0",
     "webpack-dev-server": "^2.9.7"
-  }
+  },
+  "version": "0.0.0"
 }
