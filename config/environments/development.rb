@@ -25,6 +25,4 @@ Rails.application.configure do
   config.assets.debug = true
   config.assets.quiet = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-  config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
 end

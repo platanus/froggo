@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 
 gem 'aasm'
-gem 'active_model_serializers', '~> 0.10'
+gem 'active_model_serializers', '~> 0.9.7'
 gem 'active_skin'
-gem 'activeadmin', '~> 1.1.0'
-gem 'activeadmin_addons', '~> 1.1.2'
+gem 'activeadmin', '~> 1.3.0'
+gem 'activeadmin_addons'
 gem "autoprefixer-rails"
 gem 'aws-sdk', '~> 2.5'
 gem 'coffee-rails', '~> 4.2'
-gem 'devise', '~> 4.4.3'
+gem 'devise'
 gem 'devise-i18n'
 gem 'enumerize'
 gem "font-awesome-rails"
@@ -21,7 +21,7 @@ gem 'pg'
 gem 'power-types'
 gem 'puma', '~> 3.7'
 gem 'rack-cors', '~> 0.4.0'
-gem 'rails', '~> 5.1.4'
+gem 'rails', '~> 5.2.3'
 gem 'rails-controller-testing'
 gem 'rails-i18n'
 gem 'recursive-open-struct'
@@ -53,8 +53,6 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'guard-livereload', '~> 2.5.2', require: false
-  gem "rack-livereload"
 end
 
 group :development, :test do
