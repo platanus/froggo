@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  build:
     working_directory: ~/app
 
     docker:
@@ -18,9 +18,9 @@ jobs:
 
     - run: bin/cibuild db
     - run: bin/cibuild tests
-    
+
     - run: bin/cibuild js_tests
-    
+
 
   lint:
     docker:

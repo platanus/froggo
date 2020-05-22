@@ -9,17 +9,39 @@
 // $sidebar-width: 242px;
 
 // Active Admin's got SASS!
-@import "active_admin/mixins";
-@import "active_admin/base";
+@import 'active_admin/mixins';
+@import 'active_admin/base';
+@import 'font-awesome';
 $skinActiveColor: #001CEE;
 $skinHeaderBck: #002744;
 $panelHeaderBck: #002744;
-//$skinLogo: $skinHeaderBck image-url("logo_admin.png") no-repeat center center;
+$yellow: #e7d41a;
+$green: #82b06f;
+$skinLogo: image-url('header-logo-platanus.svg') no-repeat center center;
 
-@import "active_skin";
+@import 'active_skin';
 
 
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+.github-link-container {
+  margin: 10px auto;
+  width: 300px;
+  text-decoration: none;
+}
+
+.github-link-container a {
+  color: #000;
+  text-decoration: none;
+}
+
+.github-link {
+  text-align: center;
+}
+
+.status_tag {
+  &.merge_by { background: $yellow; }
+  &.reviewer { background: $green; }
+}

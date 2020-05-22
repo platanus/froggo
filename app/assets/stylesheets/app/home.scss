@@ -1,0 +1,129 @@
+.c-presentation {
+  height: 544px;
+  background-color: $primary-color-light;
+  background-image: image_url('frog-foot-top.png'), image_url('frog-foot-bottom.png');
+  background-position: left top, right bottom;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__logo {
+    margin: 24px auto;
+  }
+
+  &__title {
+    height: 132px;
+    width: 887px;
+    margin: 40px auto 24px;
+    color: $home-title-color;
+    font-family: $main-font;
+    font-size: 56px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 66px;
+    text-align: center;
+  }
+
+  &__sub-title {
+    height: 84px;
+    width: 587px;
+    margin: 0 auto 40px;
+    color: $home-title-color;
+    font-family: $main-font;
+    font-size: 23px;
+    font-weight: 300;
+    line-height: 28px;
+    text-align: center;
+  }
+
+  &__github-login {
+    height: 56px;
+    width: 328px;
+  }
+}
+
+.c-github-login {
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $login-btn-bg;
+  cursor: pointer;
+  text-decoration: none;
+
+  &__logo-container {
+    height: 56px;
+    width: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__logo {
+    height: 24px;
+    width: 24px;
+    align-self: center;
+  }
+
+  &__text {
+    height: 21px;
+    width: 272px;
+    color: $login-btn-color;
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21px;
+  }
+}
+
+.c-home-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    height: 66px;
+    width: 794px;
+    margin-top: 88px;
+    color: $secondary-color;
+    font-size: 56px;
+    letter-spacing: -1px;
+    line-height: 66px;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  &__image {
+    height: 540px;
+    width: 960px;
+  }
+}
+
+.c-home-footer {
+  background-color: $secondary-color;
+  color: $home-footer-color;
+  height: 272px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1 auto;
+
+  &__text {
+    text-decoration: none;
+    color: $home-footer-color;
+  }
+
+  & a:visited {
+    @extend .c-home-footer__text;
+  }
+}
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  height: 1744px;
+}
+

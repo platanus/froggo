@@ -2,9 +2,17 @@ development:
   adapter: async
 
 test:
+<<<<<<< HEAD
   adapter: test
 
 production:
   adapter: redis
   url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+=======
+  adapter: async
+
+production:
+  adapter: redis
+  url: redis://localhost:6379/1
+>>>>>>> origin/master
   channel_prefix: froggo_production

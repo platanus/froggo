@@ -4,39 +4,51 @@ gem 'active_model_serializers', '~> 0.9.3'
 gem 'active_skin', github: 'SoftwareBrothers/active_skin'
 gem 'activeadmin', '~> 2.6'
 gem 'activeadmin_addons'
+gem 'aws-sdk', '~> 2.5'
 gem 'aws-sdk-rails'
 gem 'aws-sdk-s3', '~> 1.0'
 gem 'bootsnap', require: false
+gem 'coffee-rails', '~> 4.2'
 gem 'data_migrate'
 gem 'devise'
 gem 'devise-i18n'
-gem 'draper', '~> 3.1'
 gem 'enumerize'
+gem "font-awesome-rails"
 gem 'jbuilder', '~> 2.7'
+gem 'octicons_helper'
+gem 'octokit'
+gem 'omniauth'
+gem 'omniauth-github'
 gem 'pg'
 gem 'power-types'
 gem 'puma', '~> 4.1'
-gem 'pundit'
 gem 'rack-cors', '~> 1.1'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.1'
+gem 'rails-controller-testing'
 gem 'rails-i18n'
 gem 'recipient_interceptor'
 gem 'responders'
 gem 'sass-rails', '>= 6'
 gem 'sentry-raven'
 gem 'sidekiq'
+gem 'sidekiq-limit_fetch'
 gem 'sidekiq-scheduler', '>= 3.0.1'
 gem 'simple_token_authentication', '~> 1.0'
+gem 'spring'
 gem 'strong_migrations'
 gem 'turbolinks', '~> 5'
+gem 'uglifier', '>= 1.3.0'
+gem 'uuidtools'
 gem 'versionist'
 gem 'webpacker', '~> 4.0'
 
-group :development do
+group :production do
   gem 'annotate', '~> 3.0'
+  gem 'heroku-stage'
   gem 'letter_opener'
   gem 'listen'
-  gem 'spring'
+  gem 'rack-timeout'
+  gem 'rails_stdout_logging'
 end
 
 group :test do
@@ -59,10 +71,6 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-end
-
-group :production do
-  gem 'rack-timeout'
 end
 
 group :production, :development, :test do

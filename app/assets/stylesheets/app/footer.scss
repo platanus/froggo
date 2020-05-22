@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+$roboto: 'Roboto', sans-serif;
+$text: #aeabcc;
+
+.footer {
+  padding: 20px;
+}
+
+.footer__platanus {
+  width: 60px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.footer__platanus-text {
+  color: $text;
+  font-family: $roboto;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 16px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}

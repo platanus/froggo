@@ -6,6 +6,21 @@ ActiveAdmin.register_page "Dashboard" do
       span class: "blank_slate" do
         span I18n.t("active_admin.dashboard_welcome.welcome")
         small I18n.t("active_admin.dashboard_welcome.call_to_action")
+    columns do
+      column do
+        panel "Tracked repositories" do
+          table_for Repository.where("tracked = true").map do
+            column :full_name
+            column :tracked # TO DO: convert to checkbox
+            column "Edit" do |repo|
+              link_to "Edit", edit_admin_repository_url(repo)
+            end
+            column "See open pull-requests" do # TO DO: show PR by repo
+              link_to "Pull requests", nil
+            end
+          end
+          small link_to("Manage repositories tracked here.", "repositories")
+        end
       end
     end
 

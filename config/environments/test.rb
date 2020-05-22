@@ -1,4 +1,3 @@
-
 Rails.application.configure do
   config.active_job.queue_adapter = :test
   config.before_configuration do

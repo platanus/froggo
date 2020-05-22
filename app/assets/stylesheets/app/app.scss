@@ -1,0 +1,85 @@
+@import './base';
+@import './button';
+@import './card';
+@import './home';
+@import './dashboard';
+@import './footer';
+@import './header';
+@import './select';
+@import './loading';
+@import './profile';
+@import './repository';
+@import './public_dashboard';
+@import './colored_number.scss';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: $main-font;
+  background-color: $bg-primary-color;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  background-color: $bg-primary-color;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.app__container {
+  min-height: calc(100vh - 157px);
+}
+
+.container {
+  width: $app-content-width;
+  margin: 0 auto;
+}
+
+/* Adding custom size for devices */
+/* stylelint-disable vendor-prefix media-feature-name-no-vendor-prefix */
+@media only screen
+  and (max-device-width: 736px)
+  and (min-device-width: 375px),
+  screen and (device-width: 360px)
+  and (device-height: 640px)
+  and (orientation: portrait),
+  screen and (device-width: 360px)
+  and (device-height: 640px),
+  screen and (device-height: 568px) {
+  .header__container {
+    width: inherit;
+    justify-content: space-around;
+  }
+
+  .card {
+    width: inherit;
+  }
+
+  .card-extended {
+    width: 85%;
+  }
+}
+
+@media only screen
+  and (min-device-width : 768px)
+  and (max-device-width : 1024px) {
+  .header__container {
+    justify-content: space-around;
+    margin-right: 0;
+  }
+
+  .header {
+    width: fit-content;
+  }
+}
+/* stylelint-enable */

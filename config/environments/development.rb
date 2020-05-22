@@ -10,7 +10,7 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+      'Cache-Control' => "public, max-age=#{2.days.secondes.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -22,8 +22,9 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.active_support.deprecation = :log
   config.active_record.migration_error = :page_load
-  config.active_record.verbose_query_logs = true
   config.assets.debug = true
   config.assets.quiet = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
 end

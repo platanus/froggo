@@ -1,2 +1,80 @@
 es-CL:
-  hello: "Hola mundo"
+  active_admin:
+    github:
+      link: Autorizar acceso a Github
+      token_reset: Se ha reseteado tu token
+    pull_requests:
+          one: 1 pr
+          other: '%{count} prs'
+    pull_request_relations:
+          zero: vacío
+          one: 1 rel
+          other: '%{count} rels'
+  messages:
+    dashboard:
+      greeting: Hola
+      title: 'Dashboard de %{org}'
+      public:
+        title: 'Dashboard Público'
+      info: La siguiente tabla contiene la información entre los reviewers (el que revisa la pull request) y mergees (quien realiza el merge de la rama), donde los numeros de la tabla son la suma a la cual llamamos colaboración. En la vertical desde arriba hacia abajo son los reviews o merges que esa persona ha realizado a los demás miembros. En la horizontal son a quienes ha asignado a sus pull requests.
+      track_organization: Puedes seguir esta organización y crear un dashboard haciendo click aquí.
+      track_no_permission: Esta organización no se encuentra registrada. Contacta al administrador de tu organización para otorgar permisos.
+      no_pullrequest: Esta organización no tiene relaciones entre sus usuarios. ¡Motiva a tu equipo a usar mejores prácticas haciendo Code Review en las Pull Requests!.
+      button_config: Configurar dashboard
+      button_create: Crear nuevo dashboard
+      settings: Configuración
+      permission_title: Ups. No hay nada en %{org}.
+      permission_info: ! 'El admin de %{org} no ha creado el dashboard. Envíale una ranita para que lo haga.'
+      permission_button: Enviar ranita voladora
+      empty_info: ! 'La organización %{org} esta vacía. Revisa tus repositorios trackeados o motiva a tu equipo a hacer más code review.'
+      empty_team: ! 'El equipo %{team} esta vacío. Revisa otros equipos o el dashboard general de la organización.'
+      empty_title: ! ¡%{org} está vacío!
+      organizations: Organizaciones
+      teams: Equipos
+      months: Meses
+      month: Mes
+      since: Desde
+      obedient: Obediente
+      indifferent: Indiferente
+      rebel: Rebelde
+    header:
+      close_session: Cerrar sesión
+    home:
+      title: Descubre cómo se distribuyen los Pull Requests en tu organización
+      subtitle: Gran parte de la cultura en tu organización se trasmite por Pull Requests. ¡Asegúrate que todos reciban una buena parte!
+      connect_github: Conectar con Github
+      go_to_dashboard: Ver Dashboards
+      dashboard_title: Así se verá tu equipo
+    missing:
+      title: Estás solito en el universo
+      info: No estas registrado en ninguna organización de github o las organizaciones a las cuales perteneces aún no aprueban a esta aplicación. En caso de lo último, contacta al admin de tu organización.
+    settings:
+      button_back: Volver
+      login_with_admin_session: Nada por aquí, nada por allá
+      login_with_admin_session_ask: Otorgar permisos
+      login_with_admin_session_message: Crea un dashboard y que empiece la fiesta!
+      login_with_admin_session_message_ask: Para comenzar necesitas logearte en github como admin
+      obtain_admin_privilege: Obtener privilegios de admin en github
+      create_dashboard: Dar permisos
+      repository_title: Repositorios en
+      repository_count: repositorios
+      default_team: Equipo default
+      behaviour_title: Comportamiento en
+      no_default_team: Selecciona un equipo default para ver tus estadísticas
+    slack:
+      hello: croak!
+      summary: "Tus puntajes son: \n %{obedient_count} recomendaciones seguidas | %{indifferent_count} recomendaciones ignoradas | %{rebel_count} recomendaciones no seguidas"
+      recommended_users: Asigna tu próximo PR a %{users}
+      no_recommendations: "Ups, no perteneces a esa organización o a su team default :frog:"
+      next_pr_wrong_params: Croak! No entendí... recuerda poner algo como `/next_pr bunzli platanus`
+      summary_wrong_params: Croak! No entendí... recuerda poner algo como `/summary bunzli platanus`
+    profile:
+      teams_dropdown_hint: Ver recomendaciones para...
+      no_name: Sin nombre
+      no_teams: Sin equipos
+      compute_score_explanation: "Que cómo obtuvimos este puntaje? Fácil: blah blah..."
+      your_score: Tu puntaje
+      recommended_reviewers: Te recomendamos mandar tu próximo PR a alguna de estas personas
+      not_recommended_reviewers: Evita mandarle otro PR a estas personas
+      no_recommendations: No tenemos recomendaciones para ti dado que no perteneces a ninguna organización
+      give_permissions: Configurar organizaciones

@@ -1,0 +1,20 @@
+<div id="app" class="app">
+  <%= render 'partials/header' %>
+  <div class="app__container">
+    <div id="content-dashboard" class="dashboard">
+      <% if !@has_dashboard && !@is_admin %>
+        <%= render "permission" %>
+      <% elsif (@corrmat.nil? || @corrmat.selected_users.empty?) && !@team %>
+        <%= render "empty" %>
+      <% else %>
+        <%= render "dashboard_table" %>
+        <div class="info">
+          <p class="info__description">
+            <%= t('messages.dashboard.info') %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <%= render "partials/footer" %>
+</div>

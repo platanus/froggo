@@ -1,0 +1,13 @@
+<div id="app">
+  <%= render 'partials/header' %>
+  <div class="settings">
+    <% if !@is_admin_github_session %>
+      <%= render "admin_permission" %>
+    <% elsif @has_dashboard %>
+      <%= render "settings_content" %>
+    <% else %>
+      <%= render "init_dashboard" %>
+    <% end %>
+  </div>
+  <%= render "partials/footer" %>
+</div>

@@ -1,0 +1,18 @@
+<div id="app" class="app">
+  <public-dashboard-carousel
+     organization-id="<%= @organization.id %>"
+     :github-users=
+     "<%=
+       @organization
+       .members
+       .map do |member|
+         {
+           'githubLogin': member.login,
+           'imageUrl': member.avatar_url,
+         }
+       end
+       .to_json
+     %>"
+  >
+  </public-dashboard-carousel>
+</div>

@@ -1,0 +1,39 @@
+.button {
+  background: $primary-color;
+  border-radius: 2px;
+  color: $white;
+  cursor: pointer;
+  display: table-cell;
+  float: right;
+  font-size: 13px;
+  font-weight: 500;
+  height: fit-content;
+  line-height: 30px;
+  margin-right: 10px;
+  min-width: 91px;
+  padding: 2px 5px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  vertical-align: middle;
+
+  &--big {
+    height: 56px;
+    width: 304px;
+    font-size: 18px;
+  }
+
+  &--light {
+    background-color: $white;
+    color: $primary-color;
+    border: solid 2px $primary-color;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

@@ -1,4 +1,4 @@
-# Froggo 
+# Froggo
 This is a Rails application, initially generated using [Potassium](https://github.com/platanus/potassium) by Platanus.
 
 ## Local installation

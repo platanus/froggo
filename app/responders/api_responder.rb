@@ -26,6 +26,7 @@ class ApiResponder < ActionController::Responder
 
   def status_code
     return :created if post?
+
     :ok
   end
 

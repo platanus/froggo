@@ -1,0 +1,4 @@
+<% @organization.sorted_repositories.each do |repository| %>
+  <repository :value="<%= repository.attributes.slice('id', 'name', 'tracked', 'gh_updated_at', 'html_url').to_json %>" class="repository">
+  </repository>
+<% end %>

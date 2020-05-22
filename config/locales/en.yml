@@ -27,7 +27,82 @@
 #   'true': 'foo'
 #
 # To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
+# available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  active_admin:
+    github:
+      link: Authorize Github access
+      token_reset: Your token has been reset
+    pull_requests:
+      one: 1 pr
+      other: '%{count} prs'
+    pull_request_relations:
+      zero: empty
+      one: 1 rel
+      other: '%{count} rels'
+  messages:
+    dashboard:
+      greeting: Hello
+      title: "%{org}'s Dashboard"
+      public:
+        title: 'Public Dashboard'
+      info: The following table has the information between revieweers and merges as a sum, named collaboration. From top to bottom, where in top is user A its read as how many collaborations has done the user A to user B, where user B is the user in the first column
+      track_organization: You can track this organization and create a dashboard by clicking above.
+      track_no_permission: This organization is not tracked yet. Please contact your organization admin in order to grant access to the organization.
+      no_pullrequest: This organization doesn't have relations between its users. Encourage your team to use better practices with code review in your pull requests!
+      button_config: Configure dashboard
+      button_create: Create new dashboard
+      settings: Settings
+      permission_title: Ups. There's nothing in %{org}.
+      permission_info: ! 'The admin from %{org} has not create dashboard. Send him a little frog asking him to do it.'
+      permission_button: Send a little flying
+      empty_info: ! 'The organization %{org} is empty. Check your tracked repositories or encourage your team to do more code review.'
+      empty_team: ! 'The team %{team} is empty. Check other teams or default dashboard of the organization.'
+      empty_title: ! ' %{org} is empty!'
+      organizations: Organizations
+      teams: Teams
+      months: Months
+      month: Month
+      since: Since
+      obedient: Obedient
+      indifferent: Indifferent
+      rebel: Rebel
+    header:
+      close_session: Close session
+    home:
+      title: Code review tool for GitHub pull requests
+      subtitle: Discover how your Github organization's code review and pull requests are distributed.
+      connect_github: Connect with Github
+      go_to_dashboard: Go to Dashboards
+      dashboard_title: You'll see your team like this
+    missing:
+      info: You are not registered in any github organizations or your current organizations still don't approve this applications. If you have this problem, contact with the admin of your organizations.
+    settings:
+      button_back: Back
+      login_with_admin_session: Nothing here, nothing there
+      login_with_admin_session_message: Init a dashboard and let's the party begin!
+      obtain_admin_privilege: Obtain github admin privileges
+      create_dashboard: Create dashboard
+      repository_title: Repositories in
+      repository_count: repositories
+      admin_users: Manage users
+      default_team: Default team
+      behaviour_title: Behaviour in
+      no_default_team: Select default team to check your statistics
+    slack:
+      hello: croak!
+      summary: "Your scores: \n %{obedient_count} followed recommendations | %{indifferent_count} ignored recommendations | %{rebel_count} not followed recommendations"
+      recommended_users: Send your next PR to %{users}
+      no_recommendations: "Ups, you don't belong to that organization or it's default team :frog:"
+      next_pr_wrong_params: Croak! I don't understand... remember to write something like `/next_pr bunzli platanus`
+      summary_wrong_params: Croak! I don't understand... remember to write something like `/summary bunzli platanus`
+    profile:
+      no_name: No name
+      no_teams: No teams
+      compute_score_explanation: "How did we come up with this value? Easy: blah blah..."
+      your_score: Your score
+      recommended_reviewers: We recommend you request a review from one of these persons
+      not_recommended_reviewers: Avoid requesting reviews from these persons
+      no_recommendations: You don't belong to any organization so there are no recommendations for you
+      give_permissions: Configure organizations
