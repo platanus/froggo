@@ -1,4 +1,7 @@
 PROJECT ?= froggo
+DOCKER_COMPOSE_FILE ?= docker-compose.yml
+
+DOCKER_COMPOSE_ARGS ?= -p $(PROJECT) -f $(DOCKER_COMPOSE_FILE)
 
 SHELL := /bin/bash
 
@@ -14,6 +17,15 @@ help:
 	@echo "Copy latest database backup from the environment (staging|production) to local database:"
 	@echo "  ${BOLD}make restore-from-<environment>${NORMAL}"
 	@echo ""
+
+services-up:
+	docker-compose $(DOCKER_COMPOSE_ARGS) up -d
+
+services-stop:
+	docker-compose $(DOCKER_COMPOSE_ARGS) stop
+
+services-down:
+	docker-compose $(DOCKER_COMPOSE_ARGS) down --volumes
 
 services-port:
 	@set -o pipefail; \

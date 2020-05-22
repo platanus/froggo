@@ -11,7 +11,7 @@ end
 #
 # Table name: hooks
 #
-#  id            :integer          not null, primary key
+#  id            :bigint(8)        not null, primary key
 #  hook_type     :string
 #  gh_id         :integer
 #  name          :string
@@ -21,7 +21,7 @@ end
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  resource_type :string
-#  resource_id   :integer
+#  resource_id   :bigint(8)
 #
 # Indexes
 #

@@ -13,20 +13,14 @@ bundle check || bundle install
 # Install javascript dependencies
 bin/yarn install
 
-<<<<<<< HEAD
 # Set up required services
 docker-compose up -d
 
-=======
->>>>>>> origin/master
 # Set up database
 bin/rails db:setup
 
 # Add binstubs to PATH via export PATH=".git/safe/../../bin:$PATH" in ~/.zshenv
 mkdir -p .git/safe
 
-<<<<<<< HEAD
-=======
 # Setup heroku remotes
 bin/setup_heroku
->>>>>>> origin/master

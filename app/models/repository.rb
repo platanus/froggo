@@ -18,7 +18,7 @@ end
 #
 # Table name: repositories
 #
-#  id              :integer          not null, primary key
+#  id              :bigint(8)        not null, primary key
 #  gh_id           :integer
 #  name            :string
 #  full_name       :string
@@ -27,7 +27,7 @@ end
 #  html_url        :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  organization_id :integer
+#  organization_id :bigint(8)
 #  gh_updated_at   :datetime
 #
 # Indexes
