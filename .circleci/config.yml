@@ -1,0 +1,102 @@
+version: 2
+jobs:
+  test:
+    working_directory: ~/app
+
+    docker:
+    - image: platanus/compose:1.22.0
+
+    steps:
+    - checkout
+    - setup_remote_docker
+
+    - run: docker info
+    - run: docker-compose -f docker-compose.ci.yml pull
+    - run: docker-compose -f docker-compose.ci.yml build test
+    - run: bin/cibuild services
+    - run: bin/cibuild deps
+
+    - run: bin/cibuild db
+    - run: bin/cibuild tests
+    
+    - run: bin/cibuild js_tests
+    
+
+  lint:
+    docker:
+      - image: circleci/ruby:2.7-node
+        environment:
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - bundle-dependencies-{{ checksum "Gemfile.lock" }}
+          - bundle-dependencies-
+
+      - restore_cache:
+          keys:
+          - yarn-dependencies-{{ checksum "yarn.lock" }}
+          - yarn-dependencies-
+
+      - run:
+          name: Install bundle dependencies
+          command: |
+            BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")
+            gem install bundler:$BUNDLER_VERSION
+            bundle _$(echo $BUNDLER_VERSION)_ install
+
+      - save_cache:
+          key: bundle-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: Install yarn dependencies
+          command: yarn install --frozen-lockfile
+
+      - save_cache:
+          key: yarn-dependencies-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
+      - run:
+          name: Install reviewdog
+          command: |
+            curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b ./bin
+
+      - run:
+          name: Get files to lint
+          command: git diff origin/master --name-only --diff-filter=d > tmp/files_to_lint
+
+      - run:
+          name: Run rubocop
+          shell: /bin/bash
+          command: |
+            cat tmp/files_to_lint | grep -E '.+\.(rb)$' | xargs bundle exec rubocop --force-exclusion \
+            | ./bin/reviewdog -reporter=github-pr-review -f=rubocop
+
+      - run:
+          name: Run eslint
+          shell: /bin/bash
+          command: |
+            cat tmp/files_to_lint | grep -E '.+\.(js|jsx|vue)$' | xargs yarn run eslint \
+            | ./bin/reviewdog -reporter=github-pr-review -f=eslint
+
+      - run:
+          name: Run stylelint
+          shell: /bin/bash
+          command: |
+            cat tmp/files_to_lint | grep -E '.+\.(scss|css|less)$' | xargs yarn run stylelint \
+            | ./bin/reviewdog -reporter=github-pr-review -f=stylelint
+
+workflows:
+  version: 2
+  test_and_lint:
+    jobs:
+      - test
+      - lint:
+          context: org-global
