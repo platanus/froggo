@@ -259,7 +259,7 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :github, ENV.fetch('GH_APP_ID'), ENV.fetch('GH_APP_SECRET'),
+  config.omniauth :github, ENV.fetch('GH_AUTH_ID'), ENV.fetch('GH_AUTH_SECRET'),
     scope: 'user,repo,admin:org,admin:repo_hook,admin:org_hook'
   # scope: 'repo:status,admin:org,read:org,admin:repo_hook,admin:org_hook'
 
