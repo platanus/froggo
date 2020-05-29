@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'aasm'
 gem 'active_model_serializers', '~> 0.9.3'
 gem 'active_skin', github: 'SoftwareBrothers/active_skin'
 gem 'activeadmin', '~> 2.6'
@@ -26,6 +27,7 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.1'
 gem 'rails-controller-testing'
 gem 'rails-i18n'
 gem 'recipient_interceptor'
+gem 'recursive-open-struct'
 gem 'redis'
 gem 'redis-namespace'
 gem 'responders'
@@ -36,7 +38,7 @@ gem 'sidekiq-limit_fetch'
 gem 'sidekiq-scheduler', '>= 3.0.1'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'spring'
-# gem 'strong_migrations'
+gem 'strong_migrations'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'uuidtools'
@@ -44,7 +46,6 @@ gem 'versionist'
 gem 'webpacker', '~> 4.0'
 
 group :production do
-  gem 'annotate', '~> 3.0'
   gem 'heroku-stage'
   gem 'letter_opener'
   gem 'listen'
@@ -58,7 +59,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'annotate', '~> 3.0'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'dotenv-rails'
@@ -71,10 +71,11 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop', '~> 0.82.0'
   gem 'rubocop-performance'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
+  gem 'rubocop-rails', '~> 2.4.2'
+  gem 'rubocop-rspec', '~> 1.38.0'
 end
 
 group :production, :development, :test do
+  gem 'annotate', '~> 3.0'
   gem 'tzinfo-data'
 end
