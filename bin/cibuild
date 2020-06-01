@@ -99,10 +99,6 @@ case "$1" in
     database
     ;;
 
-  "js_tests")
-    js_tests
-    ;;
-
   "specs"|"tests")
     tests
     ;;
