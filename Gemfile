@@ -67,6 +67,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'pry-byebug'
   gem 'pry-rails'
+  gem 'rack-livereload'
   gem 'rspec-nc', require: false
   gem 'rspec-rails'
   gem 'rubocop', '~> 0.82.0'

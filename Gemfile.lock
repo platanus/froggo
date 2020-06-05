@@ -303,6 +303,8 @@ GEM
     rack (2.2.2)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-livereload (0.3.17)
+      rack
     rack-protection (2.0.8.1)
       rack
     rack-proxy (0.6.5)
@@ -537,6 +539,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 4.1)
   rack-cors (~> 1.1)
+  rack-livereload
   rack-timeout
   rails (~> 6.0.3, >= 6.0.3.1)
   rails-controller-testing
