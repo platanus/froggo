@@ -15,13 +15,13 @@ build(){
 # Wait services to be ready
 wait_services(){
   function test_service {
-    docker-compose $DOCKER_COMPOSE_ARGS run test sh -c "nc -z $1 $2"
+    docker-compose $DOCKER_COMPOSE_ARGS run --rm test sh -c "nc -z $1 $2"
   }
 
   count=0
   # Chain tests together by using &&
   until (
-    test_service '$POSTGRESQL_HOST' '$POSTGRESQL_PORT' && \
+    test_service '$DB_HOST' '$DB_PORT' && \
     echo "Services ready"
   )
   do
@@ -39,16 +39,22 @@ wait_services(){
 
 # Prepare dependencies
 dependencies(){
-  docker-compose $DOCKER_COMPOSE_ARGS run test bundle install
+  docker-compose $DOCKER_COMPOSE_ARGS run --rm test bundle install
 }
 
+
+yarn_dependencies(){
+  docker-compose $DOCKER_COMPOSE_ARGS run --rm test yarn install
+}
+
+
 assets() {
-  docker-compose $DOCKER_COMPOSE_ARGS run test /bin/bash -c "bin/setup && bundle exec rake assets:precompile"
+  docker-compose $DOCKER_COMPOSE_ARGS run --rm test /bin/bash -c "bin/setup && bundle exec rake assets:precompile"
 }
 
 # Prepare database
 database(){
-  docker-compose $DOCKER_COMPOSE_ARGS run test bundle exec rake db:create db:schema:load
+  docker-compose $DOCKER_COMPOSE_ARGS run --rm test bundle exec rake db:create db:schema:load
 }
 
 # Run the specs
@@ -57,8 +63,14 @@ tests(){
     RSPEC_JUNIT_ARGS="-r rspec_junit_formatter --format RspecJunitFormatter -o $HOME/.rspec_reports/junit.xml"
     RSPEC_FORMAT_ARGS="--format progress --no-color"
   }
-  docker-compose $DOCKER_COMPOSE_ARGS run test bundle exec rspec spec $RSPEC_FORMAT_ARGS $RSPEC_JUNIT_ARGS
+  docker-compose $DOCKER_COMPOSE_ARGS run --rm test bundle exec rspec spec $RSPEC_FORMAT_ARGS $RSPEC_JUNIT_ARGS
 }
+
+
+js_tests(){
+  docker-compose $DOCKER_COMPOSE_ARGS run --rm test yarn run test
+}
+
 
 # Run the complete ci build
 no_ci(){
@@ -78,7 +90,7 @@ case "$1" in
     wait_services
     ;;
   "deps"|"dependencies")
-    dependencies
+    dependencies && yarn_dependencies
     ;;
   "assets")
     assets
@@ -86,6 +98,7 @@ case "$1" in
   "db"|"database")
     database
     ;;
+
   "specs"|"tests")
     tests
     ;;

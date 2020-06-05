@@ -17,14 +17,16 @@ class ApiResponder < ActionController::Responder
   def serializer
     serializer_class = ActiveModel::Serializer.serializer_for(resource)
     if serializer_class.present?
-      serializer_class.new(resource, options)
+      serializer_options = infer_serializer(serializer_class).merge(options)
+      serializer_class.new(decorated_resource, serializer_options)
     else
-      resource
+      decorated_resource
     end
   end
 
   def status_code
     return :created if post?
+
     :ok
   end
 
@@ -37,5 +39,25 @@ class ApiResponder < ActionController::Responder
 
   def format_errors
     resource.errors.as_json
+  end
+
+  def infer_serializer(serializer_class)
+    if serializer_class == ActiveModel::ArraySerializer
+      s = options.delete(:each_serializer) || "#{resource.klass}Serializer".constantize
+      { each_serializer: s }
+    else
+      s = options.delete(:serializer) || "#{resource.class}Serializer".constantize
+      { serializer: s }
+    end
+  end
+
+  def decorated_resource
+    if resource.respond_to?(:decorate)
+      resource.decorate
+    else
+      resource
+    end
+  rescue Draper::UninferrableDecoratorError
+    resource
   end
 end

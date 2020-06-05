@@ -3,23 +3,20 @@
     "es6": true
   },
   "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "modules": true
-    }
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
   "plugins": ["import"],
-  "extends": [
-    "plugin:vue/essential"
-  ],
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".json", ".vue"]
+        "extensions": [".js", ".json"]
       }
     }
   },
+  "extends": [
+    "plugin:vue/strongly-recommended"
+  ],
   "rules": {
     "accessor-pairs": 0,
     "array-callback-return": 2,
@@ -64,7 +61,7 @@
     "no-lone-blocks": 2,
     "no-loop-func": 2,
     "no-magic-numbers": [2, {
-      "ignore": [0, 1]
+      "ignore": [0, 1, -1]
     }],
     "no-multi-spaces": 2,
     "no-multi-str": 2,
@@ -249,7 +246,9 @@
     "linebreak-style": [2, "unix"],
     "lines-around-comment": 0,
     "max-depth": [2, 4],
-    "max-len": [0],
+    "max-len": [2, 120, {
+      "ignorePattern": "^\\s.+class=\""
+    }],
     "max-nested-callbacks": [2, 4],
     "max-params": [1, 4],
     "max-statements": [1, 10],
@@ -335,6 +334,19 @@
       "vars": "local",
       "args": "after-used"
     }],
-    "no-use-before-define": 2
-  }
+    "no-use-before-define": 2,
+    "vue/max-len": ["error", {
+      "code": 120,
+      "ignoreHTMLAttributeValues": true
+  }]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.js"],
+      "excludedFiles": "app/**/*.js",
+      "env": {
+        "node": true
+      }
+    }
+  ]
 }

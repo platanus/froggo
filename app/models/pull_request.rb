@@ -28,7 +28,7 @@ end
 #
 # Table name: pull_requests
 #
-#  id            :integer          not null, primary key
+#  id            :bigint(8)        not null, primary key
 #  gh_id         :integer
 #  title         :string
 #  gh_number     :integer
@@ -40,7 +40,7 @@ end
 #  gh_merged_at  :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  repository_id :integer
+#  repository_id :bigint(8)
 #  owner_id      :integer
 #  merged_by_id  :integer
 #

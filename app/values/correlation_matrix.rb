@@ -56,8 +56,9 @@ class CorrelationMatrix
   end
 
   def order_current_user
-    @selected_users = @selected_users.order("CASE WHEN github_users.id = #{@current_user.id}" \
-                                              'THEN 1 ELSE 0 END DESC')
-                                     .order('github_users.id ASC')
+    @selected_users = @selected_users.order(Arel.sql('CASE WHEN github_users.id = ' \
+                                                     "#{@current_user.id}" \
+                                                     'THEN 1 ELSE 0 END DESC'))
+                                     .order(Arel.sql('github_users.id ASC'))
   end
 end

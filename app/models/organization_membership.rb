@@ -7,9 +7,9 @@ end
 #
 # Table name: organization_memberships
 #
-#  id                        :integer          not null, primary key
-#  github_user_id            :integer
-#  organization_id           :integer
+#  id                        :bigint(8)        not null, primary key
+#  github_user_id            :bigint(8)
+#  organization_id           :bigint(8)
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #  is_member_of_default_team :boolean          default(FALSE)

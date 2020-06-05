@@ -18,7 +18,7 @@ class Api::V1::RepositoriesController < Api::V1::BaseController
   end
 
   def ensure_organization_admin
-    respond_api_error(401, "not_authorized", nil) unless github_organization[:role] == "admin"
+    respond_api_error(401, message: "not_authorized") unless github_organization[:role] == "admin"
   end
 
   def tracked_changed?

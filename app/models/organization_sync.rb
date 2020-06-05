@@ -28,8 +28,8 @@ end
 #
 # Table name: organization_syncs
 #
-#  id              :integer          not null, primary key
-#  organization_id :integer
+#  id              :bigint(8)        not null, primary key
+#  organization_id :bigint(8)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  state           :string

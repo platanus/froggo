@@ -7,9 +7,9 @@ end
 #
 # Table name: pull_request_review_requests
 #
-#  id              :integer          not null, primary key
-#  pull_request_id :integer
-#  github_user_id  :integer
+#  id              :bigint(8)        not null, primary key
+#  pull_request_id :bigint(8)
+#  github_user_id  :bigint(8)
 #  gh_id           :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

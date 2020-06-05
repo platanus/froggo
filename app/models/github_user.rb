@@ -18,7 +18,7 @@ end
 #
 # Table name: github_users
 #
-#  id         :integer          not null, primary key
+#  id         :bigint(8)        not null, primary key
 #  avatar_url :string
 #  email      :string
 #  gh_id      :integer

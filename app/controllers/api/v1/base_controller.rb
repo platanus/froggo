@@ -1,9 +1,9 @@
-module Api
-  module V1
-    class BaseController < Api::BaseController
-      before_action do
-        self.namespace_for_serializer = Api::V1
-      end
-    end
-  end
+class Api::V1::BaseController < ApplicationController
+  include Api::ErrorConcern
+  include Api::Versioned
+
+  self.responder = ApiResponder
+
+  skip_before_action :verify_authenticity_token
+  respond_to :json
 end

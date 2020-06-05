@@ -1,25 +1,23 @@
 ---
-test:
-  build: "."
-  dockerfile: Dockerfile.ci
-  working_dir: "/app"
+  version: '3.4'
+  services:
+    test:
+      build:
+        context: "."
+        dockerfile: Dockerfile.ci
+      volumes:
+      - "test_data:/usr/local/bundle"
+      environment:
+        RACK_ENV: test
+        DB_USER: postgres
+        DB_HOST: postgresql
+        DB_PORT: '5432'
+      links:
+      - postgresql
+    postgresql:
+      image: postgres:9.4.5
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: ''
   volumes:
-  - "./vendor/bundle:/usr/local/bundle"
-  environment:
-    RACK_ENV: test
-    POSTGRESQL_USER: postgres
-    POSTGRESQL_HOST: postgresql
-    POSTGRESQL_PORT: '5432'
-    REDIS_HOST: redis
-    REDIS_PORT: 6379
-  links:
-  - redis
-  - postgresql
-postgresql:
-  image: postgres:9.4.5
-  environment:
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: ''
-redis:
-  image: redis
-  command: redis-server
+    test_data:
