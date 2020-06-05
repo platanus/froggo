@@ -38,6 +38,7 @@ es-CL:
       indifferent: Indiferente
       rebel: Rebelde
     header:
+      organizations: Organizaciones
       close_session: Cerrar sesión
     home:
       title: Descubre cómo se distribuyen los Pull Requests en tu organización
