@@ -69,6 +69,7 @@ en:
       indifferent: Indifferent
       rebel: Rebel
     header:
+      organizations: Organizations
       close_session: Close session
     home:
       title: Code review tool for GitHub pull requests
