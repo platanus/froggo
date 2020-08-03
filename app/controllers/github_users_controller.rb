@@ -3,11 +3,7 @@ class GithubUsersController < ApplicationController
 
   def show
     @github_user = GithubUser.find(params[:id])
-    @github_session = github_session
-    @teams = @github_session.fetch_teams_for_user(@github_user)
-    @recommendations = GetReviewRecommendations.for(
-      github_user_id: @github_user.id, other_users_ids: GithubUser.all.pluck(:id)
-    )
+    @teams = github_session.fetch_teams_for_user(@github_user)
     @organizations = @github_user.organizations
   end
 
