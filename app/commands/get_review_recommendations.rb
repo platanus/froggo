@@ -1,65 +1,37 @@
 class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other_users_ids)
-  REVIEW_MONTH_LIMIT = 1
-  REVIEW_WEEK_LIMIT = 1
   NUMBER_OF_RECOMMENDATIONS = 3
 
   def perform
-    sorted_map =
-      times_reviewed_by_each_user
-      .sort_by { |_, times_reviewed| times_reviewed }
+    users_with_score = other_users_with_score
     {
-      best: best_recommendations(sorted_map, NUMBER_OF_RECOMMENDATIONS),
-      worst: worst_recommendations(sorted_map, NUMBER_OF_RECOMMENDATIONS)
+      best: best_recommendations(users_with_score, NUMBER_OF_RECOMMENDATIONS),
+      worst: worst_recommendations(users_with_score, NUMBER_OF_RECOMMENDATIONS),
+      all: users_with_score
     }
   end
 
   private
 
-  def times_reviewed_by_each_user
-    appearance_counter =
-      PullRequestRelation
-      .review_relations
-      .within_month_limit(REVIEW_MONTH_LIMIT)
-      .where(github_user_id: @other_users_ids, target_user_id: @github_user_id)
-      .pluck(:github_user_id)
-      .each_with_object(Hash.new(0)) { |user_id, counter| counter[user_id] += 1 }
-    fill_missing_users_from_appearance_counter(appearance_counter)
-    add_last_week_reviews_weight_to_appearance_counter(appearance_counter)
-    appearance_counter
-  end
-
-  def fill_missing_users_from_appearance_counter(appearance_counter)
-    @other_users_ids.each do |other_user_id|
-      unless appearance_counter.key? other_user_id
-        appearance_counter[other_user_id] = 0
-      end
-    end
-  end
-
-  def last_week_reviews_weight
-    last_week_weights =
-      PullRequestRelation
-      .review_relations
-      .within_week_limit(REVIEW_WEEK_LIMIT)
-      .where(github_user_id: @other_users_ids, target_user_id: @github_user_id)
-      .pluck(:github_user_id)
-      .each_with_object(Hash.new(0)) { |user_id, counter| counter[user_id] += 2 }
-    fill_missing_users_from_appearance_counter(last_week_weights)
-    last_week_weights
-  end
-
-  def add_last_week_reviews_weight_to_appearance_counter(appearance_counter)
-    last_week_weights = last_week_reviews_weight
-    @other_users_ids.each do |other_user_id|
-      appearance_counter[other_user_id] += last_week_weights[other_user_id]
-    end
+  def color_scores
+    pr_relations = PullRequestRelation.review_relations
+    ComputeColorScore.for(user_id: @github_user_id, other_users_ids: @other_users_ids,
+                          pr_relations: pr_relations)
   end
 
   def best_recommendations(sorted_map, number_of_recommendations)
-    sorted_map.first(number_of_recommendations).map { |user_id, _| GithubUser.find(user_id) }
+    sorted_map.first(number_of_recommendations).map { |_, user| user }
   end
 
   def worst_recommendations(sorted_map, number_of_recommendations)
-    sorted_map.last(number_of_recommendations).map { |user_id, _| GithubUser.find(user_id) } - best_recommendations(sorted_map, number_of_recommendations)
+    sorted_map.last(number_of_recommendations).map { |_, user| user }.reverse
+  end
+
+  def other_users_with_score
+    scores = color_scores
+    result = {}
+    GithubUser.where(id: @other_users_ids).map do |user|
+      result[user.id] = user.as_json.merge({ score: scores[user.id] })
+    end
+    result.sort_by { |_, user| user[:score] }
   end
 end
