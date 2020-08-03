@@ -3,6 +3,7 @@
 
 import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
+import VTooltip from 'v-tooltip';
 
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
@@ -20,6 +21,7 @@ import Locales from '../locales.js';
 import store from '../store';
 
 Vue.use(VueI18n);
+Vue.use(VTooltip);
 
 document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
