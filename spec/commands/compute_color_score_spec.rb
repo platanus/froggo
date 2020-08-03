@@ -33,7 +33,7 @@ describe ComputeColorScore do
     let(:pr_relations) { PullRequestRelation.where(id: pr_relations_array.pluck(:id)) }
 
     it 'returns the proper score' do
-      expect(perform_with_predefined_args).to eq({ 2 => 0.5, 3 => 1.5, 4 => 0.0, 5 => 1.0 })
+      expect(perform_with_predefined_args).to eq(2 => 0.5, 3 => 1.5, 4 => 0.0, 5 => 1.0)
     end
   end
 
@@ -42,7 +42,7 @@ describe ComputeColorScore do
     let(:pr_relations) { PullRequestRelation.where(id: pr_relations_array.pluck(:id)) }
 
     it 'returns the proper placeholder scores' do
-      expect(perform_with_predefined_args).to eq({ 2 => -1, 3 => -1, 4 => -1, 5 => -1 })
+      expect(perform_with_predefined_args).to eq(2 => -1, 3 => -1, 4 => -1, 5 => -1)
     end
   end
 end

@@ -121,19 +121,23 @@
   width: 66px;
 
   &--red {
-    background-color: rgba($red, 0.5);
+    background-color: rgba($red, .5);
   }
+
   &--light-red {
-    background-color: lighten(rgba($red, 0.5), 30%);
+    background-color: lighten(rgba($red, .5), 30%);
   }
+
   &--green {
-    background-color: rgba($primary-color, 0.5);
+    background-color: rgba($primary-color, .5);
   }
+
   &--light-blue {
-    background-color: lighten(rgba($blue, 0.5), 30%);
+    background-color: lighten(rgba($blue, .5), 30%);
   }
+
   &--blue {
-    background-color: rgba($blue, 0.5);
+    background-color: rgba($blue, .5);
   }
 }
 

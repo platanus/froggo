@@ -31,7 +31,7 @@ const messages = {
           good: 'Your Froggo objective',
           midhigh: 'Don\'t overdo it...',
           high: 'You seem fixated...',
-        }
+        },
       },
       admin: {
         noDefaultTeam: 'No default team',
@@ -71,7 +71,7 @@ const messages = {
           good: 'Tu objetivo Froggo',
           midhigh: 'No te pases...',
           high: 'Parece que tienes una fijación...',
-        }
+        },
       },
       admin: {
         noDefaultTeam: 'Sin equipo default',
