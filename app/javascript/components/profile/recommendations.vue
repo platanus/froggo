@@ -1,15 +1,20 @@
 <template>
-  <div class="profile-recommendations">
-    <profile-recommendations-users
-      :being-fetched="fetchingRecommendations"
-      :recommendations="recommendations"
-      type="best"
-      :title="$i18n.t('message.profile.recommendedReviewers')" />
-    <profile-recommendations-users
-      :being-fetched="fetchingRecommendations"
-      :recommendations="recommendations"
-      type="worst"
-      :title="$i18n.t('message.profile.notRecommendedReviewers')" />
+  <div class="profile-interactions">
+    <profile-relations
+      :beingFetched="fetchingRecommendations"
+      :recommendations="recommendations" />
+    <div class="profile-recommendations">
+      <profile-recommendations-users
+        :being-fetched="fetchingRecommendations"
+        :recommendations="recommendations"
+        type="best"
+        :title="$i18n.t('message.profile.recommendedReviewers')" />
+      <profile-recommendations-users
+        :being-fetched="fetchingRecommendations"
+        :recommendations="recommendations"
+        type="worst"
+        :title="$i18n.t('message.profile.notRecommendedReviewers')" />
+    </div>
   </div>
 </template>
 

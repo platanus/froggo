@@ -17,6 +17,7 @@ import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue
 import ProfileRecommendations from '../components/profile/recommendations.vue';
 import ProfileRecommendationsUsers from '../components/profile/recommendations-users.vue';
 import ProfileStatistics from '../components/profile/statistics.vue';
+import ProfileRelations from '../components/profile/relations.vue';
 
 import Locales from '../locales.js';
 import store from '../store';
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('profile-recommendations', ProfileRecommendations);
   Vue.component('profile-recommendations-users', ProfileRecommendationsUsers);
   Vue.component('profile-statistics', ProfileStatistics);
+  Vue.component('profile-relations', ProfileRelations);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new
