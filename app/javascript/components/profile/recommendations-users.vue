@@ -17,12 +17,15 @@
         <div class="profile-recommendations-users__username">
           {{ user.login }}
         </div>
+        <div :class="`profile-recommendations-users__color-badge profile-recommendations-users__color-badge--${colorFromScore(user.score)}`"></div>
       </a>
     </div>
   </div>
 </template>
 
 <script>
+import colorFromScore from '../../helpers/color-from-score.js'
+
 export default {
   props: {
     title: String,
@@ -30,5 +33,8 @@ export default {
     type: String,
     beingFetched: Boolean,
   },
+  methods: {
+    colorFromScore: colorFromScore
+  }
 };
 </script>
