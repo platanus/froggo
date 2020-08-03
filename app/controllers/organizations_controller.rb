@@ -17,6 +17,7 @@ class OrganizationsController < ApplicationController
     @is_admin = organization_admin?
     @organizations = github_organizations
     set_corrmat
+    @color_scores = get_color_scores
   end
 
   def create
@@ -145,5 +146,23 @@ class OrganizationsController < ApplicationController
 
   def save_cookie_url
     github_session.save_froggo_path(request.fullpath)
+  end
+
+  def get_color_scores
+    other_users_ids = if @team_members_ids
+                        GithubUser.where(gh_id: @team_members_ids).map(&:id)
+                      else
+                        @organization.members.map(&:id)
+                      end
+    pr_relations = if @month_limit
+                     PullRequestRelation.by_organizations(@organization.id)
+                                        .within_month_limit(@month_limit)
+                   else
+                     PullRequestRelation.by_organizations(@organization.id)
+                   end
+    ComputeColorScore.for(
+      user_id: github_user.id, other_users_ids: other_users_ids,
+      pr_relations: pr_relations
+    )
   end
 end
