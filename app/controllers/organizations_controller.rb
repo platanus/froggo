@@ -149,20 +149,25 @@ class OrganizationsController < ApplicationController
   end
 
   def get_color_scores
-    other_users_ids = if @team_members_ids
-                        GithubUser.where(gh_id: @team_members_ids).map(&:id)
-                      else
-                        @organization.members.map(&:id)
-                      end
-    pr_relations = if @month_limit
-                     PullRequestRelation.by_organizations(@organization.id)
-                                        .within_month_limit(@month_limit)
-                   else
-                     PullRequestRelation.by_organizations(@organization.id)
-                   end
+    return unless @has_dashboard
+
+    other_users_ids = get_other_users_ids
+    pr_relations = get_pr_relations
     ComputeColorScore.for(
       user_id: github_user.id, other_users_ids: other_users_ids,
       pr_relations: pr_relations
     )
+  end
+
+  def get_other_users_ids
+    return GithubUser.where(gh_id: @team_members_ids).map(&:id) if @team_members_ids
+
+    @organization.members.map(&:id)
+  end
+
+  def get_pr_relations
+    return PullRequestRelation.by_organizations(@organization.id) unless @month_limit
+
+    PullRequestRelation.by_organizations(@organization.id).within_month_limit(@month_limit)
   end
 end
