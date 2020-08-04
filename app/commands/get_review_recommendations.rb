@@ -4,8 +4,8 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
   def perform
     users_with_score = other_users_with_score
     {
-      best: best_recommendations(users_with_score, NUMBER_OF_RECOMMENDATIONS),
-      worst: worst_recommendations(users_with_score, NUMBER_OF_RECOMMENDATIONS),
+      best: best_recommendations(users_with_score, number_of_best_recommendations),
+      worst: worst_recommendations(users_with_score, number_of_worst_recommendations),
       all: users_with_score
     }
   end
@@ -33,5 +33,17 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
       result[user.id] = user.as_json.merge(score: scores[user.id])
     end
     result.sort_by { |_, user| user[:score] }
+  end
+
+  def number_of_best_recommendations
+    num_of_users = @other_users_ids.length
+    return NUMBER_OF_RECOMMENDATIONS if num_of_users > NUMBER_OF_RECOMMENDATIONS
+
+    [num_of_users - 1, 1].max
+  end
+
+  def number_of_worst_recommendations
+    num_of_users = @other_users_ids.length
+    [NUMBER_OF_RECOMMENDATIONS, [0, num_of_users - number_of_best_recommendations].max].min
   end
 end
