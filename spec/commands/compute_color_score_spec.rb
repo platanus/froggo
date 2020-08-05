@@ -14,35 +14,39 @@ describe ComputeColorScore do
   end
 
   let(:user) { create(:github_user) }
-  let(:other_users_ids) { [2, 3, 4, 5] }
-  let(:other_users) do
-    create_list(:github_user, 4) do |user, i|
-      user.id = other_users_ids[i]
-      user.save!
-    end
-  end
+  let(:other_users) { create_list(:github_user, 4) }
 
-  context 'with  different user interactions' do
+  context 'with different user interactions' do
     let(:pr_relations_array) do
-      create_list(:pull_request_relation, 6) do |pr_relation, i|
-        pr_relation.target_user_id = user.id
-        pr_relation.github_user_id = 1 + 2**(i.to_f / 3).ceil
-        pr_relation.save!
-      end
+      [create(:pull_request_relation, target_user_id: user.id, github_user_id: other_users[0].id)] +
+        create_list(:pull_request_relation, 3, target_user_id: user.id,
+                                               github_user_id: other_users[1].id) +
+        create_list(:pull_request_relation, 2, target_user_id: user.id,
+                                               github_user_id: other_users[3].id)
     end
     let(:pr_relations) { PullRequestRelation.where(id: pr_relations_array.pluck(:id)) }
 
     it 'returns the proper score' do
-      expect(perform_with_predefined_args).to eq(2 => 0.5, 3 => 1.5, 4 => 0.0, 5 => 1.0)
+      expect(perform_with_predefined_args).to eq(
+        other_users[0].id => 0.5,
+        other_users[1].id => 1.5,
+        other_users[2].id => 0.0,
+        other_users[3].id => 1.0
+      )
     end
   end
 
   context 'without user interactions' do
-    let(:pr_relations_array) { Array.new(5) { create(:pull_request_relation) } }
+    let(:pr_relations_array) { create_list(:pull_request_relation, 5) }
     let(:pr_relations) { PullRequestRelation.where(id: pr_relations_array.pluck(:id)) }
 
     it 'returns the proper placeholder scores' do
-      expect(perform_with_predefined_args).to eq(2 => -1, 3 => -1, 4 => -1, 5 => -1)
+      expect(perform_with_predefined_args).to eq(
+        other_users[0].id => -1,
+        other_users[1].id => -1,
+        other_users[2].id => -1,
+        other_users[3].id => -1
+      )
     end
   end
 end
