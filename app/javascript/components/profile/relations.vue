@@ -16,13 +16,11 @@
         <template v-slot:default="{item}">
           <template v-if="item.explainer">
             <div class="profile-relations__user">
-              <div class="profile-relations__badged-picture">
-                <div
-                  v-tooltip="item.tooltip"
-                  :class="`profile-relations__badge-explainer
-                    profile-relations__badge-explainer--${colorFromScore(item.score)}`"
-                />
-              </div>
+              <div
+                v-tooltip="item.tooltip"
+                :class="`profile-relations__badge-explainer
+                  profile-relations__badge-explainer--${colorFromScore(item.score)}`"
+              />
             </div>
           </template>
           <template v-else>
