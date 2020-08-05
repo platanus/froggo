@@ -23,11 +23,17 @@
 
 <script>
 import { mapState } from 'vuex';
+import ProfileRelations from './relations.vue';
+import ProfileRecommendationsUsers from './recommendations-users.vue';
 
 export default {
   computed: mapState({
     recommendations: state => state.profile.recommendations,
     fetchingRecommendations: state => state.profile.fetchingRecommendations,
   }),
+  components: {
+    ProfileRelations,
+    ProfileRecommendationsUsers,
+  },
 };
 </script>

@@ -10,32 +10,39 @@
       />
       <vue-horizontal-list
         v-else
-        :items="allRelationsBadges(recommendations['all'])"
+        :items="allRelationsBadges"
         :options="horizontalListOptions"
       >
         <template v-slot:default="{item}">
-          <a
-            class="profile-relations__user"
-            :key="item.id"
-            :href="userURL(item.id)"
-          >
-            <div class="profile-relations__badged-picture">
-              <div
-                v-if="item.explainer"
-                v-tooltip="hoverExplainers[userId2HoverIndex(item.id)]"
-                :class="badgeType(item)"
-              />
-              <div
-                v-else
-                :class="badgeType(item)"
-              />
-              <img
-                v-if="!item.explainer"
-                class="profile-relations__picture"
-                :src="item.avatar_url"
-              >
+          <template v-if="item.explainer">
+            <div class="profile-relations__user">
+              <div class="profile-relations__badged-picture">
+                <div
+                  v-tooltip="item.tooltip"
+                  :class="`profile-relations__badge-explainer
+                    profile-relations__badge-explainer--${colorFromScore(item.score)}`"
+                />
+              </div>
             </div>
-          </a>
+          </template>
+          <template v-else>
+            <a
+              class="profile-relations__user"
+              :key="item.id"
+              :href="`/users/${item.id}`"
+            >
+              <div class="profile-relations__badged-picture">
+                <div
+                  :class="`profile-relations__color-badge
+                    profile-relations__color-badge--${colorFromScore(item.score)}`"
+                />
+                <img
+                  class="profile-relations__picture"
+                  :src="item.avatar_url"
+                >
+              </div>
+            </a>
+          </template>
         </template>
       </vue-horizontal-list>
     </div>
@@ -48,13 +55,6 @@ import colorFromScore from '../../helpers/color-from-score';
 export default {
   data() {
     return {
-      hoverExplainers: [
-        { content: this.$i18n.t('message.profile.badgeExplainer.low'), placement: 'bottom' },
-        { content: this.$i18n.t('message.profile.badgeExplainer.midlow'), placement: 'bottom' },
-        { content: this.$i18n.t('message.profile.badgeExplainer.good'), placement: 'bottom' },
-        { content: this.$i18n.t('message.profile.badgeExplainer.midhigh'), placement: 'bottom' },
-        { content: this.$i18n.t('message.profile.badgeExplainer.high'), placement: 'bottom' },
-      ],
       horizontalListOptions: {
         responsive: [
           { size: 16 },
@@ -72,47 +72,34 @@ export default {
       default: true,
     },
   },
-  methods: {
-    colorFromScore,
-    allRelationsBadges(recommendations) {
+  computed: {
+    allRelationsBadges() {
       const result = [];
       const explainers = [
-        { explainer: true, score: 0.25, id: -1 },
-        { explainer: true, score: 0.5, id: -2 },
-        { explainer: true, score: 1, id: -3 },
-        { explainer: true, score: 1.50001, id: -4 },
-        { explainer: true, score: 1.75001, id: -5 },
+        { explainer: true, score: 0.25,
+          tooltip: { content: this.$i18n.t('message.profile.badgeExplainer.low'), placement: 'bottom' } },
+        { explainer: true, score: 0.5,
+          tooltip: { content: this.$i18n.t('message.profile.badgeExplainer.midlow'), placement: 'bottom' } },
+        { explainer: true, score: 1,
+          tooltip: { content: this.$i18n.t('message.profile.badgeExplainer.good'), placement: 'bottom' } },
+        { explainer: true, score: 1.50001,
+          tooltip: { content: this.$i18n.t('message.profile.badgeExplainer.midhigh'), placement: 'bottom' } },
+        { explainer: true, score: 1.75001,
+          tooltip: { content: this.$i18n.t('message.profile.badgeExplainer.high'), placement: 'bottom' } },
       ];
-      recommendations.forEach((item) => {
+      this.recommendations.all.forEach((item) => {
         while (explainers.length && item.score > explainers[0].score) {
           result.push(explainers.shift());
         }
         item.explainer = false;
         result.push(item);
       });
-      while (explainers.length) result.push(explainers.shift());
 
-      return result;
+      return result.concat(explainers);
     },
-    userURL(userId) {
-      if (userId < 0) return '#';
-
-      return `/users/${userId}`;
-    },
-    badgeType(user) {
-      if (user.explainer) {
-        const baseClass = 'profile-relations__badge-explainer';
-
-        return `${baseClass} ${baseClass}--${this.colorFromScore(user.score)}`;
-      }
-
-      return `profile-relations__color-badge profile-relations__color-badge--${this.colorFromScore(user.score)}`;
-    },
-    userId2HoverIndex(userId) {
-      if (userId >= 0) return 0;
-
-      return Math.abs(userId + 1);
-    },
+  },
+  methods: {
+    colorFromScore,
   },
 };
 </script>
