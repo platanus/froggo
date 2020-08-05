@@ -26,10 +26,10 @@ describe ComputeColorScore do
     end
     let(:pr_relations) { PullRequestRelation.where(id: pr_relations_array.pluck(:id)) }
     let(:correct_score) do
-      { other_users[0].id => 0.5,
-        other_users[1].id => 1.5,
+      { other_users[0].id => (2.0 / 3),
+        other_users[1].id => 2.0,
         other_users[2].id => 0.0,
-        other_users[3].id => 1.0 }
+        other_users[3].id => (4.0 / 3) }
     end
 
     it 'returns the proper score' do
