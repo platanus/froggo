@@ -25,14 +25,30 @@ describe ComputeColorScore do
                                                github_user_id: other_users[3].id)
     end
     let(:pr_relations) { PullRequestRelation.where(id: pr_relations_array.pluck(:id)) }
-
-    it 'returns the proper score' do
-      expect(perform_with_predefined_args).to eq(
-        other_users[0].id => 0.5,
+    let(:correct_score) do
+      { other_users[0].id => 0.5,
         other_users[1].id => 1.5,
         other_users[2].id => 0.0,
-        other_users[3].id => 1.0
-      )
+        other_users[3].id => 1.0 }
+    end
+
+    it 'returns the proper score' do
+      expect(perform_with_predefined_args).to eq(correct_score)
+    end
+
+    context 'with unrelated interactions' do
+      let(:extended_pr_relations_array) do
+        pr_relations_array +
+          create_list(:pull_request_relation, 2, target_user_id: other_users[0].id) +
+          create_list(:pull_request_relation, 3, target_user_id: user.id,
+                                                 github_user_id: other_users[1].id,
+                                                 gh_updated_at: Time.current - 10.months)
+      end
+      let(:pr_relations) { PullRequestRelation.where(id: extended_pr_relations_array.pluck(:id)) }
+
+      it 'still returns the same score' do
+        expect(perform_with_predefined_args).to eq(correct_score)
+      end
     end
   end
 
