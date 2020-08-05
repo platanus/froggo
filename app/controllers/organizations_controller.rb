@@ -158,9 +158,9 @@ class OrganizationsController < ApplicationController
   end
 
   def get_other_users_ids
-    return GithubUser.where(gh_id: @team_members_ids).map(&:id) if @team_members_ids
+    return GithubUser.where(gh_id: @team_members_ids).pluck(:id) if @team_members_ids
 
-    @organization.members.map(&:id)
+    @organization.members.pluck(:id)
   end
 
   def get_pr_relations

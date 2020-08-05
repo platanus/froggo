@@ -5,7 +5,7 @@ class CorrelationMatrix
 
   def initialize(org_id, user_ids, current_user, limit = DEFAULT_MONTH_LIMIT)
     @current_user = GithubUser.find_by(login: current_user)
-    @limit = limit.present? ? limit : DEFAULT_MONTH_LIMIT
+    @limit = limit || DEFAULT_MONTH_LIMIT
     @organization = Organization.find(org_id)
     @pr_relations = PullRequestRelation.by_organizations(org_id).within_month_limit(@limit)
     @selected_users = @organization.members
@@ -16,7 +16,7 @@ class CorrelationMatrix
 
   def fill_matrix
     amount_of_users = @selected_users.length
-    users_ids = @selected_users.map(&:id)
+    users_ids = @selected_users.pluck(:id)
     map_user_id_to_index =
       Hash[users_ids.map.with_index { |user_id, index| [user_id, index] }]
     current_user_id = users_ids.first
