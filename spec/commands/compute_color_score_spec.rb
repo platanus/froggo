@@ -8,7 +8,7 @@ describe ComputeColorScore do
   def perform_with_predefined_args
     perform(
       user_id: user.id,
-      other_users_ids: other_users.pluck(:id),
+      team_users_ids: other_users.pluck(:id),
       pr_relations: pr_relations
     )
   end

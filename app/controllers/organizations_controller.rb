@@ -152,7 +152,7 @@ class OrganizationsController < ApplicationController
     return unless @has_dashboard
 
     ComputeColorScore.for(
-      user_id: github_user.id, other_users_ids: get_other_users_ids,
+      user_id: github_user.id, team_users_ids: get_other_users_ids,
       pr_relations: get_pr_relations, review_month_limit: @month_limit
     )
   end

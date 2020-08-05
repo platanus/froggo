@@ -1,10 +1,10 @@
-class ComputeColorScore < PowerTypes::Command.new(:user_id, :other_users_ids, :pr_relations,
+class ComputeColorScore < PowerTypes::Command.new(:user_id, :team_users_ids, :pr_relations,
                                                   review_month_limit: nil)
   REVIEW_MONTH_LIMIT_DEFAULT = 9
 
   def perform
     scores = {}
-    @other_users_ids.each do |other_user_id|
+    @team_users_ids.each do |other_user_id|
       next if @user_id == other_user_id
 
       scores[other_user_id] = score_for_other_user(other_user_id)
@@ -29,13 +29,13 @@ class ComputeColorScore < PowerTypes::Command.new(:user_id, :other_users_ids, :p
   end
 
   def compute_mean_prs_sent
-    reviews_per_user.empty? ? 0.0 : reviews_per_user.values.sum.to_f / @other_users_ids.length
+    reviews_per_user.empty? ? 0.0 : reviews_per_user.values.sum.to_f / @team_users_ids.length
   end
 
   def reviews_per_user
     @reviews_per_user ||= @pr_relations.within_month_limit(review_month_limit)
                                        .where(target_user_id: @user_id)
-                                       .where(github_user_id: @other_users_ids)
+                                       .where(github_user_id: @team_users_ids)
                                        .where.not(github_user_id: @user_id)
                                        .group(:github_user_id)
                                        .count

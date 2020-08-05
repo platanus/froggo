@@ -32,7 +32,7 @@ describe GetRecommendations do
 
       allow(GetReviewRecommendations).to receive(:for)
         .with(github_user_id: requesting_user.id,
-              other_users_ids: github_users_in_default_team.pluck(:id))
+              team_users_ids: github_users_in_default_team.pluck(:id))
         .and_return(review_recommendations)
     end
 
