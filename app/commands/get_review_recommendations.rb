@@ -20,11 +20,11 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
   end
 
   def best_recommendations(sorted_map, number_of_recommendations)
-    sorted_map.first(number_of_recommendations).map { |_, user| user }
+    sorted_map.first(number_of_recommendations)
   end
 
   def worst_recommendations(sorted_map, number_of_recommendations)
-    sorted_map.last(number_of_recommendations).map { |_, user| user }.reverse
+    sorted_map.last(number_of_recommendations).reverse
   end
 
   def other_users_with_score
@@ -33,7 +33,7 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
       GithubUser.where(id: @other_users_ids).map do |user|
         result[user.id] = user.as_json.merge(score: color_scores[user.id])
       end
-      result.sort_by { |_, user| user[:score] }
+      result.values.sort_by { |user| user[:score] }
     end
   end
 

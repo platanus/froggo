@@ -84,12 +84,11 @@ export default {
         { explainer: true, score: 1.75001, id: -5 },
       ];
       recommendations.forEach((item) => {
-        const user = item[1];
-        while (explainers.length && user.score > explainers[0].score) {
+        while (explainers.length && item.score > explainers[0].score) {
           result.push(explainers.shift());
         }
-        user.explainer = false;
-        result.push(user);
+        item.explainer = false;
+        result.push(item);
       });
       while (explainers.length) result.push(explainers.shift());
 
