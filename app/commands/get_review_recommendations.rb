@@ -28,13 +28,9 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
   end
 
   def other_users_with_score
-    @other_users_with_score ||= begin
-      result = {}
-      GithubUser.where(id: @other_users_ids).map do |user|
-        result[user.id] = user.as_json.merge(score: color_scores[user.id])
-      end
-      result.values.sort_by { |user| user[:score] }
-    end
+    @other_users_with_score ||= GithubUser.where(id: @other_users_ids).map do |user|
+                                  user.as_json.merge(score: color_scores[user.id])
+                                end.sort_by { |user| user[:score] }
   end
 
   def number_of_best_recommendations
