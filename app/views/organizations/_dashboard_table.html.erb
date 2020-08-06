@@ -34,7 +34,7 @@
           <% @corrmat.selected_users.each_with_index do |b, i| %>
             <div class="matrix__row">
               <% @corrmat.selected_users.each_with_index do |a, j| %>
-                <div class="matrix__pullrequest">
+                <div class="matrix__pullrequest<%= matrix_pullrequest_color_modifier(@color_scores, a.id) if i == 0 && i != j %>">
                   <span class="matrix__pullrequest__number<%= if i == j then
                                                           '-diagonal'
                                                           elsif @corrmat.data[[i, j]] == 0 then

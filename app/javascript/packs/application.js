@@ -3,6 +3,8 @@
 
 import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
+import VTooltip from 'v-tooltip';
+import VueHorizontalList from 'vue-horizontal-list';
 
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
@@ -13,13 +15,14 @@ import SyncOrganizationButton from '../components/sync-organization-button.vue';
 import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
 import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
 import ProfileRecommendations from '../components/profile/recommendations.vue';
-import ProfileRecommendationsUsers from '../components/profile/recommendations-users.vue';
 import ProfileStatistics from '../components/profile/statistics.vue';
 
 import Locales from '../locales.js';
 import store from '../store';
 
 Vue.use(VueI18n);
+Vue.use(VTooltip);
+Vue.use(VueHorizontalList);
 
 document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
@@ -31,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
   Vue.component('profile-recommendations', ProfileRecommendations);
-  Vue.component('profile-recommendations-users', ProfileRecommendationsUsers);
   Vue.component('profile-statistics', ProfileStatistics);
 
   if (document.getElementById('app') !== null) {

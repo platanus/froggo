@@ -24,6 +24,14 @@ const messages = {
           indifferentCount: 'Ignored recommendations',
           rebelCount: 'Rejected recommendations',
         },
+        relationsTitle: 'Your relation with the rest of the team: ',
+        badgeExplainer: {
+          low: 'Also part of your team! Don\'t ignore them :(',
+          midlow: 'Could still receive some love!',
+          good: 'Your Froggo objective',
+          midhigh: 'Don\'t overdo it...',
+          high: 'You seem fixated...',
+        },
       },
       admin: {
         noDefaultTeam: 'No default team',
@@ -55,6 +63,14 @@ const messages = {
           obedientCount: 'Recomendaciones seguidas',
           indifferentCount: 'Recomendaciones ignoradas',
           rebelCount: 'Recomendaciones no seguidas',
+        },
+        relationsTitle: 'Tu relación con el resto del equipo: ',
+        badgeExplainer: {
+          low: '¡También es parte de tu equipo! No lo ignores :(',
+          midlow: '¡Todavía puedo ayudarte más!',
+          good: 'Tu objetivo Froggo',
+          midhigh: 'No te pases...',
+          high: 'Parece que tienes una fijación...',
         },
       },
       admin: {

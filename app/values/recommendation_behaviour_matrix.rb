@@ -10,7 +10,7 @@ class RecommendationBehaviourMatrix
   end
 
   def fill_matrix
-    users_ids = @team_members.map(&:id)
+    users_ids = @team_members.pluck(:id)
     map_user_id_to_index =
       Hash[users_ids.map.with_index { |user_id, index| [user_id, index] }]
     map_user_id_to_index.each do |user_id_and_index|

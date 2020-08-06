@@ -3,7 +3,7 @@ class GetRecommendations < PowerTypes::Command.new(:github_user, :organization)
     if membership&.is_member_of_default_team
       GetReviewRecommendations.for(
         github_user_id: @github_user.id,
-        other_users_ids: other_default_team_members_id
+        team_users_ids: other_default_team_members_id
       )
     end
   end

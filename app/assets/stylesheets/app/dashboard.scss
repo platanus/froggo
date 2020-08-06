@@ -119,6 +119,26 @@
   text-align: center;
   vertical-align: middle;
   width: 66px;
+
+  &--red {
+    background-color: rgba($red, .5);
+  }
+
+  &--light-red {
+    background-color: lighten(rgba($red, .5), 30%);
+  }
+
+  &--green {
+    background-color: rgba($primary-color, .5);
+  }
+
+  &--light-blue {
+    background-color: lighten(rgba($blue, .5), 30%);
+  }
+
+  &--blue {
+    background-color: rgba($blue, .5);
+  }
 }
 
 .matrix__pullrequest-border {
