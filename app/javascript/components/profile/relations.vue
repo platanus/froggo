@@ -14,15 +14,16 @@
         :options="horizontalListOptions"
       >
         <template v-slot:default="{item}">
-          <template v-if="item.explainer">
-            <div class="profile-relations__user">
-              <div
-                v-tooltip="item.tooltip"
-                :class="`profile-relations__badge-explainer
-                  profile-relations__badge-explainer--${colorFromScore(item.score)}`"
-              />
-            </div>
-          </template>
+          <div
+            v-if="item.explainer"
+            class="profile-relations__user"
+          >
+            <div
+              v-tooltip="item.tooltip"
+              :class="`profile-relations__badge-explainer
+                profile-relations__badge-explainer--${colorFromScore(item.score)}`"
+            />
+          </div>
           <template v-else>
             <a
               class="profile-relations__user"
