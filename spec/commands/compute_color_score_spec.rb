@@ -50,6 +50,23 @@ describe ComputeColorScore do
         expect(perform_with_predefined_args).to eq(correct_score)
       end
     end
+
+    context 'with self-reviews and user in team_users_ids' do
+      let(:extended_pr_relations_array) do
+        pr_relations_array + create_list(:pull_request_relation, 2, target_user_id: user.id,
+                                                                    github_user_id: user.id)
+      end
+      let(:all_users_ids) { (other_users + [user]).pluck(:id) }
+      let(:pr_relations) { PullRequestRelation.where(id: extended_pr_relations_array.pluck(:id)) }
+
+      it 'still returns the same score' do
+        expect(perform(
+                 user_id: user.id,
+                 team_users_ids: all_users_ids,
+                 pr_relations: pr_relations
+               )).to eq(correct_score)
+      end
+    end
   end
 
   context 'without user interactions' do

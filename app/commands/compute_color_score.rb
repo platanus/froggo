@@ -29,7 +29,8 @@ class ComputeColorScore < PowerTypes::Command.new(:user_id, :team_users_ids, :pr
   end
 
   def compute_mean_prs_sent
-    reviews_per_user.empty? ? 0.0 : reviews_per_user.values.sum.to_f / @team_users_ids.length
+    other_users_ids = @team_users_ids - [@user_id]
+    other_users_ids.empty? ? 0.0 : reviews_per_user.values.sum.to_f / other_users_ids.length
   end
 
   def reviews_per_user
