@@ -54,7 +54,7 @@ class SlackCommandsService < PowerTypes::Service.new(:params)
   def recommended_users
     recommendations = GetRecommendations.for(github_user: github_user,
                                              organization: organization)
-    recommendations[:best].pluck(:login)
+    recommendations[:best].map { |user| user[:login] }
   end
 
   def statistics
