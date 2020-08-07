@@ -19,7 +19,7 @@ threads(threads_count, threads_count)
 preload_app!
 
 rackup DefaultRackup
-port ENV.fetch('PORT', 3000)
+bind "tcp://#{ENV.fetch('APPLICATION_HOST', "localhost:#{ENV.fetch('PORT', 3000)}")}"
 rack_env = ENV.fetch("RACK_ENV", "development")
 environment rack_env
 
