@@ -9,6 +9,7 @@ import VueHorizontalList from 'vue-horizontal-list';
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
 import OrganizationsDropdown from '../components/organizations-dropdown.vue';
+import TimespanDropdown from '../components/timespan-dropdown.vue';
 import Repository from '../components/repository.vue';
 import EnablePublicButton from '../components/enable-public-button.vue';
 import SyncOrganizationButton from '../components/sync-organization-button.vue';
@@ -24,12 +25,14 @@ Vue.use(VueI18n);
 Vue.use(VTooltip);
 Vue.use(VueHorizontalList);
 
+/* eslint-disable max-statements */
 document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
   Vue.component('enable-public-button', EnablePublicButton);
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('organizations-dropdown', OrganizationsDropdown);
+  Vue.component('timespan-dropdown', TimespanDropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
