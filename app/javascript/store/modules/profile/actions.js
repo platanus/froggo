@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { decamelizeKeys } from 'humps';
 
 import {
   COMPUTE_STATISTICS,
@@ -24,10 +25,14 @@ export default {
     dispatch(COMPUTE_RECOMMENDATIONS, { teamId, githubUserLogin });
   },
 
-  [COMPUTE_RECOMMENDATIONS]({ commit }, { teamId, githubUserLogin }) {
+  [COMPUTE_RECOMMENDATIONS]({ commit }, { teamId, githubUserLogin, monthLimit }) {
     commit(START_FETCHING_RECOMMENDATIONS);
     axios
-      .get(`/api/teams/${teamId}/users/${githubUserLogin}/recommendations`)
+      .get(`/api/teams/${teamId}/users/${githubUserLogin}/recommendations`, {
+        params: decamelizeKeys({
+          monthLimit,
+        }),
+      })
       .then(response => {
         commit(RECOMMENDATIONS_RECEIVED, response.data.response.recommendations);
       })
