@@ -17,7 +17,7 @@ import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue
 import ProfileRecommendations from '../components/profile/recommendations.vue';
 import ProfileStatistics from '../components/profile/statistics.vue';
 
-import Locales from '../locales.js';
+import Locales from '../locales/locales.js';
 import store from '../store';
 
 Vue.use(VueI18n);
