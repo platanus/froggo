@@ -1,4 +1,5 @@
-class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other_users_ids)
+class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other_users_ids,
+                                                         month_limit: nil)
   NUMBER_OF_RECOMMENDATIONS = 3
 
   def perform
@@ -15,7 +16,7 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
     @color_scores ||= begin
       pr_relations = PullRequestRelation.review_relations
       ComputeColorScore.for(user_id: @github_user_id, team_users_ids: @other_users_ids,
-                            pr_relations: pr_relations)
+                            pr_relations: pr_relations, review_month_limit: @month_limit)
     end
   end
 

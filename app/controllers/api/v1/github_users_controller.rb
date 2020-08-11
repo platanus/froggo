@@ -19,7 +19,8 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     render json: { response: {
       recommendations: GetReviewRecommendations.for(
         github_user_id: github_user.id,
-        other_users_ids: other_team_members_ids
+        other_users_ids: other_team_members_ids,
+        month_limit: permitted_params[:month_limit]&.to_i
       )
     } }, status: :ok
   end
@@ -77,6 +78,6 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   end
 
   def permitted_params
-    params.permit(:org_id, :team_id, :github_login, :from, :to)
+    params.permit(:org_id, :team_id, :github_login, :from, :to, :month_limit)
   end
 end
