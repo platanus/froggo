@@ -8,6 +8,7 @@
     "@rails/webpacker": "5.1.1",
     "axios": "^0.17.1",
     "coffeescript": "1.12.7",
+    "humps": "^2.0.1",
     "lodash.chunk": "^4.2.0",
     "moment": "^2.24.0",
     "tailwindcss": "^1.4.6",
