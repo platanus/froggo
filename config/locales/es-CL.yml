@@ -32,7 +32,9 @@ es-CL:
       organizations: Organizaciones
       teams: Equipos
       months: Meses
-      month: Mes
+      month:
+        one: '1 mes'
+        other: '%{count} meses'
       since: Desde
       obedient: Obediente
       indifferent: Indiferente

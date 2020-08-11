@@ -63,7 +63,9 @@ en:
       organizations: Organizations
       teams: Teams
       months: Months
-      month: Month
+      month:
+        one: '1 month'
+        other: '%{count} months'
       since: Since
       obedient: Obedient
       indifferent: Indifferent
