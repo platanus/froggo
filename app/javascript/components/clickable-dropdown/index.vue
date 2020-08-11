@@ -1,12 +1,26 @@
 <template>
-  <dropdown ref="parentDropdown" class="select">
-    <div class="select__btn" slot="btn">
+  <dropdown
+    ref="parentDropdown"
+    class="select"
+  >
+    <div
+      class="select__btn"
+      slot="btn"
+    >
       <span class="select__title">
         {{ selectedItem ? (selectedItem.name ? selectedItem.name : selectedItem.login) : noItemsMessage }}
       </span>
     </div>
-    <div class="select__body" slot="body">
-      <div v-if="bodyTitle" class="select-body__title">{{ bodyTitle }}</div>
+    <div
+      class="select__body"
+      slot="body"
+    >
+      <div
+        v-if="bodyTitle"
+        class="select-body__title"
+      >
+        {{ bodyTitle }}
+      </div>
       <div
         v-for="(item, index) in items"
         class="select__option"
@@ -22,10 +36,13 @@
 <script>
 export default {
   props: {
-    bodyTitle: String,
+    bodyTitle: {
+      type: String,
+      required: true,
+    },
     noItemsMessage: {
       type: String,
-      defaut: '',
+      default: '',
     },
     items: {
       type: Array,
@@ -45,9 +62,9 @@ export default {
   },
   computed: {
     selectedItem() {
-      return this.selectedItemIndex !== -1 ?
-        this.items[this.selectedItemIndex] :
-        null;
+      return this.selectedItemIndex === -1 ?
+        null :
+        this.items[this.selectedItemIndex];
     },
   },
   methods: {
