@@ -40,7 +40,7 @@
         </div>
         <div class="select__body" slot="body">
           <div class="select-body__title"><%= t('messages.dashboard.since') %></div>
-          <%  [1, 3, 6, 9, 12].each do |limit| %>
+          <% timespans.each do |limit| %>
             <%= link_to organization_path(name: @github_organization[:login], team: (@team[:slug] if @team), month_limit: limit), class: 'select__option' do %>
                 <%= t('messages.dashboard.month', count: limit) %>
             <% end %>

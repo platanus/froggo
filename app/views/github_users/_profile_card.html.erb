@@ -24,7 +24,7 @@
         </organizations-dropdown>
         <timespan-dropdown
           github-login="<%= @github_user.login %>"
-          :months-options="<%= ([1, 3, 6, 9, 12].map { |months| { name: t('messages.dashboard.month', count: months), limit: months } }.to_json) %>"
+          :months-options="<%= timespans_with_name.to_json %>"
         />
       </div>
     </div>
