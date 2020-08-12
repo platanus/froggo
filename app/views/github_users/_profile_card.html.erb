@@ -22,6 +22,10 @@
           :organizations="<%= @organizations.to_json %>"
           :teams="<%= @teams.to_json %>">
         </organizations-dropdown>
+        <timespan-dropdown
+          github-login="<%= @github_user.login %>"
+          :months-options="<%= timespans_with_name.to_json %>"
+        />
       </div>
     </div>
   </div>
