@@ -10,6 +10,9 @@ class GithubUser < ApplicationRecord
   has_many :organization_memberships
   has_many :organizations, through: :organization_memberships, source: :organization
 
+  has_many :froggo_team_memberships
+  has_many :froggo_teams, through: :froggo_team_memberships
+
   validates :gh_id, presence: true
   validates :login, presence: true
 end
