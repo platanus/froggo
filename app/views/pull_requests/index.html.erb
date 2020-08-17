@@ -1,0 +1,11 @@
+<<<<<<< HEAD
+<%= @pull_requests.last(10).map(&:title) %>
+=======
+<div id="app" class="app">
+  <%= render 'partials/header' %>
+  <div class="container">
+    <pr-feed :pull-requests="<%= @serialized_pull_requests.to_json %>" ></pr-feed>
+  </div>
+  <%= render "partials/footer" %>
+</div>
+>>>>>>> 3a40e63... fixup! feat(pull-request-controller): add basic index
