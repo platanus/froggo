@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_02_193942) do
+ActiveRecord::Schema.define(version: 2020_08_10_184525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_193942) do
     t.bigint "resource_id"
     t.string "author_type"
     t.bigint "author_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
@@ -46,9 +46,6 @@ ActiveRecord::Schema.define(version: 2019_05_02_193942) do
     t.string "uid"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
-  end
-
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
   create_table "github_users", force: :cascade do |t|
@@ -183,6 +180,15 @@ ActiveRecord::Schema.define(version: 2019_05_02_193942) do
     t.index ["organization_id"], name: "index_repositories_on_organization_id"
   end
 
+  create_table "tils", force: :cascade do |t|
+    t.bigint "github_user_id", null: false
+    t.bigint "pull_request_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_user_id"], name: "index_tils_on_github_user_id"
+    t.index ["pull_request_id"], name: "index_tils_on_pull_request_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -212,4 +218,6 @@ ActiveRecord::Schema.define(version: 2019_05_02_193942) do
   add_foreign_key "pull_requests", "github_users", column: "merged_by_id"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "organizations"
+  add_foreign_key "tils", "github_users"
+  add_foreign_key "tils", "pull_requests"
 end

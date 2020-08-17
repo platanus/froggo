@@ -1,0 +1,24 @@
+<div id="app" class="app">
+  <div class="app__container">
+    <%= render 'partials/header' %>
+    <div id="app" class="app">
+      <div class="app__container">
+      <%= Repository.count %>
+        <% PullRequest.by_organizations(@organization.id).each do |pull_request| %>
+            <div style="display: flex; flex-direction: row;">
+            <div class="card"> 
+            <p class="card-extended__name"><%= pull_request.title %> </p>
+            <p class="card-extended__project"><%= pull_request.repository.name %> </p> 
+            </div>
+            <div class="card-extended--card" > 
+            <p class="card-extended--circle"><%= pull_request.tils.count %> </p>
+            <button style="min-width: 240px; text-align: center;">TIL</button>
+            </div>
+            </div>
+          <% end %>
+        <%= render "partials/footer" %>
+      </div>
+    </div>
+    <%= render "partials/footer" %>
+  </div>
+</div>

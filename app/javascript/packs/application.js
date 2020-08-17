@@ -5,6 +5,7 @@ import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
 
 import Dropdown from '../components/pl-dropdown.vue';
+import Feed from '../components/feed/feed.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
 import OrganizationsDropdown from '../components/organizations-dropdown.vue';
 import Repository from '../components/repository.vue';
@@ -23,6 +24,7 @@ Vue.use(VueI18n);
 
 document.addEventListener('DOMContentLoaded', () => {
   Vue.component('repository', Repository);
+  Vue.component('feed', Feed);
   Vue.component('enable-public-button', EnablePublicButton);
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);

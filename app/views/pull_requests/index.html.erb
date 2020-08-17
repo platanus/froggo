@@ -1,0 +1,7 @@
+<div id="app" class="app">
+  <div class="app__container">
+    <%= render 'partials/header' %> 
+    <feed :pull-requests="<%= @pull_requests.to_json %>" > </feed>
+    <%= render "partials/footer" %>
+  </div>
+</div>

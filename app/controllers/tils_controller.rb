@@ -1,0 +1,3 @@
+class TilsController < ApplicationController
+
+end

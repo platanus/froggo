@@ -1,7 +1,14 @@
 .card {
-  border-radius: 2px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 1px;
+  margin-right: 5px;
+  margin-left: 50px;
   background-color: $white;
   font-family: $main-font;
+  display: flex; 
+  flex-direction: row;
+  flex: 1;
 
   &__title {
     color: $secondary-color;
@@ -21,6 +28,15 @@
     width: 850px;
   }
 
+  &__button-pr {
+    text-align: center;
+
+    &--big {
+      text-align: center;
+      min-width: 240px;
+    }
+  }
+
   &-extended {
     @extend .card;
     color: $primary;
@@ -31,6 +47,33 @@
     margin-top: 48px;
     min-height: 536px;
     width: $app-content-width;
+
+    &--card {
+      border-radius: 10px;
+      margin-top: 20px;
+      margin-bottom: 1px;
+      margin-right: 50px;
+      margin-left: 5px;
+      background-color: $white;
+      font-family: $main-font;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &--circle {
+      display: block;
+      height: 30px;
+      width: 30px;
+      line-height: 30px;
+
+      -moz-border-radius: 15px; /* or 50% */
+      border-radius: 15px; /* or 50% */
+
+      background-color: mediumseagreen;
+      color: white;
+      text-align: center;
+      font-size: 1em;
+    }
 
     &--fullscreen {
       margin: 0;
@@ -45,6 +88,14 @@
     &__last-update {
       font-size: 11px;
       color: $secondary-color;
+    }
+
+    &__name {
+      flex: 8;
+    }
+
+    &__project {
+      flex: 1;
     }
 
     &__header {

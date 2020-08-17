@@ -7,6 +7,7 @@ class PullRequest < ApplicationRecord
 
   has_many :pull_request_reviews, dependent: :destroy
   has_many :pull_request_reviewers, through: :pull_request_reviews, source: :github_user
+  has_many :tils
 
   has_many :pull_request_relations, dependent: :destroy
   has_many :pull_request_review_requests, dependent: :destroy

@@ -24,6 +24,9 @@ class OrganizationsController < ApplicationController
     redirect_to settings_organization_path(name: @github_organization[:login])
   end
 
+  def feed
+  end
+
   def missing; end
 
   def settings
