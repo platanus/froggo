@@ -49,6 +49,8 @@ Rails.application.routes.draw do
           end
         end
       end
+      get 'users/:github_login/pull_requests_information' =>
+        'github_users#pull_requests_information'
     end
   end
 

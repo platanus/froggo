@@ -34,6 +34,15 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     } }, status: :ok
   end
 
+  def pull_requests_information
+    render json: { response: {
+      metrics: GetUserReviewRequestMetrics.for(
+        github_user: github_user,
+        limit_month: permitted_params[:month_limit]
+      )
+    } }, status: :ok
+  end
+
   private
 
   def compute_score_for_user(other_users_ids)
