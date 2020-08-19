@@ -10,5 +10,6 @@ RSpec.describe PullRequest, type: :model do
     it { is_expected.to belong_to(:repository) }
     it { is_expected.to belong_to(:owner) }
     it { is_expected.to belong_to(:merged_by).optional(true) }
+    it { is_expected.to have_many(:pull_request_review_requests) }
   end
 end

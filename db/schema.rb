@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_02_193942) do
+ActiveRecord::Schema.define(version: 2020_08_13_155456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,23 @@ ActiveRecord::Schema.define(version: 2019_05_02_193942) do
     t.string "uid"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "froggo_team_memberships", force: :cascade do |t|
+    t.bigint "github_user_id", null: false
+    t.bigint "froggo_team_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["froggo_team_id"], name: "index_froggo_team_memberships_on_froggo_team_id"
+    t.index ["github_user_id"], name: "index_froggo_team_memberships_on_github_user_id"
+  end
+
+  create_table "froggo_teams", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
+    t.index ["organization_id"], name: "index_froggo_teams_on_organization_id"
   end
 
   create_table "github_users", force: :cascade do |t|
@@ -197,6 +214,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_193942) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "froggo_team_memberships", "froggo_teams"
+  add_foreign_key "froggo_team_memberships", "github_users"
   add_foreign_key "organization_memberships", "github_users"
   add_foreign_key "organization_memberships", "organizations"
   add_foreign_key "organization_syncs", "organizations"
