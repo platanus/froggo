@@ -42,7 +42,7 @@ class ApiResponder < ActionController::Responder
   end
 
   def infer_serializer(serializer_class)
-    if serializer_class == ActiveModel::ArraySerializer
+    if serializer_class == ActiveModel::Serializer::CollectionSerializer
       s = options.delete(:each_serializer) || "#{resource.klass}Serializer".constantize
       { each_serializer: s }
     else
