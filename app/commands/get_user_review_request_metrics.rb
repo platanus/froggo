@@ -3,6 +3,7 @@ class GetUserReviewRequestMetrics < PowerTypes::Command.new(:github_user, :limit
     @entry_count = 0
     @total_time = 0
     @review_requests_dic = Hash.new
+    @review_requests_dic["pull_requests_information"] = Hash.new
     get_valid_pull_requests.each do |pr|
       add_pr_data_to_hash(pr)
     end
@@ -35,7 +36,9 @@ class GetUserReviewRequestMetrics < PowerTypes::Command.new(:github_user, :limit
       unless time_delta > 1.week
         @entry_count += 1
         @total_time += time_delta
-        @review_requests_dic[pull_request.id] = get_pr_info(pull_request, review_req, time_delta)
+        @review_requests_dic["pull_requests_information"][pull_request.id] = get_pr_info(
+          pull_request, review_req, time_delta
+        )
       end
     end
   end
