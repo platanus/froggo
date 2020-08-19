@@ -10,7 +10,10 @@ describe GetUserReviewRequestMetrics do
 
   context "without pull request" do
     it "return empty content" do
-      expect(perform(github_user: github_user, limit_month: 9)).to eq("personal_mean" => 0)
+      expect(perform(github_user: github_user, limit_month: 9)).to eq(
+        "personal_mean" => 0,
+        "pull_requests_information" => {}
+      )
     end
   end
 
@@ -33,12 +36,12 @@ describe GetUserReviewRequestMetrics do
     context "with valid date limit" do
       it "return correct information" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
-          valid_pull_request.id => {
+          "pull_requests_information" => { valid_pull_request.id => {
             pr_created_at: valid_pull_request.gh_created_at.to_s,
             pr_title: "Prueba",
             review_request_created_at: valid_review_request.created_at.to_s,
             time_delta: 120
-          }, "personal_mean" => 120
+          } }, "personal_mean" => 120
         )
       end
     end
@@ -55,12 +58,12 @@ describe GetUserReviewRequestMetrics do
 
       it "ignores review request from monkey" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
-          valid_pull_request.id => {
+          "pull_requests_information" => { valid_pull_request.id => {
             pr_created_at: valid_pull_request.gh_created_at.to_s,
             pr_title: "Prueba",
             review_request_created_at: valid_review_request.created_at.to_s,
             time_delta: 120
-          }, "personal_mean" => 120
+          } }, "personal_mean" => 120
         )
       end
     end
@@ -83,12 +86,12 @@ describe GetUserReviewRequestMetrics do
 
       it "ignores old pull request" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
-          valid_pull_request.id => {
+          "pull_requests_information" => { valid_pull_request.id => {
             pr_created_at: valid_pull_request.gh_created_at.to_s,
             pr_title: "Prueba",
             review_request_created_at: valid_review_request.created_at.to_s,
             time_delta: 120
-          }, "personal_mean" => 120
+          } }, "personal_mean" => 120
         )
       end
     end
