@@ -50,6 +50,9 @@ Rails.application.routes.draw do
           end
         end
       end
+      resources :pull_requests do
+        resources :likes, only: [:create, :destroy]
+      end
       get 'users/:github_login/pull_requests_information' =>
         'github_users#pull_requests_information'
     end

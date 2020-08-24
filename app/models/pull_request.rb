@@ -5,6 +5,7 @@ class PullRequest < ApplicationRecord
   belongs_to :owner, class_name: 'GithubUser'
   belongs_to :merged_by, class_name: 'GithubUser', optional: true
 
+  has_many :likes, as: :likeable, dependent: :destroy, inverse_of: :likeable
   has_many :pull_request_reviews, dependent: :destroy
   has_many :pull_request_reviewers, through: :pull_request_reviews, source: :github_user
 
@@ -13,7 +14,7 @@ class PullRequest < ApplicationRecord
 
   scope :within_month_limit, -> do
     where('pull_requests.gh_updated_at > ?',
-      Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
+          Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
   end
 
   scope :by_organizations, ->(organization_ids) do
