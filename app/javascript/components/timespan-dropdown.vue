@@ -9,7 +9,10 @@
 
 <script>
 import ClickableDropdown from './clickable-dropdown';
-import { COMPUTE_RECOMMENDATIONS } from '../store/action-types';
+import {
+  COMPUTE_RECOMMENDATIONS,
+  COMPUTE_PROFILE_PR_INFORMATION,
+} from '../store/action-types';
 
 export default {
   props: {
@@ -36,6 +39,10 @@ export default {
     selectTimespan(limit) {
       this.$store.dispatch(COMPUTE_RECOMMENDATIONS, {
         teamId: this.$store.state.profile.selectedTeamId,
+        githubUserLogin: this.githubLogin,
+        monthLimit: limit,
+      });
+      this.$store.dispatch(COMPUTE_PROFILE_PR_INFORMATION, {
         githubUserLogin: this.githubLogin,
         monthLimit: limit,
       });
