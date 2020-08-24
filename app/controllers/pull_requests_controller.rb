@@ -1,6 +1,12 @@
 class PullRequestsController < ApplicationController
+  before_action :authenticate_github_user
+
   def index
-    @pull_requests = PullRequest.by_organizations([organization.id]).limit(20)
+    github_user
+    @likes_given = Like.where(github_user_id: github_user.id).pluck(:likeable_id).map(&:to_i)
+    @pull_requests = PullRequest.by_organizations(
+      [organization.id]
+    ).order(created_at: :desc).limit(100)
     @serialized_pull_requests = ActiveModel::Serializer::CollectionSerializer.new(
       @pull_requests, each_serializer: PullRequestSerializer
     )

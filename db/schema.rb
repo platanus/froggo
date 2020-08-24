@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_155456) do
+ActiveRecord::Schema.define(version: 2020_08_19_190918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,6 +88,16 @@ ActiveRecord::Schema.define(version: 2020_08_13_155456) do
     t.string "resource_type"
     t.bigint "resource_id"
     t.index ["resource_type", "resource_id"], name: "index_hooks_on_resource_type_and_resource_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.bigint "github_user_id", null: false
+    t.string "likeable_type", null: false
+    t.bigint "likeable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_user_id"], name: "index_likes_on_github_user_id"
+    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id"
   end
 
   create_table "organization_memberships", force: :cascade do |t|
@@ -215,6 +225,7 @@ ActiveRecord::Schema.define(version: 2020_08_13_155456) do
 
   add_foreign_key "froggo_team_memberships", "froggo_teams"
   add_foreign_key "froggo_team_memberships", "github_users"
+  add_foreign_key "likes", "github_users"
   add_foreign_key "organization_memberships", "github_users"
   add_foreign_key "organization_memberships", "organizations"
   add_foreign_key "organization_syncs", "organizations"
