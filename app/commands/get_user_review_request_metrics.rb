@@ -1,4 +1,6 @@
 class GetUserReviewRequestMetrics < PowerTypes::Command.new(:github_user, :limit_month)
+  MONTH_LIMIT_DEFAULT = 9
+
   def perform
     @entry_count = 0
     @total_time = 0
@@ -11,6 +13,10 @@ class GetUserReviewRequestMetrics < PowerTypes::Command.new(:github_user, :limit
     @review_requests_dic
   end
 
+  def limit_month
+    @limit_month ||= MONTH_LIMIT_DEFAULT
+  end
+
   def pr_has_review_requests(pull_request)
     monkey = GithubUser.find_by(login: "monkeyci")
     review_requests = pull_request.pull_request_review_requests
@@ -20,7 +26,7 @@ class GetUserReviewRequestMetrics < PowerTypes::Command.new(:github_user, :limit
   end
 
   def get_valid_pull_requests
-    limit_date = (Time.zone.today - @limit_month.to_i.months).beginning_of_day
+    limit_date = (Time.zone.today - limit_month.to_i.months).beginning_of_day
     @github_user.pull_requests.where('gh_created_at > ?', limit_date).where.not(merged_by_id: nil)
   end
 
