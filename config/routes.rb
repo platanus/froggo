@@ -31,6 +31,10 @@ Rails.application.routes.draw do
     resources :froggo_teams, only: [:new], controller: 'froggo_teams'
   end
 
+  resources :github_users do
+    resources :froggo_teams, only: [:index], controller: 'froggo_teams'
+  end
+
   scope path: '/api', defaults: { format: 'json' } do
     api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
       resources :repositories, only: [:update]
