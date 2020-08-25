@@ -9,6 +9,7 @@ import VueHorizontalList from 'vue-horizontal-list';
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
 import OrganizationsDropdown from '../components/organizations-dropdown.vue';
+import FroggoTeamForm from '../components/froggo-team-form.vue';
 import TimespanDropdown from '../components/timespan-dropdown.vue';
 import Repository from '../components/repository.vue';
 import EnablePublicButton from '../components/enable-public-button.vue';
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('organizations-dropdown', OrganizationsDropdown);
+  Vue.component('froggo-team-form', FroggoTeamForm);
   Vue.component('timespan-dropdown', TimespanDropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
