@@ -5,6 +5,7 @@ import profile from './modules/profile';
 import scores from './modules/scores';
 import statistics from './modules/statistics';
 import admin from './modules/admin';
+import froggoTeam from './modules/froggo_team';
 
 Vue.use(Vuex);
 
@@ -14,5 +15,6 @@ export default new Vuex.Store({
     scores,
     statistics,
     admin,
+    froggoTeam,
   },
 });
