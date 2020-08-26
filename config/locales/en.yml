@@ -73,6 +73,7 @@ en:
     header:
       organizations: Organizations
       close_session: Close session
+      teams: Teams
     home:
       title: Code review tool for GitHub pull requests
       subtitle: Discover how your Github organization's code review and pull requests are distributed.

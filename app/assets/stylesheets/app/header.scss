@@ -7,12 +7,24 @@
   &__container {
     height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   &__logo-container {
     display: flex;
     align-items: center;
+    margin-right: auto;
+  }
+
+  &__teams-button-container {
+    display: flex;
+    align-items: center;
+    font-family: 'Arial Rounded MT Bold';
+    font-weight: 700;
+    font-size: 15px;
+    color: $white;
+    text-decoration: none;
+    padding: 20px;
   }
 
   &__logo {
