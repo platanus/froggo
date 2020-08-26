@@ -18,7 +18,12 @@ export default {
         return Promise.all(users.map(user => axios.post(`/api/froggo_teams/${id}/add_member`,
           humps.decamelizeKeys({ githubLogin: user.login }))));
       })
-      .then(() => alert('se creó el grupo correctamente'))
-      .catch(() => { alert('no se pudo crear el grupo correctamente'); });
+      .then((response) => {
+        alert('se creó el grupo correctamente');
+        window.location.href = `/froggo_teams/${response[0].data.id}`;
+      })
+      .catch(() => {
+        alert('no se pudo crear el grupo correctamente');
+      });
   },
 };
