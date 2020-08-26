@@ -4,6 +4,7 @@
       <%= image_tag 'froggo-logo.svg', class: 'header__logo' %>
     <% end %>
     <% unless @github_user.nil? %>
+      <%= link_to t('messages.header.teams'), github_user_froggo_teams_path(github_user_id: @github_session.user.id), class: 'header__teams-button-container'%>
       <div class="header__menu-container">
         <dropdown class="user-menu header__user-menu">
           <img class="user-menu__image" slot="btn" src="<%= @github_session.user.avatar_url %>"/>
