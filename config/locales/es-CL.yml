@@ -41,6 +41,7 @@ es-CL:
       rebel: Rebelde
     header:
       organizations: Organizaciones
+      pull_requests: Listado de pull requests
       close_session: Cerrar sesión
     home:
       title: Descubre cómo se distribuyen los Pull Requests en tu organización

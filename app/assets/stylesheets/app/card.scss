@@ -226,6 +226,24 @@
       vertical-align: middle;
     }
 
+    &__ex-button {
+      background: $white;
+      color: $white;
+      cursor: pointer;
+      display: table-cell;
+      float: right;
+      font-size: 13px;
+      font-weight: 500;
+      height: fit-content;
+      line-height: 30px;
+      margin-left: 5px;
+      margin-right: 5px;
+      min-width: 91px;
+      padding: 2px 5px;
+      text-align: center;
+      margin-top: 13px;
+    }
+
     &__orientation {
       display: flex;
       flex-direction: row;
