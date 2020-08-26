@@ -1,3 +1,81 @@
+.froggo-teams {
+  padding: 40px;
+}
+.froggo-teams-list {
+  padding: 40px;
+
+  &__section {
+    margin-top: 4%;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $black;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    font-family: $main-font;
+    font-size: 20px;
+    font-weight: 900;
+  }
+}
+
 .froggo-teams-form {
   display: flex;
+}
+
+.froggo-teams-from-organization {
+  flex-direction: column;
+  display: flex;
+  margin-right: 0;
+
+  &__organization {
+    border: 3px solid $primary-border;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  &__organization-bar {
+    display: flex;
+    background: $primary-shadow-color;
+    color: $white;
+    font-size: 20px;
+    font-weight: 900;
+    height: 30px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-family: $main-font;
+  }
+
+  &__organization-title {
+    display: flex;
+  }
+
+  &__organization-create-button {
+    display: flex;
+  }
+
+  &__organization-teams {
+    padding: 10px;
+    color: $primary;
+    font-family: $roboto-condensed;
+    font-size: 18px;
+  }
+
+  &__organization-team {
+    display: flex;
+    padding: 10px;
+    margin-left: 4px;
+    border: 2px solid $primary-border;
+    width: max-content;
+    height: 22px;
+    align-items: center;
+    color: $primary;
+    font-family: $roboto-condensed;
+    font-size: 16px;
+    cursor: pointer;
+  }
 }
