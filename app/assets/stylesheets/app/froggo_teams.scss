@@ -1,6 +1,7 @@
 .froggo-teams {
   padding: 40px;
 }
+
 .froggo-teams-list {
   padding: 40px;
 
@@ -77,5 +78,58 @@
     font-family: $roboto-condensed;
     font-size: 16px;
     cursor: pointer;
+  }
+}
+
+.froggo-teams-show {
+  flex-direction: column;
+  display: flex;
+  margin-right: 0;
+
+  &__name {
+    font-size: 22px;
+    font-weight: 900;
+    color: $secondary-color;
+  }
+
+  &__members {
+    margin: 30px 0;
+  }
+
+  &__member-title {
+    margin: 30px 0;
+  }
+
+  &__member {
+    display: flex;
+    align-items: center;
+    color: $primary;
+    text-decoration: none;
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__picture {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__username {
+    display: flex;
+    align-items: center;
+    color: $light-primary;
+    margin-top: 5px;
+    text-decoration: none;
+
+    svg {
+      fill: $light-primary;
+      margin-right: 5px;
+    }
   }
 }
