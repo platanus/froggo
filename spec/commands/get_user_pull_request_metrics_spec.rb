@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe GetUserReviewRequestMetrics do
+describe GetUserPullRequestMetrics do
   let(:github_user) { create(:github_user) }
   let!(:monkeyci) { create(:github_user, login: 'monkeyci') }
 

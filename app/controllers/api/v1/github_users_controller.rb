@@ -36,7 +36,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def pull_requests_information
     render json: { response: {
-      metrics: GetUserReviewRequestMetrics.for(
+      metrics: GetUserPullRequestMetrics.for(
         github_user: github_user,
         limit_month: permitted_params[:month_limit]
       )
