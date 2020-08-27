@@ -11,8 +11,7 @@ describe GetUserPullRequestMetrics do
   context "without pull request" do
     it "return empty content" do
       expect(perform(github_user: github_user, limit_month: 9)).to eq(
-        "personal_mean" => 0,
-        "pull_requests_information" => {}
+        pull_requests_information: {}
       )
     end
   end
@@ -22,7 +21,8 @@ describe GetUserPullRequestMetrics do
       create(
         :pull_request_with_merge,
         owner: github_user,
-        gh_created_at: Time.zone.now - 5.minutes
+        gh_created_at: Time.zone.now - 5.minutes,
+        gh_merged_at: Time.zone.now
       )
     end
     let!(:valid_review_request) do
@@ -34,14 +34,25 @@ describe GetUserPullRequestMetrics do
     end
 
     context "with valid date limit" do
+      let!(:valid_review) do
+        create(
+          :pull_request_review,
+          github_user: github_user,
+          pull_request: valid_pull_request,
+          created_at: Time.zone.now - 2.minutes,
+          approved_at: Time.zone.now - 1.minute
+        )
+      end
+
       it "return correct information" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
-          "pull_requests_information" => { valid_pull_request.id => {
-            pr_created_at: valid_pull_request.gh_created_at.to_s,
-            pr_title: "Prueba",
+          pull_requests_information: { valid_pull_request.id => {
+            pr_created_at: valid_pull_request.gh_created_at.to_s, pr_title: "Prueba",
+            first_response: valid_review.created_at.to_s,
+            last_approval: valid_review.approved_at.to_s,
             review_request_created_at: valid_review_request.created_at.to_s,
-            time_delta: 120
-          } }, "personal_mean" => 120
+            pr_merget_at: valid_pull_request.gh_merged_at.to_s
+          } }
         )
       end
     end
@@ -58,12 +69,12 @@ describe GetUserPullRequestMetrics do
 
       it "ignores review request from monkey" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
-          "pull_requests_information" => { valid_pull_request.id => {
+          pull_requests_information: { valid_pull_request.id => {
             pr_created_at: valid_pull_request.gh_created_at.to_s,
             pr_title: "Prueba",
             review_request_created_at: valid_review_request.created_at.to_s,
-            time_delta: 120
-          } }, "personal_mean" => 120
+            pr_merget_at: valid_pull_request.gh_merged_at.to_s
+          } }
         )
       end
     end
@@ -86,12 +97,12 @@ describe GetUserPullRequestMetrics do
 
       it "ignores old pull request" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
-          "pull_requests_information" => { valid_pull_request.id => {
+          pull_requests_information: { valid_pull_request.id => {
             pr_created_at: valid_pull_request.gh_created_at.to_s,
             pr_title: "Prueba",
             review_request_created_at: valid_review_request.created_at.to_s,
-            time_delta: 120
-          } }, "personal_mean" => 120
+            pr_merget_at: valid_pull_request.gh_merged_at.to_s
+          } }
         )
       end
     end
