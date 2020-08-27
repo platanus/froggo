@@ -29,7 +29,9 @@ describe GithubPullRequestReviewService do
         email: users[0].email,
         avatar_url: users[0].avatar_url,
         html_url: users[0].html_url
-      )
+      ),
+      state: 'approved',
+      submitted_at: "2020-08-26T15:39:00Z"
     )
   end
 
@@ -43,7 +45,9 @@ describe GithubPullRequestReviewService do
         email: users[3].email,
         avatar_url: users[3].avatar_url,
         html_url: users[3].html_url
-      )
+      ),
+      state: 'approved',
+      submitted_at: "2020-08-26T15:39:00Z"
     )
   end
 
@@ -57,7 +61,9 @@ describe GithubPullRequestReviewService do
         email: users[5].email,
         avatar_url: users[5].avatar_url,
         html_url: users[5].html_url
-      )
+      ),
+      state: 'approved',
+      submitted_at: "2020-08-26T15:39:00Z"
     )
   end
 
@@ -71,7 +77,9 @@ describe GithubPullRequestReviewService do
         email: users[6].email,
         avatar_url: users[6].avatar_url,
         html_url: users[6].html_url
-      )
+      ),
+      state: 'approved',
+      submitted_at: "2020-08-26T15:39:00Z"
     )
   end
 

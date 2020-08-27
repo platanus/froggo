@@ -84,6 +84,10 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
         organization_id)
     end
 
+    if github_pr_review.state == 'approved'
+      review_params[:approved_at] = github_pr_review.submitted_at
+    end
+
     review_params
   end
 
