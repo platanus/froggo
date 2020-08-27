@@ -21,8 +21,10 @@
 <script>
 import UsersDropdown from './users-dropdown';
 import { CREATE_NEW_FROGGO_TEAM } from '../store/action-types';
+import showMessageMixin from '../mixins/showMessageMixin';
 
 export default {
+  mixins: [showMessageMixin],
   data() {
     return {
       teamName: '',
@@ -47,8 +49,15 @@ export default {
       this.$store.dispatch(CREATE_NEW_FROGGO_TEAM, {
         name: this.teamName,
         organizationId: this.organization.id,
-        users: this.selected,
-      });
+        users: JSON.stringify(this.selected.map(user => user.id)),
+      })
+        .then(response => {
+          this.showMessage('se creó el grupo correctamente');
+          window.location.href = `/froggo_teams/${response.data.id}`;
+        })
+        .catch(() => {
+          this.showMessage('no se pudo crear el grupo');
+        });
     },
   },
   components: {
