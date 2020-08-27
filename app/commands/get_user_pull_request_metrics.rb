@@ -1,4 +1,4 @@
-class GetUserReviewRequestMetrics < PowerTypes::Command.new(:github_user, :limit_month)
+class GetUserPullRequestMetrics < PowerTypes::Command.new(:github_user, :limit_month)
   MONTH_LIMIT_DEFAULT = 9
 
   def perform
