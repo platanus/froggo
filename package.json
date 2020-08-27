@@ -21,6 +21,7 @@
     "vue-i18n": "^7.4.0",
     "vue-loader": "^15.9.2",
     "vue-template-compiler": "^2.6.11",
+    "vue-toasted": "^1.1.28",
     "vuex": "^3.0.1"
   },
   "version": "0.1.0",
