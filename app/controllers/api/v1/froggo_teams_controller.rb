@@ -10,6 +10,9 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
     if name_validated?
       new_froggo_team = FroggoTeam.create!(name: permitted_params[:name],
                                            organization: organization)
+      permitted_params[:new_members_ids].each do |member_id|
+        add_member(member_id, new_froggo_team)
+      end
       respond_with new_froggo_team
     else
       render(json: { error: "name already exists for organization" }, status: :bad_request)
@@ -37,17 +40,6 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
     froggo_team.destroy
   end
 
-  def add_member
-    render(json: { error: "permission denied" }, status: :bad_request) && return unless valid_user?
-
-    if valid_member?
-      FroggoTeamMembership.create(github_user: github_user, froggo_team: froggo_team)
-      respond_with froggo_team
-    else
-      render(json: { error: "user not in organization" }, status: :bad_request)
-    end
-  end
-
   def remove_member
     render(json: { error: "permission denied" }, status: :bad_request) && return unless valid_user?
 
@@ -58,7 +50,7 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
   private
 
   def permitted_params
-    params.permit(:name, :id, :organization_id, :github_login)
+    params.permit(:name, :id, :organization_id, :github_login, new_members_ids: [])
   end
 
   def froggo_team
@@ -94,5 +86,11 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
       return false if team.name == name
     end
     true
+  end
+
+  def add_member(user_id, team)
+    if organization.members.exists?(user_id)
+      FroggoTeamMembership.create(github_user: GithubUser.find_by(id: user_id), froggo_team: team)
+    end
   end
 end
