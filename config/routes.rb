@@ -55,7 +55,6 @@ Rails.application.routes.draw do
       resources :organizations do
         resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true do
           member do
-            post 'add_member'
             post 'remove_member'
           end
         end

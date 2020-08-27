@@ -52,7 +52,7 @@ RSpec.describe Api::V1::FroggoTeamsController, type: :controller do
 
     context "when everything is ok" do
       before do
-        post :create, params: { name: "new_name", organization_id: platanus_org.id }, format: :json
+        post :create, params: { name: "name", organization_id: platanus_org.id, new_members_ids: [user.id] }, format: :json
       end
 
       it { expect(response).to have_http_status(:ok) }
@@ -107,32 +107,6 @@ RSpec.describe Api::V1::FroggoTeamsController, type: :controller do
       end
 
       it { expect(response).to have_http_status(:no_content) }
-    end
-  end
-
-  describe '#add_member' do
-    context "when the user who wants to add a member is not from the team organization" do
-      before do
-        post :add_member, params: { id: buda_team.id, github_login: user.login }, format: :json
-      end
-
-      it { expect(response).to have_http_status(:bad_request) }
-    end
-
-    context "when the member who is going to be added is not from the organization" do
-      before do
-        post :add_member, params: { id: p_team.id, github_login: "new_user" }, format: :json
-      end
-
-      it { expect(response).to have_http_status(:bad_request) }
-    end
-
-    context "when the member who is going to be added is from the organization" do
-      before do
-        post :add_member, params: { id: p_team.id, github_login: user.login }, format: :json
-      end
-
-      it { expect(response).to have_http_status(:ok) }
     end
   end
 
