@@ -19,6 +19,7 @@ end
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  recommendation_behaviour :string           default("not_defined")
+#  approved_at              :datetime
 #
 # Indexes
 #
