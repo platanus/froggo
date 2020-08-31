@@ -49,7 +49,7 @@ export default {
       this.$store.dispatch(CREATE_NEW_FROGGO_TEAM, {
         name: this.teamName,
         organizationId: this.organization.id,
-        users: JSON.stringify(this.selected.map(user => user.id)),
+        userIds: this.selected.map(user => user.id),
       })
         .then(response => {
           this.showMessage('se creó el grupo correctamente');
