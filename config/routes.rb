@@ -31,6 +31,12 @@ Rails.application.routes.draw do
     resources :froggo_teams, only: [:new], controller: 'froggo_teams'
   end
 
+  resources :github_users do
+    resources :froggo_teams, only: [:index], controller: 'froggo_teams'
+  end
+
+  resources :froggo_teams, only: [:show], controller: 'froggo_teams'
+
   scope path: '/api', defaults: { format: 'json' } do
     api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
       resources :repositories, only: [:update]
@@ -49,7 +55,6 @@ Rails.application.routes.draw do
       resources :organizations do
         resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true do
           member do
-            post 'add_member'
             post 'remove_member'
           end
         end

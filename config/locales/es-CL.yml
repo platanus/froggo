@@ -43,6 +43,7 @@ es-CL:
       organizations: Organizaciones
       pull_requests: Listado de pull requests
       close_session: Cerrar sesión
+      teams: Equipos
     home:
       title: Descubre cómo se distribuyen los Pull Requests en tu organización
       subtitle: Gran parte de la cultura en tu organización se trasmite por Pull Requests. ¡Asegúrate que todos reciban una buena parte!
