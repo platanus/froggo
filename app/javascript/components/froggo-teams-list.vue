@@ -8,16 +8,17 @@
       >
         <div class="froggo-teams-from-organization__organization-bar">
           <div class="froggo-teams-from-organization__organization-title">
-            Organización:   {{ organization.login }}
+            {{ $t("message.froggoTeams.organizationTitle") }}
+            {{ organization.login }}
           </div>
           <div class="froggo-teams-from-organization__organization-create-button">
             <button @click="newFroggoTeam(organization.id)">
-              Crear Equipo
+              {{ $t("message.froggoTeams.createButton") }}
             </button>
           </div>
         </div>
         <div class="froggo-teams-from-organization__organization-teams">
-          Equipos a los que pertenezco:
+          {{ $t("message.froggoTeams.belongedTeams") }}
         </div>
         <div
           v-for="team in userTeams"
