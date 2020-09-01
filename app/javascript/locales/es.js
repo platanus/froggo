@@ -37,5 +37,10 @@ export default {
       noDefaultTeam: 'Sin equipo default',
       defaultTeamDropdownTitle: 'Equipo default',
     },
+    froggoTeams: {
+      organizationTitle: 'Organización: ',
+      belongedTeams: 'Equipos a los que pertenezco: ',
+      createButton: 'Crear Equipo',
+    },
   },
 };
