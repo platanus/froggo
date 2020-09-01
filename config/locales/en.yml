@@ -62,6 +62,7 @@ en:
       empty_title: ! ' %{org} is empty!'
       organizations: Organizations
       teams: Teams
+      my_teams: My Teams
       months: Months
       month:
         one: '1 month'
