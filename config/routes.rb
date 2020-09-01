@@ -53,11 +53,7 @@ Rails.application.routes.draw do
       get 'teams/:team_id/users/:github_login/recommendations' =>
         'github_users#team_review_recommendations'
       resources :organizations do
-        resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true do
-          member do
-            post 'remove_member'
-          end
-        end
+        resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true
       end
       get 'users/:github_login/pull_requests_information' =>
         'github_users#pull_requests_information'

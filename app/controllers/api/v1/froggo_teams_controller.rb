@@ -26,12 +26,16 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
   def update
     render(json: { error: "permission denied" }, status: :bad_request) && return unless valid_user?
 
-    if name_validated?
-      froggo_team.update(name: permitted_params[:name])
-      respond_with froggo_team
-    else
-      render(json: { error: "name already exists for organization" }, status: :bad_request)
+    if permitted_params.has_key?(:name)
+      if name_validated?
+        froggo_team.update(name: permitted_params[:name])
+      else
+        render(json: { error: "name exists in organization" }, status: :bad_request) && return
+      end
     end
+    add_members(permitted_params[:new_members_ids])
+    remove_members(permitted_params[:old_members_ids])
+    respond_with froggo_team
   end
 
   def destroy
@@ -40,17 +44,12 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
     froggo_team.destroy
   end
 
-  def remove_member
-    render(json: { error: "permission denied" }, status: :bad_request) && return unless valid_user?
-
-    membership = FroggoTeamMembership.find_by(github_user: github_user, froggo_team: froggo_team)
-    membership.destroy
-  end
-
   private
 
   def permitted_params
-    params.permit(:name, :id, :organization_id, :github_login, new_members_ids: [])
+    params
+      .permit(:name, :id, :organization_id, :github_login, new_members_ids: [], old_members_ids: [])
+      .with_defaults(new_members_ids: [], old_members_ids: [])
   end
 
   def froggo_team
@@ -92,5 +91,23 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
     if organization.members.exists?(user_id)
       FroggoTeamMembership.create(github_user: GithubUser.find_by(id: user_id), froggo_team: team)
     end
+  end
+
+  def remove_member(user_id, team)
+    github_user = GithubUser.find_by(id: user_id)
+    membership = FroggoTeamMembership.find_by(github_user: github_user, froggo_team: team)
+    membership.destroy
+  end
+end
+
+def add_members(new_ids_list)
+  new_ids_list.each do |member_id|
+    add_member(member_id, froggo_team)
+  end
+end
+
+def remove_members(old_ids_list)
+  old_ids_list.each do |member_id|
+    remove_member(member_id, froggo_team)
   end
 end
