@@ -41,6 +41,8 @@ export default {
       organizationTitle: 'Organización: ',
       belongedTeams: 'Equipos a los que pertenezco: ',
       createButton: 'Crear Equipo',
+      insertTeamName: 'Nombre del equipo: ',
+      addMember: 'Agregar miembro: ',
     },
   },
 };
