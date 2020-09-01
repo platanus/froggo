@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="froggo-teams-form">
     <span>Nombre del equipo:</span><br><br>
     <input
       type="text"
@@ -11,9 +11,12 @@
       @UpdateSelected="updateSelected"
     />
     <div>
-      <button @click="submitFroggoTeam()">
+      <div
+        class="froggo-teams-form__button"
+        @click="submitFroggoTeam()"
+      >
         Crear Grupo
-      </button>
+      </div>
     </div>
   </div>
 </template>

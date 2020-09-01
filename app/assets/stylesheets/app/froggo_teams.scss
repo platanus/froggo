@@ -26,6 +26,30 @@
 
 .froggo-teams-form {
   display: flex;
+  flex-direction: column;
+  width: 200px;
+  color: $primary;
+  font-size: 18px;
+
+  &__button {
+    background: $primary-border;
+    border-radius: 2px;
+    color: $secondary-color;
+    cursor: pointer;
+    display: table-cell;
+    float: left;
+    font-size: 13px;
+    font-weight: 500;
+    height: 28px;
+    line-height: 24px;
+    margin-right: 10px;
+    min-width: 91px;
+    padding: 2px 5px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
 }
 
 .froggo-teams-from-organization {
