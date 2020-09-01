@@ -16,6 +16,7 @@ class FroggoTeamsController < ApplicationController
   def show
     @froggo_team = FroggoTeam.find(params[:id])
     @froggo_team_members = @froggo_team.github_users
+    @organization_members = @froggo_team.organization.members.all_except(@froggo_team_members)
     @github_user = github_user
   end
 end
