@@ -5,7 +5,7 @@
         {{ froggoTeam.name }}
       </div>
       <button @click="editFroggoTeamName">
-        Editar Nombre
+        {{ $t("message.froggoTeams.editName") }}
       </button>
     </div>
     <div v-if="editName">
@@ -14,12 +14,12 @@
         v-model="newName"
       >
       <button @click="submitName()">
-        Guardar Nombre
+        {{ $t("message.froggoTeams.saveName") }}
       </button>
     </div>
     <div class="froggo-teams-show__members">
       <div class="froggo-teams-show__member-title">
-        Miembros:
+        {{ $t("message.froggoTeams.members") }}
       </div>
       <div
         class="froggo-teams-show__member-container"
@@ -39,11 +39,11 @@
           </div>
         </a>
         <button @click="deleteMember(user)">
-          Quitar del equipo
+          {{ $t("message.froggoTeams.deleteFromTeam") }}
         </button>
       </div>
       <div class="froggo-teams-show__member-title">
-        Añadir miembros:
+        {{ $t("message.froggoTeams.addMember") }}
       </div>
       <div class="froggo-teams-show__dropdown">
         <users-dropdown
@@ -52,7 +52,7 @@
         />
       </div>
       <div class="froggo-teams-show__member-title">
-        Miembros a eliminar:
+        {{ $t("message.froggoTeams.membersToDelete") }}
       </div>
       <div
         v-for="user in oldUsers"
@@ -63,10 +63,10 @@
     </div>
     <div>
       <button @click="saveFroggoTeam">
-        Guardar Equipo
+        {{ $t("message.froggoTeams.saveTeam") }}
       </button>
       <button @click="deleteFroggoTeam">
-        Eliminar Equipo
+        {{ $t("message.froggoTeams.deleteTeam") }}
       </button>
     </div>
   </div>
