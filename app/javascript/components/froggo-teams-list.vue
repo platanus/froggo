@@ -12,9 +12,12 @@
             {{ organization.login }}
           </div>
           <div class="froggo-teams-from-organization__organization-create-button">
-            <button @click="newFroggoTeam(organization.id)">
+            <div
+              class="froggo-teams-from-organization__create-button"
+              @click="newFroggoTeam(organization.id)"
+            >
               {{ $t("message.froggoTeams.createButton") }}
-            </button>
+            </div>
           </div>
         </div>
         <div class="froggo-teams-from-organization__organization-teams">
