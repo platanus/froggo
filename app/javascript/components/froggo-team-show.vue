@@ -4,18 +4,27 @@
       <div class="froggo-teams-show__name-container">
         {{ froggoTeam.name }}
       </div>
-      <button @click="editFroggoTeamName">
+      <div
+        class="froggo-teams-show__white-button"
+        @click="editFroggoTeamName"
+      >
         {{ $t("message.froggoTeams.editName") }}
-      </button>
+      </div>
     </div>
-    <div v-if="editName">
+    <div
+      class="froggo-teams-show__edit-name-section"
+      v-if="editName"
+    >
       <input
         type="text"
         v-model="newName"
       >
-      <button @click="submitName()">
+      <div
+        class="froggo-teams-show__gray-button"
+        @click="submitName()"
+      >
         {{ $t("message.froggoTeams.saveName") }}
-      </button>
+      </div>
     </div>
     <div class="froggo-teams-show__members">
       <div class="froggo-teams-show__member-title">
@@ -38,9 +47,12 @@
             {{ user.login }}
           </div>
         </a>
-        <button @click="deleteMember(user)">
+        <div
+          class="froggo-teams-show__gray-button"
+          @click="deleteMember(user)"
+        >
           {{ $t("message.froggoTeams.deleteFromTeam") }}
-        </button>
+        </div>
       </div>
       <div class="froggo-teams-show__member-title">
         {{ $t("message.froggoTeams.addMember") }}
@@ -61,13 +73,19 @@
         {{ user.login }}
       </div>
     </div>
-    <div>
-      <button @click="saveFroggoTeam">
+    <div class="froggo-teams-show__end-section">
+      <div
+        class="froggo-teams-show__gray-button"
+        @click="saveFroggoTeam"
+      >
         {{ $t("message.froggoTeams.saveTeam") }}
-      </button>
-      <button @click="deleteFroggoTeam">
+      </div>
+      <div
+        class="froggo-teams-show__gray-button"
+        @click="deleteFroggoTeam"
+      >
         {{ $t("message.froggoTeams.deleteTeam") }}
-      </button>
+      </div>
     </div>
   </div>
 </template>
