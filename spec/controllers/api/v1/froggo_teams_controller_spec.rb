@@ -109,22 +109,4 @@ RSpec.describe Api::V1::FroggoTeamsController, type: :controller do
       it { expect(response).to have_http_status(:no_content) }
     end
   end
-
-  describe '#remove_member' do
-    context "when the user who wants to delete a member from a team is not from the organization" do
-      before do
-        post :remove_member, params: { id: buda_team.id, github_login: user.login }, format: :json
-      end
-
-      it { expect(response).to have_http_status(:bad_request) }
-    end
-
-    context "when the member was succesfuly taken out from the team" do
-      before do
-        post :remove_member, params: { id: p_team.id, github_login: user_1.login }, format: :json
-      end
-
-      it { expect(response).to have_http_status(:no_content) }
-    end
-  end
 end
