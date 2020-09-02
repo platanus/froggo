@@ -1,7 +1,7 @@
 <div id="app" class="app">
   <%= render 'partials/header' %>
   <div class="container">
-    <pr-feed :pull-requests="<%= @serialized_pull_requests.to_json %>" :likes-given="<%= @likes_given.to_json %>"></pr-feed>
+    <pr-feed :pull-requests="<%= @serialized_pull_requests.to_json %>" :likes-given="<%= @likes_given.to_json %>" ></pr-feed>
   </div>
   <%= render "partials/footer" %>
 </div>
