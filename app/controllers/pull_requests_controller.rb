@@ -3,7 +3,7 @@ class PullRequestsController < ApplicationController
 
   def index
     github_user
-    @likes_given = Like.where(github_user_id: github_user.id).pluck(:likeable_id).map(&:to_i)
+    @likes_given = Like.where(github_user_id: github_user.id, likeable_type: "PullRequest")
     @pull_requests = PullRequest.by_organizations(
       [organization.id]
     ).order(created_at: :desc).limit(100)
