@@ -81,7 +81,6 @@
     margin: 0 auto;
     margin-left: 310px;
     height: 100%;
-    display: flex;
     right: 0;
     align-items: center;
   }
@@ -110,6 +109,7 @@
     font-size: 16px;
     cursor: pointer;
   }
+
   &__create-button {
     background: $white;
     border-radius: 2px;
@@ -119,8 +119,7 @@
     font-size: 13px;
     font-weight: 500;
     height: 24px;
-    line-height: 30px;
-    margin-right: 10px;
+    line-height: 24px;
     min-width: 91px;
     padding: 2px 5px;
     text-align: center;
