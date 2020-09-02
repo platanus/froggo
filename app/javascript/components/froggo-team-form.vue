@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <span>Nombre del equipo:</span><br><br>
+  <div class="froggo-teams-form">
+    <span>{{ $t("message.froggoTeams.insertTeamName") }}</span><br><br>
     <input
       type="text"
       v-model="teamName"
     ><br><br>
-    <span>Agregar miembro:</span><br><br>
+    <span>{{ $t("message.froggoTeams.addMember") }}</span><br><br>
     <users-dropdown
       :users="users"
       @UpdateSelected="updateSelected"
     />
     <div>
-      <button @click="submitFroggoTeam()">
-        Crear Grupo
-      </button>
+      <div
+        class="froggo-teams-form__button"
+        @click="submitFroggoTeam()"
+      >
+        {{ $t("message.froggoTeams.createButton") }}
+      </div>
     </div>
   </div>
 </template>

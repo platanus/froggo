@@ -15,6 +15,8 @@ class GithubUser < ApplicationRecord
 
   validates :gh_id, presence: true
   validates :login, presence: true
+
+  scope :all_except, ->(user) { where.not(id: user) }
 end
 
 # == Schema Information

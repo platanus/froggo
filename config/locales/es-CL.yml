@@ -31,6 +31,7 @@ es-CL:
       empty_title: ! ¡%{org} está vacío!
       organizations: Organizaciones
       teams: Equipos
+      my_teams: Mis Equipos
       months: Meses
       month:
         one: '1 mes'
