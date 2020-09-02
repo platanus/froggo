@@ -3,7 +3,7 @@
     class="card-pr__list"
   >
     <li
-      v-for="pullRequest in prCopy"
+      v-for="pullRequest in prWithLikes"
       :key="pullRequest.id"
     >
       <div class="card-pr__orientation">
@@ -22,7 +22,7 @@
           <p class="card-pr__circle">
             {{ pullRequest.likes.total }}
           </p>
-          <div v-if="!(likesGiven.includes(pullRequest.id) || pullRequest.hidden)">
+          <div v-if="!(pullRequest.currentUserLike)">
             <button
               class="card-pr__button"
               @click="toggleLike(pullRequest)"
@@ -33,8 +33,9 @@
           <div v-else>
             <button
               class="card-pr__button"
+              @click="deleteLike(pullRequest)"
             >
-              Liked
+              Dislike
             </button>
           </div>
         </div>
@@ -61,7 +62,11 @@ export default {
 
   data() {
     return {
-      prCopy: [...this.pullRequests],
+      prWithLikes: this.pullRequests.map((pr) => {
+        const liked = this.likesGiven.find((like) => like.likeable_id === pr.id);
+
+        return liked ? { ...pr, currentUserLike: liked } : pr;
+      }),
     };
   },
 
@@ -70,12 +75,25 @@ export default {
     toggleLike(pr) {
       axios.post(
         `/api/pull_requests/${pr.id}/likes`,
-      ).then(() => {
+      ).then(response => {
         pr.likes.total += 1;
         pr.hidden = true;
+        pr.currentUserLike = response.data;
       }).catch(() => {
         // eslint-disable-next-line no-alert
         alert('No se pudo crear el like (solo se puede dar un like por PR)');
+      });
+    },
+    deleteLike(pr) {
+      axios.delete(
+        `/api/pull_requests/${pr.id}/likes/${pr.currentUserLike.id}`,
+      ).then(() => {
+        pr.likes.total -= 1;
+        pr.hidden = false;
+        pr.currentUserLike = undefined;
+      }).catch(() => {
+        // eslint-disable-next-line no-alert
+        alert('No se pudo borrar el like (no haz dado like primero)');
       });
     },
   },
