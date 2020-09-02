@@ -2,7 +2,7 @@
   <div class="froggo-teams-show">
     <div class="froggo-teams-show__name">
       <div class="froggo-teams-show__name-container">
-        {{ froggoTeam.name }}
+        {{ teamName }}
       </div>
       <div
         class="froggo-teams-show__white-button"
@@ -91,13 +91,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import {
   UPDATE_FROGGO_TEAM,
   DELETE_FROGGO_TEAM,
 } from '../store/action-types';
+import {
+  TEAM_NAME,
+} from '../store/mutation-types';
 import UsersDropdown from './users-dropdown';
+import showMessageMixin from '../mixins/showMessageMixin';
 
 export default {
+  mixins: [showMessageMixin],
+  beforeMount() {
+    this.$store.commit(TEAM_NAME, this.froggoTeam.name);
+  },
   data() {
     return {
       editName: false,
@@ -134,7 +143,10 @@ export default {
         id: this.froggoTeam.id,
       })
         .then(() => {
-          window.location.href = `/froggo_teams/${this.froggoTeam.id}`;
+          this.$store.commit(TEAM_NAME, this.newName);
+        })
+        .catch(() => {
+          this.showMessage('nombre existente');
         });
     },
     updateSelected(selectedUsers) {
@@ -167,6 +179,9 @@ export default {
   components: {
     UsersDropdown,
   },
+  computed: mapState({
+    teamName: state => state.froggoTeam.teamName,
+  }),
 };
 </script>
 
