@@ -2,7 +2,7 @@
   <div class="froggo-teams-show">
     <div class="froggo-teams-show__name">
       <div class="froggo-teams-show__name-container">
-        {{ froggoTeam.name }}
+        {{ teamName }}
       </div>
       <div
         class="froggo-teams-show__white-button"
@@ -32,7 +32,7 @@
       </div>
       <div
         class="froggo-teams-show__member-container"
-        v-for="user in froggoTeamMembers"
+        v-for="(user, index) in currentMembers"
         :key="user.id"
       >
         <a
@@ -49,7 +49,7 @@
         </a>
         <div
           class="froggo-teams-show__gray-button"
-          @click="deleteMember(user)"
+          @click="removeMember(user, index)"
         >
           {{ $t("message.froggoTeams.deleteFromTeam") }}
         </div>
@@ -58,19 +58,12 @@
         {{ $t("message.froggoTeams.addMember") }}
       </div>
       <div class="froggo-teams-show__dropdown">
-        <users-dropdown
-          :users="organizationMembers"
-          @UpdateSelected="updateSelected"
+        <clickable-dropdown
+          :body-title="dropdownTitle"
+          :no-items-message="noUsersMessage"
+          :items="possibleMembers"
+          @item-clicked="onItemClicked"
         />
-      </div>
-      <div class="froggo-teams-show__member-title">
-        {{ $t("message.froggoTeams.membersToDelete") }}
-      </div>
-      <div
-        v-for="user in oldUsers"
-        :key="user.login"
-      >
-        {{ user.login }}
       </div>
     </div>
     <div class="froggo-teams-show__end-section">
@@ -91,19 +84,35 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import {
   UPDATE_FROGGO_TEAM,
   DELETE_FROGGO_TEAM,
 } from '../store/action-types';
-import UsersDropdown from './users-dropdown';
+import {
+  TEAM_NAME,
+  LOAD_MEMBERS,
+  ADD_MEMBER,
+  REMOVE_MEMBER,
+} from '../store/mutation-types';
+import ClickableDropdown from './clickable-dropdown';
+import showMessageMixin from '../mixins/showMessageMixin';
 
 export default {
+  mixins: [showMessageMixin],
+  beforeMount() {
+    this.$store.commit(TEAM_NAME, this.froggoTeam.name);
+    this.$store.commit(LOAD_MEMBERS, { members: this.froggoTeamMembers,
+      possibleMembers: this.organizationMembers });
+  },
   data() {
     return {
+      dropdownTitle: 'Usuarios',
+      noUsersMessage: 'No se encontraron usuarios',
       editName: false,
       newName: '',
-      newUsers: [],
-      oldUsers: [],
+      usersToAdd: [],
+      usersToRemove: [],
     };
   },
   props: {
@@ -134,23 +143,43 @@ export default {
         id: this.froggoTeam.id,
       })
         .then(() => {
-          window.location.href = `/froggo_teams/${this.froggoTeam.id}`;
+          this.$store.commit(TEAM_NAME, this.newName);
+        })
+        .catch(() => {
+          this.showMessage(this.$i18n.t('message.froggoTeams.existentName'));
         });
     },
-    updateSelected(selectedUsers) {
-      this.newUsers = selectedUsers;
+    onItemClicked({ item }) {
+      this.addMember(item);
     },
-    deleteMember(user) {
-      this.oldUsers = [...this.oldUsers, user];
+    addMember(user) {
+      if (this.froggoTeamMembers.some(u => u.id === user.id)) {
+        const index = this.usersToRemove.findIndex(u => u.id === user.id);
+        this.usersToRemove.splice(index, 1);
+      } else {
+        this.usersToAdd = [...this.usersToAdd, user];
+      }
+      this.$store.commit(ADD_MEMBER, user);
+    },
+    removeMember(user, userIndex) {
+      if (this.froggoTeamMembers.some(u => u.id === user.id)) {
+        this.usersToRemove = [...this.usersToRemove, user];
+      } else {
+        const index = this.usersToAdd.findIndex(u => u.id === user.id);
+        this.usersToAdd.splice(index, 1);
+      }
+      this.$store.commit(REMOVE_MEMBER, { userIndex, member: user });
     },
     saveFroggoTeam() {
       this.$store.dispatch(UPDATE_FROGGO_TEAM, {
-        newMembersIds: this.newUsers.map(user => user.id),
-        oldMembersIds: this.oldUsers.map(user => user.id),
+        newMembersIds: this.usersToAdd.map(user => user.id),
+        oldMembersIds: this.usersToRemove.map(user => user.id),
         id: this.froggoTeam.id,
       })
         .then(() => {
-          window.location.href = `/froggo_teams/${this.froggoTeam.id}`;
+          this.showMessage(this.$i18n.t('message.froggoTeams.successfullySavedTeam'));
+          this.usersToAdd = [];
+          this.usersToRemove = [];
         });
     },
     deleteFroggoTeam() {
@@ -165,8 +194,13 @@ export default {
     },
   },
   components: {
-    UsersDropdown,
+    ClickableDropdown,
   },
+  computed: mapState({
+    teamName: state => state.froggoTeam.teamName,
+    currentMembers: state => state.froggoTeam.currentMembers,
+    possibleMembers: state => state.froggoTeam.possibleMembers,
+  }),
 };
 </script>
 
