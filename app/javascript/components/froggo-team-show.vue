@@ -111,8 +111,8 @@ export default {
       noUsersMessage: 'No se encontraron usuarios',
       editName: false,
       newName: '',
-      newUsers: [],
-      oldUsers: [],
+      usersToAdd: [],
+      usersToRemove: [],
     };
   },
   props: {
@@ -154,32 +154,32 @@ export default {
     },
     addMember(user) {
       if (this.froggoTeamMembers.some(u => u.id === user.id)) {
-        const index = this.oldUsers.findIndex(u => u.id === user.id);
-        this.oldUsers.splice(index, 1);
+        const index = this.usersToRemove.findIndex(u => u.id === user.id);
+        this.usersToRemove.splice(index, 1);
       } else {
-        this.newUsers = [...this.newUsers, user];
+        this.usersToAdd = [...this.usersToAdd, user];
       }
       this.$store.commit(ADD_MEMBER, user);
     },
-    removeMember(user, index) {
+    removeMember(user, userIndex) {
       if (this.froggoTeamMembers.some(u => u.id === user.id)) {
-        this.oldUsers = [...this.oldUsers, user];
+        this.usersToRemove = [...this.usersToRemove, user];
       } else {
-        const i = this.newUsers.findIndex(u => u.id === user.id);
-        this.newUsers.splice(i, 1);
+        const index = this.usersToAdd.findIndex(u => u.id === user.id);
+        this.usersToAdd.splice(index, 1);
       }
-      this.$store.commit(REMOVE_MEMBER, { index, member: user });
+      this.$store.commit(REMOVE_MEMBER, { userIndex, member: user });
     },
     saveFroggoTeam() {
       this.$store.dispatch(UPDATE_FROGGO_TEAM, {
-        newMembersIds: this.newUsers.map(user => user.id),
-        oldMembersIds: this.oldUsers.map(user => user.id),
+        newMembersIds: this.usersToAdd.map(user => user.id),
+        oldMembersIds: this.usersToRemove.map(user => user.id),
         id: this.froggoTeam.id,
       })
         .then(() => {
           this.showMessage(this.$i18n.t('message.froggoTeams.successfullySavedTeam'));
-          this.newUsers = [];
-          this.oldUsers = [];
+          this.usersToAdd = [];
+          this.usersToRemove = [];
         });
     },
     deleteFroggoTeam() {
