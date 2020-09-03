@@ -42,7 +42,7 @@ es-CL:
       rebel: Rebelde
     header:
       organizations: Organizaciones
-      pull_requests: Listado de pull requests
+      pull_requests: Feed
       close_session: Cerrar sesión
       teams: Equipos
     home:

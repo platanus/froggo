@@ -51,5 +51,13 @@ export default {
       saveTeam: 'Save team',
       deleteTeam: 'Delete team',
     },
+    prFeed: {
+      noName: 'Unknown',
+      prName: 'Pull Request',
+      prAuthor: 'Author',
+      prProject: 'Project',
+      prTime: 'Time',
+      prDate: 'Date',
+    },
   },
 };

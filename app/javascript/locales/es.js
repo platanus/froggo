@@ -51,5 +51,13 @@ export default {
       saveTeam: 'Guardar equipo',
       deleteTeam: 'Eliminar equipo',
     },
+    prFeed: {
+      noName: 'Desconocido',
+      prName: 'Pull Request',
+      prAuthor: 'Autor',
+      prProject: 'Proyecto',
+      prTime: 'Hora',
+      prDate: 'Fecha',
+    },
   },
 };
