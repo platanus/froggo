@@ -47,7 +47,6 @@ export default {
       saveName: 'Guardar nombre',
       members: 'Miembros: ',
       deleteFromTeam: 'Quitar del equipo',
-      membersToDelete: 'Miembros a eliminar: ',
       saveTeam: 'Guardar equipo',
       deleteTeam: 'Eliminar equipo',
     },

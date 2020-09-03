@@ -47,7 +47,6 @@ export default {
       saveName: 'Save name',
       members: 'Members: ',
       deleteFromTeam: 'Delete member',
-      membersToDelete: 'Members to delete: ',
       saveTeam: 'Save team',
       deleteTeam: 'Delete team',
     },
