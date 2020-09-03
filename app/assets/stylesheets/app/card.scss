@@ -170,10 +170,13 @@
     display: flex;
     flex-direction: row;
     flex: 1;
+    background-color: $white;
+    border-style: groove;
 
     &__name {
       margin-top: 15px;
       flex: 8;
+      margin-left: 20px;
     }
 
     &__project {
@@ -190,6 +193,7 @@
       font-family: $main-font;
       display: flex;
       justify-content: flex-end;
+      border-style: groove;
     }
 
     &__circle {
@@ -248,12 +252,38 @@
       display: flex;
       flex-direction: row;
       object-fit: cover;
+      margin-left: 40px;
+      margin-right: 40px;
     }
 
     &__list {
       list-style-type: none;
       padding: 0;
       margin: 0;
+      background-color: $white;
+    }
+
+    &-title {
+      text-align: center;
+      font-size: 400%;
+      margin-top: 20px;
+      font-family: Arial Rounded MT Bold;
+
+      &__header {
+        display: flex;
+        flex-direction: row;
+        margin-left: 40px;
+        margin-right: 40px;
+      }
+
+      &__name {
+        flex: 2;
+        margin-left: 20px;
+      }
+
+      &__project {
+        flex: 1;
+      }
     }
   }
 }

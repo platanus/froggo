@@ -2,6 +2,20 @@
   <ul
     class="card-pr__list"
   >
+    <div style="visibility: hidden;">
+      blank space
+    </div>
+    <div class="card-pr-title">
+      Feed
+    </div>
+    <div class="card-pr-title__header">
+      <div class="card-pr-title__name">
+        Nombre Pull Request
+      </div>
+      <div class="card-pr-title__project">
+        Proyecto
+      </div>
+    </div>
     <li
       v-for="pullRequest in prWithLikes"
       :key="pullRequest.id"
