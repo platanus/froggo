@@ -49,6 +49,8 @@ export default {
       deleteFromTeam: 'Delete member',
       saveTeam: 'Save team',
       deleteTeam: 'Delete team',
+      successfullySavedTeam: 'Team was successfully saved',
+      existentName: 'already exists a team with that name',
     },
   },
 };

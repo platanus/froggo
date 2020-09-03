@@ -146,7 +146,7 @@ export default {
           this.$store.commit(TEAM_NAME, this.newName);
         })
         .catch(() => {
-          this.showMessage('nombre existente');
+          this.showMessage(this.$i18n.t('message.froggoTeams.existentName'));
         });
     },
     onItemClicked({ item }) {
@@ -177,7 +177,7 @@ export default {
         id: this.froggoTeam.id,
       })
         .then(() => {
-          this.showMessage('equipo guardaro');
+          this.showMessage(this.$i18n.t('message.froggoTeams.successfullySavedTeam'));
           this.newUsers = [];
           this.oldUsers = [];
         });
