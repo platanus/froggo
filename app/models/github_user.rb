@@ -24,7 +24,6 @@ class GithubUser < ApplicationRecord
                   {
                     id: team.id,
                     name: team.name,
-                    slug: team.slug,
                     organization_id: organization[:id],
                     froggo_team: true
                   }
