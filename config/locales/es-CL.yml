@@ -84,3 +84,7 @@ es-CL:
       not_recommended_reviewers: Evita mandarle otro PR a estas personas
       no_recommendations: No tenemos recomendaciones para ti dado que no perteneces a ninguna organización
       give_permissions: Configurar organizaciones
+    froggoTeams:
+      empty_title: Aún no tienes equipos!
+      empty_organizations: Para crear y ver tus equipos debes pertenecer a una organización
+      
