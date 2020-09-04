@@ -17,6 +17,19 @@ class GithubUser < ApplicationRecord
   validates :login, presence: true
 
   scope :all_except, ->(user) { where.not(id: user) }
+
+  def get_froggo_teams(organization)
+    froggo_teams.filter { |team| team[:organization_id] == organization.id }
+                .map do |team|
+                  {
+                    id: team.id,
+                    name: team.name,
+                    slug: team.slug,
+                    organization_id: organization[:id],
+                    froggo_team: true
+                  }
+                end
+  end
 end
 
 # == Schema Information

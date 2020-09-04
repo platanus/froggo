@@ -26,8 +26,14 @@
           <%= link_to @github_organization[:login].capitalize, organization_path(name: @github_organization[:login], month_limit: @corrmat.limit), class: 'select__option' %>
 
           <% @teams.each do |team| %>
-            <%= link_to organization_path(name: @github_organization[:login], team: team[:slug], month_limit: @corrmat.limit), class: 'select__option' do %>
+            <% if team[:froggo_team] %>
+              <%= link_to organization_path(name: @github_organization[:login], team: team[:name], month_limit: @corrmat.limit, froggo_team: team[:froggo_team]), class: 'select__option' do %>
+                  <%= team[:name] %>
+              <% end %>
+            <% else %>
+              <%= link_to organization_path(name: @github_organization[:login], team: team[:slug], month_limit: @corrmat.limit, froggo_team: team[:froggo_team]), class: 'select__option' do %>
                 <%= team[:name] %>
+              <% end %>
             <% end %>
           <% end %>
         </div>

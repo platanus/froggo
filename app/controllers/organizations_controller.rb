@@ -68,10 +68,15 @@ class OrganizationsController < ApplicationController
   end
 
   def load_matrix_params
-    @teams = github_teams
+    @teams = user_teams
     if permitted_params[:team]
-      @team = @teams.find { |team| team[:slug] == permitted_params[:team] }
-      @team_members_ids = github_team_members&.pluck(:id)
+      if permitted_params[:froggo_team] == "true"
+        @team = FroggoTeam.find_by(name: permitted_params[:team])
+        @team_members_ids = @team.github_users&.pluck(:gh_id)
+      else
+        @team = @teams.find { |team| team[:slug] == permitted_params[:team] }
+        @team_members_ids = github_team_members&.pluck(:id)
+      end
     end
     if permitted_params[:month_limit].present?
       @month_limit = permitted_params[:month_limit].to_i
@@ -119,6 +124,19 @@ class OrganizationsController < ApplicationController
     github_session.get_team_members(@team[:id])
   end
 
+  def froggo_teams
+    github_session.user.get_froggo_teams(@organization)
+  end
+
+  def user_teams
+    gh_teams = github_teams
+    gh_teams.each do |team|
+      team[:froggo_team] = false
+    end
+    gh_teams.concat(froggo_teams)
+            .sort_by { |team| team[:name].downcase }
+  end
+
   def ensure_organization_admin
     redirect_to organization_path(name: @github_organization[:login]) unless organization_admin?
   end
@@ -128,7 +146,7 @@ class OrganizationsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:name, :team, :month_limit, user_ids: [])
+    params.permit(:name, :team, :month_limit, :froggo_team, user_ids: [])
   end
 
   def get_matrix(org_id, user_ids, month_limit)

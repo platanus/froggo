@@ -114,6 +114,7 @@ RSpec.describe OrganizationsController, type: :controller do
 
     before do
       allow(github_session).to receive(:get_teams).and_return([])
+      allow(github_session).to receive(:user) { user }
       get :settings, params: { name: "platanus" }
     end
 
