@@ -9,6 +9,8 @@
         <div class="froggo-teams-from-organization__organization-bar">
           <div class="froggo-teams-from-organization__organization-title">
             {{ $t("message.froggoTeams.organizationTitle") }}
+          </div>
+          <div class="froggo-teams-from-organization__organization-name">
             {{ organization.login }}
           </div>
           <div class="froggo-teams-from-organization__organization-create-button">
@@ -24,10 +26,12 @@
           {{ $t("message.froggoTeams.belongedTeams") }}
         </div>
         <div
+          class="froggo-teams-from-organization__organization-team-bar"
           v-for="team in userTeams"
           :key="team.id"
         >
           <a
+            class="froggo-teams-from-organization__organization-team-name"
             :href="`/froggo_teams/${team.id}`"
           >
             <div

@@ -111,3 +111,6 @@ en:
       not_recommended_reviewers: Avoid requesting reviews from these persons
       no_recommendations: You don't belong to any organization so there are no recommendations for you
       give_permissions: Configure organizations
+    froggoTeams:
+      empty_title:  You don't have any Team
+      empty_organizations: To create and see your teams, you need to belong to an organization first

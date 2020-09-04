@@ -1,15 +1,19 @@
 <div class="card">
     <div class="froggo-teams">
         <div class="froggo-teams-list">
-            <div class="froggo-teams-list__title">
-                <%= t('messages.dashboard.my_teams') %>
-            </div>
-            <div class="froggo-teams-list__section">
-                <froggo-teams-list
-                    :user-teams="<%= @user_teams.to_json %>"
-                    :organizations="<%= @organizations.to_json %>"
-                />
-            </div>
+            <% if !@organizations.empty?  %>
+                <div class="froggo-teams-list__title">
+                    <%= t('messages.dashboard.my_teams') %>
+                </div>
+                <div class="froggo-teams-list__section">
+                    <froggo-teams-list
+                        :user-teams="<%= @user_teams.to_json %>"
+                        :organizations="<%= @organizations.to_json %>"
+                    />
+                </div>
+            <% else %>    
+                <%= render "empty" %>
+            <% end %>
         </div>
     </div>
 </div>
