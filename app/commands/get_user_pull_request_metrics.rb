@@ -28,7 +28,10 @@ class GetUserPullRequestMetrics < PowerTypes::Command.new(:github_user, :limit_m
   end
 
   def get_basic_pull_request_info(pull_request, review_request)
-    { pr_title: pull_request.title, pr_created_at: pull_request.gh_created_at.to_s,
+    { pr_title: pull_request.title,
+      repository: pull_request.repository.name,
+      pr_number: pull_request.gh_number,
+      pr_created_at: pull_request.gh_created_at.to_s,
       pr_merget_at: pull_request.gh_merged_at.to_s,
       review_request_created_at: review_request.created_at.to_s }
   end

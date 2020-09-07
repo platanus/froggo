@@ -21,6 +21,7 @@ describe GetUserPullRequestMetrics do
       create(
         :pull_request_with_merge,
         owner: github_user,
+        gh_number: 123,
         gh_created_at: Time.zone.now - 5.minutes,
         gh_merged_at: Time.zone.now
       )
@@ -48,8 +49,8 @@ describe GetUserPullRequestMetrics do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
           pull_requests_information: { valid_pull_request.id => {
             pr_created_at: valid_pull_request.gh_created_at.to_s, pr_title: "Prueba",
-            first_response: valid_review.created_at.to_s,
-            last_approval: valid_review.approved_at.to_s,
+            first_response: valid_review.created_at.to_s, pr_number: 123,
+            last_approval: valid_review.approved_at.to_s, repository: "MyString",
             review_request_created_at: valid_review_request.created_at.to_s,
             pr_merget_at: valid_pull_request.gh_merged_at.to_s
           } }
@@ -71,7 +72,7 @@ describe GetUserPullRequestMetrics do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
           pull_requests_information: { valid_pull_request.id => {
             pr_created_at: valid_pull_request.gh_created_at.to_s,
-            pr_title: "Prueba",
+            pr_title: "Prueba", pr_number: 123, repository: "MyString",
             review_request_created_at: valid_review_request.created_at.to_s,
             pr_merget_at: valid_pull_request.gh_merged_at.to_s
           } }
@@ -99,7 +100,7 @@ describe GetUserPullRequestMetrics do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
           pull_requests_information: { valid_pull_request.id => {
             pr_created_at: valid_pull_request.gh_created_at.to_s,
-            pr_title: "Prueba",
+            pr_title: "Prueba", pr_number: 123, repository: "MyString",
             review_request_created_at: valid_review_request.created_at.to_s,
             pr_merget_at: valid_pull_request.gh_merged_at.to_s
           } }
