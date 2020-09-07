@@ -19,6 +19,7 @@ import EnablePublicButton from '../components/enable-public-button.vue';
 import SyncOrganizationButton from '../components/sync-organization-button.vue';
 import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
 import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
+import ProfileDropdowns from '../components/profile-dropdowns.vue';
 import ProfileRecommendations from '../components/profile/recommendations.vue';
 import ProfileStatistics from '../components/profile/statistics.vue';
 import PrFeed from '../components/pr-feed.vue';
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
   Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
+  Vue.component('profile-dropdowns', ProfileDropdowns);
   Vue.component('profile-recommendations', ProfileRecommendations);
   Vue.component('profile-statistics', ProfileStatistics);
   Vue.component('pr-feed', PrFeed);
