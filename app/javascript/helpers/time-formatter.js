@@ -1,28 +1,19 @@
-function setDays(days, resultString) {
-  let newResultString = resultString;
-  if (days !== 0) {
-    newResultString += days > 1 ? `${days} dias ` : `${days} dia `;
-  }
+function setDays(days) {
+  if (days === 0) return '';
 
-  return newResultString;
+  return `${days} dia${days > 1 ? 's ' : ' '}`;
 }
 
-function setHours(hours, resultString) {
-  let newResultString = resultString;
-  if (hours !== 0) {
-    newResultString += hours > 1 ? `${hours} horas ` : `${hours} hora `;
-  }
+function setHours(hours) {
+  if (hours === 0) return '';
 
-  return newResultString;
+  return `${hours} hora${hours > 1 ? 's ' : ' '}`;
 }
 
-function setMinutes(minutes, resultString) {
-  let newResultString = resultString;
-  if (minutes !== 0) {
-    newResultString += minutes > 1 ? `${minutes} minutos ` : `${minutes} minuto `;
-  }
+function setMinutes(minutes) {
+  if (minutes === 0) return '';
 
-  return newResultString;
+  return `${minutes} minuto${minutes > 1 ? 's ' : ' '}`;
 }
 
 export default function timeFormatter(numberOfMinutes) {
@@ -31,10 +22,6 @@ export default function timeFormatter(numberOfMinutes) {
   const days = Math.floor(numberOfMinutes / (hoursInDay * minutesInHour));
   const hours = Math.floor((numberOfMinutes % (hoursInDay * minutesInHour)) / minutesInHour);
   const minutes = Math.floor((numberOfMinutes % (hoursInDay * minutesInHour)) % minutesInHour);
-  let result = '';
-  result = setDays(days, result);
-  result = setHours(hours, result);
-  result = setMinutes(minutes, result);
 
-  return result;
+  return `${setDays(days)}${setHours(hours)}${setMinutes(minutes)}` || '0 minutos';
 }

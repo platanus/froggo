@@ -31,16 +31,12 @@ export default {
   },
   data() {
     return {
-      colors: [
-        'rgb(255, 99, 132)',
-        'rgb(255, 206, 86)',
-        'rgb(75, 192, 192)',
-        'rgb(153, 102, 255)',
-      ],
-      AssignmentTimeIndex: 0,
-      ResponseTimeIndex: 1,
-      ApprovalTimeIndex: 2,
-      MergeTimeIndex: 3,
+      colors: {
+        AssignmentTimeColor: 'rgb(255, 99, 132)',
+        ResponseTimeColor: 'rgb(255, 206, 86)',
+        ApprovalTimeColor: 'rgb(75, 192, 192)',
+        MergeTimeColor: 'rgb(153, 102, 255)',
+      },
     };
   },
   computed: {
@@ -52,8 +48,7 @@ export default {
         return `${repository} #${prNumber}`;
       });
     },
-    getAssignmentTime() {
-      // Entrega la metrica de tiempo entre creación y asignación (a un revisor) de pull request
+    creationToAssignmentTime() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
         const pullRequestCreatedAt = new Date(pullRequest.pr_created_at);
         const pullRequestAssignment = new Date(pullRequest.review_request_created_at);
@@ -63,8 +58,7 @@ export default {
         return timeDelta;
       });
     },
-    getResponseTime() {
-      // Entrega la metrica de tiempo entre asignación (a un revisor) y respuesta (del primer revisor) de pull request
+    assignmentToResponseTime() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
         const pullRequestAssignment = new Date(pullRequest.review_request_created_at);
         const pullRequestResponse = new Date(pullRequest.first_response);
@@ -74,10 +68,7 @@ export default {
         return timeDelta;
       });
     },
-    getApprovalTime() {
-      // Entrega la metrica de tiempo entre respuesta (del primer revisor)
-      // y aprobación (del último revisor) de pull request
-      // en caso de no existir last_approval retorna 0
+    responseToApprovalTime() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
         if (!('last_approval' in pullRequest)) {
           return 0;
@@ -90,9 +81,7 @@ export default {
         return timeDelta;
       });
     },
-    getMergeTime() {
-      // Entrega la metrica de tiempo entre aprobación (del último revisor) y merge de pull request
-      // en caso de no existir last_approval retorna el tiempo entre primera respuesta y merge
+    approvalToMergeTime() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
         const pullRequestMerge = new Date(pullRequest.pr_merget_at);
         const milisecondsToMinutes = 60000;
@@ -112,23 +101,23 @@ export default {
       const datasets = [];
       datasets.push({
         label: 'Tiempo entre creación y asignación de pull request',
-        data: this.getAssignmentTime,
-        color: this.colors[this.AssignmentTimeIndex],
+        data: this.creationToAssignmentTime,
+        color: this.colors.AssignmentTimeColor,
       });
       datasets.push({
         label: 'Tiempo entre asignación y primera respuesta de pull request',
-        data: this.getResponseTime,
-        color: this.colors[this.ResponseTimeIndex],
+        data: this.assignmentToResponseTime,
+        color: this.colors.ResponseTimeColor,
       });
       datasets.push({
         label: 'Tiempo entre primera respuesta y aprobación de pull request',
-        data: this.getApprovalTime,
-        color: this.colors[this.ApprovalTimeIndex],
+        data: this.responseToApprovalTime,
+        color: this.colors.ApprovalTimeColor,
       });
       datasets.push({
         label: 'Tiempo entre aprobación y merge de pull request',
-        data: this.getMergeTime,
-        color: this.colors[this.MergeTimeIndex],
+        data: this.approvalToMergeTime,
+        color: this.colors.MergeTimeColor,
       });
 
       return datasets;
@@ -138,30 +127,26 @@ export default {
     getMeanTime(dataArray) {
       const sumValue = dataArray.reduce((a, b) => a + b, 0);
       const meanValue = Math.floor(sumValue / dataArray.length);
-      let label = timeFormatter(meanValue);
-      if (label === '') {
-        label = '0 minutos';
-      }
 
-      return label;
+      return timeFormatter(meanValue);
     },
     prepareSummary() {
       return [{
         textTop: 'creación y asignación',
         textBottom: 'de pull requests',
-        value: this.getMeanTime(this.getAssignmentTime),
+        value: this.getMeanTime(this.creationToAssignmentTime),
       }, {
         textTop: 'asignación y respuesta',
         textBottom: 'de pull requests',
-        value: this.getMeanTime(this.getResponseTime),
+        value: this.getMeanTime(this.assignmentToResponseTime),
       }, {
         textTop: 'respuesta y aprobación',
         textBottom: 'de pull requests',
-        value: this.getMeanTime(this.getApprovalTime),
+        value: this.getMeanTime(this.responseToApprovalTime),
       }, {
         textTop: 'aprobación y merge',
         textBottom: 'de pull requests',
-        value: this.getMeanTime(this.getMergeTime),
+        value: this.getMeanTime(this.approvalToMergeTime),
       }];
     },
   },

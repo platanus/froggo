@@ -31,10 +31,7 @@ export default {
           callbacks: {
             label: (tooltipItem, data) => {
               const value = tooltipItem.yLabel;
-              let label = timeFormatter(value);
-              if (label === '') {
-                label = '0 minutos';
-              }
+              const label = timeFormatter(value);
 
               return [data.datasets[tooltipItem.datasetIndex].label, label];
             },
