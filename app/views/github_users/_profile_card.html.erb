@@ -17,13 +17,10 @@
         <div class="profile-teams__hint">
           <%= t('messages.profile.teams_dropdown_hint') %>
         </div>
-        <organizations-dropdown
+        <profile-dropdowns
           github-login="<%= @github_user.login %>"
           :organizations="<%= @organizations.to_json %>"
-          :teams="<%= @teams.to_json %>">
-        </organizations-dropdown>
-        <timespan-dropdown
-          github-login="<%= @github_user.login %>"
+          :teams="<%= @teams.to_json %>"
           :months-options="<%= timespans_with_name.to_json %>"
         />
       </div>
