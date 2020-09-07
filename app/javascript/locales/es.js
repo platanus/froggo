@@ -52,5 +52,13 @@ export default {
       successfullySavedTeam: 'Equipo guardado exitosamente',
       existentName: 'Ya existe un equipo con ese nombre',
     },
+    prFeed: {
+      noName: 'Desconocido',
+      prName: 'Pull Request',
+      prAuthor: 'Autor',
+      prProject: 'Proyecto',
+      prTime: 'Hora',
+      prDate: 'Fecha',
+    },
   },
 };
