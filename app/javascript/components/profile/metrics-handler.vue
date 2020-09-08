@@ -4,7 +4,7 @@
       :metrics-summary="prepareSummary()"
     />
     <div class="profile-metrics">
-      <h3>Métricas de tiempo</h3>
+      <h3>{{ $i18n.t('message.metrics.metricsTitle') }}</h3>
       <metrics-chart
         :pr-id-array="prIdArray"
         :datasets="prepareDatasets"
@@ -100,22 +100,22 @@ export default {
     prepareDatasets() {
       const datasets = [];
       datasets.push({
-        label: 'Tiempo entre creación y asignación de pull request',
+        label: this.$i18n.t('message.metrics.creationToAssignmentTimeLabel'),
         data: this.creationToAssignmentTime,
         color: this.colors.AssignmentTimeColor,
       });
       datasets.push({
-        label: 'Tiempo entre asignación y primera respuesta de pull request',
+        label: this.$i18n.t('message.metrics.assignmentToResponseTimeLabel'),
         data: this.assignmentToResponseTime,
         color: this.colors.ResponseTimeColor,
       });
       datasets.push({
-        label: 'Tiempo entre primera respuesta y aprobación de pull request',
+        label: this.$i18n.t('message.metrics.responseToApprovalTimeLabel'),
         data: this.responseToApprovalTime,
         color: this.colors.ApprovalTimeColor,
       });
       datasets.push({
-        label: 'Tiempo entre aprobación y merge de pull request',
+        label: this.$i18n.t('message.metrics.approvalToMergeTimeLabel'),
         data: this.approvalToMergeTime,
         color: this.colors.MergeTimeColor,
       });
@@ -128,24 +128,29 @@ export default {
       const sumValue = dataArray.reduce((a, b) => a + b, 0);
       const meanValue = Math.floor(sumValue / dataArray.length);
 
-      return timeFormatter(meanValue);
+      return timeFormatter(
+        meanValue,
+        this.$i18n.t('message.time.day'),
+        this.$i18n.t('message.time.hour'),
+        this.$i18n.t('message.time.minute'),
+      );
     },
     prepareSummary() {
       return [{
-        textTop: 'creación y asignación',
-        textBottom: 'de pull requests',
+        textTop: this.$i18n.t('message.metrics.topCreationToAssignmentSummaryText'),
+        textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
         value: this.getMeanTime(this.creationToAssignmentTime),
       }, {
-        textTop: 'asignación y respuesta',
-        textBottom: 'de pull requests',
+        textTop: this.$i18n.t('message.metrics.topAssignmentToResponseSummaryText'),
+        textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
         value: this.getMeanTime(this.assignmentToResponseTime),
       }, {
-        textTop: 'respuesta y aprobación',
-        textBottom: 'de pull requests',
+        textTop: this.$i18n.t('message.metrics.topResponseToApprovalSummaryText'),
+        textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
         value: this.getMeanTime(this.responseToApprovalTime),
       }, {
-        textTop: 'aprobación y merge',
-        textBottom: 'de pull requests',
+        textTop: this.$i18n.t('message.metrics.topApprovalToMergeSummaryText'),
+        textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
         value: this.getMeanTime(this.approvalToMergeTime),
       }];
     },
