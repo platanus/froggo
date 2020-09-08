@@ -58,10 +58,15 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   end
 
   def other_team_members_ids
-    team_members_gh_ids =
-      github_session
-      .get_team_members(permitted_params[:team_id].to_i)
-      &.pluck(:id)
+    if permitted_params[:froggo_team] == "true"
+      team = FroggoTeam.find(permitted_params[:team_id])
+      team_members_gh_ids = team.github_users&.pluck(:gh_id)
+    else
+      team_members_gh_ids =
+        github_session
+        .get_team_members(permitted_params[:team_id].to_i)
+        &.pluck(:id)
+    end
     GithubUser
       .where(gh_id: team_members_gh_ids)
       .pluck(:id)
@@ -87,6 +92,6 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   end
 
   def permitted_params
-    params.permit(:org_id, :team_id, :github_login, :from, :to, :month_limit)
+    params.permit(:org_id, :team_id, :github_login, :from, :to, :month_limit, :froggo_team)
   end
 end
