@@ -82,6 +82,7 @@ export default {
         teamId: team.id,
         organizationId: team.organization_id,
         githubUserLogin: this.githubLogin,
+        froggoTeam: team.froggo_team,
       });
     },
 
