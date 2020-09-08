@@ -125,7 +125,7 @@ class OrganizationsController < ApplicationController
   end
 
   def froggo_teams
-    github_session.user.get_froggo_teams(@organization)
+    github_session.user.get_froggo_teams_for_organization(@organization)
   end
 
   def user_teams

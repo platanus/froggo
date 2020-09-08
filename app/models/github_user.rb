@@ -18,7 +18,7 @@ class GithubUser < ApplicationRecord
 
   scope :all_except, ->(user) { where.not(id: user) }
 
-  def get_froggo_teams(organization)
+  def get_froggo_teams_for_organization(organization)
     froggo_teams.filter { |team| team[:organization_id] == organization.id }
                 .map do |team|
                   {
@@ -28,6 +28,17 @@ class GithubUser < ApplicationRecord
                     froggo_team: true
                   }
                 end
+  end
+
+  def get_froggo_teams
+    froggo_teams.map do |team|
+      {
+        id: team.id,
+        name: team.name,
+        organization_id: team.organization_id,
+        froggo_team: true
+      }
+    end
   end
 end
 
