@@ -33,7 +33,6 @@ export default {
 
   [PROFILE_PR_INFORMATION_RECEIVED](state, pullRequestData) {
     state.pullRequestInformation = pullRequestData.pull_requests_information;
-    state.userMeanTime = pullRequestData.personal_mean;
     state.fetchingPullRequestInformation = false;
   },
 
