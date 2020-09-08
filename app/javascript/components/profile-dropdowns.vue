@@ -10,7 +10,7 @@
     <div>
       <teams-dropdown
         :github-login="githubLogin"
-        :teams="teams"
+        :teams="selectedOrganizationTeams"
       />
     </div>
     <div>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import OrganizationsDropdown from './organizations-dropdown';
 import TeamsDropdown from './teams-dropdown';
 import TimespanDropdown from './timespan-dropdown';
@@ -50,6 +51,14 @@ export default {
     OrganizationsDropdown,
     TeamsDropdown,
     TimespanDropdown,
+  },
+  computed: {
+    selectedOrganizationTeams() {
+      return this.teams.filter(team => team.organization_id === this.selectedOrganizationId);
+    },
+    ...mapState({
+      selectedOrganizationId: state => state.profile.selectedOrganizationId,
+    }),
   },
 };
 </script>

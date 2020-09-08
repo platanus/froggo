@@ -10,6 +10,7 @@ import {
 
 import {
   PROFILE_TEAM_SELECTED,
+  PROFILE_ORGANIZATION_SELECTED,
   RECOMMENDATIONS_FETCH_ERROR,
   RECOMMENDATIONS_RECEIVED,
   START_FETCHING_RECOMMENDATIONS,
@@ -21,6 +22,7 @@ import {
 export default {
   [PROCESS_NEW_TEAM](
     { commit, dispatch }, { teamId, organizationId, githubUserLogin }) {
+    commit(PROFILE_ORGANIZATION_SELECTED, organizationId);
     commit(PROFILE_TEAM_SELECTED, teamId);
     dispatch(COMPUTE_STATISTICS, {
       organizationId,
