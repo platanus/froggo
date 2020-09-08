@@ -59,7 +59,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def other_team_members_ids
     if permitted_params[:froggo_team] == "true"
-      team = FroggoTeam.find(permitted_params[:team_id])
+      team = froggo_team
       team_members_gh_ids = team.github_users&.pluck(:gh_id)
     else
       team_members_gh_ids =
@@ -80,6 +80,10 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def github_user
     @github_user ||= GithubUser.find_by(login: permitted_params[:github_login])
+  end
+
+  def froggo_team
+    @froggo_team ||= FroggoTeam.find!(permitted_params[:team_id])
   end
 
   def pr_relations
