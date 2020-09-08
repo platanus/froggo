@@ -56,10 +56,12 @@ export default {
     },
     selectOrganization(organization) {
       if (this.organizationHasDefaultTeam(organization)) {
+        const defaultTeam = this.teams.filter(team => team.id === organization.default_team_id);
         this.$store.dispatch(PROCESS_NEW_TEAM, {
           teamId: organization.default_team_id,
           organizationId: organization.id,
           githubUserLogin: this.githubLogin,
+          froggoTeam: defaultTeam[0].froggo_team,
         });
       }
     },
