@@ -10,8 +10,9 @@ import {
 } from '../../mutation-types';
 
 export default {
-  [PROFILE_TEAM_SELECTED](state, teamId) {
+  [PROFILE_TEAM_SELECTED](state, { teamId, froggoTeam }) {
     state.selectedTeamId = teamId;
+    state.isSelectedFroggoTeam = froggoTeam;
   },
 
   [PROFILE_ORGANIZATION_SELECTED](state, organizationId) {
