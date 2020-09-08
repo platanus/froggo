@@ -23,7 +23,7 @@ export default {
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'minutos',
+              labelString: this.$i18n.t('message.metrics.chartYLabel'),
             },
           }],
         },
@@ -31,7 +31,12 @@ export default {
           callbacks: {
             label: (tooltipItem, data) => {
               const value = tooltipItem.yLabel;
-              const label = timeFormatter(value);
+              const label = timeFormatter(
+                value,
+                this.$i18n.t('message.time.day'),
+                this.$i18n.t('message.time.hour'),
+                this.$i18n.t('message.time.minute'),
+              );
 
               return [data.datasets[tooltipItem.datasetIndex].label, label];
             },

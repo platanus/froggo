@@ -1,27 +1,27 @@
-function setDays(days) {
+function setDays(days, dayLabel) {
   if (days === 0) return '';
 
-  return `${days} dia${days > 1 ? 's ' : ' '}`;
+  return `${days} ${dayLabel}${days > 1 ? 's ' : ' '}`;
 }
 
-function setHours(hours) {
+function setHours(hours, hourLabel) {
   if (hours === 0) return '';
 
-  return `${hours} hora${hours > 1 ? 's ' : ' '}`;
+  return `${hours} ${hourLabel}${hours > 1 ? 's ' : ' '}`;
 }
 
-function setMinutes(minutes) {
+function setMinutes(minutes, minuteLabel) {
   if (minutes === 0) return '';
 
-  return `${minutes} minuto${minutes > 1 ? 's ' : ' '}`;
+  return `${minutes} ${minuteLabel}${minutes > 1 ? 's ' : ' '}`;
 }
 
-export default function timeFormatter(numberOfMinutes) {
+export default function timeFormatter(numberOfMinutes, dayLabel, hourLabel, minLabel) {
   const minutesInHour = 60;
   const hoursInDay = 24;
   const days = Math.floor(numberOfMinutes / (hoursInDay * minutesInHour));
   const hours = Math.floor((numberOfMinutes % (hoursInDay * minutesInHour)) / minutesInHour);
   const minutes = Math.floor((numberOfMinutes % (hoursInDay * minutesInHour)) % minutesInHour);
 
-  return `${setDays(days)}${setHours(hours)}${setMinutes(minutes)}` || '0 minutos';
+  return `${setDays(days, dayLabel)}${setHours(hours, hourLabel)}${setMinutes(minutes, minLabel)}` || `0 ${minLabel}s`;
 }

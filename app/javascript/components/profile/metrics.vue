@@ -8,7 +8,7 @@
       v-else-if="Object.keys(pullRequestsInformation).length === 0"
     >
       <div class="profile-stat">
-        <h3>No hay información de pull requests para obtener métricas</h3>
+        <h3>{{ $i18n.t('message.metrics.noPullRequestInformation') }}</h3>
       </div>
     </div>
     <div
