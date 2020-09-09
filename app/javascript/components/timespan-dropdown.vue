@@ -41,6 +41,7 @@ export default {
         teamId: this.$store.state.profile.selectedTeamId,
         githubUserLogin: this.githubLogin,
         monthLimit: limit,
+        froggoTeam: this.$store.state.profile.isSelectedFroggoTeam,
       });
       this.$store.dispatch(COMPUTE_PROFILE_PR_INFORMATION, {
         githubUserLogin: this.githubLogin,

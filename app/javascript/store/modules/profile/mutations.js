@@ -1,5 +1,6 @@
 import {
   PROFILE_TEAM_SELECTED,
+  PROFILE_ORGANIZATION_SELECTED,
   RECOMMENDATIONS_FETCH_ERROR,
   RECOMMENDATIONS_RECEIVED,
   START_FETCHING_RECOMMENDATIONS,
@@ -9,8 +10,13 @@ import {
 } from '../../mutation-types';
 
 export default {
-  [PROFILE_TEAM_SELECTED](state, teamId) {
+  [PROFILE_TEAM_SELECTED](state, { teamId, froggoTeam }) {
     state.selectedTeamId = teamId;
+    state.isSelectedFroggoTeam = froggoTeam;
+  },
+
+  [PROFILE_ORGANIZATION_SELECTED](state, organizationId) {
+    state.selectedOrganizationId = organizationId;
   },
 
   [START_FETCHING_RECOMMENDATIONS](state) {

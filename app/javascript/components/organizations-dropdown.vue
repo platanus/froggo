@@ -12,6 +12,7 @@
 <script>
 import ClickableDropdown from './clickable-dropdown';
 import { PROCESS_NEW_TEAM } from '../store/action-types';
+import { PROFILE_ORGANIZATION_SELECTED } from '../store/mutation-types';
 
 export default {
   props: {
@@ -55,13 +56,24 @@ export default {
       this.makeOrganizationDefault(item);
     },
     selectOrganization(organization) {
-      if (this.organizationHasDefaultTeam(organization)) {
-        this.$store.dispatch(PROCESS_NEW_TEAM, {
-          teamId: organization.default_team_id,
-          organizationId: organization.id,
-          githubUserLogin: this.githubLogin,
-        });
+      const organizationTeams = this.teams.filter(team => team.organization_id === organization.id);
+      if (organizationTeams.length === 0) {
+        this.$store.commit(PROFILE_ORGANIZATION_SELECTED, organization.id);
+
+        return;
       }
+      const defaultTeam =
+          this.organizationHasDefaultTeam(organization) ?
+            this.teams.filter(team => team.id === organization.default_team_id)[0] :
+            organizationTeams[0];
+
+      this.$store.dispatch(PROCESS_NEW_TEAM, {
+        teamId: defaultTeam.id,
+        organizationId: organization.id,
+        githubUserLogin: this.githubLogin,
+        froggoTeam: defaultTeam.froggo_team,
+      });
+      this.makeTeamDefault(defaultTeam);
     },
     makeOrganizationDefault(organization) {
       const mapUserToDefaultOrg =
@@ -70,6 +82,14 @@ export default {
           {};
       mapUserToDefaultOrg[this.githubLogin] = organization.id;
       localStorage.mapUserToDefaultOrg = JSON.stringify(mapUserToDefaultOrg);
+    },
+    makeTeamDefault(team) {
+      const mapUserToDefaultTeam =
+        localStorage.mapUserToDefaultTeam ?
+          JSON.parse(localStorage.mapUserToDefaultTeam) :
+          {};
+      mapUserToDefaultTeam[this.githubLogin] = team.id;
+      localStorage.mapUserToDefaultTeam = JSON.stringify(mapUserToDefaultTeam);
     },
     organizationHasDefaultTeam(organization) {
       return this.teams.map(t => t.id).includes(organization.default_team_id);

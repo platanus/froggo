@@ -10,6 +10,7 @@ import {
 
 import {
   PROFILE_TEAM_SELECTED,
+  PROFILE_ORGANIZATION_SELECTED,
   RECOMMENDATIONS_FETCH_ERROR,
   RECOMMENDATIONS_RECEIVED,
   START_FETCHING_RECOMMENDATIONS,
@@ -20,22 +21,24 @@ import {
 
 export default {
   [PROCESS_NEW_TEAM](
-    { commit, dispatch }, { teamId, organizationId, githubUserLogin }) {
-    commit(PROFILE_TEAM_SELECTED, teamId);
+    { commit, dispatch }, { teamId, organizationId, githubUserLogin, froggoTeam }) {
+    commit(PROFILE_ORGANIZATION_SELECTED, organizationId);
+    commit(PROFILE_TEAM_SELECTED, { teamId, froggoTeam });
     dispatch(COMPUTE_STATISTICS, {
       organizationId,
       githubUserLogin,
     });
-    dispatch(COMPUTE_RECOMMENDATIONS, { teamId, githubUserLogin });
+    dispatch(COMPUTE_RECOMMENDATIONS, { teamId, githubUserLogin, froggoTeam });
     dispatch(COMPUTE_PROFILE_PR_INFORMATION, { githubUserLogin });
   },
 
-  [COMPUTE_RECOMMENDATIONS]({ commit }, { teamId, githubUserLogin, monthLimit }) {
+  [COMPUTE_RECOMMENDATIONS]({ commit }, { teamId, githubUserLogin, monthLimit, froggoTeam }) {
     commit(START_FETCHING_RECOMMENDATIONS);
     axios
       .get(`/api/teams/${teamId}/users/${githubUserLogin}/recommendations`, {
         params: decamelizeKeys({
           monthLimit,
+          froggoTeam,
         }),
       })
       .then(response => {

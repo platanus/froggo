@@ -74,5 +74,10 @@ export default {
       this.$emit('item-clicked', event);
     },
   },
+  watch: {
+    items() {
+      this.selectedItemIndex = this.defaultIndex;
+    },
+  },
 };
 </script>
