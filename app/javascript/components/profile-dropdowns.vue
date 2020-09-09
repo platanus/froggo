@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div>
+    <div class="profile-header__dropdowns">
       <organizations-dropdown
         :github-login="githubLogin"
         :organizations="organizations"
         :teams="teams"
       />
     </div>
-    <div>
+    <div class="profile-header__dropdowns">
       <teams-dropdown
         :github-login="githubLogin"
         :teams="selectedOrganizationTeams"
       />
     </div>
-    <div>
+    <div class="profile-header__dropdowns">
       <timespan-dropdown
         :github-login="githubLogin"
         :months-options="monthsOptions"

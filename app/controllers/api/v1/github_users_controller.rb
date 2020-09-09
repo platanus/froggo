@@ -83,7 +83,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   end
 
   def froggo_team
-    @froggo_team ||= FroggoTeam.find!(permitted_params[:team_id])
+    @froggo_team ||= FroggoTeam.find_by!(id: permitted_params[:team_id])
   end
 
   def pr_relations
