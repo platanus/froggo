@@ -48,6 +48,9 @@ ActiveRecord::Schema.define(version: 2020_08_25_200237) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "froggo_team_memberships", force: :cascade do |t|
     t.bigint "github_user_id", null: false
     t.bigint "froggo_team_id", null: false
