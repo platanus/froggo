@@ -40,6 +40,7 @@ export default {
     froggoTeams: {
       organizationTitle: 'Organización: ',
       belongedTeams: 'Equipos a los que pertenezco: ',
+      notBelongedTeams: 'Otros equipos de la organización: ',
       createButton: 'Crear Equipo',
       insertTeamName: 'Nombre del equipo: ',
       addMember: 'Agregar miembros: ',
