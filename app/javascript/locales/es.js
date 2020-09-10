@@ -50,7 +50,7 @@ export default {
       saveTeam: 'Guardar equipo',
       deleteTeam: 'Eliminar equipo',
       successfullySavedTeam: 'Equipo guardado exitosamente',
-      existentName: 'Ya existe un equipo con ese nombre',
+      successfullyCreatedTeam: 'Equipo creado exitosamente',
     },
     prFeed: {
       noName: 'Desconocido',
@@ -59,6 +59,10 @@ export default {
       prProject: 'Proyecto',
       prTime: 'Hora',
       prDate: 'Fecha',
+    },
+    error: {
+      unauthorized: 'No tiene autorización para realizar esta acción',
+      existentName: 'Ese nombre ya existe para un equipo de la organización',
     },
   },
 };

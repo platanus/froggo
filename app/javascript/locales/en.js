@@ -50,7 +50,7 @@ export default {
       saveTeam: 'Save team',
       deleteTeam: 'Delete team',
       successfullySavedTeam: 'Team was successfully saved',
-      existentName: 'already exists a team with that name',
+      successfullyCreatedTeam: 'Team was successfully created',
     },
     prFeed: {
       noName: 'Unknown',
@@ -59,6 +59,10 @@ export default {
       prProject: 'Project',
       prTime: 'Time',
       prDate: 'Date',
+    },
+    error: {
+      unauthorized: 'Permission denied',
+      existentName: 'Name already exists for an organization team',
     },
   },
 };
