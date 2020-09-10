@@ -74,7 +74,6 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
 
   def build_pull_request_params(repository, github_pull_request)
     owner = GithubUserService.new.find_or_create(github_pull_request.user)
-
     base_params = get_base_params(github_pull_request)
     users_params = { owner_id: owner.id }
 
@@ -114,7 +113,9 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
       gh_created_at: github_pull_request.created_at,
       gh_updated_at: github_pull_request.updated_at,
       gh_closed_at: github_pull_request.closed_at,
-      gh_merged_at: github_pull_request.merged_at
+      gh_merged_at: github_pull_request.merged_at,
+      description: github_pull_request.body,
+      commits: github_pull_request.commits
     }
   end
 

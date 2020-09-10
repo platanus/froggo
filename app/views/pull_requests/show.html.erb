@@ -1,0 +1,8 @@
+<div id="app" class="app">
+  <%= render 'partials/header' %>
+  <div class="container">
+    <%= @pull_request.title %>
+    <%= @reviewers.to_json%>
+  </div>
+  <%= render "partials/footer" %>
+</div>

@@ -195,6 +195,8 @@ ActiveRecord::Schema.define(version: 2020_09_10_192320) do
     t.integer "owner_id"
     t.integer "merged_by_id"
     t.datetime "last_change"
+    t.string "description"
+    t.integer "commits"
     t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
   end
 
