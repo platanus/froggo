@@ -40,6 +40,7 @@
       </div>
       <div class="froggo-teams-show__member-title">
         {{ $t("message.froggoTeams.members") }}
+        ( {{ membersCounter }} )
       </div>
       <div
         class="froggo-teams-show__member-container"
@@ -196,11 +197,16 @@ export default {
   components: {
     ClickableDropdown,
   },
-  computed: mapState({
-    teamName: state => state.froggoTeam.teamName,
-    currentMembers: state => state.froggoTeam.currentMembers,
-    possibleMembers: state => state.froggoTeam.possibleMembers,
-  }),
+  computed: {
+    membersCounter() {
+      return this.currentMembers.length;
+    },
+    ...mapState({
+      teamName: state => state.froggoTeam.teamName,
+      currentMembers: state => state.froggoTeam.currentMembers,
+      possibleMembers: state => state.froggoTeam.possibleMembers,
+    }),
+  },
 };
 </script>
 
