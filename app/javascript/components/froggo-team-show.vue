@@ -146,7 +146,7 @@ export default {
           this.$store.commit(TEAM_NAME, this.newName);
         })
         .catch(() => {
-          this.showMessage(this.$i18n.t('message.froggoTeams.existentName'));
+          this.showMessage(this.$i18n.t('message.error.existentName'));
         });
     },
     onItemClicked({ item }) {
