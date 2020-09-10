@@ -169,7 +169,7 @@ export default {
         const index = this.usersToAdd.findIndex(u => u.id === user.id);
         this.usersToAdd.splice(index, 1);
       }
-      this.$store.commit(REMOVE_MEMBER, { userIndex, member: user });
+      this.$store.commit(REMOVE_MEMBER, { index: userIndex, member: user });
     },
     saveFroggoTeam() {
       this.$store.dispatch(UPDATE_FROGGO_TEAM, {
