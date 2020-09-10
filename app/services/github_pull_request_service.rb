@@ -19,7 +19,14 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
         data_object.pull_request,
         data_object.requested_reviewer
       )
+    elsif data_object.action === "synchronize" || data_object.action === "edited"
+      update_pull_request_change(pull_request, data_object.pull_request)
     end
+  end
+
+  def update_pull_request_change(pull_request, pull_request_data_object)
+    pull_request.last_change = pull_request_data_object.updated_at
+    pull_request.save!
   end
 
   def import_page_from_repository(repository, page)
