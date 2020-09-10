@@ -41,9 +41,12 @@ class GetUserPullRequestMetrics < PowerTypes::Command.new(:github_user, :limit_m
       time_delta = (review_request.created_at - pull_request.gh_created_at).to_i
       unless time_delta > 1.week
         current_pull_request_info = get_basic_pull_request_info(pull_request, review_request)
-        current_pull_request_info.merge!(GetPullRequestReviewsInfo.for(pull_request: pull_request))
-        pr_id = pull_request.id
-        @review_requests_dic[:pull_requests_information][pr_id] = current_pull_request_info
+        pull_request_review_info = GetPullRequestReviewsInfo.for(pull_request: pull_request)
+        unless pull_request_review_info.empty?
+          current_pull_request_info.merge!(pull_request_review_info)
+          pr_id = pull_request.id
+          @review_requests_dic[:pull_requests_information][pr_id] = current_pull_request_info
+        end
       end
     end
   end
