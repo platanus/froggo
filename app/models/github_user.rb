@@ -40,6 +40,16 @@ class GithubUser < ApplicationRecord
       }
     end
   end
+
+  def get_organizations_with_teams
+    organizations.map do |organization|
+      {
+        id: organization.id,
+        login: organization.login,
+        teams: organization.get_froggo_teams
+      }
+    end
+  end
 end
 
 # == Schema Information
