@@ -47,6 +47,7 @@ end
 #  repository_id :bigint(8)
 #  owner_id      :integer
 #  merged_by_id  :integer
+#  last_change   :datetime
 #
 # Indexes
 #
