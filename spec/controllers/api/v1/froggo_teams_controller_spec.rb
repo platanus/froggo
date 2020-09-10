@@ -39,7 +39,7 @@ RSpec.describe Api::V1::FroggoTeamsController, type: :controller do
         post :create, params: { name: "test_name", organization_id: buda_org.id }, format: :json
       end
 
-      it { expect(response).to have_http_status(:bad_request) }
+      it { expect(response).to have_http_status(:unauthorized) }
     end
 
     context "when name already exists for organization" do
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::FroggoTeamsController, type: :controller do
         patch :update, params: { id: buda_team.id, name: "test_name" }, format: :json
       end
 
-      it { expect(response).to have_http_status(:bad_request) }
+      it { expect(response).to have_http_status(:unauthorized) }
     end
 
     context "when the name is already taken" do
@@ -98,7 +98,7 @@ RSpec.describe Api::V1::FroggoTeamsController, type: :controller do
         delete :destroy, params: { id: buda_team.id }, format: :json
       end
 
-      it { expect(response).to have_http_status(:bad_request) }
+      it { expect(response).to have_http_status(:unauthorized) }
     end
 
     context "when the team was succesfuly destroyed" do
