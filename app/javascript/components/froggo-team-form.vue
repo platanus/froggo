@@ -55,11 +55,16 @@ export default {
         userIds: this.selected.map(user => user.id),
       })
         .then(response => {
-          this.showMessage('se creó el grupo correctamente');
+          this.showMessage(this.$t('message.froggoTeams.successfullyCreatedTeam'));
           window.location.href = `/froggo_teams/${response.data.id}`;
         })
-        .catch(() => {
-          this.showMessage('no se pudo crear el grupo');
+        .catch(error => {
+          const unauthorizedStatus = 401;
+          const message =
+            error.response.status === unauthorizedStatus ?
+              this.$t('message.error.unauthorized') :
+              this.$t('message.error.existentName');
+          this.showMessage(message);
         });
     },
   },
