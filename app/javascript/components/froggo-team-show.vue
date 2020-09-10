@@ -28,6 +28,17 @@
     </div>
     <div class="froggo-teams-show__members">
       <div class="froggo-teams-show__member-title">
+        {{ $t("message.froggoTeams.addMember") }}
+      </div>
+      <div class="froggo-teams-show__dropdown">
+        <clickable-dropdown
+          :body-title="dropdownTitle"
+          :no-items-message="noUsersMessage"
+          :items="possibleMembers"
+          @item-clicked="onItemClicked"
+        />
+      </div>
+      <div class="froggo-teams-show__member-title">
         {{ $t("message.froggoTeams.members") }}
       </div>
       <div
@@ -53,17 +64,6 @@
         >
           {{ $t("message.froggoTeams.deleteFromTeam") }}
         </div>
-      </div>
-      <div class="froggo-teams-show__member-title">
-        {{ $t("message.froggoTeams.addMember") }}
-      </div>
-      <div class="froggo-teams-show__dropdown">
-        <clickable-dropdown
-          :body-title="dropdownTitle"
-          :no-items-message="noUsersMessage"
-          :items="possibleMembers"
-          @item-clicked="onItemClicked"
-        />
       </div>
     </div>
     <div class="froggo-teams-show__end-section">
