@@ -40,6 +40,7 @@ export default {
     froggoTeams: {
       organizationTitle: 'Organización: ',
       belongedTeams: 'Equipos a los que pertenezco: ',
+      notBelongedTeams: 'Otros equipos de la organización: ',
       createButton: 'Crear Equipo',
       insertTeamName: 'Nombre del equipo: ',
       addMember: 'Agregar miembros: ',
@@ -50,7 +51,7 @@ export default {
       saveTeam: 'Guardar equipo',
       deleteTeam: 'Eliminar equipo',
       successfullySavedTeam: 'Equipo guardado exitosamente',
-      existentName: 'Ya existe un equipo con ese nombre',
+      successfullyCreatedTeam: 'Equipo creado exitosamente',
     },
     prFeed: {
       noName: 'Desconocido',
@@ -60,6 +61,9 @@ export default {
       prTime: 'Hora',
       prDate: 'Fecha',
     },
+    error: {
+      unauthorized: 'No tiene autorización para realizar esta acción',
+      existentName: 'Ese nombre ya existe para un equipo de la organización',
     metrics: {
       noPullRequestInformation: 'No hay información de pull requests para obtener métricas',
       metricsTitle: 'Métricas de tiempo',

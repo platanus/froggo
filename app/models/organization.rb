@@ -13,6 +13,15 @@ class Organization < ApplicationRecord
   def sorted_repositories
     repositories.order('tracked DESC NULLS LAST, gh_updated_at DESC')
   end
+
+  def get_froggo_teams
+    froggo_teams.map do |team|
+      {
+        id: team.id,
+        name: team.name
+      }
+    end
+  end
 end
 
 # == Schema Information

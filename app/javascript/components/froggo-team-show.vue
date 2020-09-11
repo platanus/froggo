@@ -28,7 +28,19 @@
     </div>
     <div class="froggo-teams-show__members">
       <div class="froggo-teams-show__member-title">
+        {{ $t("message.froggoTeams.addMember") }}
+      </div>
+      <div class="froggo-teams-show__dropdown">
+        <clickable-dropdown
+          :body-title="dropdownTitle"
+          :no-items-message="noUsersMessage"
+          :items="possibleMembers"
+          @item-clicked="onItemClicked"
+        />
+      </div>
+      <div class="froggo-teams-show__member-title">
         {{ $t("message.froggoTeams.members") }}
+        ( {{ membersCounter }} )
       </div>
       <div
         class="froggo-teams-show__member-container"
@@ -53,17 +65,6 @@
         >
           {{ $t("message.froggoTeams.deleteFromTeam") }}
         </div>
-      </div>
-      <div class="froggo-teams-show__member-title">
-        {{ $t("message.froggoTeams.addMember") }}
-      </div>
-      <div class="froggo-teams-show__dropdown">
-        <clickable-dropdown
-          :body-title="dropdownTitle"
-          :no-items-message="noUsersMessage"
-          :items="possibleMembers"
-          @item-clicked="onItemClicked"
-        />
       </div>
     </div>
     <div class="froggo-teams-show__end-section">
@@ -146,7 +147,7 @@ export default {
           this.$store.commit(TEAM_NAME, this.newName);
         })
         .catch(() => {
-          this.showMessage(this.$i18n.t('message.froggoTeams.existentName'));
+          this.showMessage(this.$i18n.t('message.error.existentName'));
         });
     },
     onItemClicked({ item }) {
@@ -168,7 +169,7 @@ export default {
         const index = this.usersToAdd.findIndex(u => u.id === user.id);
         this.usersToAdd.splice(index, 1);
       }
-      this.$store.commit(REMOVE_MEMBER, { userIndex, member: user });
+      this.$store.commit(REMOVE_MEMBER, { index: userIndex, member: user });
     },
     saveFroggoTeam() {
       this.$store.dispatch(UPDATE_FROGGO_TEAM, {
@@ -196,11 +197,16 @@ export default {
   components: {
     ClickableDropdown,
   },
-  computed: mapState({
-    teamName: state => state.froggoTeam.teamName,
-    currentMembers: state => state.froggoTeam.currentMembers,
-    possibleMembers: state => state.froggoTeam.possibleMembers,
-  }),
+  computed: {
+    membersCounter() {
+      return this.currentMembers.length;
+    },
+    ...mapState({
+      teamName: state => state.froggoTeam.teamName,
+      currentMembers: state => state.froggoTeam.currentMembers,
+      possibleMembers: state => state.froggoTeam.possibleMembers,
+    }),
+  },
 };
 </script>
 

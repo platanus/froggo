@@ -40,6 +40,7 @@ export default {
     froggoTeams: {
       organizationTitle: 'Organization: ',
       belongedTeams: 'Teams I belong to: ',
+      notBelongedTeams: 'Other organization teams: ',
       createButton: 'Create Team',
       insertTeamName: 'Team Name: ',
       addMember: 'Add members: ',
@@ -50,7 +51,7 @@ export default {
       saveTeam: 'Save team',
       deleteTeam: 'Delete team',
       successfullySavedTeam: 'Team was successfully saved',
-      existentName: 'already exists a team with that name',
+      successfullyCreatedTeam: 'Team was successfully created',
     },
     prFeed: {
       noName: 'Unknown',
@@ -60,6 +61,9 @@ export default {
       prTime: 'Time',
       prDate: 'Date',
     },
+    error: {
+      unauthorized: 'Permission denied',
+      existentName: 'Name already exists for an organization team',
     metrics: {
       noPullRequestInformation: 'There\'s no pull requests information',
       metricsTitle: 'Time metrics',

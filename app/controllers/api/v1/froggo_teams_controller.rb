@@ -5,7 +5,7 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
   end
 
   def create
-    return render(json: { error: "permission denied" }, status: :bad_request) unless valid_user?
+    return render(json: { error: "permission denied" }, status: :unauthorized) unless valid_user?
 
     if name_validated?
       new_froggo_team = FroggoTeam.create!(name: permitted_params[:name],
@@ -24,7 +24,7 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
   end
 
   def update
-    return render(json: { error: "permission denied" }, status: :bad_request) unless valid_user?
+    return render(json: { error: "permission denied" }, status: :unauthorized) unless valid_user?
 
     if permitted_params.has_key?(:name)
       if name_validated?
@@ -39,7 +39,7 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
   end
 
   def destroy
-    return render(json: { error: "permission denied" }, status: :bad_request) unless valid_user?
+    return render(json: { error: "permission denied" }, status: :unauthorized) unless valid_user?
 
     froggo_team.destroy
   end
