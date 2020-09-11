@@ -46,7 +46,9 @@ class GithubAuthController < ApplicationController
     Octokit.client_id = ENV['GH_AUTH_ID']
     Octokit.client_secret = ENV['GH_AUTH_SECRET']
     Octokit.client.as_app do |client|
-      client.delete "/applications/#{ENV['GH_AUTH_ID']}/grants/#{github_session.token}"
+      client.delete("/applications/#{ENV['GH_AUTH_ID']}/grant", {
+                      access_token: github_session.token
+                    })
     end
     true
   rescue Octokit::ApplicationCredentialsRequired, Octokit::Unauthorized
