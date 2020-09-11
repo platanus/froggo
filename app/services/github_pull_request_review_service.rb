@@ -50,7 +50,11 @@ class GithubPullRequestReviewService < PowerTypes::Service.new(:token)
                                              github_user_id: params[:github_user_id])
       pr_review.update! params
     else
-      pull_request.pull_request_reviews.create!(params)
+      created_review = pull_request.pull_request_reviews.create!(params)
+      if created_review.approved_at? && created_review.approved_at < created_review.created_at
+        created_review.approved_at = created_review.created_at + 1.minute
+        created_review.save!
+      end
     end
   end
 

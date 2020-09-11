@@ -5,6 +5,5 @@ export default {
   fetchingRecommendations: false,
   recommendations: null,
   fetchingPullRequestInformation: false,
-  pullRequestInformation: null,
-  userMeanTime: null,
+  pullRequestInformation: {},
 };

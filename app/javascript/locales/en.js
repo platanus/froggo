@@ -64,6 +64,24 @@ export default {
     error: {
       unauthorized: 'Permission denied',
       existentName: 'Name already exists for an organization team',
+    metrics: {
+      noPullRequestInformation: 'There\'s no pull requests information',
+      metricsTitle: 'Time metrics',
+      creationToAssignmentTimeLabel: 'Time between pull request\'s creation and assignment',
+      assignmentToResponseTimeLabel: 'Time between pull request\'s assignment and first response',
+      responseToApprovalTimeLabel: 'Time between pull request\'s first response and approval',
+      approvalToMergeTimeLabel: 'Time between pull request\'s approval and merge',
+      bottomSummaryText: 'mean time',
+      topCreationToAssignmentSummaryText: 'PR\'s creation to assignment',
+      topAssignmentToResponseSummaryText: 'PR\'s assignment to response',
+      topResponseToApprovalSummaryText: 'PR\'s response to approval',
+      topApprovalToMergeSummaryText: 'PR\'s approval to merge',
+      chartYLabel: 'minutes',
+    },
+    time: {
+      day: 'day',
+      hour: 'hour',
+      minute: 'minute',
     },
   },
 };

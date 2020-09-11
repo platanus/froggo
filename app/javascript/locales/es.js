@@ -64,6 +64,24 @@ export default {
     error: {
       unauthorized: 'No tiene autorización para realizar esta acción',
       existentName: 'Ese nombre ya existe para un equipo de la organización',
+    metrics: {
+      noPullRequestInformation: 'No hay información de pull requests para obtener métricas',
+      metricsTitle: 'Métricas de tiempo',
+      creationToAssignmentTimeLabel: 'Tiempo entre creación y asignación de pull request',
+      assignmentToResponseTimeLabel: 'Tiempo entre asignación y primera respuesta de pull request',
+      responseToApprovalTimeLabel: 'Tiempo entre primera respuesta y aprobación de pull request',
+      approvalToMergeTimeLabel: 'Tiempo entre aprobación y merge de pull request',
+      bottomSummaryText: 'promedio de pull requests',
+      topCreationToAssignmentSummaryText: 'creación y asignación',
+      topAssignmentToResponseSummaryText: 'asignación y respuesta',
+      topResponseToApprovalSummaryText: 'respuesta y aprobación',
+      topApprovalToMergeSummaryText: 'aprobación y merge',
+      chartYLabel: 'minutos',
+    },
+    time: {
+      day: 'dia',
+      hour: 'hora',
+      minute: 'minuto',
     },
   },
 };
