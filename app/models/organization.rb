@@ -18,7 +18,9 @@ class Organization < ApplicationRecord
     froggo_teams.map do |team|
       {
         id: team.id,
-        name: team.name
+        name: team.name,
+        organization_id: team.organization_id,
+        froggo_team: true
       }
     end
   end
