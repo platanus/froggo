@@ -12,6 +12,22 @@ class PullRequestsController < ApplicationController
     )
   end
 
+  def show
+    github_user
+    @pull_request = PullRequest.find(params[:id])
+    @reviewers_id = PullRequestReviewRequest.where(pull_request_id: @pull_request.id)
+    i = 0
+    @reviewers = []
+    loop do
+      @reviewers.push(GithubUser.where(id: @reviewers_id[i].github_user_id))
+      if (i + 1) == @reviewers_id.length
+        break
+      end
+
+      i += 1
+    end
+  end
+
   private
 
   def organization

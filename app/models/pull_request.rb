@@ -48,6 +48,8 @@ end
 #  owner_id      :integer
 #  merged_by_id  :integer
 #  last_change   :datetime
+#  description   :string
+#  commits       :integer
 #
 # Indexes
 #

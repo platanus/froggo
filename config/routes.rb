@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     get 'missing' => 'organizations#missing', on: :collection
     get 'settings' => 'organizations#settings', on: :member
     get 'public' => 'organizations#public', on: :member
-    resources :pull_requests, only: [:index]
+    resources :pull_requests, only: [:index, :show]
   end
 
   resources :users, only: [:show], controller: 'github_users'

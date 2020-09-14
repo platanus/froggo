@@ -1,5 +1,5 @@
 <template>
-  <ul
+  <div
     class="card-pr__list"
   >
     <div class="card-pr-title">
@@ -27,65 +27,60 @@
         Likes
       </div>
     </div>
-    <li
-      v-for="pullRequest in prWithLikes"
-      :key="pullRequest.id"
-    >
-      <div class="card-pr__orientation">
-        <div class="card-pr">
-          <a
-            class="card-pr__name"
-            target="_blank"
-            :href="pullRequest.html_url"
+    <div class="card-pr__orientation">
+      <div class="card-pr">
+        <a
+          class="card-pr__name"
+          target="_blank"
+          :href="pullRequest.html_url"
+        >
+          {{ pullRequest.title }}
+        </a>
+        <p
+          v-if="(pullRequest.owner_name)"
+          style="flex: 2;"
+        >
+          {{ pullRequest.owner_name }}
+        </p>
+        <p
+          v-else
+          style="flex: 2;"
+        >
+          {{ $t("message.prFeed.noName") }}
+        </p>
+        <p class="card-pr__project">
+          {{ pullRequest.repository_name }}
+        </p>
+        <p style="flex: 2;">
+          {{ prTime(pullRequest) }}
+        </p>
+        <p style="flex: 2;">
+          {{ prDate(pullRequest) }}
+        </p>
+      </div>
+      <div class="card-pr__card">
+        <p class="card-pr__circle">
+          {{ pullRequest.likes.total }}
+        </p>
+        <div v-if="!(pullRequest.currentUserLike)">
+          <button
+            class="card-pr__button"
+            @click="toggleLike(pullRequest)"
           >
-            {{ pullRequest.title }}
-          </a>
-          <p
-            v-if="(pullRequest.owner_name)"
-            style="flex: 2;"
-          >
-            {{ pullRequest.owner_name }}
-          </p>
-          <p
-            v-else
-            style="flex: 2;"
-          >
-            {{ $t("message.prFeed.noName") }}
-          </p>
-          <p class="card-pr__project">
-            {{ pullRequest.repository_name }}
-          </p>
-          <p style="flex: 2;">
-            {{ prTime(pullRequest) }}
-          </p>
-          <p style="flex: 2;">
-            {{ prDate(pullRequest) }}
-          </p>
+            Like
+          </button>
         </div>
-        <div class="card-pr__card">
-          <p class="card-pr__circle">
-            {{ pullRequest.likes.total }}
-          </p>
-          <div v-if="!(pullRequest.currentUserLike)">
-            <button
-              class="card-pr__button"
-              @click="toggleLike(pullRequest)"
-            >
-              Like
-            </button>
-          </div>
-          <div v-else>
-            <button
-              class="card-pr__button"
-              @click="deleteLike(pullRequest)"
-            >
-              Dislike
-            </button>
-          </div>
+        <div v-else>
+          <button
+            class="card-pr__button"
+            @click="deleteLike(pullRequest)"
+          >
+            Dislike
+          </button>
         </div>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -95,7 +90,7 @@ import moment from 'moment';
 
 export default {
   props: {
-    pullRequests: {
+    pullRequest: {
       type: Array,
       required: true,
     },
@@ -106,13 +101,10 @@ export default {
   },
 
   data() {
-    return {
-      prWithLikes: this.pullRequests.map((pr) => {
-        const liked = this.likesGiven.find((like) => like.likeable_id === pr.id);
+    const pr = this.pullRequest;
+    const liked = this.likesGiven.find((like) => like.likeable_id === pr.id);
 
-        return liked ? { ...pr, currentUserLike: liked } : pr;
-      }),
-    };
+    return liked ? { ...this.pullRequest, currentUserLike: liked } : this.pullRequest;
   },
 
   methods: {

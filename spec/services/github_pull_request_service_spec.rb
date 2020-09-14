@@ -28,7 +28,9 @@ describe GithubPullRequestService do
       updated_at: "2017-12-12 09:17:52",
       closed_at: "2017-12-12 09:17:52",
       merged_at: nil,
-      user: users[0]
+      user: users[0],
+      body: "merge my great changes!",
+      commits: 1
     )
   end
 
@@ -44,6 +46,8 @@ describe GithubPullRequestService do
       closed_at: "2017-12-12 09:17:52",
       merged_at: "2017-12-12 09:17:52",
       user: users[0],
+      body: "merge my amazing changes!",
+      commits: 5,
       requested_reviewers: [],
       head: double(
         repo: double(
