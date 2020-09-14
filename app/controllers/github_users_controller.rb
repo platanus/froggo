@@ -3,7 +3,7 @@ class GithubUsersController < ApplicationController
 
   def show
     @github_user = GithubUser.find(params[:id])
-    @teams = user_teams(@github_user)
+    @teams = froggo_teams
     @organizations = @github_user.organizations
   end
 
@@ -21,7 +21,7 @@ class GithubUsersController < ApplicationController
   end
 
   def froggo_teams
-    github_session.user.get_froggo_teams
+    github_session.user.get_froggo_teams.sort_by { |team| team[:name].downcase }
   end
 
   def user_teams(github_user)
