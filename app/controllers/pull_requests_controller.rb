@@ -15,16 +15,18 @@ class PullRequestsController < ApplicationController
   def show
     github_user
     @pull_request = PullRequest.find(params[:id])
+    @likes_given = Like.where(github_user_id: github_user.id, likeable_type: "PullRequest")
+    @liked = @likes_given.where(likeable_id: @pull_request.id)[0]
     @reviewers_id = PullRequestReviewRequest.where(pull_request_id: @pull_request.id)
-    i = 0
+    position_reviewer = 0
     @reviewers = []
     loop do
-      @reviewers.push(GithubUser.where(id: @reviewers_id[i].github_user_id))
-      if (i + 1) == @reviewers_id.length
+      if position_reviewer == @reviewers_id.length
         break
       end
 
-      i += 1
+      @reviewers.push(GithubUser.where(id: @reviewers_id[position_reviewer].github_user_id)[0])
+      position_reviewer += 1
     end
   end
 

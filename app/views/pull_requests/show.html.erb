@@ -1,8 +1,7 @@
 <div id="app" class="app">
   <%= render 'partials/header' %>
   <div class="container">
-    <%= @pull_request.title %>
-    <%= @reviewers.to_json%>
+    <pr-show :pull-request="<%= @pull_request.to_json %>" :liked="<%= @liked.to_json %>" :reviewers="<%= @reviewers.to_json %>" ></pr-show>
   </div>
   <%= render "partials/footer" %>
 </div>

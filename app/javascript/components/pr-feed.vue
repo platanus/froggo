@@ -60,6 +60,7 @@
           </p>
           <p style="flex: 2;">
             {{ prDate(pullRequest) }}
+            {{ pullRequest.id }}
           </p>
         </div>
         <div class="card-pr__card">

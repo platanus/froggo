@@ -23,6 +23,7 @@ import ProfileDropdowns from '../components/profile-dropdowns.vue';
 import ProfileRecommendations from '../components/profile/recommendations.vue';
 import ProfileStatistics from '../components/profile/statistics.vue';
 import PrFeed from '../components/pr-feed.vue';
+import PrShow from '../components/pr-show.vue';
 import ProfileMetrics from '../components/profile/metrics.vue';
 
 import Locales from '../locales/locales.js';
@@ -58,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('profile-recommendations', ProfileRecommendations);
   Vue.component('profile-statistics', ProfileStatistics);
   Vue.component('pr-feed', PrFeed);
+  Vue.component('pr-show', PrShow);
   Vue.component('profile-metrics', ProfileMetrics);
 
   if (document.getElementById('app') !== null) {
