@@ -64,6 +64,7 @@ export default {
     error: {
       unauthorized: 'Permission denied',
       existentName: 'Name already exists for an organization team',
+    },
     metrics: {
       noPullRequestInformation: 'There\'s no pull requests information',
       metricsTitle: 'Time metrics',
