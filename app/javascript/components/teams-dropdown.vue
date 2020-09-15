@@ -99,8 +99,9 @@ export default {
       this.$store.dispatch(UPDATE_DEFAULT_TEAM, {
         teamId: team.id,
         organization: this.organization,
+        froggoTeam: team.froggo_team,
       });
-    }
+    },
   },
   components: {
     ClickableDropdown,

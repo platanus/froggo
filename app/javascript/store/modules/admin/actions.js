@@ -5,9 +5,11 @@ import {
 } from '../../action-types';
 
 export default {
-    [UPDATE_DEFAULT_TEAM](
-      {}, { teamId, organization }) {
-      axios
-        .put(`/api/organizations/${organization.id}/update`, { 'default_team_id': teamId });
-    },
-  };
+  [UPDATE_DEFAULT_TEAM](_, { teamId, organization, froggoTeam }) {
+    axios
+      .put(`/api/organizations/${organization.id}/update`, {
+        'default_team_id': teamId,
+        'froggo_team': froggoTeam,
+      });
+  },
+};
