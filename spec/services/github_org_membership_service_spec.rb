@@ -35,7 +35,7 @@ describe GithubOrgMembershipService do
   let(:github_response_2) { [user, user2] }
 
   before do
-    expect(BuildOctokitClient).to receive(:for).and_return(client)
+    allow(BuildOctokitClient).to receive(:for).and_return(client)
   end
 
   describe "#import_all_from_organization" do
@@ -146,33 +146,103 @@ describe GithubOrgMembershipService do
       )
     end
 
-    let!(:gh_user) { double(id: user.gh_id) }
+    let!(:organization2_membership1) do
+      create(
+        :organization_membership,
+        github_user: user,
+        organization: organization2,
+        is_member_of_default_team: true
+      )
+    end
 
-    context 'when empty team is selected as default' do
+    let!(:organization2_membership2) do
+      create(
+        :organization_membership,
+        github_user: user2,
+        organization: organization2,
+        is_member_of_default_team: true
+      )
+    end
+
+    let!(:gh_user) { double(id: user.gh_id) }
+    let!(:froggo_team) { create(:froggo_team, name: "test_name", organization: organization) }
+    let!(:organization2) { create(:organization, default_team_id: froggo_team.id) }
+
+    context 'when empty github team is selected as default' do
       before do
         allow(client).to receive(:team_members).with(organization.default_team_id).and_return([])
-        service.import_default_team_members(organization)
+        service.import_default_team_members(organization, false)
       end
 
       it 'resets all default team memberships to false' do
-        expect(OrganizationMembership.find_by(github_user_id: user.id).is_member_of_default_team)
+        expect(OrganizationMembership.find_by(github_user_id: user.id,
+                                              organization_id: organization.id)
+          .is_member_of_default_team)
           .to be(false)
-        expect(OrganizationMembership.find_by(github_user_id: user2.id).is_member_of_default_team)
+        expect(OrganizationMembership.find_by(github_user_id: user2.id,
+                                              organization_id: organization.id)
+          .is_member_of_default_team)
           .to be(false)
       end
     end
 
-    context 'when not empty team is selected as default' do
+    context 'when not empty github team is selected as default' do
       before do
         allow(client).to receive(:team_members)
           .with(organization.default_team_id).and_return([gh_user])
-        service.import_default_team_members(organization)
+        service.import_default_team_members(organization, false)
       end
 
       it 'asigns default team membership to correct users' do
-        expect(OrganizationMembership.find_by(github_user_id: user.id).is_member_of_default_team)
+        expect(OrganizationMembership.find_by(github_user_id: user.id,
+                                              organization_id: organization.id)
+          .is_member_of_default_team)
           .to be(true)
-        expect(OrganizationMembership.find_by(github_user_id: user2.id).is_member_of_default_team)
+        expect(OrganizationMembership.find_by(github_user_id: user2.id,
+                                              organization_id: organization.id)
+          .is_member_of_default_team)
+          .to be(false)
+      end
+    end
+
+    context 'when empty froggo team is selected as default' do
+      before do
+        service.import_default_team_members(organization2, true)
+      end
+
+      it 'resets all default team memberships to false' do
+        expect(OrganizationMembership.find_by(github_user_id: user.id,
+                                              organization_id: organization2.id)
+          .is_member_of_default_team)
+          .to be(false)
+        expect(OrganizationMembership.find_by(github_user_id: user2.id,
+                                              organization_id: organization2.id)
+          .is_member_of_default_team)
+          .to be(false)
+      end
+    end
+
+    context 'when not empty froggo team is selected as default' do
+      let!(:membership) do
+        create(
+          :froggo_team_membership,
+          github_user: user,
+          froggo_team: froggo_team
+        )
+      end
+
+      before do
+        service.import_default_team_members(organization2, true)
+      end
+
+      it 'asigns default team membership to correct users' do
+        expect(OrganizationMembership.find_by(github_user_id: user.id,
+                                              organization_id: organization2.id)
+          .is_member_of_default_team)
+          .to be(true)
+        expect(OrganizationMembership.find_by(github_user_id: user2.id,
+                                              organization_id: organization2.id)
+          .is_member_of_default_team)
           .to be(false)
       end
     end
