@@ -6,6 +6,9 @@ class PullRequestReview < ApplicationRecord
   belongs_to :github_user
 
   enumerize :recommendation_behaviour, in: [:obedient, :indifferent, :rebel, :not_defined]
+
+  delegate :name, to: :github_user, prefix: true
+  delegate :login, to: :github_user, prefix: true
 end
 
 # == Schema Information

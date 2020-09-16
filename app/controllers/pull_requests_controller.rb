@@ -2,8 +2,8 @@ class PullRequestsController < ApplicationController
   before_action :authenticate_github_user
 
   def index
-    github_user
     @likes_given = Like.where(github_user_id: github_user.id, likeable_type: "PullRequest")
+    @organization_name = organization_name
     @pull_requests = PullRequest.by_organizations(
       [organization.id]
     ).order(created_at: :desc).limit(100)
@@ -13,21 +13,15 @@ class PullRequestsController < ApplicationController
   end
 
   def show
-    github_user
     @pull_request = PullRequest.find(params[:id])
-    @likes_given = Like.where(github_user_id: github_user.id, likeable_type: "PullRequest")
-    @liked = @likes_given.where(likeable_id: @pull_request.id)[0]
-    @reviewers_id = PullRequestReviewRequest.where(pull_request_id: @pull_request.id)
-    position_reviewer = 0
-    @reviewers = []
-    loop do
-      if position_reviewer == @reviewers_id.length
-        break
-      end
-
-      @reviewers.push(GithubUser.where(id: @reviewers_id[position_reviewer].github_user_id)[0])
-      position_reviewer += 1
-    end
+    @serialized_pull_request = PullRequestSerializer.new(@pull_request)
+    @liked = Like.where(github_user_id: github_user.id,
+                        likeable_type: "PullRequest",
+                        likeable_id: @pull_request.id)[0]
+    @reviewers = PullRequestReview.where(pull_request_id: @pull_request.id)
+    @serialized_reviewers = ActiveModel::Serializer::CollectionSerializer.new(
+      @reviewers, each_serializer: PullRequestReviewSerializer
+    )
   end
 
   private

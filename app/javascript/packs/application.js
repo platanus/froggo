@@ -6,6 +6,7 @@ import VueI18n from 'vue-i18n';
 import VTooltip from 'v-tooltip';
 import VueHorizontalList from 'vue-horizontal-list';
 import Toasted from 'vue-toasted';
+import { camelizeKeys } from 'humps';
 
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
@@ -32,6 +33,7 @@ import store from '../store';
 Vue.use(VueI18n);
 Vue.use(VTooltip);
 Vue.use(VueHorizontalList);
+Vue.filter('camelizeKeys', camelizeKeys);
 
 /* eslint-disable max-statements */
 document.addEventListener('DOMContentLoaded', () => {

@@ -26,6 +26,7 @@ class PullRequest < ApplicationRecord
 
   delegate :name, to: :repository, prefix: true
   delegate :name, to: :owner, prefix: true
+  delegate :login, to: :owner, prefix: true
 end
 
 # == Schema Information

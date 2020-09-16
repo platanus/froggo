@@ -17,9 +17,6 @@
           {{ $t("message.prFeed.prProject") }}
         </div>
         <div class="card-pr-title__type-1">
-          {{ $t("message.prFeed.prTime") }}
-        </div>
-        <div class="card-pr-title__type-1">
           {{ $t("message.prFeed.prDate") }}
         </div>
       </div>
@@ -36,15 +33,21 @@
           <a
             class="card-pr__name"
             target="_blank"
-            :href="pullRequest.html_url"
+            :href="pullRequest.htmlUrl"
           >
             {{ pullRequest.title }}
           </a>
           <p
-            v-if="(pullRequest.owner_name)"
+            v-if="(pullRequest.ownerName)"
             style="flex: 2;"
           >
-            {{ pullRequest.owner_name }}
+            {{ pullRequest.ownerName }}
+          </p>
+          <p
+            v-else-if="(pullRequest.ownerLogin)"
+            style="flex: 2;"
+          >
+            {{ pullRequest.ownerLogin }}
           </p>
           <p
             v-else
@@ -53,19 +56,15 @@
             {{ $t("message.prFeed.noName") }}
           </p>
           <p class="card-pr__project">
-            {{ pullRequest.repository_name }}
-          </p>
-          <p style="flex: 2;">
-            {{ prTime(pullRequest) }}
+            {{ pullRequest.repositoryName }}
           </p>
           <p style="flex: 2;">
             {{ prDate(pullRequest) }}
-            {{ pullRequest.id }}
           </p>
         </div>
         <div class="card-pr__card">
           <p class="card-pr__circle">
-            {{ pullRequest.likes.total }}
+            {{ pullRequest.likes }}
           </p>
           <div v-if="!(pullRequest.currentUserLike)">
             <button
@@ -83,6 +82,15 @@
               Dislike
             </button>
           </div>
+          <a
+            :href="`/organizations/${organizationName}/pull_requests/${pullRequest.id}`"
+          >
+            <button
+              class="card-pr__button"
+            >
+              {{ $t("message.prFeed.prSee") }}
+            </button>
+          </a>
         </div>
       </div>
     </li>
@@ -93,6 +101,7 @@
 
 import axios from 'axios';
 import moment from 'moment';
+import { decamelizeKeys } from 'humps';
 
 export default {
   props: {
@@ -104,12 +113,16 @@ export default {
       type: Array,
       required: true,
     },
+    organizationName: {
+      type: String,
+      required: true,
+    },
   },
 
   data() {
     return {
       prWithLikes: this.pullRequests.map((pr) => {
-        const liked = this.likesGiven.find((like) => like.likeable_id === pr.id);
+        const liked = this.likesGiven.find((like) => like.likeableId === pr.id);
 
         return liked ? { ...pr, currentUserLike: liked } : pr;
       }),
@@ -120,9 +133,9 @@ export default {
 
     toggleLike(pr) {
       axios.post(
-        `/api/pull_requests/${pr.id}/likes`,
+        `/api/pull_requests/${pr.id}/likes`, decamelizeKeys,
       ).then(response => {
-        pr.likes.total += 1;
+        pr.likes += 1;
         pr.currentUserLike = response.data;
       }).catch(() => {
         // eslint-disable-next-line no-alert
@@ -133,7 +146,7 @@ export default {
       axios.delete(
         `/api/pull_requests/${pr.id}/likes/${pr.currentUserLike.id}`,
       ).then(() => {
-        pr.likes.total -= 1;
+        pr.likes -= 1;
         pr.currentUserLike = undefined;
       }).catch(() => {
         // eslint-disable-next-line no-alert
@@ -141,12 +154,12 @@ export default {
       });
     },
     prDate(pr) {
-      return moment(pr.created_at).format('DD-MM-YYYY');
+      return moment(pr.createdAt).format('DD-MM-YYYY');
     },
     prTime(pr) {
       const timeZone = 4;
 
-      return moment(pr.created_at).add(timeZone, 'hours').format('LT');
+      return moment(pr.createdAt).add(timeZone, 'hours').format('LT');
     },
   },
 };

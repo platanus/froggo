@@ -60,6 +60,12 @@ export default {
       prProject: 'Proyecto',
       prTime: 'Hora',
       prDate: 'Fecha',
+      prDescription: 'Descripción',
+      prCommits: 'Commits',
+      prUnknown: '---',
+      prReviewers: 'Reviewers',
+      prGoToGithub: 'Ir a Github',
+      prSee: 'Ver',
     },
     error: {
       unauthorized: 'No tiene autorización para realizar esta acción',

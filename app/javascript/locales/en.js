@@ -60,6 +60,12 @@ export default {
       prProject: 'Project',
       prTime: 'Time',
       prDate: 'Date',
+      prDescription: 'Description',
+      prCommits: 'Commits',
+      prUnknown: '---',
+      prReviewers: 'Reviewers',
+      prGoToGithub: 'Go to Github',
+      prSee: 'See',
     },
     error: {
       unauthorized: 'Permission denied',
