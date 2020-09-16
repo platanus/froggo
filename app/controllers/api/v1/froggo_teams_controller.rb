@@ -41,6 +41,9 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
   def destroy
     return render(json: { error: "permission denied" }, status: :unauthorized) unless valid_user?
 
+    if organization.default_team_id == froggo_team.id
+      organization.update(default_team_id: nil)
+    end
     froggo_team.destroy
   end
 
