@@ -6,6 +6,7 @@ import VueI18n from 'vue-i18n';
 import VTooltip from 'v-tooltip';
 import VueHorizontalList from 'vue-horizontal-list';
 import Toasted from 'vue-toasted';
+import { camelizeKeys } from 'humps';
 
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
@@ -23,6 +24,7 @@ import ProfileDropdowns from '../components/profile-dropdowns.vue';
 import ProfileRecommendations from '../components/profile/recommendations.vue';
 import ProfileStatistics from '../components/profile/statistics.vue';
 import PrFeed from '../components/pr-feed.vue';
+import PrShow from '../components/pr-show.vue';
 import ProfileMetrics from '../components/profile/metrics.vue';
 
 import Locales from '../locales/locales.js';
@@ -31,6 +33,7 @@ import store from '../store';
 Vue.use(VueI18n);
 Vue.use(VTooltip);
 Vue.use(VueHorizontalList);
+Vue.filter('camelizeKeys', camelizeKeys);
 
 /* eslint-disable max-statements */
 document.addEventListener('DOMContentLoaded', () => {
@@ -58,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('profile-recommendations', ProfileRecommendations);
   Vue.component('profile-statistics', ProfileStatistics);
   Vue.component('pr-feed', PrFeed);
+  Vue.component('pr-show', PrShow);
   Vue.component('profile-metrics', ProfileMetrics);
 
   if (document.getElementById('app') !== null) {

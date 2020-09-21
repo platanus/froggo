@@ -196,6 +196,16 @@
       border-style: groove;
     }
 
+    &__card-show {
+      border-radius: 10px;
+      margin-top: 20px;
+      margin-bottom: 1px;
+      margin-left: 5px;
+      background-color: $white;
+      font-family: $main-font;
+      border-style: groove;
+    }
+
     &__circle {
       display: block;
       height: 40px;
@@ -240,12 +250,26 @@
       margin-right: 40px;
     }
 
+    &__orientation-show {
+      object-fit: cover;
+      margin-left: 40px;
+      margin-right: 40px;
+    }
+
     &__list {
       list-style-type: none;
       padding: 0;
       margin: 0;
       background-color: $white;
       overflow: auto;
+    }
+
+    &-title-show {
+      text-align: center;
+      font-size: 200%;
+      margin-top: 20px;
+      margin-bottom: 30px;
+      font-family: Arial Rounded MT Bold;
     }
 
     &-title {
@@ -262,7 +286,7 @@
       }
 
       &__header-card {
-        flex: 8;
+        flex: 4;
         display: flex;
         flex-direction: row;
       }

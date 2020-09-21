@@ -1,8 +1,11 @@
 <div id="app" class="app">
   <%= render 'partials/header' %>
   <div class="container">
-    <%= @pull_request.title %>
-    <%= @reviewers.to_json%>
+    <pr-show
+      :pull-request="<%= @serialized_pull_request.to_json %> | camelizeKeys"
+      :liked="<%= @liked.to_json %> | camelizeKeys"
+      :reviewers="<%= @serialized_reviewers.to_json %> | camelizeKeys" >
+    </pr-show>
   </div>
   <%= render "partials/footer" %>
 </div>
