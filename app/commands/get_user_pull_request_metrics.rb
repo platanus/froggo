@@ -24,7 +24,7 @@ class GetUserPullRequestMetrics < PowerTypes::Command.new(:github_user, :limit_m
 
   def get_valid_pull_requests
     limit_date = (Time.zone.today - limit_month.to_i.months).beginning_of_day
-    @github_user.pull_requests.where('gh_created_at > ?', limit_date).where.not(merged_by_id: nil)
+    @github_user.pull_requests.where('gh_created_at > ?', limit_date).where.not(gh_merged_at: nil)
   end
 
   def get_basic_pull_request_info(pull_request, review_request)
