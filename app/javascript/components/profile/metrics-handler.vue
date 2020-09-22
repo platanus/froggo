@@ -33,10 +33,10 @@ export default {
   data() {
     return {
       colors: {
-        AssignmentTimeColor: 'rgb(255, 99, 132)',
-        ResponseTimeColor: 'rgb(255, 206, 86)',
-        ApprovalTimeColor: 'rgb(75, 192, 192)',
-        MergeTimeColor: 'rgb(153, 102, 255)',
+        creationToAssignmentTimeColor: 'rgb(255, 99, 132)',
+        assignmentToResponseTimeColor: 'rgb(255, 206, 86)',
+        responseToApprovalTimeColor: 'rgb(75, 192, 192)',
+        approvalToMergeTimeColor: 'rgb(153, 102, 255)',
       },
       trimmingFactor: 2,
     };
@@ -145,26 +145,14 @@ export default {
     },
     prepareDatasets() {
       const datasets = [];
-      datasets.push({
-        label: this.$i18n.t('message.metrics.creationToAssignmentTimeLabel'),
-        data: this.getTrimmedData.map((value) => value.creationToAssignmentTime),
-        color: this.colors.AssignmentTimeColor,
-      });
-      datasets.push({
-        label: this.$i18n.t('message.metrics.assignmentToResponseTimeLabel'),
-        data: this.getTrimmedData.map((value) => value.assignmentToResponseTime),
-        color: this.colors.ResponseTimeColor,
-      });
-      datasets.push({
-        label: this.$i18n.t('message.metrics.responseToApprovalTimeLabel'),
-        data: this.getTrimmedData.map((value) => value.responseToApprovalTime),
-        color: this.colors.ApprovalTimeColor,
-      });
-      datasets.push({
-        label: this.$i18n.t('message.metrics.approvalToMergeTimeLabel'),
-        data: this.getTrimmedData.map((value) => value.approvalToMergeTime),
-        color: this.colors.MergeTimeColor,
-      });
+      ['creationToAssignmentTime', 'assignmentToResponseTime', 'responseToApprovalTime', 'approvalToMergeTime']
+        .forEach(key => {
+          datasets.push({
+            label: this.$i18n.t(`message.metrics.${key}Label`),
+            data: this.getTrimmedData.map((value) => value[key]),
+            color: this.colors[`${key}Color`],
+          });
+        });
 
       return datasets;
     },
@@ -181,23 +169,12 @@ export default {
       );
     },
     prepareSummary() {
-      return [{
-        textTop: this.$i18n.t('message.metrics.topCreationToAssignmentSummaryText'),
-        textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
-        value: this.meanTime(this.getTrimmedData.map((value) => value.creationToAssignmentTime)),
-      }, {
-        textTop: this.$i18n.t('message.metrics.topAssignmentToResponseSummaryText'),
-        textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
-        value: this.meanTime(this.getTrimmedData.map((value) => value.assignmentToResponseTime)),
-      }, {
-        textTop: this.$i18n.t('message.metrics.topResponseToApprovalSummaryText'),
-        textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
-        value: this.meanTime(this.getTrimmedData.map((value) => value.responseToApprovalTime)),
-      }, {
-        textTop: this.$i18n.t('message.metrics.topApprovalToMergeSummaryText'),
-        textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
-        value: this.meanTime(this.getTrimmedData.map((value) => value.approvalToMergeTime)),
-      }];
+      return ['creationToAssignment', 'assignmentToResponse', 'responseToApproval', 'approvalToMerge']
+        .map(key => ({
+          textTop: this.$i18n.t(`message.metrics.${key}SummaryText`),
+          textBottom: this.$i18n.t('message.metrics.bottomSummaryText'),
+          value: this.meanTime(this.getTrimmedData.map((value) => value[`${key}Time`])),
+        }));
     },
   },
 };
