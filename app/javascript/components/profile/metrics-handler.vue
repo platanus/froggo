@@ -128,7 +128,8 @@ export default {
     },
     getTrimmedData() {
       const trimmedData = this.unfilteredData.filter((currValue) => {
-        if (Object.values(currValue).every(value => value === 0)) {
+        if (['creationToAssignmentTime', 'assignmentToResponseTime', 'responseToApprovalTime', 'approvalToMergeTime']
+          .every(key => currValue[key] === 0)) {
           return false;
         }
 
