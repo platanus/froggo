@@ -68,7 +68,7 @@ class OrganizationsController < ApplicationController
   end
 
   def load_matrix_params
-    @teams = user_teams
+    @teams = froggo_teams
     if permitted_params[:team]
       if permitted_params[:froggo_team] == "true"
         @team = FroggoTeam.find_by(name: permitted_params[:team])
@@ -84,10 +84,15 @@ class OrganizationsController < ApplicationController
   end
 
   def load_behaviour_matrix_params
-    @teams = github_teams
+    @teams = froggo_teams
     if @organization.default_team_id
       @team = @teams.find { |team| team[:id] == @organization.default_team_id }
-      @default_team_members_ids = github_team_members&.pluck(:id)
+      if @team[:froggo_team]
+        @team = FroggoTeam.find(@organization.default_team_id)
+        @default_team_members_ids = @team.github_users&.pluck(:gh_id)
+      else
+        @default_team_members_ids = github_team_members&.pluck(:id)
+      end
     end
   end
 
@@ -125,7 +130,7 @@ class OrganizationsController < ApplicationController
   end
 
   def froggo_teams
-    github_session.user.get_froggo_teams_for_organization(@organization)
+    @organization.get_froggo_teams
   end
 
   def user_teams

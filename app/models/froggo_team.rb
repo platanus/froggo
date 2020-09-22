@@ -1,4 +1,6 @@
 class FroggoTeam < ApplicationRecord
+  include PowerTypes::Observable
+
   has_many :froggo_team_memberships, dependent: :destroy
   has_many :github_users, through: :froggo_team_memberships
 

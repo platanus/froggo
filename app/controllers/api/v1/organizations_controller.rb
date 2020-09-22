@@ -61,7 +61,7 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
   def update_organization_default_team_memberships
     if organization.saved_change_to_attribute?(:default_team_id)
       GithubOrgMembershipService.new(token: @github_session.token)
-                                .import_default_team_members(organization)
+                                .import_default_team_members(organization, params[:froggo_team])
     end
   end
 end
