@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_10_192320) do
+ActiveRecord::Schema.define(version: 2020_09_23_140921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2020_09_10_192320) do
     t.bigint "froggo_team_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_member_active", default: true
     t.index ["froggo_team_id"], name: "index_froggo_team_memberships_on_froggo_team_id"
     t.index ["github_user_id"], name: "index_froggo_team_memberships_on_github_user_id"
   end
