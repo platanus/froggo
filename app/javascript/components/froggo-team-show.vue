@@ -48,7 +48,7 @@
         :key="user.id"
       >
         <a
-          class="froggo-teams-show__member"
+          class="froggo-teams-show__member-container-info"
           :href="`/users/${user.id}`"
         >
           <img
@@ -59,26 +59,35 @@
             {{ user.login }}
           </div>
         </a>
-        <div
-          class="froggo-teams-show__gray-button"
-          @click="removeMember(user, index)"
-        >
-          {{ $t("message.froggoTeams.deleteFromTeam") }}
+        <div class="froggo-teams-show__member-container-options">
+          <label class="switch">
+            <input
+              type="checkbox"
+              @click="changeMemberActivation(user)"
+            >
+            <span class="slider" />
+          </label>
+          <div
+            class="froggo-teams-show__gray-button"
+            @click="removeMember(user, index)"
+          >
+            {{ $t("message.froggoTeams.deleteFromTeam") }}
+          </div>
         </div>
       </div>
     </div>
     <div class="froggo-teams-show__end-section">
       <div
         class="froggo-teams-show__gray-button"
-        @click="saveFroggoTeam"
-      >
-        {{ $t("message.froggoTeams.saveTeam") }}
-      </div>
-      <div
-        class="froggo-teams-show__gray-button"
         @click="deleteFroggoTeam"
       >
         {{ $t("message.froggoTeams.deleteTeam") }}
+      </div>
+      <div
+        class="froggo-teams-show__gray-button"
+        @click="saveFroggoTeam"
+      >
+        {{ $t("message.froggoTeams.saveTeam") }}
       </div>
     </div>
   </div>
@@ -170,6 +179,10 @@ export default {
         this.usersToAdd.splice(index, 1);
       }
       this.$store.commit(REMOVE_MEMBER, { index: userIndex, member: user });
+    },
+    changeMemberActivation(user) {
+      console.log('apretado');
+      console.log(user);
     },
     saveFroggoTeam() {
       this.$store.dispatch(UPDATE_FROGGO_TEAM, {
