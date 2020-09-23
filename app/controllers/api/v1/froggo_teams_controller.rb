@@ -98,16 +98,16 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
     membership = FroggoTeamMembership.find_by(github_user: github_user, froggo_team: team)
     membership.destroy
   end
-end
 
-def add_members(new_ids_list)
-  new_ids_list.each do |member_id|
-    add_member(member_id, froggo_team)
+  def add_members(new_ids_list)
+    new_ids_list.each do |member_id|
+      add_member(member_id, froggo_team)
+    end
   end
-end
 
-def remove_members(old_ids_list)
-  old_ids_list.each do |member_id|
-    remove_member(member_id, froggo_team)
+  def remove_members(old_ids_list)
+    old_ids_list.each do |member_id|
+      remove_member(member_id, froggo_team)
+    end
   end
 end
