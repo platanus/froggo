@@ -48,9 +48,10 @@ export default {
       saveName: 'Save name',
       members: 'Members: ',
       deleteFromTeam: 'Delete member',
-      saveTeam: 'Save team',
+      saveChanges: 'Save changes',
+      editTeam: 'Edit Team',
       deleteTeam: 'Delete team',
-      successfullySavedTeam: 'Team was successfully saved',
+      successfullySavedChanges: 'Changes were successfully saved',
       successfullyCreatedTeam: 'Team was successfully created',
     },
     prFeed: {
