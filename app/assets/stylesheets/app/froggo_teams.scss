@@ -204,7 +204,7 @@
   }
 
   &__members {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     padding: 10px;
   }
 
@@ -293,6 +293,24 @@
 
   &__gray-button {
     background: $select-icon-color;
+    border-radius: 2px;
+    color: $white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    height: auto;
+    line-height: 30px;
+    margin-left: 10px;
+    min-width: 91px;
+    padding: 2px 5px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+
+  &__light-blue-button {
+    background: $primary-color;
     border-radius: 2px;
     color: $white;
     cursor: pointer;
