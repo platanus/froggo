@@ -66,6 +66,8 @@ export default {
       prReviewers: 'Reviewers',
       prGoToGithub: 'Ir a Github',
       prSee: 'Ver',
+      prCreated: 'Creado por',
+      prThe: 'el',
     },
     error: {
       unauthorized: 'No tiene autorización para realizar esta acción',

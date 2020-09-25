@@ -5,92 +5,68 @@
     <div class="card-pr-title">
       Feed
     </div>
-    <div class="card-pr-title__header">
-      <div class="card-pr-title__header-card">
-        <div class="card-pr-title__name">
-          {{ $t("message.prFeed.prName") }}
-        </div>
-        <div class="card-pr-title__type-1">
-          {{ $t("message.prFeed.prAuthor") }}
-        </div>
-        <div class="card-pr-title__type-1">
-          {{ $t("message.prFeed.prProject") }}
-        </div>
-        <div class="card-pr-title__type-1">
-          {{ $t("message.prFeed.prDate") }}
-        </div>
-      </div>
-      <div class="card-pr-title__header-button">
-        Likes
-      </div>
-    </div>
     <li
       v-for="pullRequest in prWithLikes"
       :key="pullRequest.id"
     >
       <div class="card-pr__orientation">
         <div class="card-pr">
-          <a
-            class="card-pr__name"
-            target="_blank"
-            :href="pullRequest.htmlUrl"
+          <div
+            style="display: flex;"
           >
-            {{ pullRequest.title }}
-          </a>
-          <p
-            v-if="(pullRequest.ownerName)"
-            style="flex: 2;"
-          >
-            {{ pullRequest.ownerName }}
-          </p>
-          <p
-            v-else-if="(pullRequest.ownerLogin)"
-            style="flex: 2;"
-          >
-            {{ pullRequest.ownerLogin }}
-          </p>
-          <p
-            v-else
-            style="flex: 2;"
-          >
-            {{ $t("message.prFeed.noName") }}
-          </p>
-          <p class="card-pr__project">
-            {{ pullRequest.repositoryName }}
-          </p>
-          <p style="flex: 2;">
-            {{ prDate(pullRequest) }}
-          </p>
-        </div>
-        <div class="card-pr__card">
-          <p class="card-pr__circle">
-            {{ pullRequest.likes }}
-          </p>
-          <div v-if="!(pullRequest.currentUserLike)">
-            <button
-              class="card-pr__button"
-              @click="toggleLike(pullRequest)"
-            >
-              Like
-            </button>
+            <p class="card-pr__name">
+              {{ pullRequest.title }}
+            </p>
+            <p class="card-pr__project">
+              {{ pullRequest.repositoryName }}
+            </p>
           </div>
-          <div v-else>
-            <button
-              class="card-pr__button"
-              @click="deleteLike(pullRequest)"
-            >
-              Dislike
-            </button>
+          <div class="card-pr__author">
+            {{ $t("message.prFeed.prCreated") }} {{ prOwner(pullRequest) }}
+            {{ $t("message.prFeed.prThe") }} {{ prDate(pullRequest) }}
           </div>
-          <a
-            :href="`/organizations/${organizationName}/pull_requests/${pullRequest.id}`"
+
+          <div
+            class="card-pr__buttons"
           >
-            <button
-              class="card-pr__button"
+            <p class="card-pr__circle">
+              {{ pullRequest.likes }}
+            </p>
+            <div v-if="!(pullRequest.currentUserLike)">
+              <button
+                class="card-pr__button"
+                @click="toggleLike(pullRequest)"
+              >
+                Like
+              </button>
+            </div>
+            <div v-else>
+              <button
+                class="card-pr__button"
+                @click="deleteLike(pullRequest)"
+              >
+                Dislike
+              </button>
+            </div>
+            <a
+              :href="`/organizations/${organizationName}/pull_requests/${pullRequest.id}`"
             >
-              {{ $t("message.prFeed.prSee") }}
-            </button>
-          </a>
+              <button
+                class="card-pr__button"
+              >
+                {{ $t("message.prFeed.prSee") }}
+              </button>
+            </a>
+            <a
+              target="_blank"
+              :href="pullRequest.htmlUrl"
+            >
+              <img
+                class="card-pr__github"
+                src="https://www.iconfinder.com/data/icons/octicons/1024/mark-github-512.png"
+              >
+            </a>
+          </div>
         </div>
       </div>
     </li>
@@ -160,6 +136,13 @@ export default {
       const timeZone = 4;
 
       return moment(pr.createdAt).add(timeZone, 'hours').format('LT');
+    },
+    prOwner(pr) {
+      if (!(pr.ownerName || pr.ownerLogin)) {
+        return '----';
+      }
+
+      return pr.ownerName ? pr.ownerName : pr.ownerLogin;
     },
   },
 };

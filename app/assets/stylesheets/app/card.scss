@@ -1,3 +1,6 @@
+$text: #aeabcc;
+$roboto: 'Roboto', sans-serif;
+
 .card {
   border-radius: 2px;
   background-color: $white;
@@ -167,21 +170,39 @@
     margin-top: 20px;
     margin-bottom: 1px;
     margin-right: 5px;
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    background-color: $white;
     border-style: groove;
+    border-width: 2px;
+    font-family: $roboto;
 
     &__name {
-      margin-top: 15px;
-      flex: 8;
+      font-weight: bold;
       margin-left: 20px;
     }
 
     &__project {
       margin-top: 15px;
       flex: 2;
+      text-align: right;
+      margin-right: 20px;
+    }
+
+    &__author {
+      text-align: left;
+      margin-left: 20px;
+    }
+
+    &__github {
+      height: 2.5rem;
+      margin-right: 20px;
+    }
+
+    &__buttons {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-color: $white;
+      font-family: roboto, sans-serif;
+      display: flex;
+      justify-content: flex-end;
     }
 
     &__card {
@@ -243,7 +264,6 @@
     }
 
     &__orientation {
-      display: flex;
       flex-direction: row;
       object-fit: cover;
       margin-left: 40px;
@@ -265,16 +285,59 @@
     }
 
     &-title-show {
-      text-align: center;
-      font-size: 200%;
+      font-size: 26px;
       margin-top: 20px;
+      margin-left: 100px;
+      margin-right: 100px;
       margin-bottom: 30px;
       font-family: Arial Rounded MT Bold;
     }
 
+    &-show {
+      font-family: $roboto;
+
+      &__github {
+        height: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      &__orientation {
+        margin-left: 100px;
+        margin-right: 100px;
+      }
+
+      &__display {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      &__info_display {
+        display: flex;
+        flex-direction: row;
+      }
+
+      &__title_display {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+      }
+
+      &__flex2 {
+        flex: 2;
+      }
+
+      &__flex1 {
+        flex: 1;
+      }
+
+      &__github_display {
+        text-align: right;
+      }
+    }
+
     &-title {
       text-align: center;
-      font-size: 400%;
+      font-size: 26px;
       margin-top: 20px;
       font-family: Arial Rounded MT Bold;
 
@@ -306,6 +369,12 @@
 
       &__type-2 {
         flex: 1;
+      }
+
+      &__column-1 {
+        flex: 1;
+        font-family: $roboto;
+        color: $text;
       }
     }
   }
