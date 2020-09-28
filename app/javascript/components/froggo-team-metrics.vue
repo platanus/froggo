@@ -14,7 +14,18 @@
     <div
       v-else
     >
-      <Metrics-handler
+      <div class="team-metrics">
+        <h2>Metricas del equipo</h2>
+        <div class="profile-teams">
+          <clickable-dropdown
+            :body-title="$i18n.t('message.profile.timespanDropdownTitle')"
+            :items="monthsOptions"
+            :default-index="1"
+            @item-clicked="onItemClick"
+          />
+        </div>
+      </div>
+      <metrics-handler
         :pull-request-information="pullRequestsInformation"
       />
     </div>
@@ -24,6 +35,7 @@
 <script>
 import { mapState } from 'vuex';
 import MetricsHandler from './profile/metrics-handler.vue';
+import ClickableDropdown from './clickable-dropdown';
 import {
   COMPUTE_TEAM_PR_INFORMATION,
 } from '../store/action-types';
@@ -32,15 +44,34 @@ export default {
   beforeMount() {
     this.$store.dispatch(COMPUTE_TEAM_PR_INFORMATION, {
       githubUsers: this.froggoTeamMembers,
+      monthLimit: 3,
     });
   },
   components: {
     MetricsHandler,
+    ClickableDropdown,
   },
   props: {
     froggoTeamMembers: {
       type: Array,
       required: true,
+    },
+    monthsOptions: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
+  methods: {
+    onItemClick({ item }) {
+      this.selectTimespan(item.limit);
+    },
+    selectTimespan(limit) {
+      this.$store.dispatch(COMPUTE_TEAM_PR_INFORMATION, {
+        githubUsers: this.froggoTeamMembers,
+        monthLimit: limit,
+      });
     },
   },
   computed: mapState({
