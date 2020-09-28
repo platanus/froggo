@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   end
 
   resources :froggo_teams, only: [:show], controller: 'froggo_teams'
+  get 'froggo_teams/:id/edit' => 'froggo_teams#edit'
 
   scope path: '/api', defaults: { format: 'json' } do
     api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
