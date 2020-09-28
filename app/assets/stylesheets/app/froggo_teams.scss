@@ -204,7 +204,7 @@
   }
 
   &__members {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     padding: 10px;
   }
 
@@ -216,24 +216,34 @@
   }
 
   &__member-container {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    color: $primary;
-    text-decoration: none;
-    margin-bottom: 10px;
     border: 1px solid $primary-border;
+    color: $primary;
+    display: flex;
+    height: 41px;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    padding: 3px;
+    text-decoration: none;
   }
 
-  &__member {
+  &__member-container-info {
     display: flex;
     align-items: center;
     color: $primary;
+    margin-right: auto;
     text-decoration: none;
 
     &:last-child {
       margin-bottom: 0;
     }
+  }
+
+  &__member-container-options {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 70px;
   }
 
   &__picture {
@@ -283,6 +293,24 @@
 
   &__gray-button {
     background: $select-icon-color;
+    border-radius: 2px;
+    color: $white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    height: auto;
+    line-height: 30px;
+    margin-left: 10px;
+    min-width: 91px;
+    padding: 2px 5px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+
+  &__light-blue-button {
+    background: $primary-color;
     border-radius: 2px;
     color: $white;
     cursor: pointer;

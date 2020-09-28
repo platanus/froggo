@@ -35,6 +35,7 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
     end
     add_members(permitted_params[:new_members_ids])
     remove_members(permitted_params[:old_members_ids])
+    update_members_activation
     respond_with froggo_team
   end
 
@@ -48,7 +49,13 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
 
   def permitted_params
     params
-      .permit(:name, :id, :organization_id, :github_login, new_members_ids: [], old_members_ids: [])
+      .permit(:name,
+              :id,
+              :organization_id,
+              :github_login,
+              new_members_ids: [],
+              old_members_ids: [],
+              changed_members_ids: [])
       .with_defaults(new_members_ids: [], old_members_ids: [])
   end
 
@@ -98,16 +105,26 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
     membership = FroggoTeamMembership.find_by(github_user: github_user, froggo_team: team)
     membership.destroy
   end
-end
 
-def add_members(new_ids_list)
-  new_ids_list.each do |member_id|
-    add_member(member_id, froggo_team)
+  def add_members(new_ids_list)
+    new_ids_list.each do |member_id|
+      add_member(member_id, froggo_team)
+    end
   end
-end
 
-def remove_members(old_ids_list)
-  old_ids_list.each do |member_id|
-    remove_member(member_id, froggo_team)
+  def remove_members(old_ids_list)
+    old_ids_list.each do |member_id|
+      remove_member(member_id, froggo_team)
+    end
+  end
+
+  def update_members_activation
+    return unless permitted_params.has_key?(:changed_members_ids)
+
+    permitted_params[:changed_members_ids].each do |member_id|
+      github_user = GithubUser.find_by(id: member_id)
+      membership = FroggoTeamMembership.find_by(github_user: github_user, froggo_team: froggo_team)
+      membership.update(is_member_active: !membership.is_member_active)
+    end
   end
 end

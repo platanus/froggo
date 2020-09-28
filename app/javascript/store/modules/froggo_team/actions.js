@@ -12,9 +12,9 @@ export default {
       `/api/organizations/${organizationId}/froggo_teams`, decamelizeKeys({ name, newMembersIds: userIds }));
   },
 
-  [UPDATE_FROGGO_TEAM](_, { id, name, newMembersIds, oldMembersIds }) {
+  [UPDATE_FROGGO_TEAM](_, { id, name, newMembersIds, oldMembersIds, changedMembersIds }) {
     return axios.patch(
-      `/api/froggo_teams/${id}`, decamelizeKeys({ name, newMembersIds, oldMembersIds }));
+      `/api/froggo_teams/${id}`, decamelizeKeys({ name, newMembersIds, oldMembersIds, changedMembersIds }));
   },
 
   [DELETE_FROGGO_TEAM](_, { id }) {

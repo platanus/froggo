@@ -4,10 +4,8 @@
     <div class="card">
       <div class="froggo-teams">
         <froggo-team-show
-          :user-id="<%= @github_user.id %>"
           :froggo-team="<%= @froggo_team.to_json %>"
           :froggo-team-members="<%= @froggo_team_members.to_json %>"
-          :organization-members="<%= @organization_members.to_json %>"
         />
       </div>
     </div>
