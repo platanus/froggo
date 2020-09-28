@@ -4,11 +4,9 @@
       {{ prCompleteInformation.title }}
     </div>
     <div>
-      <div style="margin-left: 100px; margin-right: 100px;">
+      <div class="card-pr-show__orientation">
         <div class="card-pr-show">
-          <div
-            style="display: flex; justify-content: flex-end;"
-          >
+          <div class="card-pr-show__display">
             <p class="card-pr__circle">
               {{ prCompleteInformation.likes }}
             </p>
@@ -29,14 +27,10 @@
               </button>
             </div>
           </div>
-          <div
-            style="display: flex; flex-direction: row;"
-          >
-            <div
-              style="flex: 1; display: flex; flex-direction: row;"
-            >
+          <div class="card-pr-show__info_display">
+            <div class="card-pr-show__title_display">
               <div
-                style="flex: 1;"
+                class="card-pr-title__column-1"
               >
                 <p>
                   {{ $t("message.prFeed.prAuthor") }}:
@@ -47,9 +41,7 @@
                 <p>{{ $t("message.prFeed.prCommits") }}:</p>
                 <p>{{ $t("message.prFeed.prReviewers") }}:</p>
               </div>
-              <div
-                style="flex: 2;"
-              >
+              <div class="card-pr-show__flex2">
                 <p>
                   {{ prAttribute(prCompleteInformation.ownerName ?
                     prCompleteInformation.ownerName : prCompleteInformation.ownerLogin) }}
@@ -69,7 +61,7 @@
                 <div>
                   <div
                     v-if="(prCompleteInformation.reviewers)"
-                    style="flex: 2;"
+                    class="card-pr-show__flex2"
                   >
                     <div
                       v-for="reviewer in prCompleteInformation.reviewers"
@@ -85,27 +77,32 @@
                   </div>
                   <div
                     v-else
-                    style="flex: 2;"
+                    class="card-pr-show__flex2"
                   >
                     {{ $t("message.prFeed.noName") }}
                   </div>
                 </div>
               </div>
             </div>
-            <div
-              style="flex: 1;"
-            >
-              <p>{{ $t("message.prFeed.prDescription") }}:</p>
+            <div class="card-pr-show__flex1">
+              <p
+                style="font-weight: bold;"
+              >
+                {{ $t("message.prFeed.prDescription") }}:
+              </p>
               <p> {{ prAttribute(prCompleteInformation.description) }} </p>
             </div>
           </div>
-          <div
-            style="text-align: center;"
-          >
+          <div class="card-pr-show__github_display">
             <a
               target="_blank"
               :href="prCompleteInformation.htmlUrl"
-            > {{ $t("message.prFeed.prGoToGithub") }} </a>
+            >
+              <img
+                class="card-pr-show__github"
+                src="https://www.iconfinder.com/data/icons/octicons/1024/mark-github-512.png"
+              >
+            </a>
           </div>
         </div>
       </div>

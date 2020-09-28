@@ -67,6 +67,8 @@ export default {
       prReviewers: 'Reviewers',
       prGoToGithub: 'Go to Github',
       prSee: 'See',
+      prCreated: 'Created by',
+      prThe: 'the',
     },
     error: {
       unauthorized: 'Permission denied',

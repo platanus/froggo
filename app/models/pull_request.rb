@@ -24,9 +24,9 @@ class PullRequest < ApplicationRecord
   validates :gh_id, presence: true
   validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
 
-  delegate :name, to: :repository, prefix: true
-  delegate :name, to: :owner, prefix: true
-  delegate :login, to: :owner, prefix: true
+  delegate :name, to: :repository, prefix: true, allow_nil: true
+  delegate :name, to: :owner, prefix: true, allow_nil: true
+  delegate :login, to: :owner, prefix: true, allow_nil: true
 end
 
 # == Schema Information
