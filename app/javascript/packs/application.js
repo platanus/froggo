@@ -11,6 +11,7 @@ import { camelizeKeys } from 'humps';
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
 import OrganizationsDropdown from '../components/organizations-dropdown.vue';
+import FroggoTeamEdit from '../components/froggo-team-edit.vue';
 import FroggoTeamForm from '../components/froggo-team-form.vue';
 import FroggoTeamShow from '../components/froggo-team-show.vue';
 import FroggoTeamsList from '../components/froggo-teams-list.vue';
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('organizations-dropdown', OrganizationsDropdown);
+  Vue.component('froggo-team-edit', FroggoTeamEdit);
   Vue.component('froggo-team-form', FroggoTeamForm);
   Vue.component('froggo-team-show', FroggoTeamShow);
   Vue.component('froggo-teams-list', FroggoTeamsList);
