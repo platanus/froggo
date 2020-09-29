@@ -179,6 +179,15 @@ $roboto: 'Roboto', sans-serif;
       margin-left: 20px;
     }
 
+    &__background {
+      background-color: $white;
+    }
+
+    &__pagination {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
     &__project {
       margin-top: 15px;
       flex: 2;
@@ -279,9 +288,10 @@ $roboto: 'Roboto', sans-serif;
     &__list {
       list-style-type: none;
       padding: 0;
-      margin: 0;
+      margin-top: 0;
       background-color: $white;
       overflow: auto;
+      margin-bottom: 40px;
     }
 
     &-title-show {

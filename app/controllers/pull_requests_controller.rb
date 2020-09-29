@@ -6,7 +6,7 @@ class PullRequestsController < ApplicationController
     @organization_name = organization_name
     @pull_requests = PullRequest.by_organizations(
       [organization.id]
-    ).order(created_at: :desc).limit(100)
+    ).order(created_at: :desc).page(params[:page])
     @serialized_pull_requests = ActiveModel::Serializer::CollectionSerializer.new(
       @pull_requests, each_serializer: PullRequestSerializer
     )

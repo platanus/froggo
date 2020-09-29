@@ -527,6 +527,7 @@ DEPENDENCIES
   guard-rspec
   heroku-stage
   jbuilder (~> 2.7)
+  kaminari
   letter_opener
   listen
   octicons_helper

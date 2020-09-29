@@ -1,11 +1,16 @@
 <div id="app" class="app">
   <%= render 'partials/header' %>
   <div class="container">
-    <pr-feed
-      :pull-requests="<%= @serialized_pull_requests.to_json %> | camelizeKeys"
-      :likes-given="<%= @likes_given.to_json %> | camelizeKeys"
-      :organization_name="<%= @organization_name %> | camelizeKeys" >
-    </pr-feed>
+    <div class="card-pr__background">
+      <pr-feed
+        :pull-requests="<%= @serialized_pull_requests.to_json %> | camelizeKeys"
+        :likes-given="<%= @likes_given.to_json %> | camelizeKeys"
+        :organization_name="<%= @organization_name %> | camelizeKeys" >
+      </pr-feed>
+      <div class="card-pr__pagination">
+        <%= paginate @pull_requests %>
+      </div>
+    </div>
   </div>
   <%= render "partials/footer" %>
 </div>
