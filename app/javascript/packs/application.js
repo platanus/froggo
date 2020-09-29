@@ -27,6 +27,7 @@ import ProfileStatistics from '../components/profile/statistics.vue';
 import PrFeed from '../components/pr-feed.vue';
 import PrShow from '../components/pr-show.vue';
 import ProfileMetrics from '../components/profile/metrics.vue';
+import FroggoTeamMetrics from '../components/froggo-team-metrics.vue';
 
 import Locales from '../locales/locales.js';
 import store from '../store';
@@ -65,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('pr-feed', PrFeed);
   Vue.component('pr-show', PrShow);
   Vue.component('profile-metrics', ProfileMetrics);
+  Vue.component('froggo-team-metrics', FroggoTeamMetrics);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new

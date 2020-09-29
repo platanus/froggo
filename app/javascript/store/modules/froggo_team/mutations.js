@@ -3,6 +3,9 @@ import {
   LOAD_MEMBERS,
   ADD_MEMBER,
   REMOVE_MEMBER,
+  START_FETCHING_TEAM_PR_INFORMATION,
+  TEAM_PR_INFORMATION_RECEIVED,
+  TEAM_PR_INFORMATION_FETCH_ERROR,
 } from '../../mutation-types';
 
 export default {
@@ -21,5 +24,16 @@ export default {
   [REMOVE_MEMBER](state, { index, member }) {
     state.currentMembers.splice(index, 1);
     state.possibleMembers = [...state.possibleMembers, member];
+  },
+  [START_FETCHING_TEAM_PR_INFORMATION](state) {
+    state.fetchingPullRequestInformation = true;
+  },
+  [TEAM_PR_INFORMATION_RECEIVED](state, pullRequestData) {
+    state.pullRequestInformation = pullRequestData;
+    state.fetchingPullRequestInformation = false;
+  },
+  [TEAM_PR_INFORMATION_FETCH_ERROR](state, error) {
+    state.prInformationError = error;
+    state.fetchingPullRequestInformation = false;
   },
 };
