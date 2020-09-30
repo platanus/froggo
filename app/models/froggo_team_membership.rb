@@ -7,12 +7,14 @@ end
 #
 # Table name: froggo_team_memberships
 #
-#  id               :bigint(8)        not null, primary key
-#  github_user_id   :bigint(8)        not null
-#  froggo_team_id   :bigint(8)        not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  is_member_active :boolean          default(TRUE)
+#  id                     :bigint(8)        not null, primary key
+#  github_user_id         :bigint(8)        not null
+#  froggo_team_id         :bigint(8)        not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  is_member_active       :boolean          default(TRUE)
+#  last_deactivation_date :datetime
+#  last_activation_date   :datetime
 #
 # Indexes
 #
