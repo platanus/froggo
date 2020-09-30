@@ -74,6 +74,7 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails', '~> 2.4.2'
   gem 'rubocop-rspec', '~> 1.38.0'
+  gem 'timecop'
 end
 
 group :production, :development, :test do

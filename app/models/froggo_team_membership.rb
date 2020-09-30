@@ -1,6 +1,18 @@
 class FroggoTeamMembership < ApplicationRecord
+  after_update :update_activation_date, if: :saved_change_to_is_member_active?
+
   belongs_to :github_user
   belongs_to :froggo_team
+
+  private
+
+  def update_activation_date
+    if is_member_active?
+      update(last_activation_date: Time.current)
+    else
+      update(last_deactivation_date: Time.current)
+    end
+  end
 end
 
 # == Schema Information
