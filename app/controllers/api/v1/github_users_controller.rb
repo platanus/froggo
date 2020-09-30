@@ -69,6 +69,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     end
     GithubUser
       .where(gh_id: team_members_gh_ids)
+      .reject { |user| active_member(user) == false }
       .pluck(:id)
       .reject { |id| id == github_user.id }
       .sort
@@ -93,6 +94,15 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
                         permitted_params[:from] || Date.new,
                         permitted_params[:to] || Date.today
                       )
+  end
+
+  def active_member(user)
+    if permitted_params[:froggo_team] == "false"
+      return true
+    end
+
+    membership = FroggoTeamMembership.find_by(github_user: user, froggo_team: froggo_team)
+    membership.is_member_active
   end
 
   def permitted_params
