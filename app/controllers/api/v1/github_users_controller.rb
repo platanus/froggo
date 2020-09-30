@@ -20,7 +20,8 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
       recommendations: GetReviewRecommendations.for(
         github_user_id: github_user.id,
         other_users_ids: other_team_members_ids,
-        month_limit: permitted_params[:month_limit]&.to_i
+        month_limit: permitted_params[:month_limit]&.to_i,
+        froggo_team_id: froggo_team_id
       )
     } }, status: :ok
   end
@@ -85,6 +86,12 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def froggo_team
     @froggo_team ||= FroggoTeam.find_by!(id: permitted_params[:team_id])
+  end
+
+  def froggo_team_id
+    @froggo_team_id ||= if permitted_params[:froggo_team] == "true"
+                          froggo_team.id
+                        end
   end
 
   def pr_relations
