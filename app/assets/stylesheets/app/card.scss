@@ -181,11 +181,14 @@ $roboto: 'Roboto', sans-serif;
 
     &__background {
       background-color: $white;
+      display: block;
+      text-align: center;
     }
 
     &__pagination {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 50px;
+      display: inline-block;
     }
 
     &__project {
