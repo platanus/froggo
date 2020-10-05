@@ -93,5 +93,11 @@ export default {
       hour: 'hour',
       minute: 'minute',
     },
+    organization: {
+      members: {
+        inactiveDays: 'Inactive days: ',
+        score: 'Score: ',
+      },
+    },
   },
 };
