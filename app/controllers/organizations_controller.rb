@@ -5,6 +5,8 @@ class OrganizationsController < ApplicationController
   before_action :load_organization_by_name, only: [:public]
   before_action :ensure_organization_admin, only: :settings
 
+  MONTH_LIMIT_DEFAULT = 9
+
   def index
     if github_organizations.empty?
       redirect_to missing_organizations_path
@@ -18,6 +20,8 @@ class OrganizationsController < ApplicationController
     @organizations = github_organizations
     set_corrmat
     @color_scores = get_color_scores
+    @belonged_team = @team_members_ids.nil? ? false : @team_members_ids.include?(github_user.gh_id)
+    @inactive_days = get_members_inactive_days
   end
 
   def create
@@ -113,6 +117,10 @@ class OrganizationsController < ApplicationController
     @behaviour_matrix = get_behaviour_matrix(@organization.id, @default_team_members_ids)
   end
 
+  def month_limit
+    @month_limit ||= MONTH_LIMIT_DEFAULT
+  end
+
   def redirect_to_default_organization
     redirect_to organization_path(name: github_session.organizations.first[:login])
   end
@@ -194,10 +202,31 @@ class OrganizationsController < ApplicationController
   end
 
   def get_team_id
-    if @team && permitted_params[:froggo_team] == "true"
-      return @team.id
+    permitted_params[:froggo_team] == "true" ? @team&.id : nil
+  end
+
+  def get_members_inactive_days
+    return unless @team
+
+    inactive_days = {}
+    period_start = Time.current - month_limit.month
+    @team.github_users.each do |user|
+      membership = FroggoTeamMembership.find_by(github_user: user, froggo_team: @team)
+      inactive_days[user.id] = get_inactive_days(membership, period_start)
+    end
+    inactive_days
+  end
+
+  def get_inactive_days(membership, period_start)
+    if membership.last_activation_date.nil? || membership.last_activation_date < period_start
+      return 0
     end
 
-    nil
+    days_off = if membership.last_deactivation_date > period_start
+                 membership.last_activation_date.to_date - membership.last_deactivation_date.to_date
+               else
+                 membership.last_activation_date.to_date - period_start.to_date
+               end
+    days_off.to_i
   end
 end
