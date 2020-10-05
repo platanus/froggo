@@ -19,18 +19,12 @@
           <% end %>
         </div>
         <div class="matrix__values">
-          <div class="matrix__head" id="sticky-head">
-            <% @corrmat.selected_users.each_with_index do |user, i| %>
-              <div class="matrix__user-head">
-                <div class="matrix__picture">
-                  <%= render partial: 'ranked_user_avatar',
-                    locals: { user: user,
-                              correlation_matrix: @corrmat,
-                              user_index: i } %>
-                </div>
-              </div>
-            <% end %>
-          </div>
+          <organization-matrix-head
+            :correlation-matrix="<%= @corrmat.to_json %>"
+            :color-scores ="<%= @color_scores.to_json %>"
+            :belonged-team = "<%= @belonged_team.to_json %>"
+            :inactive-days = "<%= @inactive_days.to_json %>">
+          </organization-matrix-head>
           <% @corrmat.selected_users.each_with_index do |b, i| %>
             <div class="matrix__row">
               <% @corrmat.selected_users.each_with_index do |a, j| %>
