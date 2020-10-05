@@ -176,7 +176,8 @@ class OrganizationsController < ApplicationController
 
     ComputeColorScore.for(
       user_id: github_user.id, team_users_ids: get_other_users_ids,
-      pr_relations: get_pr_relations, review_month_limit: @month_limit
+      pr_relations: get_pr_relations, review_month_limit: @month_limit,
+      team_id: get_team_id
     )
   end
 
@@ -190,5 +191,13 @@ class OrganizationsController < ApplicationController
     return PullRequestRelation.by_organizations(@organization.id) unless @month_limit
 
     PullRequestRelation.by_organizations(@organization.id).within_month_limit(@month_limit)
+  end
+
+  def get_team_id
+    if @team && permitted_params[:froggo_team] == "true"
+      return @team.id
+    end
+
+    nil
   end
 end
