@@ -20,7 +20,8 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
       recommendations: GetReviewRecommendations.for(
         github_user_id: github_user.id,
         other_users_ids: other_team_members_ids,
-        month_limit: permitted_params[:month_limit]&.to_i
+        month_limit: permitted_params[:month_limit]&.to_i,
+        froggo_team_id: froggo_team_id
       )
     } }, status: :ok
   end
@@ -69,6 +70,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     end
     GithubUser
       .where(gh_id: team_members_gh_ids)
+      .reject { |user| active_member(user) == false }
       .pluck(:id)
       .reject { |id| id == github_user.id }
       .sort
@@ -86,6 +88,12 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     @froggo_team ||= FroggoTeam.find_by!(id: permitted_params[:team_id])
   end
 
+  def froggo_team_id
+    @froggo_team_id ||= if permitted_params[:froggo_team] == "true"
+                          froggo_team.id
+                        end
+  end
+
   def pr_relations
     @pr_relations ||= PullRequestRelation
                       .by_organizations(organization.id)
@@ -93,6 +101,15 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
                         permitted_params[:from] || Date.new,
                         permitted_params[:to] || Date.today
                       )
+  end
+
+  def active_member(user)
+    if permitted_params[:froggo_team] == "false"
+      return true
+    end
+
+    membership = FroggoTeamMembership.find_by(github_user: user, froggo_team: froggo_team)
+    membership.is_member_active
   end
 
   def permitted_params

@@ -90,6 +90,7 @@ export default {
       })
         .then(() => {
           this.showMessage(this.$i18n.t('message.froggoTeams.successfullySavedChanges'));
+          window.location.reload(true);
         })
         .catch(() => {
           this.showMessage(this.$i18n.t('message.settings.error'));
