@@ -5,7 +5,7 @@
       <pr-feed
         :pull-requests="<%= @serialized_pull_requests.to_json %> | camelizeKeys"
         :likes-given="<%= @likes_given.to_json %> | camelizeKeys"
-        :organization_name="<%= @organization_name %> | camelizeKeys" >
+        organization-name="<%= @organization_name %>" >
       </pr-feed>
       <div class="card-pr__pagination">
         <%= paginate @pull_requests %>
