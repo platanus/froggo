@@ -27,6 +27,7 @@ end
 #  is_member_active       :boolean          default(TRUE)
 #  last_deactivation_date :datetime
 #  last_activation_date   :datetime
+#  assignment_percentage  :integer          default(100)
 #
 # Indexes
 #
