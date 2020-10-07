@@ -21,6 +21,10 @@ class PullRequest < ApplicationRecord
     joins(:repository).where(repositories: { organization_id: organization_ids })
   end
 
+  scope :by_repository, ->(repository) do
+    joins(:repository).where("repositories.name LIKE ?", "%#{repository}%")
+  end
+
   validates :gh_id, presence: true
   validates :pr_state, presence: true, inclusion: { in: %w(open closed) }
 
