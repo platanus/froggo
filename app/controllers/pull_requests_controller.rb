@@ -6,8 +6,9 @@ class PullRequestsController < ApplicationController
     @organization_name = organization_name
     @pull_requests = PullRequest.by_organizations(
       [organization.id]
-    ).order(created_at: :desc).page(params[:page])
-    @pull_requests = FilterPullRequests.for(all_pull_requests: @pull_requests, options: filtering_params)
+    ).order(created_at: :desc)
+    @pull_requests = FilterPullRequests.for(all_pull_requests: @pull_requests,
+                                            options: filtering_params)
     @pull_requests = @pull_requests.page(params[:page])
     @serialized_pull_requests = ActiveModel::Serializer::CollectionSerializer.new(
       @pull_requests, each_serializer: PullRequestSerializer
@@ -37,6 +38,6 @@ class PullRequestsController < ApplicationController
   end
 
   def filtering_params
-    params.permit(:project_name)
+    params.permit(:project_name, :owner_name)
   end
 end

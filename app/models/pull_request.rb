@@ -22,7 +22,11 @@ class PullRequest < ApplicationRecord
   end
 
   scope :by_repository, ->(repository) do
-    joins(:repository).where("repositories.name LIKE ?", "%#{repository}%")
+    joins(:repository).where("LOWER(repositories.name) LIKE LOWER(?)", "%#{repository}%")
+  end
+
+  scope :by_owner, ->(owner) do
+    joins(:owner).where("LOWER(github_users.login) LIKE LOWER(?)", "%#{owner}%")
   end
 
   validates :gh_id, presence: true
