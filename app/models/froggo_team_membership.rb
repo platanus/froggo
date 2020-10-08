@@ -4,6 +4,10 @@ class FroggoTeamMembership < ApplicationRecord
   belongs_to :github_user
   belongs_to :froggo_team
 
+  validates :assignment_percentage, numericality: { only_integer: true,
+                                                    greater_than_or_equal_to: 1,
+                                                    less_than_or_equal_to: 100 }
+
   private
 
   def update_activation_date

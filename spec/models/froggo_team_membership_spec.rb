@@ -1,9 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe FroggoTeamMembership, type: :model do
+  subject(:membership) { described_class.new }
+
   let!(:user) { create(:github_user) }
   let!(:organization) { create(:organization) }
   let!(:team) { create(:froggo_team, organization: organization) }
+
+  describe "validations" do
+    it do
+      expect(membership).to validate_numericality_of(:assignment_percentage)
+        .only_integer.is_greater_than_or_equal_to(1).is_less_than_or_equal_to(100)
+    end
+  end
 
   describe 'relationships' do
     it { is_expected.to belong_to(:github_user) }
