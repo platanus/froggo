@@ -36,6 +36,7 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
     add_members(permitted_params[:new_members_ids])
     remove_members(permitted_params[:old_members_ids])
     update_members_activation
+    update_members_percentage
     respond_with froggo_team
   end
 
@@ -55,7 +56,8 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
               :github_login,
               new_members_ids: [],
               old_members_ids: [],
-              changed_members_ids: [])
+              changed_members_ids: [],
+              changed_percentages: {})
       .with_defaults(new_members_ids: [], old_members_ids: [])
   end
 
@@ -125,6 +127,15 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
       github_user = GithubUser.find_by(id: member_id)
       membership = FroggoTeamMembership.find_by(github_user: github_user, froggo_team: froggo_team)
       membership.update(is_member_active: !membership.is_member_active)
+    end
+  end
+
+  def update_members_percentage
+    return unless permitted_params.has_key?(:changed_percentages)
+
+    permitted_params[:changed_percentages].each do |member_id, percentage|
+      membership = FroggoTeamMembership.find_by(github_user_id: member_id, froggo_team: froggo_team)
+      membership.update(assignment_percentage: percentage)
     end
   end
 end
