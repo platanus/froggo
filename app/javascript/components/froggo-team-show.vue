@@ -12,7 +12,7 @@
       </div>
       <div
         class="froggo-teams-show__member-container"
-        v-for="(user) in froggoTeamMembers"
+        v-for="(user) in teamMembers"
         :key="user.id"
       >
         <a
@@ -28,6 +28,10 @@
           </div>
         </a>
         <div class="froggo-teams-show__member-container-options">
+          <input
+            type="text"
+            v-model="user.percentage"
+          >
           <label class="switch">
             <input
               type="checkbox"
@@ -57,16 +61,18 @@
 </template>
 
 <script>
+import showMessageMixin from '../mixins/showMessageMixin';
 import {
   UPDATE_FROGGO_TEAM,
 } from '../store/action-types';
-import showMessageMixin from '../mixins/showMessageMixin';
 
 export default {
   mixins: [showMessageMixin],
   data() {
     return {
       originalMembersStates: this.loadMembersStates(),
+      originalMembersPercentages: this.loadMembersPercentages(),
+      teamMembers: this.froggoTeamMembers,
     };
   },
   props: {
@@ -86,7 +92,8 @@ export default {
     saveMembersState() {
       this.$store.dispatch(UPDATE_FROGGO_TEAM, {
         id: this.froggoTeam.id,
-        changedMembersIds: this.getChangedMembersIds(),
+        changedMembersIds: this.changedMembersIds,
+        changedPercentages: this.changedPercentages,
       })
         .then(() => {
           this.showMessage(this.$i18n.t('message.froggoTeams.successfullySavedChanges'));
@@ -96,23 +103,42 @@ export default {
           this.showMessage(this.$i18n.t('message.settings.error'));
         });
     },
-    getChangedMembersIds() {
-      const changedMembers = this.froggoTeamMembers
-        .filter(member => member.active !== this.originalMembersStates[member.id]);
-
-      return changedMembers.map(user => user.id);
-    },
     editTeam() {
       window.location.href = `/froggo_teams/${this.froggoTeam.id}/edit`;
     },
     loadMembersStates() {
       const membersState = {};
 
-      this.froggoTeamMembers.forEach((team) => {
-        membersState[team.id] = team.active;
+      this.froggoTeamMembers.forEach((member) => {
+        membersState[member.id] = member.active;
       });
 
       return membersState;
+    },
+    loadMembersPercentages() {
+      const membersPercentages = {};
+
+      this.froggoTeamMembers.forEach((member) => {
+        membersPercentages[member.id] = member.percentage;
+      });
+
+      return membersPercentages;
+    },
+  },
+  computed: {
+    changedMembersIds() {
+      return this.teamMembers
+        .filter(member => member.active !== this.originalMembersStates[member.id])
+        .map(user => user.id);
+    },
+    changedPercentages() {
+      return this.teamMembers
+        .filter(member => member.percentage !== this.originalMembersPercentages[member.id])
+        .reduce((finalObj, member) => {
+          finalObj[member.id] = member.percentage;
+
+          return finalObj;
+        }, {});
     },
   },
 };
