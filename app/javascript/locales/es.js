@@ -53,6 +53,7 @@ export default {
       deleteTeam: 'Eliminar equipo',
       successfullySavedChanges: 'Cambios guardados exitosamente',
       successfullyCreatedTeam: 'Equipo creado exitosamente',
+      percentageDropdownTitle: 'Asignación de PRs',
     },
     prFeed: {
       noName: 'Desconocido',
