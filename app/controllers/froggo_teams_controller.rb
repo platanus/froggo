@@ -15,7 +15,7 @@ class FroggoTeamsController < ApplicationController
 
   def show
     @froggo_team = FroggoTeam.find(params[:id])
-    @froggo_team_members = get_froggo_team_members(@froggo_team)
+    @froggo_team_members = froggo_team_members(@froggo_team)
     @github_user = github_user
   end
 
@@ -28,21 +28,22 @@ class FroggoTeamsController < ApplicationController
 
   private
 
-  def get_froggo_team_members(froggo_team)
+  def froggo_team_members(froggo_team)
     froggo_team.github_users.map do |member|
-      {
-        id: member.id,
-        avatar_url: member.avatar_url,
-        gh_id: member.gh_id,
-        login: member.login,
-        name: member.name,
-        active: get_member_activation(member, froggo_team)
-      }
+      member_info(member, froggo_team)
     end
   end
 
-  def get_member_activation(member, froggo_team)
+  def member_info(member, froggo_team)
     membership = FroggoTeamMembership.find_by(github_user: member, froggo_team: froggo_team)
-    membership.is_member_active
+    {
+      id: member.id,
+      avatar_url: member.avatar_url,
+      gh_id: member.gh_id,
+      login: member.login,
+      name: member.name,
+      active: membership.is_member_active,
+      percentage: membership.assignment_percentage
+    }
   end
 end

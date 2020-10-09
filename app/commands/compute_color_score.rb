@@ -24,7 +24,8 @@ class ComputeColorScore < PowerTypes::Command.new(:user_id, :team_users_ids, :pr
     return (reviews_per_user[other_user_id] || 0).to_f / mean_prs_sent if @team_id.nil?
 
     user_active_days = active_days[other_user_id]
-    (reviews_per_user[other_user_id] || 0).to_f / (mean_prs_sent * user_active_days)
+    user_pr_rate = pull_request_rate(other_user_id)
+    (reviews_per_user[other_user_id] || 0).to_f / (mean_prs_sent * user_active_days * user_pr_rate)
   end
 
   def mean_prs_sent
@@ -113,5 +114,11 @@ class ComputeColorScore < PowerTypes::Command.new(:user_id, :team_users_ids, :pr
                  membership.last_activation_date.to_date - period_start.to_date
                end
     days_off
+  end
+
+  def pull_request_rate(user_id)
+    membership = FroggoTeamMembership.find_by(github_user_id: user_id,
+                                              froggo_team_id: @team_id)
+    membership.assignment_percentage.to_f / 100
   end
 end
