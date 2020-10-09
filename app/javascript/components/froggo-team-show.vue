@@ -28,10 +28,9 @@
           </div>
         </a>
         <div class="froggo-teams-show__member-container-options">
-          <input
-            type="text"
-            v-model="user.percentage"
-          >
+          <percentage-dropdown
+            :user="user"
+          />
           <label class="switch">
             <input
               type="checkbox"
