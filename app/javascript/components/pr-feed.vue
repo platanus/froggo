@@ -2,9 +2,6 @@
   <ul
     class="card-pr__list"
   >
-    <div class="card-pr-title">
-      Feed
-    </div>
     <li
       v-for="pullRequest in prWithLikes"
       :key="pullRequest.id"

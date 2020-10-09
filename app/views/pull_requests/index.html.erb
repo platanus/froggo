@@ -2,6 +2,19 @@
   <%= render 'partials/header' %>
   <div class="container">
     <div class="card-pr__background">
+      <div class="card-pr-title">
+        Feed
+      </div>
+      <form action="/organizations/<%= @organization_name %>/pull_requests">
+        <label for="project_name">Proyecto:</label>
+        <input type="text" id="project_name" name="project_name">
+        <input type="submit" value="Submit">
+      </form>
+      <form action="/organizations/<%= @organization_name %>/pull_requests">
+        <label for="owner_name">Autor :</label>
+        <input type="text" id="owner_name" name="owner_name">
+        <input type="submit" value="Submit">
+      </form>
       <pr-feed
         :pull-requests="<%= @serialized_pull_requests.to_json %> | camelizeKeys"
         :likes-given="<%= @likes_given.to_json %> | camelizeKeys"
