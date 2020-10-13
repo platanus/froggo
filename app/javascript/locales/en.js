@@ -53,6 +53,7 @@ export default {
       deleteTeam: 'Delete team',
       successfullySavedChanges: 'Changes were successfully saved',
       successfullyCreatedTeam: 'Team was successfully created',
+      percentageDropdownTitle: 'PRs assignation',
     },
     prFeed: {
       noName: 'Unknown',

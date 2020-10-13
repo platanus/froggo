@@ -181,6 +181,7 @@ export default {
           this.showMessage(this.$i18n.t('message.froggoTeams.successfullySavedChanges'));
           this.usersToAdd = [];
           this.usersToRemove = [];
+          window.location.href = `/froggo_teams/${this.froggoTeam.id}`;
         });
     },
     deleteFroggoTeam() {
