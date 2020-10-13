@@ -6,6 +6,7 @@
     <div
       class="dropdown__btn"
       slot="btn"
+      v-tooltip="tooltipMessage()"
     >
       <span class="dropdown__title">
         {{ selectedItem ? selectedItem+'%' : noItemsMessage }}
@@ -60,6 +61,15 @@ export default {
       this.$refs.parentDropdown.closeDropdown();
       const newPercentage = parseInt(item, 10);
       this.user.percentage = newPercentage;
+    },
+    tooltipMessage() {
+      const currentPercentage = parseInt(this.user.percentage, 10);
+      const hundredPercent = 100;
+      if (currentPercentage < hundredPercent) {
+        return this.$i18n.t('message.froggoTeams.increasePercentageMessage');
+      }
+
+      return null;
     },
   },
 };
