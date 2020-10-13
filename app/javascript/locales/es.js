@@ -55,6 +55,7 @@ export default {
       successfullySavedChanges: 'Cambios guardados exitosamente',
       successfullyCreatedTeam: 'Equipo creado exitosamente',
       percentageDropdownTitle: 'Asignación de PRs',
+      increasePercentageMessage: 'Si vas a aumentar el % de asignación de PR, recuerda hacerlo en forma progresiva',
     },
     prFeed: {
       noName: 'Desconocido',
