@@ -18,6 +18,7 @@ export default {
       organizationsDropdownTitle: 'Organizations',
       recommendedReviewers: 'You should assign your next PR to...',
       notRecommendedReviewers: 'Avoid assigning your next PR to...',
+      noTeamsInOrganization: 'You are not a member of any team in this organization',
       statistics: {
         obedientCount: 'Obeyed recommendations',
         indifferentCount: 'Ignored recommendations',

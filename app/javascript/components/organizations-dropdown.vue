@@ -5,14 +5,17 @@
     :items="organizations"
     :default-index="defaultOrganizationIndex"
     @item-clicked="onItemClicked"
-  >
-  </clickable-dropdown>
+  />
 </template>
 
 <script>
 import ClickableDropdown from './clickable-dropdown';
 import { PROCESS_NEW_TEAM } from '../store/action-types';
-import { PROFILE_ORGANIZATION_SELECTED } from '../store/mutation-types';
+import {
+  PROFILE_ORGANIZATION_SELECTED,
+  PROFILE_TEAM_SELECTED,
+  PROFILE_PR_INFORMATION_RECEIVED,
+} from '../store/mutation-types';
 
 export default {
   props: {
@@ -59,6 +62,8 @@ export default {
       const organizationTeams = this.teams.filter(team => team.organization_id === organization.id);
       if (organizationTeams.length === 0) {
         this.$store.commit(PROFILE_ORGANIZATION_SELECTED, organization.id);
+        this.$store.commit(PROFILE_TEAM_SELECTED, { teamId: null, froggoTeam: false });
+        this.$store.commit(PROFILE_PR_INFORMATION_RECEIVED, { 'pull_requests_information': {} });
 
         return;
       }
