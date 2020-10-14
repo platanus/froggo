@@ -46,11 +46,22 @@ es-CL:
       close_session: Cerrar sesión
       teams: Equipos
     home:
-      title: Descubre cómo se distribuyen los Pull Requests en tu organización
-      subtitle: Gran parte de la cultura en tu organización se trasmite por Pull Requests. ¡Asegúrate que todos reciban una buena parte!
-      connect_github: Conectar con Github
+      title: Pull Requests que transmiten cultura
+      subtitle: En cada Pull Request hay un granito de aprendizaje que se puede aprovechar en la organización. Usa las Pull Requests para transmitir cultura y fomentar el aprendizaje de tu equipo.
+      connect_github: Empezar
+      pr_recommendation_title: Te recomendamos a quién enviarle el próximo PR
+      pr_recommendation_description: Asegurate de enviarles PR a todo tu equipo de forma fácil e intuitiva.
+      dashboard_title: Ve como se distribuyen los Pull Requests en tu equipo
+      dashboard_description: Analiza como se comporta el equipo y cómo tu aportas en el tiempo.
+      metrics_title: Estadísticas de equipo
+      metrics_description: Averigua quiénes corrigen más, cuánto tiempo se demoran y como se distribuye el tiempo de tus equipos.
       go_to_dashboard: Ver Dashboards
-      dashboard_title: Así se verá tu equipo
+      no_shamming_title: No shamming
+      no_shamming_description: No es una competencia. Froggo está pensado para la colaboración en tu equipo.
+      security_matters_title: ¡Nos importa tu seguridad!
+      security_matters_description: Solo tú y tu equipo tienen acceso a la información.
+      easy_config_title: Fácil de configurar
+      easy_config_description: Solo necesitas acceder con Github.
     missing:
       title: Estás solito en el universo
       info: No estas registrado en ninguna organización de github o las organizaciones a las cuales perteneces aún no aprueban a esta aplicación. En caso de lo último, contacta al admin de tu organización.
