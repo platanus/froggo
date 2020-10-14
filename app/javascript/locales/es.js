@@ -18,7 +18,7 @@ export default {
       organizationsDropdownTitle: 'Organizaciones',
       recommendedReviewers: 'Deberías mandar tu próximo PR a...',
       notRecommendedReviewers: 'Evita mandar tu próximo PR a...',
-      noTeamsInOrganization: 'Aún no perteneces a un equipo en esta organización',
+      noTeamsInOrganization: 'No tienes recomendaciones dado que aún no perteneces a un equipo en esta organización',
       statistics: {
         obedientCount: 'Recomendaciones seguidas',
         indifferentCount: 'Recomendaciones ignoradas',
@@ -55,7 +55,7 @@ export default {
       successfullySavedChanges: 'Cambios guardados exitosamente',
       successfullyCreatedTeam: 'Equipo creado exitosamente',
       percentageDropdownTitle: 'Asignación de PRs',
-      increasePercentageMessage: 'Si vas a aumentar el % de asignación de PR, recuerda hacerlo en forma progresiva',
+      increasePercentageMessage: 'Si vas a aumentar el % de asignación de PRs recuerda hacerlo en forma progresiva',
     },
     prFeed: {
       noName: 'Desconocido',
