@@ -179,6 +179,29 @@ $roboto: 'Roboto', sans-serif;
       margin-left: 20px;
     }
 
+    &__filter {
+      font-family: roboto, sans-serif;
+      display: flex;
+      flex-direction: row;
+      margin-left: 60px;
+
+      &__title {
+        flex: 1;
+        text-align: left;
+      }
+
+      &__separation {
+        margin-bottom: 20px;
+      }
+
+      &__input {
+        flex: 8;
+        text-align: left;
+        margin-bottom: 10px;
+
+      }
+    }
+
     &__background {
       background-color: $white;
       display: block;

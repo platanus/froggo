@@ -22,11 +22,40 @@ class PullRequest < ApplicationRecord
   end
 
   scope :by_repository, ->(repository) do
-    joins(:repository).where("LOWER(repositories.name) LIKE LOWER(?)", "%#{repository}%")
+    if repository.present?
+      joins(:repository).where("LOWER(repositories.name) LIKE LOWER(?)", "%#{repository}%")
+    end
   end
 
   scope :by_owner, ->(owner) do
-    joins(:owner).where("LOWER(github_users.login) LIKE LOWER(?)", "%#{owner}%")
+    if owner.present?
+      joins(:owner).where("LOWER(github_users.login) LIKE LOWER(?)", "%#{owner}%")
+    end
+  end
+
+  scope :by_start_date, ->(date) do
+    if date.present?
+      joins(:owner).where("pull_requests.created_at >= ?", "%#{date}%")
+    end
+  end
+
+  scope :by_end_date, ->(date) do
+    if date.present?
+      joins(:owner).where("pull_requests.created_at <= ?", "%#{date}%")
+    end
+  end
+
+  scope :by_title, ->(title) do
+    if title.present?
+      joins(:owner).where("LOWER(pull_requests.title) LIKE LOWER(?)", "%#{title}%")
+    end
+  end
+
+  scope :by_top_liked, -> do
+    joins(:likes)
+      .select('pull_requests.*, count(likes) as like_count')
+      .group('pull_requests.id')
+      .order("like_count desc")
   end
 
   validates :gh_id, presence: true

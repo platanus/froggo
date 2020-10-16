@@ -2,6 +2,10 @@ class FilterPullRequests < PowerTypes::Command.new(:all_pull_requests, :options)
   def perform
     filter(:project_name) { |pr| pr.by_repository(@options[:project_name]) }
     filter(:owner_name) { |pr| pr.by_owner(@options[:owner_name]) }
+    filter(:title) { |pr| pr.by_title(@options[:title]) }
+    filter(:start_date) { |pr| pr.by_start_date(@options[:start_date]) }
+    filter(:end_date) { |pr| pr.by_end_date(@options[:end_date]) }
+    filter(:top_liked) { |pr| pr.by_top_liked.limit(15) }
     pull_requests
   end
 
