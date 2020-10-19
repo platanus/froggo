@@ -2,6 +2,8 @@ class PullRequestSerializer < ActiveModel::Serializer
   attributes :id, :title, :repository_name, :owner_id, :html_url, :likes, :created_at,
              :owner_name, :description, :commits, :owner_login
   def likes
+    return object.like_count if object.respond_to? :like_count
+
     object.likes.count
   end
 end

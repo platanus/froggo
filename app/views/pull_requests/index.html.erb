@@ -6,23 +6,51 @@
         Feed
       </div>
       <form action="/organizations/<%= @organization_name %>/pull_requests">
-        <label for="project_name">Proyecto:</label>
-        <input type="text" id="project_name" name="project_name">
-        <input type="submit" value="Submit">
-      </form>
-      <form action="/organizations/<%= @organization_name %>/pull_requests">
-        <label for="owner_name">Autor :</label>
-        <input type="text" id="owner_name" name="owner_name">
-        <input type="submit" value="Submit">
+        <div class="card-pr__filter">
+          <div class="card-pr__filter__title">
+            <p class="card-pr__filter__separation">
+              <label for="project_name">{{ $t("message.prFeed.prProject") }}:</label>
+            </p>
+            <p class="card-pr__filter__separation">
+              <label for="owner_name">{{ $t("message.prFeed.prAuthor") }}:</label>
+            </p>
+            <p class="card-pr__filter__separation">
+              <label for="title">{{ $t("message.prFeed.prTitle") }}:</label>
+            </p>
+            <p class="card-pr__filter__separation">
+              <label for="top_liked">Top 15 Likes</label><br>
+            </p>
+            <p class="card-pr__filter__separation">
+              <label for="start_date">{{ $t("message.prFeed.prStartDate") }}:</label>
+            </p>
+            <p class="card-pr__filter__separation">
+              <label for="end_date">{{ $t("message.prFeed.prEndDate") }}:</label>
+            </p>
+          </div>
+
+          <div class="card-pr__filter__input">
+
+            <p><input type="text" id="project_name" name="project_name"></p>
+            <p><input type="text" id="owner_name" name="owner_name"></p>
+            <p><input type="text" id="title" name="title"></p>
+            <p><input type="checkbox" id="top_liked" name="top_liked" value="top_liked"></p>
+            <p><input type="date" id="start_date" name="start_date"></p>
+            <p><input type="date" id="end_date" name="end_date"></p>
+            <p><input type="submit" value="Search"></p>
+
+          </div>
+        </div>
       </form>
       <pr-feed
         :pull-requests="<%= @serialized_pull_requests.to_json %> | camelizeKeys"
         :likes-given="<%= @likes_given.to_json %> | camelizeKeys"
         organization-name="<%= @organization_name %>" >
       </pr-feed>
-      <div class="card-pr__pagination">
-        <%= paginate @pull_requests %>
-      </div>
+      <% if @pull_requests.respond_to? :total_pages %>
+        <div class="card-pr__pagination">
+          <%= paginate @pull_requests %>
+        </div>
+      <% end %>
     </div>
   </div>
   <%= render "partials/footer" %>

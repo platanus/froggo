@@ -62,6 +62,7 @@ export default {
       prName: 'Pull Request',
       prAuthor: 'Author',
       prProject: 'Project',
+      prTitle: 'Title',
       prTime: 'Time',
       prDate: 'Date',
       prDescription: 'Description',
@@ -72,6 +73,8 @@ export default {
       prSee: 'See',
       prCreated: 'Created by',
       prThe: 'the',
+      prStartDate: 'Date From',
+      prEndDate: 'Date Until',
     },
     error: {
       unauthorized: 'Permission denied',

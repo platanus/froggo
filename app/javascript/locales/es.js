@@ -62,6 +62,7 @@ export default {
       prName: 'Pull Request',
       prAuthor: 'Autor',
       prProject: 'Proyecto',
+      prTitle: 'Titulo',
       prTime: 'Hora',
       prDate: 'Fecha',
       prDescription: 'Descripción',
@@ -72,6 +73,8 @@ export default {
       prSee: 'Ver',
       prCreated: 'Creado por',
       prThe: 'el',
+      prStartDate: 'Fecha Desde',
+      prEndDate: 'Fecha Hasta',
     },
     error: {
       unauthorized: 'No tiene autorización para realizar esta acción',
