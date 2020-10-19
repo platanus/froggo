@@ -183,23 +183,49 @@ $roboto: 'Roboto', sans-serif;
       font-family: roboto, sans-serif;
       display: flex;
       flex-direction: row;
-      margin-left: 60px;
-
-      &__title {
-        flex: 1;
-        text-align: left;
-      }
+      margin-left: 40px;
+      margin-right: 60px;
 
       &__separation {
-        margin-bottom: 20px;
+        margin-bottom: 22px;
       }
 
-      &__input {
-        flex: 8;
+      &-title {
+        flex: 1;
         text-align: left;
-        margin-bottom: 10px;
-
+        color: $secondary-color;
+        font-weight: bold;
+        margin-left: 20px;
       }
+
+      &-input {
+        flex: 3;
+        text-align: left;
+      }
+
+      &__button {
+        border-color: grayscale($color: #fff);
+        color: $secondary-color;
+        cursor: pointer;
+        float: left;
+        font-size: 13px;
+        font-weight: 500;
+        height: 28px;
+        line-height: 24px;
+        margin-right: 10px;
+        min-width: 91px;
+        padding: 2px 5px;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        vertical-align: middle;
+      }
+
+      &__box-button {
+        text-align: right;
+        margin-left: 60px;
+      }
+
     }
 
     &__background {
