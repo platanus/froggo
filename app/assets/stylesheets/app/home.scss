@@ -1,5 +1,5 @@
 .c-presentation {
-  height: 544px;
+  min-height: 600px;
   background-color: $primary-color-light;
   background-image: image_url('frog-foot-top.png'), image_url('frog-foot-bottom.png');
   background-position: left top, right bottom;
@@ -7,30 +7,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 100px 0;
 
   &__logo {
     margin: 24px auto;
   }
 
   &__title {
-    height: 132px;
+    height: 100px;
     width: 887px;
     margin: 40px auto 24px;
     color: $home-title-color;
-    font-family: $main-font;
+    font-family: $landing-font;
+    font-style: normal;
+    font-weight: normal;
     font-size: 56px;
-    font-weight: 400;
-    letter-spacing: -1px;
     line-height: 66px;
     text-align: center;
+    letter-spacing: -1px;
   }
 
   &__sub-title {
     height: 84px;
-    width: 587px;
+    width: 887px;
     margin: 0 auto 40px;
     color: $home-title-color;
-    font-family: $main-font;
+    font-family: $landing-font;
     font-size: 23px;
     font-weight: 300;
     line-height: 28px;
@@ -40,6 +42,7 @@
   &__github-login {
     height: 56px;
     width: 328px;
+    margin: 0 auto 40px;
   }
 }
 
@@ -58,6 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: $secondary-color;
   }
 
   &__logo {
@@ -78,27 +82,45 @@
   }
 }
 
+.dashboard-text-box {
+  &__left {
+    padding-left: 50px;
+  }
+
+  &__right {
+    padding-right: 50px;
+    text-align: right;
+  }
+}
+
 .c-home-dashboard {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  font-family: $landing-font;
+}
 
-  &__title {
-    height: 66px;
-    width: 794px;
-    margin-top: 88px;
-    color: $secondary-color;
-    font-size: 56px;
-    letter-spacing: -1px;
-    line-height: 66px;
-    text-align: center;
-    font-weight: 400;
-  }
+.dashboard-column {
+  flex: 50%;
+}
 
-  &__image {
-    height: 540px;
-    width: 960px;
-  }
+.home-dashboard-title {
+  height: 66px;
+  margin-top: 88px;
+  color: $secondary-color;
+  font-size: 32px;
+  letter-spacing: -1px;
+  line-height: 37px;
+  font-weight: 400;
+}
+
+.home-dashboard-text {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.home-dashboard-image {
+  width: 100%;
 }
 
 .c-home-footer {
@@ -110,6 +132,7 @@
   flex-direction: column;
   justify-content: center;
   flex: 1 1 auto;
+  padding: 20px;
 
   &__text {
     text-decoration: none;
@@ -127,3 +150,7 @@
   height: 1744px;
 }
 
+hr {
+  width: 100%;
+  border: 7px solid #ebeaef;
+}
