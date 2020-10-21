@@ -73,8 +73,8 @@ export default {
       prSee: 'See',
       prCreated: 'Created by',
       prThe: 'the',
-      prStartDate: 'Date From',
-      prEndDate: 'Date Until',
+      prStartDate: 'From',
+      prEndDate: 'Until',
     },
     error: {
       unauthorized: 'Permission denied',

@@ -73,8 +73,8 @@ export default {
       prSee: 'Ver',
       prCreated: 'Creado por',
       prThe: 'el',
-      prStartDate: 'Fecha Desde',
-      prEndDate: 'Fecha Hasta',
+      prStartDate: 'Desde',
+      prEndDate: 'Hasta',
     },
     error: {
       unauthorized: 'No tiene autorización para realizar esta acción',
