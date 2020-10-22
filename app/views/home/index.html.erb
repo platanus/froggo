@@ -20,7 +20,7 @@
       <h1 class="home-dashboard-text"><%= t('messages.home.pr_recommendation_description') %></h1>
     </div>
     <div class="dashboard-column">
-      <img class="home-dashboard-image" src="<%= image_path('dashboard-preview.png') %>"/>
+      <img class="home-dashboard-image" src="<%= image_path('recommendations.gif') %>"/>
     </div>
   </div>
   <hr>
@@ -40,8 +40,30 @@
       <h1 class="home-dashboard-text"><%= t('messages.home.metrics_description') %></h1>
     </div>
     <div class="dashboard-column">
-      <img class="home-dashboard-image" src="<%= image_path('dashboard-preview.png') %>"/>
+      <img class="home-dashboard-image" src="<%= image_path('froggo-metrics.png') %>"/>
     </div>
+  </div>
+  <hr>
+  <div class="c-home-dashboard-right">
+    <div class="dashboard-text-box__right">
+      <h1 class="home-dashboard-note"><%= t('messages.home.easy_config_title') %></h1>
+      <h1 class="home-dashboard-note-text"><%= t('messages.home.easy_config_description') %></h1>
+    </div>
+    <img class="home-dashboard-icon" src="<%= image_path('easy-config.png') %>"/>
+  </div>
+  <div class="c-home-dashboard">
+    <img class="home-dashboard-icon" src="<%= image_path('no-shamming.png') %>"/>
+    <div class="dashboard-text-box__left">
+      <h1 class="home-dashboard-note"><%= t('messages.home.no_shamming_title') %></h1>
+      <h1 class="home-dashboard-note-text"><%= t('messages.home.no_shamming_description') %></h1>
+    </div>
+  </div>
+  <div class="c-home-dashboard-right">
+    <div class="dashboard-text-box__right">
+      <h1 class="home-dashboard-note"><%= t('messages.home.security_matters_title') %></h1>
+      <h1 class="home-dashboard-note-text"><%= t('messages.home.security_matters_description') %></h1>
+    </div>
+    <img class="home-dashboard-icon" src="<%= image_path('secure.png') %>"/>
   </div>
   <div class="c-home-footer">
     <img class="c-home-footer__logo" src="<%= image_path 'platanus.svg' %>" />

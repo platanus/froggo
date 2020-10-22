@@ -84,11 +84,11 @@
 
 .dashboard-text-box {
   &__left {
-    padding-left: 50px;
+    padding-left: 30px;
   }
 
   &__right {
-    padding-right: 50px;
+    padding-right: 30px;
     text-align: right;
   }
 }
@@ -96,6 +96,12 @@
 .c-home-dashboard {
   display: flex;
   font-family: $landing-font;
+}
+
+.c-home-dashboard-right {
+  display: flex;
+  font-family: $landing-font;
+  margin-left: auto;
 }
 
 .dashboard-column {
@@ -119,8 +125,31 @@
   line-height: 21px;
 }
 
+.home-dashboard-note {
+  padding-top: 20px;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 32px;
+  line-height: 21px;
+}
+
+.home-dashboard-note-text {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 21px;
+  width: 650px;
+}
+
 .home-dashboard-image {
   width: 100%;
+  padding: 20px;
+}
+
+.home-dashboard-icon {
+  width: 160px;
+  height: 160px;
+  padding: 20px;
 }
 
 .c-home-footer {
