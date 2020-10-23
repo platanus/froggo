@@ -83,6 +83,10 @@
   }
 }
 
+.dashboard-content {
+  background-color: $bg-secondary-color;
+}
+
 .dashboard-text-box {
   &__left {
     padding-left: 30px;
@@ -103,6 +107,7 @@
   display: flex;
   font-family: $landing-font;
   margin-left: auto;
+  justify-content: flex-end;
 }
 
 .dashboard-column {
