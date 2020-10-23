@@ -76,11 +76,22 @@ en:
       close_session: Close session
       teams: Teams
     home:
-      title: Code review tool for GitHub pull requests
-      subtitle: Discover how your Github organization's code review and pull requests are distributed.
-      connect_github: Connect with Github
+      title: Pull Requests that transmit culture
+      subtitle: In each Pull Request there's useful learning material for your organization. Use your Pull Requests to share knowledge and encourage learning on your teams.
+      connect_github: Start now
+      pr_recommendation_title: We can recommend who can receive your next PR.
+      pr_recommendation_description: Make sure to send PRs to your whole team in an easy and intuitive way.
+      dashboard_title: See how your team distributes Pull Requests
+      dashboard_description: Analize how your team behaves with time and what's your impact on it.
+      metrics_title: Team statistics
+      metrics_description: Find out who reviews more PR, how long does it take them and how does it distribute on your teams.
       go_to_dashboard: Go to Dashboards
-      dashboard_title: You'll see your team like this
+      no_shamming_title: No shaming!
+      no_shamming_description: It's not a competition. Froggo is meant to be used to colaborate with your team.
+      security_matters_title: We care about your security!
+      security_matters_description: Only you and your team can access your information.
+      easy_config_title: Easy to configure
+      easy_config_description: You only need to access with Github.
     missing:
       info: You are not registered in any github organizations or your current organizations still don't approve this applications. If you have this problem, contact with the admin of your organizations.
     settings:
