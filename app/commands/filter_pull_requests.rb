@@ -5,7 +5,7 @@ class FilterPullRequests < PowerTypes::Command.new(:all_pull_requests, :options)
     filter(:title) { |pr| pr.by_title(@options[:title]) }
     filter(:start_date) { |pr| pr.by_start_date(@options[:start_date]) }
     filter(:end_date) { |pr| pr.by_end_date(@options[:end_date]) }
-    filter(:top_liked) { |pr| pr.by_top_liked.limit(15) }
+    filter(:top_liked) { |pr| pr.by_top_liked.limit(10) }
     pull_requests
   end
 
