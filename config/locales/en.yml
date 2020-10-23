@@ -86,7 +86,7 @@ en:
       metrics_title: Team statistics
       metrics_description: Find out who reviews more PR, how long does it take them and how does it distribute on your teams.
       go_to_dashboard: Go to Dashboards
-      no_shamming_title: No shamming!
+      no_shamming_title: No shaming!
       no_shamming_description: It's not a competition. Froggo is meant to be used to colaborate with your team.
       security_matters_title: We care about your security!
       security_matters_description: Only you and your team can access your information.

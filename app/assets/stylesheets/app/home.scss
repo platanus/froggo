@@ -71,6 +71,7 @@
   }
 
   &__text {
+    font-family: $landing-font;
     height: 21px;
     width: 272px;
     color: $login-btn-color;
@@ -166,6 +167,7 @@
   &__text {
     text-decoration: none;
     color: $home-footer-color;
+    font-family: $landing-font;
   }
 
   & a:visited {
