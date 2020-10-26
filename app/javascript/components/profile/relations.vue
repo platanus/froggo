@@ -38,6 +38,7 @@
                 <img
                   class="profile-relations__picture"
                   :src="item.avatar_url"
+                  v-tooltip="getTooltipMessage(user, index)"
                 >
               </div>
             </a>
@@ -99,6 +100,20 @@ export default {
   },
   methods: {
     colorFromScore,
+    getTooltipMessage(user, index) {
+      if (!this.belongedTeam || index === 0) {
+        return user.login;
+      }
+
+      const userInfo = user.login.concat(' \n',
+        this.$t('message.organization.members.inactiveDays'),
+        this.inactiveDays[user.id],
+        ' \n',
+        this.$t('message.organization.members.score'),
+        this.colorScores[user.id]);
+
+      return userInfo;
+    },
   },
 };
 </script>
