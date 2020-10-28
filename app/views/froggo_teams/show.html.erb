@@ -1,19 +1,16 @@
-<div id="app" class="app">
-  <%= render 'partials/header' %>
-  <div class="container">
-    <div class="card">
-      <div class="froggo-teams">
-        <froggo-team-show
-          :froggo-team="<%= @froggo_team.to_json %>"
-          :froggo-team-members="<%= @froggo_team_members.to_json %>"
-        />
-      </div>
+<div class="container">
+  <div class="card">
+    <div class="froggo-teams">
+      <froggo-team-show
+        :froggo-team="<%= @froggo_team.to_json %>"
+        :froggo-team-members="<%= @froggo_team_members.to_json %>"
+      />
     </div>
   </div>
-  <div class="container card froggo-teams">
-    <froggo-team-metrics
-      :froggo-team-members="<%= @froggo_team_members.to_json %>"
-      :months-options="<%= timespans_with_name.to_json %>"
-    />
-  </div>
+</div>
+<div class="container card froggo-teams">
+  <froggo-team-metrics
+    :froggo-team-members="<%= @froggo_team_members.to_json %>"
+    :months-options="<%= timespans_with_name.to_json %>"
+  />
 </div>

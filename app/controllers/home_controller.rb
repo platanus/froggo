@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   before_action :redirect_if_already_logged_in
+  layout false
 
   def index
     @request_login_url = github_authenticate_path
