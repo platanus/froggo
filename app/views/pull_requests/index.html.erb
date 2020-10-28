@@ -1,80 +1,76 @@
-<div id="app" class="app">
-  <%= render 'partials/header' %>
-  <div class="container">
-    <div class="card-pr__background">
-      <div class="card-pr-title">
-        Feed
-      </div>
-
-      <form action="/organizations/<%= @organization_name %>/pull_requests">
-        <div class="card-pr__filter">
-          <div class="card-pr__filter-title">
-            <p>
-              <label for="project_name">{{ $t("message.prFeed.prProject") }}:</label>
-            </p>
-            <p class="card-pr__filter__separation">
-              <label for="owner_name">{{ $t("message.prFeed.prAuthor") }}:</label>
-            </p>
-          </div>
-
-          <div class="card-pr__filter-inputs">
-
-            <p><input type="text"
-              class="card-pr__filter-input"
-              :placeholder=$t("message.prFeed.prProject")
-              id="project_name"
-              name="project_name">
-            </p>
-            <p><input type="text" class="card-pr__filter-input card-pr__filter-top10" :placeholder=$t("message.prFeed.prAuthor") id="owner_name" name="owner_name"></p>
-          </div>
-
-          <div class="card-pr__filter-title">
-            <p>
-              <label for="title">{{ $t("message.prFeed.prTitle") }}:</label>
-            </p>
-            <p class="card-pr__filter__separation card-pr__filter__separation-32">
-              <label for="top_liked">Top 10 Likes</label><br>
-            </p>
-          </div>
-
-          <div class="card-pr__filter-inputs">
-            <p><input type="text" class="card-pr__filter-input" :placeholder=$t("message.prFeed.prTitle")  id="title" name="title"></p>
-            <div style="text-align: left;">
-              <p><input type="checkbox" class="card-pr__filter-checkbox" id="top_liked" name="top_liked" value="top_liked"><span class="card-pr__filter-checkmark"></span></p>
-            </div>
-          </div>
-
-          <div class="card-pr__filter-title">
-            <p>
-              <label for="start_date">{{ $t("message.prFeed.prStartDate") }}:</label>
-            </p>
-            <p class="card-pr__filter__separation">
-              <label for="end_date">{{ $t("message.prFeed.prEndDate") }}:</label>
-            </p>
-          </div>
-
-      
-
-          <div class="card-pr__filter-inputs">
-            <p><input type="date" class="card-pr__filter-date" id="start_date" name="start_date"></p>
-            <p><input type="date" class="card-pr__filter-date" id="end_date" name="end_date"></p>
-            <p class="card-pr__filter__box-button"><input type="submit" value="Search" class="card-pr__filter__submit"></p>
-          </div>
-        </div>
-      </form>
-
-
-      <pr-feed
-        :pull-requests="<%= @serialized_pull_requests.to_json %> | camelizeKeys"
-        :likes-given="<%= @likes_given.to_json %> | camelizeKeys"
-        organization-name="<%= @organization_name %>" >
-      </pr-feed>
-      <% if @pull_requests.respond_to? :total_pages %>
-        <div class="card-pr__pagination">
-          <%= paginate @pull_requests %>
-        </div>
-      <% end %>
+<div class="container">
+  <div class="card-pr__background">
+    <div class="card-pr-title">
+      Feed
     </div>
+
+    <form action="/organizations/<%= @organization_name %>/pull_requests">
+      <div class="card-pr__filter">
+        <div class="card-pr__filter-title">
+          <p>
+            <label for="project_name">{{ $t("message.prFeed.prProject") }}:</label>
+          </p>
+          <p class="card-pr__filter__separation">
+            <label for="owner_name">{{ $t("message.prFeed.prAuthor") }}:</label>
+          </p>
+        </div>
+
+        <div class="card-pr__filter-inputs">
+
+          <p><input type="text"
+            class="card-pr__filter-input"
+            :placeholder=$t("message.prFeed.prProject")
+            id="project_name"
+            name="project_name">
+          </p>
+          <p><input type="text" class="card-pr__filter-input card-pr__filter-top10" :placeholder=$t("message.prFeed.prAuthor") id="owner_name" name="owner_name"></p>
+        </div>
+
+        <div class="card-pr__filter-title">
+          <p>
+            <label for="title">{{ $t("message.prFeed.prTitle") }}:</label>
+          </p>
+          <p class="card-pr__filter__separation card-pr__filter__separation-32">
+            <label for="top_liked">Top 10 Likes</label><br>
+          </p>
+        </div>
+
+        <div class="card-pr__filter-inputs">
+          <p><input type="text" class="card-pr__filter-input" :placeholder=$t("message.prFeed.prTitle")  id="title" name="title"></p>
+          <div style="text-align: left;">
+            <p><input type="checkbox" class="card-pr__filter-checkbox" id="top_liked" name="top_liked" value="top_liked"><span class="card-pr__filter-checkmark"></span></p>
+          </div>
+        </div>
+
+        <div class="card-pr__filter-title">
+          <p>
+            <label for="start_date">{{ $t("message.prFeed.prStartDate") }}:</label>
+          </p>
+          <p class="card-pr__filter__separation">
+            <label for="end_date">{{ $t("message.prFeed.prEndDate") }}:</label>
+          </p>
+        </div>
+
+    
+
+        <div class="card-pr__filter-inputs">
+          <p><input type="date" class="card-pr__filter-date" id="start_date" name="start_date"></p>
+          <p><input type="date" class="card-pr__filter-date" id="end_date" name="end_date"></p>
+          <p class="card-pr__filter__box-button"><input type="submit" value="Search" class="card-pr__filter__submit"></p>
+        </div>
+      </div>
+    </form>
+
+
+    <pr-feed
+      :pull-requests="<%= @serialized_pull_requests.to_json %> | camelizeKeys"
+      :likes-given="<%= @likes_given.to_json %> | camelizeKeys"
+      organization-name="<%= @organization_name %>" >
+    </pr-feed>
+    <% if @pull_requests.respond_to? :total_pages %>
+      <div class="card-pr__pagination">
+        <%= paginate @pull_requests %>
+      </div>
+    <% end %>
   </div>
-  <%= render "partials/footer" %>
 </div>

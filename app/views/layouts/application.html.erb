@@ -13,7 +13,10 @@
 
   <body>
     <%= render partial: 'partials/tag_manager' %>
-
-    <%= yield %>
+    <div id="app" class="app">
+      <%= render 'partials/header' %>
+      <%= yield %>
+      <%= render "partials/footer" %>
+    </div>
   </body>
 </html>
