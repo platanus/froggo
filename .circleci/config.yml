@@ -24,7 +24,7 @@ jobs:
 
   lint:
     docker:
-      - image: circleci/ruby:2.7-node
+      - image: circleci/ruby:2.7-node@sha256:4ce1bfae2e1449c1a86acc00e85374ee0d2c1cfcd48d7c9935651d8a11180e99
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
