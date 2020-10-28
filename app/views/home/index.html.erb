@@ -13,7 +13,7 @@
 
   <body>
     <%= render partial: 'partials/tag_manager' %>
-    <div class="landing container">
+    <div class="landing">
       <div class="c-presentation">
         <img class="c-presentation__logo" src="<%= image_path('froggo-logo.svg')%>"/>
         <h1 class="c-presentation__title"><%= t('messages.home.title') %></h1>
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="dashboard-content">
-        <div class="c-home-dashboard">
+        <div class="c-home-dashboard normal">
           <div class="dashboard-column dashboard-text-box__left">
             <h1 class="home-dashboard-title"><%= t('messages.home.pr_recommendation_title') %></h1>
             <h1 class="home-dashboard-text"><%= t('messages.home.pr_recommendation_description') %></h1>
@@ -40,7 +40,7 @@
           </div>
         </div>
         <hr>
-        <div class="c-home-dashboard">
+        <div class="c-home-dashboard reversed">
           <div class="dashboard-column">
             <img class="home-dashboard-image" src="<%= image_path('dashboard-preview.png') %>"/>
           </div>
@@ -50,7 +50,7 @@
           </div>
         </div>
         <hr>
-        <div class="c-home-dashboard">
+        <div class="c-home-dashboard normal">
           <div class="dashboard-column dashboard-text-box__left">
             <h1 class="home-dashboard-title"><%= t('messages.home.metrics_title') %></h1>
             <h1 class="home-dashboard-text"><%= t('messages.home.metrics_description') %></h1>
@@ -60,21 +60,21 @@
           </div>
         </div>
         <hr>
-        <div class="c-home-dashboard-right">
+        <div class="c-home-note-right">
           <div class="dashboard-text-box__right">
             <h1 class="home-dashboard-note"><%= t('messages.home.easy_config_title') %></h1>
             <h1 class="home-dashboard-note-text"><%= t('messages.home.easy_config_description') %></h1>
           </div>
           <img class="home-dashboard-icon" src="<%= image_path('easy-config.png') %>"/>
         </div>
-        <div class="c-home-dashboard">
+        <div class="c-home-note">
           <img class="home-dashboard-icon" src="<%= image_path('no-shamming.png') %>"/>
           <div class="dashboard-text-box__left">
             <h1 class="home-dashboard-note"><%= t('messages.home.no_shamming_title') %></h1>
             <h1 class="home-dashboard-note-text"><%= t('messages.home.no_shamming_description') %></h1>
           </div>
         </div>
-        <div class="c-home-dashboard-right">
+        <div class="c-home-note-right">
           <div class="dashboard-text-box__right">
             <h1 class="home-dashboard-note"><%= t('messages.home.security_matters_title') %></h1>
             <h1 class="home-dashboard-note-text"><%= t('messages.home.security_matters_description') %></h1>
