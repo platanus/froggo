@@ -74,13 +74,13 @@ export default {
       if (!this.belongedTeam || index === 0) {
         return user.login;
       }
-
+      const decimalApproximation = 2;
       const userInfo = user.login.concat(' \n',
         this.$t('message.organization.members.inactiveDays'),
         this.inactiveDays[user.id],
         ' \n',
         this.$t('message.organization.members.score'),
-        this.colorScores[user.id]);
+        Number(this.colorScores[user.id].toFixed(decimalApproximation)));
 
       return userInfo;
     },
