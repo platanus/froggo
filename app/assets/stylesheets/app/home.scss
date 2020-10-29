@@ -15,7 +15,7 @@
 
   &__title {
     height: 100px;
-    width: 887px;
+    max-width: 75%;
     margin: 40px auto 24px;
     color: $home-title-color;
     font-family: $landing-font;
@@ -29,7 +29,7 @@
 
   &__sub-title {
     height: 84px;
-    width: 887px;
+    max-width: 75%;
     margin: 0 auto 40px;
     color: $home-title-color;
     font-family: $landing-font;
@@ -84,16 +84,16 @@
 }
 
 .dashboard-content {
-  background-color: $bg-secondary-color;
+  background-color: $bg-primary-color;
 }
 
 .dashboard-text-box {
   &__left {
-    padding-left: 30px;
+    padding: 0 30px;
   }
 
   &__right {
-    padding-right: 30px;
+    padding: 0 30px;
     text-align: right;
   }
 }
@@ -101,13 +101,36 @@
 .c-home-dashboard {
   display: flex;
   font-family: $landing-font;
+  padding: 1% 5%;
 }
 
-.c-home-dashboard-right {
+@media only screen
+  and (max-device-width : 768px) {
+  .dashboard-column.dashboard-text-box__right {
+    text-align: left;
+  }
+
+  .c-home-dashboard.normal {
+    flex-direction: column;
+  }
+
+  .c-home-dashboard.reversed {
+    flex-direction: column-reverse;
+  }
+}
+
+.c-home-note {
+  display: flex;
+  font-family: $landing-font;
+  padding: 1% 5%;
+}
+
+.c-home-note-right {
   display: flex;
   font-family: $landing-font;
   margin-left: auto;
   justify-content: flex-end;
+  padding: 0 5%;
 }
 
 .dashboard-column {
@@ -115,8 +138,8 @@
 }
 
 .home-dashboard-title {
-  height: 66px;
   margin-top: 88px;
+  margin-bottom: 40px;
   color: $secondary-color;
   font-size: 32px;
   letter-spacing: -1px;
@@ -189,4 +212,5 @@
 hr {
   width: 100%;
   border: 7px solid #ebeaef;
+  margin: 0;
 }
