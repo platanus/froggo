@@ -390,6 +390,33 @@ $roboto: 'Roboto', sans-serif;
       vertical-align: middle;
     }
 
+    &__button-color {
+      background-color: $white;
+      color: $primary-color;
+      border: solid 2px $primary-color;
+      border-radius: 10px;
+      cursor: pointer;
+      display: table-cell;
+      float: right;
+      font-size: 13px;
+      font-weight: 500;
+      height: fit-content;
+      line-height: 30px;
+      margin-left: 5px;
+      margin-right: 0;
+      min-width: 55px;
+      padding: 2px 5px;
+      text-align: center;
+      margin-top: 3px;
+      text-decoration: none;
+      vertical-align: middle;
+    }
+
+    &__button-color:hover {
+      background-color: $primary-color;
+      color: $white;
+    }
+
     &__orientation {
       flex-direction: row;
       object-fit: cover;

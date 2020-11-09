@@ -23,7 +23,7 @@
       />
     </div>
     <button
-      class="card-pr__button"
+      class="card-pr__button-color"
       @click="defaultLocal()"
     >
       {{ $t("message.settings.defaultOption") }}
