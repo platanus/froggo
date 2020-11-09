@@ -10,7 +10,7 @@ export default {
       error: 'Ocurrió un error',
       disablePublic: 'Deshabilitar dashboard público',
       enablePublic: 'Habilitar dashboard público',
-      defaultOption: 'Fijar Predeterminado',
+      defaultOption: 'Predeterminar',
     },
     profile: {
       noTeams: 'Sin equipos',
