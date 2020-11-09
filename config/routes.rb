@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :organizations, param: :name do
+    get 'default_cookies' => 'organizations#default_cookies', on: :member
     get 'missing' => 'organizations#missing', on: :collection
     get 'settings' => 'organizations#settings', on: :member
     get 'public' => 'organizations#public', on: :member

@@ -55,6 +55,9 @@
       </dropdown>
     <% end %>
   <% end %>
+  <div class="button" style="margin-top:15px; margin-left:5px;">
+    <%= link_to "Por Defecto", :controller => 'organizations', :action => 'default_cookies', month_selected: @corrmat.limit, team_selected: (@team[:id] if @team) %>
+  </div>
   <% if @has_dashboard %>
     <dashboard-syncing-icon id="<%= @organization.id %>"></dashboard-syncing-icon>
   <% end %>

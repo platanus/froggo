@@ -50,6 +50,19 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def default_cookies
+    cookies[:month_default] = params[:month_selected]
+    cookies[:team_id] = params[:team_selected]
+
+    @is_admin = organization_admin?
+    @organizations = github_organizations
+    set_corrmat
+    @color_scores = get_color_scores
+    @belonged_team = @team_members_ids.nil? ? false : @team_members_ids.include?(github_user.gh_id)
+    @inactive_days = get_members_inactive_days
+    redirect_to_default_organization
+  end
+
   private
 
   def load_organization
@@ -89,6 +102,11 @@ class OrganizationsController < ApplicationController
 
   def load_behaviour_matrix_params
     @teams = froggo_teams
+    # Faltaría arreglar los teams para saber cual está elegido y ahí aplicar lo comentado
+    # cookies[:team_id] = 2
+    # if cookies[:team_id]
+    #   @team = @teams.find { |team| team[:id] == cookies[:team_id] }
+    # elsif @organization.default_team_id
     if @organization.default_team_id
       @team = @teams.find { |team| team[:id] == @organization.default_team_id }
       if @team[:froggo_team]
@@ -109,7 +127,8 @@ class OrganizationsController < ApplicationController
 
   def set_corrmat
     if @has_dashboard
-      @corrmat = get_matrix(@organization.id, @team_members_ids, @month_limit)
+      month_limit
+      @corrmat = get_matrix(@organization.id, @team_members_ids, month_limit) #THIS    
     end
   end
 
@@ -118,6 +137,9 @@ class OrganizationsController < ApplicationController
   end
 
   def month_limit
+    if cookies[:month_default]
+      @month_limit ||= cookies[:month_default].to_i
+    end
     @month_limit ||= MONTH_LIMIT_DEFAULT
   end
 
@@ -159,7 +181,7 @@ class OrganizationsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:name, :team, :month_limit, :froggo_team, user_ids: [])
+    params.permit(:name, :team, :month_limit, :month_selected, :team_selected, :froggo_team, user_ids: [])
   end
 
   def get_matrix(org_id, user_ids, month_limit)
