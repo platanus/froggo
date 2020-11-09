@@ -3,16 +3,14 @@
     :body-title="dropdownTitle"
     :no-items-message="noTeamsMessage"
     :items="teams"
-    :default-index="defaultTeamIndex"
+    :default-index="getCookie || 0"
     @item-clicked="onItemClicked"
-  >
-  </clickable-dropdown>
+  />
 </template>
 
 <script>
 import ClickableDropdown from './clickable-dropdown';
-import { PROCESS_NEW_TEAM } from '../store/action-types';
-import { UPDATE_DEFAULT_TEAM } from '../store/action-types';
+import { PROCESS_NEW_TEAM, UPDATE_DEFAULT_TEAM } from '../store/action-types';
 
 export default {
   props: {
@@ -21,8 +19,8 @@ export default {
     organization: Object,
     adminMode: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     const dropdownTitle = this.adminMode ?
@@ -31,10 +29,11 @@ export default {
     const noTeamsMessage = this.adminMode ?
       this.$t('message.admin.noDefaultTeam') :
       this.$t('message.profile.noTeams');
+
     return {
       dropdownTitle,
       noTeamsMessage,
-    }
+    };
   },
   mounted() {
     if (!this.adminMode) {
@@ -66,15 +65,19 @@ export default {
 
       return 0;
     },
+    getCookie() {
+      return parseInt(localStorage.getItem('teamCookieId'), 10);
+    },
   },
   methods: {
-    onItemClicked({ item }) {
-      if (this.adminMode){
-        this.onDefaultTeamSelected(item)
+    onItemClicked({ index, item }) {
+      if (this.adminMode) {
+        this.onDefaultTeamSelected(item);
       } else {
         this.onTeamSelected(item);
-        this.makeTeamDefault(item)
+        this.makeTeamDefault(item);
       }
+      this.$emit('team-clicked', index);
     },
 
     onTeamSelected(team) {

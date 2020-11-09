@@ -2,7 +2,7 @@
   <clickable-dropdown
     :body-title="dropdownTitle"
     :items="monthsOptions"
-    :default-index="3"
+    :default-index="getCookie || 0"
     @item-clicked="onItemClick"
   />
 </template>
@@ -33,8 +33,9 @@ export default {
     };
   },
   methods: {
-    onItemClick({ item }) {
+    onItemClick({ item, index }) {
       this.selectTimespan(item.limit);
+      this.$emit('month-clicked', index);
     },
     selectTimespan(limit) {
       this.$store.dispatch(COMPUTE_RECOMMENDATIONS, {
@@ -47,6 +48,11 @@ export default {
         githubUserLogin: this.githubLogin,
         monthLimit: limit,
       });
+    },
+  },
+  computed: {
+    getCookie() {
+      return parseInt(localStorage.getItem('monthCookieId'), 10);
     },
   },
   components: {
