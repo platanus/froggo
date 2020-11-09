@@ -3,7 +3,7 @@
     :body-title="dropdownTitle"
     :no-items-message="noOrganizationsMessage"
     :items="organizations"
-    :default-index="defaultOrganizationIndex"
+    :default-index="getCookie || 0"
     @item-clicked="onItemClicked"
   />
 </template>
@@ -52,11 +52,15 @@ export default {
 
       return 0;
     },
+    getCookie() {
+      return parseInt(localStorage.getItem('organizationCookieId'), 10);
+    },
   },
   methods: {
-    onItemClicked({ item }) {
+    onItemClicked({ item, index }) {
       this.selectOrganization(item);
       this.makeOrganizationDefault(item);
+      this.$emit('organization-clicked', index);
     },
     selectOrganization(organization) {
       const organizationTeams = this.teams.filter(team => team.organization_id === organization.id);
