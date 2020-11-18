@@ -48,25 +48,20 @@ export default {
     defaultTeamIndex() {
       if (this.adminMode) {
         const defaultTeamId = this.organization.default_team_id;
+
         return defaultTeamId ? this.teams.findIndex(team => team.id === defaultTeamId) : -1;
       }
-      if (!localStorage.mapUserToDefaultTeam) {
-        return 0;
-      }
+      if (!localStorage.mapUserToDefaultTeam) return 0;
       const mapUserToDefaultTeam = JSON.parse(localStorage.mapUserToDefaultTeam);
-      if (!mapUserToDefaultTeam.hasOwnProperty(this.githubLogin)) {
-        return 0;
-      }
+      if (!mapUserToDefaultTeam.hasOwnProperty(this.githubLogin)) return 0;
       const teamId = mapUserToDefaultTeam[this.githubLogin];
       const index = this.teams.findIndex(team => team.id === teamId);
-      if (index >= 0) {
-        return index;
-      }
+      if (index >= 0) return index;
 
       return 0;
     },
     getCookie() {
-      return parseInt(localStorage.getItem('teamCookieId'), 10);
+      return parseInt(localStorage.getItem('personalTeamIndex'), 10);
     },
   },
   methods: {
@@ -77,15 +72,18 @@ export default {
         this.onTeamSelected(item);
         this.makeTeamDefault(item);
       }
-      this.$emit('team-clicked', index);
+      this.$emit('team-clicked', index, item.id);
     },
 
     onTeamSelected(team) {
+      const monthPersonalLimit =
+        (parseInt(localStorage.getItem('personalMonthIndex'), 10) * this.monthSeparationDropdown) || 1;
       this.$store.dispatch(PROCESS_NEW_TEAM, {
         teamId: team.id,
         organizationId: team.organization_id,
         githubUserLogin: this.githubLogin,
         froggoTeam: team.froggo_team,
+        monthLimit: monthPersonalLimit,
       });
     },
 

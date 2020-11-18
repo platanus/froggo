@@ -11,6 +11,7 @@ export default {
       disablePublic: 'Deshabilitar dashboard público',
       enablePublic: 'Habilitar dashboard público',
       defaultOption: 'Predeterminar',
+      successfullyDefaulted: 'Atributos predeterminados exitosamente',
     },
     profile: {
       noTeams: 'Sin equipos',
