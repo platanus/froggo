@@ -3,7 +3,7 @@
     :body-title="dropdownTitle"
     :no-items-message="noOrganizationsMessage"
     :items="organizations"
-    :default-index="getCookie || 0"
+    :default-index="getCookie || defaultOrganizationIndex"
     @item-clicked="onItemClicked"
   />
 </template>
@@ -27,6 +27,7 @@ export default {
     return {
       dropdownTitle: this.$t('message.profile.organizationsDropdownTitle'),
       noOrganizationsMessage: this.$t('message.profile.noOrganizations'),
+      monthSeparationDropdown: 3,
     };
   },
   mounted() {
@@ -53,14 +54,14 @@ export default {
       return 0;
     },
     getCookie() {
-      return parseInt(localStorage.getItem('organizationCookieId'), 10);
+      return parseInt(localStorage.getItem('personalOrgIndex'), 10);
     },
   },
   methods: {
     onItemClicked({ item, index }) {
       this.selectOrganization(item);
       this.makeOrganizationDefault(item);
-      this.$emit('organization-clicked', index);
+      this.$emit('organization-clicked', index, item.id);
     },
     selectOrganization(organization) {
       const organizationTeams = this.teams.filter(team => team.organization_id === organization.id);
@@ -71,16 +72,18 @@ export default {
 
         return;
       }
-      const defaultTeam =
-          this.organizationHasDefaultTeam(organization) ?
-            this.teams.filter(team => team.id === organization.default_team_id)[0] :
-            organizationTeams[0];
-
+      const mapUserToDefaultTeam = localStorage.mapUserToDefaultTeam ?
+        JSON.parse(localStorage.mapUserToDefaultTeam) : {};
+      const defaultTeam = this.organizationHasDefaultTeam(organization) ?
+        this.teams.filter(team => team.id === mapUserToDefaultTeam[this.githubLogin])[0] : organizationTeams[0];
+      const monthPersonalLimit =
+        (parseInt(localStorage.getItem('personalMonthIndex'), 10) * this.monthSeparationDropdown) || 1;
       this.$store.dispatch(PROCESS_NEW_TEAM, {
         teamId: defaultTeam.id,
         organizationId: organization.id,
         githubUserLogin: this.githubLogin,
         froggoTeam: defaultTeam.froggo_team,
+        monthLimit: monthPersonalLimit,
       });
       this.makeTeamDefault(defaultTeam);
     },

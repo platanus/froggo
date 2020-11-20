@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     getCookie() {
-      return parseInt(localStorage.getItem('monthCookieId'), 10);
+      return parseInt(localStorage.getItem('personalMonthIndex'), 10);
     },
   },
   components: {

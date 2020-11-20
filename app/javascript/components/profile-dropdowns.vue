@@ -36,8 +36,10 @@ import { mapState } from 'vuex';
 import OrganizationsDropdown from './organizations-dropdown';
 import TeamsDropdown from './teams-dropdown';
 import TimespanDropdown from './timespan-dropdown';
+import showMessageMixin from '../mixins/showMessageMixin';
 
 export default {
+  mixins: [showMessageMixin],
   props: {
     teams: {
       type: Array,
@@ -61,6 +63,8 @@ export default {
       selectedMonth: -1,
       selectedOrganization: -1,
       selectedTeam: -1,
+      selectOrganizationId: -1,
+      selectedTeamId: -1,
     };
   },
   components: {
@@ -80,25 +84,40 @@ export default {
     onMonthClick(index) {
       this.selectedMonth = index;
     },
-    onOrganizationClick(index) {
+    onOrganizationClick(index, id) {
       this.selectedOrganization = index;
+      this.selectOrganizationId = id;
     },
-    onTeamClick(index) {
+    onTeamClick(index, id) {
       this.selectedTeam = index;
+      this.selectedTeamId = id;
     },
     defaultLocal() {
       if (this.selectedMonth > -1) {
-        localStorage.setItem('monthCookieId', this.selectedMonth);
+        localStorage.setItem('personalMonthIndex', this.selectedMonth);
       }
+      const mapUserToDefaultTeam =
+        localStorage.mapUserToDefaultTeam ?
+          JSON.parse(localStorage.mapUserToDefaultTeam) :
+          {};
       if (this.selectedOrganization > -1) {
-        localStorage.setItem('organizationCookieId', this.selectedOrganization);
+        localStorage.setItem('personalOrgIndex', this.selectedOrganization);
+        const mapUserToDefaultOrg =
+          localStorage.mapUserToDefaultOrg ?
+            JSON.parse(localStorage.mapUserToDefaultOrg) :
+            {};
+        mapUserToDefaultOrg[this.githubLogin] = this.selectOrganizationId;
+        localStorage.mapUserToDefaultOrg = JSON.stringify(mapUserToDefaultOrg);
         if (this.selectedTeam === -1) {
-          localStorage.setItem('teamCookieId', 0);
+          localStorage.setItem('personalTeamIndex', 0);
         }
       }
       if (this.selectedTeam > -1) {
-        localStorage.setItem('teamCookieId', this.selectedTeam);
+        localStorage.setItem('personalTeamIndex', this.selectedTeam);
+        mapUserToDefaultTeam[this.githubLogin] = this.selectedTeamId;
+        localStorage.mapUserToDefaultTeam = JSON.stringify(mapUserToDefaultTeam);
       }
+      this.showMessage(this.$t('message.settings.successfullyDefaulted'));
     },
   },
 };
