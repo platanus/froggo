@@ -33,15 +33,19 @@ export default {
     return {
       dropdownTitle,
       noTeamsMessage,
+      monthSeparationDropdown: 3,
     };
   },
-  mounted() {
-    if (!this.adminMode) {
-      const selectedTeam = this.teams[this.defaultTeamIndex];
-      if (selectedTeam) {
-        this.onTeamSelected(selectedTeam);
+
+  watch: {
+    defaultTeamIndex(newValue) {
+      if (!this.adminMode) {
+        const selectedTeam = this.teams[newValue];
+        if (selectedTeam) {
+          this.onTeamSelected(selectedTeam);
+        }
       }
-    }
+    },
   },
 
   computed: {

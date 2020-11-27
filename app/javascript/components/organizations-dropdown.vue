@@ -74,8 +74,16 @@ export default {
       }
       const mapUserToDefaultTeam = localStorage.mapUserToDefaultTeam ?
         JSON.parse(localStorage.mapUserToDefaultTeam) : {};
-      const defaultTeam = this.organizationHasDefaultTeam(organization) ?
-        this.teams.filter(team => team.id === mapUserToDefaultTeam[this.githubLogin])[0] : organizationTeams[0];
+      const personalDefaultTeamId = mapUserToDefaultTeam[this.githubLogin] ?
+        mapUserToDefaultTeam[this.githubLogin] : 0;
+      let defaultTeam;
+      if (personalDefaultTeamId) {
+        defaultTeam = this.teams.find(team => team.id === personalDefaultTeamId);
+      } else if (this.organizationHasDefaultTeam(organization)) {
+        defaultTeam = this.teams.filter(team => team.id === mapUserToDefaultTeam[this.githubLogin])[0];
+      } else {
+        defaultTeam = organizationTeams[0];
+      }
       const monthPersonalLimit =
         (parseInt(localStorage.getItem('personalMonthIndex'), 10) * this.monthSeparationDropdown) || 1;
       this.$store.dispatch(PROCESS_NEW_TEAM, {
