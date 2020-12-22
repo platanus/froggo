@@ -1,16 +1,21 @@
 <div class="card profile">
   <div class="profile__section">
     <div class="profile-header">
-      <div class="profile-info">
-        <%= image_tag @github_user.avatar_url, class: 'profile-info__picture' %>
-        <div class="profile-info__info">
-          <div class="profile-info__name">
-            <%= @github_user.name || t('messages.profile.no_name') %>
+      <div class="profile-header__info">
+        <div class="profile-info">
+          <%= image_tag @github_user.avatar_url, class: 'profile-info__picture' %>
+          <div class="profile-info__info">
+            <div class="profile-info__name">
+              <%= @github_user.name || t('messages.profile.no_name') %>
+            </div>
+            <%= link_to @github_user.html_url, class: 'profile-info__username' do %>
+              <%= octicon "octoface" %>
+              <span>@<%= @github_user.login %></span>
+            <% end %>
           </div>
-          <%= link_to @github_user.html_url, class: 'profile-info__username' do %>
-            <%= octicon "octoface" %>
-            <span>@<%= @github_user.login %></span>
-          <% end %>
+        </div>
+        <div class="profile-info__description">
+          <%= @github_user.description %>
         </div>
       </div>
       <div class="profile-teams">

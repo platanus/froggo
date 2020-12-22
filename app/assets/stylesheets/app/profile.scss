@@ -57,6 +57,10 @@
     display: flex;
     margin-bottom: 2px;
   }
+
+  &__info {
+    display: block;
+  }
 }
 
 .profile-info {
@@ -89,6 +93,10 @@
       fill: $light-primary;
       margin-right: 5px;
     }
+  }
+
+  &__description {
+    margin-top: 20px;
   }
 }
 

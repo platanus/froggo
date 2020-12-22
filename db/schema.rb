@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_06_141955) do
+ActiveRecord::Schema.define(version: 2020_12_22_181227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 2020_10_06_141955) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
     t.index ["login"], name: "index_github_users_on_login"
   end
 
@@ -198,9 +199,9 @@ ActiveRecord::Schema.define(version: 2020_10_06_141955) do
     t.bigint "repository_id"
     t.integer "owner_id"
     t.integer "merged_by_id"
-    t.datetime "last_change"
     t.string "description"
     t.integer "commits"
+    t.datetime "last_change"
     t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
   end
 
