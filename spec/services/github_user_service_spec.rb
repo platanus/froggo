@@ -8,7 +8,8 @@ describe GithubUserService do
            avatar_url: '',
            html_url: '',
            email: '',
-           name: '')
+           name: '',
+           description: '')
   end
 
   let (:user2) do
@@ -17,7 +18,8 @@ describe GithubUserService do
            avatar_url: '',
            html_url: '',
            email: '',
-           name: nil)
+           name: nil,
+           description: '')
   end
 
   let (:user3) do
@@ -26,7 +28,8 @@ describe GithubUserService do
            avatar_url: '',
            html_url: '',
            email: '',
-           name: 'jaime')
+           name: 'jaime',
+           description: '')
   end
 
   def build(*_args)
