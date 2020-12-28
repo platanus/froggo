@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   get 'admin_oauth_to_gh' => 'github_auth#admin_authenticate!', as: :admin_authenticate
   get 'org_oauth_to_gh' => 'github_auth#organization_authenticate!', as: :org_authenticate
   post 'github_events' => 'webhook#receive'
-
   root 'home#index'
 
   resources :organizations, param: :name do
@@ -59,6 +58,7 @@ Rails.application.routes.draw do
       resources :pull_requests do
         resources :likes, only: [:create, :destroy]
       end
+      patch 'github_users/:id' => 'github_users#update'
       get 'users/:github_login/pull_requests_information' =>
         'github_users#pull_requests_information'
     end
