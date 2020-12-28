@@ -1,7 +1,7 @@
 <div class="card profile">
   <div class="profile__section">
     <div class="profile-header">
-      <div class="profile-header__info">
+      <div>
         <div class="profile-info">
           <%= image_tag @github_user.avatar_url, class: 'profile-info__picture' %>
           <div class="profile-info__info">
@@ -14,23 +14,23 @@
             <% end %>
           </div>
         </div>
-        <div class="profile-info__description">
-          <%= @github_user.description %>
-        </div>
-      </div>
-      <div class="profile-teams">
-        <div class="profile-teams__hint">
-          <%= t('messages.profile.teams_dropdown_hint') %>
-        </div>
-        <profile-dropdowns
-          github-login="<%= @github_user.login %>"
-          :organizations="<%= @organizations.to_json %>"
-          :teams="<%= @teams.to_json %>"
-          :months-options="<%= timespans_with_name.to_json %>"
+        <profile-description
+          :github-user="<%= @github_user.to_json%>"
+          :github-session="<%= @github_session.to_json%>"
         />
+        <div class="profile-teams">
+          <div class="profile-teams__hint">
+            <%= t('messages.profile.teams_dropdown_hint') %>
+          </div>
+          <profile-dropdowns
+            github-login="<%= @github_user.login %>"
+            :organizations="<%= @organizations.to_json %>"
+            :teams="<%= @teams.to_json %>"
+            :months-options="<%= timespans_with_name.to_json %>"
+          />
+        </div>
       </div>
     </div>
-  </div>
   <div class="profile__section">
     <profile-recommendations />
   </div>
