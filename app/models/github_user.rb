@@ -12,6 +12,8 @@ class GithubUser < ApplicationRecord
 
   has_many :froggo_team_memberships, dependent: :destroy
   has_many :froggo_teams, through: :froggo_team_memberships
+  has_many :taggings, as: :taggable, dependent: :destroy
+  has_many :tags, through: :taggings
 
   validates :gh_id, presence: true
   validates :login, presence: true
