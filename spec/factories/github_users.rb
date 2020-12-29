@@ -6,5 +6,6 @@ FactoryBot.define do
     html_url { "https://github.com/bunzli" }
     login { "bunzli" }
     name { "Jaime Bunzli" }
+    description { "Hola soy Jaime" }
   end
 end

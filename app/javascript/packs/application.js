@@ -30,6 +30,7 @@ import ProfileMetrics from '../components/profile/metrics.vue';
 import FroggoTeamMetrics from '../components/froggo-team-metrics.vue';
 import OrganizationMatrixHead from '../components/organization-matrix-head.vue';
 import PercentageDropdown from '../components/percentage-dropdown.vue';
+import ProfileDescription from '../components/profile-description.vue';
 
 import Locales from '../locales/locales.js';
 import store from '../store';
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('froggo-team-metrics', FroggoTeamMetrics);
   Vue.component('organization-matrix-head', OrganizationMatrixHead);
   Vue.component('percentage-dropdown', PercentageDropdown);
+  Vue.component('profile-description', ProfileDescription);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new

@@ -15,6 +15,7 @@ class GithubUser < ApplicationRecord
 
   validates :gh_id, presence: true
   validates :login, presence: true
+  validates :description, length: { in: 0..255 }
 
   scope :all_except, ->(user) { where.not(id: user) }
 
@@ -56,15 +57,16 @@ end
 #
 # Table name: github_users
 #
-#  id         :bigint(8)        not null, primary key
-#  avatar_url :string
-#  email      :string
-#  gh_id      :integer
-#  html_url   :string
-#  login      :string
-#  name       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint(8)        not null, primary key
+#  avatar_url  :string
+#  email       :string
+#  gh_id       :integer
+#  html_url    :string
+#  login       :string
+#  name        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  description :string
 #
 # Indexes
 #

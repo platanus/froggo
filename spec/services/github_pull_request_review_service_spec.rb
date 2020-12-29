@@ -15,7 +15,8 @@ describe GithubPullRequestReviewService do
       name: 'Milla Jovovich',
       email: 'milla@jovovich.cl',
       avatar_url: 'url_to_avatar',
-      html_url: 'url_to_html'
+      html_url: 'url_to_html',
+      description: 'Hola soy Milla'
     )
   end
 
@@ -28,7 +29,8 @@ describe GithubPullRequestReviewService do
         name: users[0].name,
         email: users[0].email,
         avatar_url: users[0].avatar_url,
-        html_url: users[0].html_url
+        html_url: users[0].html_url,
+        description: users[0].description
       ),
       state: 'approved',
       submitted_at: "2020-08-26T15:39:00Z"
@@ -44,7 +46,8 @@ describe GithubPullRequestReviewService do
         name: users[3].name,
         email: users[3].email,
         avatar_url: users[3].avatar_url,
-        html_url: users[3].html_url
+        html_url: users[3].html_url,
+        description: users[3].description
       ),
       state: 'approved',
       submitted_at: "2020-08-26T15:39:00Z"
@@ -60,7 +63,8 @@ describe GithubPullRequestReviewService do
         name: users[5].name,
         email: users[5].email,
         avatar_url: users[5].avatar_url,
-        html_url: users[5].html_url
+        html_url: users[5].html_url,
+        description: users[5].description
       ),
       state: 'approved',
       submitted_at: "2020-08-26T15:39:00Z"
@@ -76,7 +80,8 @@ describe GithubPullRequestReviewService do
         name: users[6].name,
         email: users[6].email,
         avatar_url: users[6].avatar_url,
-        html_url: users[6].html_url
+        html_url: users[6].html_url,
+        description: users[6].description
       ),
       state: 'approved',
       submitted_at: "2020-08-26T15:39:00Z"

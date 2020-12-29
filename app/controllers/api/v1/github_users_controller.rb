@@ -44,6 +44,15 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     } }, status: :ok
   end
 
+  def update
+    github_user = GithubUser.find(permitted_params[:id])
+    if github_user.update(update_params)
+      render json: { response: 'Updated', user: github_user }, status: :ok
+    else
+      render json: { response: 'Bad request', errors: github_user.errors }, status: :bad_request
+    end
+  end
+
   private
 
   def compute_score_for_user(other_users_ids)
@@ -113,6 +122,11 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   end
 
   def permitted_params
-    params.permit(:org_id, :team_id, :github_login, :from, :to, :month_limit, :froggo_team)
+    params.permit(:org_id, :team_id, :github_login, :from, :to, :month_limit, :froggo_team,
+                  :id, :description)
+  end
+
+  def update_params
+    params.permit(:description)
   end
 end
