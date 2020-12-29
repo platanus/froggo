@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_22_181227) do
+ActiveRecord::Schema.define(version: 2020_12_29_155013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,22 @@ ActiveRecord::Schema.define(version: 2020_12_22_181227) do
     t.index ["organization_id"], name: "index_repositories_on_organization_id"
   end
 
+  create_table "taggings", force: :cascade do |t|
+    t.string "taggable_type", null: false
+    t.bigint "taggable_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -251,4 +267,5 @@ ActiveRecord::Schema.define(version: 2020_12_22_181227) do
   add_foreign_key "pull_requests", "github_users", column: "merged_by_id"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "organizations"
+  add_foreign_key "taggings", "tags"
 end
