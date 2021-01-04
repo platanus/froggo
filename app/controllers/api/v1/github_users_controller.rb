@@ -47,7 +47,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   def update
     github_user = GithubUser.find(permitted_params[:id])
     if github_user.update(update_params)
-      render json: { response: 'Updated', user: github_user }, status: :ok
+      render json: { response: 'Updated', user: github_user, tags: github_user.tags }, status: :ok
     else
       render json: { response: 'Bad request', errors: github_user.errors }, status: :bad_request
     end
@@ -127,6 +127,6 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
   end
 
   def update_params
-    params.permit(:description)
+    params.permit(:description, tag_ids: [])
   end
 end

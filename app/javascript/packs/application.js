@@ -32,6 +32,7 @@ import OrganizationMatrixHead from '../components/organization-matrix-head.vue';
 import PercentageDropdown from '../components/percentage-dropdown.vue';
 import ProfileDescription from '../components/profile-description.vue';
 import TagsShow from '../components/tags-show';
+import UserTags from '../components/user-tags.vue';
 
 import Locales from '../locales/locales.js';
 import store from '../store';
@@ -74,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('organization-matrix-head', OrganizationMatrixHead);
   Vue.component('percentage-dropdown', PercentageDropdown);
   Vue.component('profile-description', ProfileDescription);
+  Vue.component('user-tags', UserTags);
   Vue.component('tags-show', TagsShow);
 
   if (document.getElementById('app') !== null) {
