@@ -10,7 +10,7 @@
         <p
           @dblclick="edit"
         >
-          {{ user.description.slice(0,110) }} ...
+          {{ user.description.slice(0,160) }} ...
         </p>
         <button
           @click="activateReadMore"
@@ -27,7 +27,7 @@
           v-html="this.user.description"
         />
         <button
-          v-if="user.description.length>110"
+          v-if="user.description.length>160"
           @click="deactivateReadMore"
           class="btn-description"
         >
@@ -147,7 +147,7 @@ export default {
       },
       readMoreActivated: true,
       errors: '',
-      maxLength: 110,
+      maxLength: 160,
       error: false,
     };
     if (this.githubUser.description) {

@@ -103,7 +103,7 @@ export default {
     getTooltipMessage(user) {
       if (!this.belongedTeam) {
         const tagsText = user.tags.map(t => t.name).join('\n');
-        const text = `${user.login}\n tags: \n${user.tags.length ? tagsText : 'Aún no tengo tags'}`;
+        const text = `${user.login}\n tags: \n${user.tags.length ? tagsText : 'Aún no tiene tags'}`;
 
         return text;
       }

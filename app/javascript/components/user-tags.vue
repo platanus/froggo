@@ -16,6 +16,7 @@
 
       <div class="display-tags__tag-list">
         <tags-show
+          class="display-tags__tags-container"
           :items="myTags"
           :can-add-tag="canAddTag"
           :show-btn="showBtn"
@@ -31,12 +32,15 @@
     >
       <div class="modal__overlay">
         <div class="modal__container">
-          <button
-            class="modal__close"
-            @click="noShowModal"
-          >
-            x
-          </button>
+          <div class="modal__header">
+            <span class="modal__header-title"> Añade tus tags </span>
+            <button
+              class="modal__close"
+              @click="noShowModal"
+            >
+              x
+            </button>
+          </div>
           <div class="modal__body">
             <div class="modal__dropdown">
               <clickable-dropdown
@@ -146,7 +150,7 @@ export default {
   },
   data() {
     return {
-      dropdownTitle: 'Tags',
+      dropdownTitle: 'Seleccionar tags',
       noTagsMessage: 'No existen tags',
       modal: false,
       selectedTags: [],
