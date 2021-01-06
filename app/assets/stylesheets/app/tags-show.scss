@@ -1,0 +1,54 @@
+.tag-list {
+  margin: 5px;
+  text-align: center;
+  text-decoration: none;
+  width: 180px;
+  font-size: 14px;
+  border-radius: 15px;
+  padding: 2px;
+  margin-bottom: 5px;
+  background-color: #a2918f;
+  color: rgb(255, 255, 255);
+  display: inline-block;
+
+  &__tag {
+    display: inline;
+  }
+
+}
+
+.tag-list__del-tag {
+  float: right;
+  margin-right: 10px;
+  border-radius: 15px;
+  background-color: #a2918f;
+  color: rgb(255, 255, 255);
+  border: 0;
+  cursor: pointer;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.btn__img {
+  display: inline-block;
+  margin-left: 10px;
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  opacity: .4;
+}
+
+.tag-list__add-tag {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  border: 0;
+  cursor: pointer;
+
+  &:focus {
+    outline: 0;
+  }
+}
+

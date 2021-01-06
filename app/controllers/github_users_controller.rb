@@ -5,6 +5,8 @@ class GithubUsersController < ApplicationController
     @github_user = GithubUser.find(params[:id])
     @teams = froggo_teams
     @organizations = @github_user.organizations
+    @user_tags = @github_user.tags
+    @tags = Tag.all
   end
 
   # GET /me

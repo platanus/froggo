@@ -14,6 +14,14 @@
             <% end %>
           </div>
         </div>
+        <div>
+          <user-tags
+            :github-user="<%= @github_user.to_json%>"
+            :github-session="<%= @github_session.to_json%>"
+            :tags="<%= @tags.to_json%>"
+            :user-tags="<%=@user_tags.to_json%>"
+          />
+        </div>
         <profile-description
           :github-user="<%= @github_user.to_json%>"
           :github-session="<%= @github_session.to_json%>"
