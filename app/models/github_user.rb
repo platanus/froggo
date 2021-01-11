@@ -17,9 +17,9 @@ class GithubUser < ApplicationRecord
 
   validates :gh_id, presence: true
   validates :login, presence: true
+  validates :description, length: { maximum: 255 }
 
   scope :all_except, ->(user) { where.not(id: user) }
-  validates :description, length: { maximum: 255 }
 
   def get_froggo_teams_for_organization(organization)
     froggo_teams.filter { |team| team[:organization_id] == organization.id }
