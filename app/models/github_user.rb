@@ -17,7 +17,7 @@ class GithubUser < ApplicationRecord
 
   validates :gh_id, presence: true
   validates :login, presence: true
-  validates :description, length: { in: 0..255 }
+  validates :description, length: { maximum: 255 }
 
   scope :all_except, ->(user) { where.not(id: user) }
 
