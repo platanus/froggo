@@ -3,11 +3,16 @@
   width: 600px;
 
   .input-description {
+    font-family: $main-font;
+    font-size: 15px;
     width: 600px;
     height: 50px;
+    margin-left: 5px;
   }
 
   .btn-description {
+    font-family: $main-font;
+    font-size: 15px;
     width: 85px;
     background-color: #2fcab5;
     border-radius: 3px;
@@ -19,6 +24,9 @@
 
   .error {
     color: rgb(255, 0, 0);
-    font-style: italic;
   }
+}
+
+.profile-info__user-description {
+  margin-left: 5px;
 }

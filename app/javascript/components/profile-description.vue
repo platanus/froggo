@@ -8,6 +8,7 @@
         v-if="!readMoreActivated && !editDescription"
       >
         <p
+          class="profile-info__user-description"
           @dblclick="edit"
         >
           {{ user.description.slice(0,160) }} ...
@@ -24,6 +25,7 @@
       >
         <p
           @dblclick="edit"
+          class="profile-info__user-description"
           v-html="this.user.description"
         />
         <button

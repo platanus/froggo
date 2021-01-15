@@ -1,11 +1,13 @@
 $back-ground-tag-color: #f7f5fa;
+$font-tag-color: rgb(121, 121, 121);
 
 .tag-list {
+  font-family: $main-font;
   margin: 5px;
   text-align: center;
   text-decoration: none;
   min-width: 100px;
-  font-size: 14px;
+  font-size: 15px;
   border-radius: 15px;
   padding: 2px 6px 2px 6px;
   margin-bottom: 5px;
@@ -14,17 +16,16 @@ $back-ground-tag-color: #f7f5fa;
   display: inline-block;
 
   &__tag {
-    display: inline-block;
+    display: inline;
+    color: $font-tag-color;
   }
-
 }
 
 .tag-list__del-tag {
   float: right;
-  margin-right: 10px;
   border-radius: 15px;
   background-color: $back-ground-tag-color;
-  color: rgb(0, 0, 0);
+  color: $font-tag-color;
   border: 0;
   cursor: pointer;
 
@@ -54,4 +55,3 @@ $back-ground-tag-color: #f7f5fa;
     outline: 0;
   }
 }
-

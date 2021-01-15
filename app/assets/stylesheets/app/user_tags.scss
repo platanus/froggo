@@ -28,16 +28,17 @@ $modal-border: 1px solid #9b9b9b;
 
 .btn__save-tags {
   width: 40%;
-  height: 70%;
+  height: 75%;
+  font-size: 18px;
   margin-top: 20px;
   border-radius: 15px;
   border-style: hidden;
   text-align: center;
   text-decoration: none;
-  font-size: 13px;
   cursor: pointer;
   background-color: #2fcab5;
   color: rgb(255, 255, 255);
+  font-family: $main-font;
 
   &:focus {
     outline: 0;
@@ -64,8 +65,8 @@ $modal-border: 1px solid #9b9b9b;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   transform: translate(-50%, -50%);
-  width: 55%;
-  height: 60%;
+  width: 40%;
+  height: 55%;
   border-radius: 10px;
 }
 
@@ -115,7 +116,8 @@ $modal-border: 1px solid #9b9b9b;
 }
 
 .modal__header {
-  height: 13%;
+  height: 11%;
+  font-size: 18px;
   background: #2fcab5;
   border-radius: 10px 10px 0px 0px;
 }
@@ -146,5 +148,13 @@ $modal-border: 1px solid #9b9b9b;
 
   .select__option {
     cursor: pointer;
+  }
+
+  .select__title {
+    font-size: 14px;
+  }
+
+  .pl-dropdown__body {
+    width: 100%;
   }
 }
