@@ -88,6 +88,10 @@ class GithubSession
     @session.permanent[froggo_path_key] = _path
   end
 
+  def to_json(*_)
+    { user: user }.to_json
+  end
+
   private
 
   def froggo_path_key
