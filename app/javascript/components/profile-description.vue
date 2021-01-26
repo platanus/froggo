@@ -78,7 +78,7 @@
       <textarea
         name="description"
         type="text"
-        placeholder="Agrega una descripción de máximo 255 carácteres...."
+        placeholder="Agrega una descripción de máximo 255 caracteres"
         class="input-description"
         v-model="form.description"
       />

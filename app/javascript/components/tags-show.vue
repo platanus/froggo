@@ -13,16 +13,19 @@
         class="tag-list__del-tag"
         @click="cancelTag(item.id)"
       >
-        x
+        <img
+          class="tag-list__img-del-tag"
+          :src="require('../../assets/images/close.png').default"
+        >
       </button>
     </div>
     <button
-      class="tag-list__add-tag "
+      class="tag-list__add-tag"
       @click="showModal"
       v-if="canAddTag && showBtn"
     >
       <img
-        class="btn__img"
+        class="tag-list__img-add-tag"
         :src="require('../../assets/images/boton-agregar.svg').default"
       >
     </button>

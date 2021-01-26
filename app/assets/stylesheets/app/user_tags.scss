@@ -1,11 +1,8 @@
-$modal-border: 1px solid #9b9b9b;
-
 .display-tags {
   margin-top: 10px;
+  display: flex;
+  align-items: center;
 
-  &__no-tags {
-    display: inline-block;
-  }
 
   &__no-tags-msj {
     padding-left: 30px;
@@ -17,18 +14,19 @@ $modal-border: 1px solid #9b9b9b;
   }
 
   &__tag-list {
-    display: inline;
+    display: flex;
     width: 600px;
   }
 
   &__tags-container {
-    display: inline;
+    display: flex;
+    align-items: center;
   }
 }
 
 .btn__save-tags {
   width: 40%;
-  height: 75%;
+  height: 80%;
   font-size: 18px;
   margin-top: 20px;
   border-radius: 15px;
@@ -36,7 +34,7 @@ $modal-border: 1px solid #9b9b9b;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  background-color: #2fcab5;
+  background-color: $primary-color;
   color: rgb(255, 255, 255);
   font-family: $main-font;
 
@@ -65,25 +63,43 @@ $modal-border: 1px solid #9b9b9b;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   transform: translate(-50%, -50%);
-  width: 40%;
-  height: 55%;
+  width: 650px;
+  min-height: 450px;
   border-radius: 10px;
 }
 
+.modal__header {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-size: 18px;
+  background: $primary-color;
+  border-radius: 10px 10px 0 0;
+}
+
 .modal__close {
-  width: 28px;
-  height: 28px;
-  margin-top: 10px;
-  margin-right: 10px;
-  float: right;
   border: 0;
-  background: #fff;
-  border-radius: 20px;
   cursor: pointer;
+  background-color: $primary-color;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: 20px;
+
+  &-img {
+    margin-top: 2px;
+    width: 25px;
+    height: 25px;
+  }
 
   &:focus {
     outline: 0;
   }
+}
+
+.modal__header-title {
+  margin-left: 90px;
+  color: rgb(255, 255, 255);
 }
 
 .modal__body {
@@ -91,8 +107,8 @@ $modal-border: 1px solid #9b9b9b;
 }
 
 .modal__tags {
-  width: 75%;
-  height: 220px;
+  width: 80%;
+  height: 250px;
   margin: 0 auto;
   margin-top: 10px;
   position: relative;
@@ -100,6 +116,8 @@ $modal-border: 1px solid #9b9b9b;
   border: $modal-border;
   box-sizing: border-box;
   border-radius: 5px;
+  display: flex;
+  align-items: flex-start;
 }
 
 .modal__leave-active {
@@ -109,37 +127,23 @@ $modal-border: 1px solid #9b9b9b;
 .modal__footer {
   margin: 0 auto;
   position: relative;
-  width: 75%;
+  width: 80%;
   height: 45px;
   display: flex;
   justify-content: flex-end;
 }
 
-.modal__header {
-  height: 11%;
-  font-size: 18px;
-  background: #2fcab5;
-  border-radius: 10px 10px 0px 0px;
-}
-
-.modal__header-title {
-  color: rgb(255, 255, 255);
-  display: inline-block;
-  margin-top: 15px;
-  margin-left: 15px;
-}
-
 .modal__dropdown {
-  width: 75%;
+  width: 80%;
   margin: 0 auto;
   position: relative;
   background: #fff;
-  border: $modal-border;
   box-sizing: border-box;
-  border-radius: 5px;
 
   .select__btn {
     width: 100%;
+    border: $modal-border;
+    border-radius: 5px;
   }
 
   .select__body {
@@ -151,7 +155,7 @@ $modal-border: 1px solid #9b9b9b;
   }
 
   .select__title {
-    font-size: 14px;
+    font-size: $greater-font-size;
   }
 
   .pl-dropdown__body {

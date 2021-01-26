@@ -1,57 +1,57 @@
 $back-ground-tag-color: #f7f5fa;
-$font-tag-color: rgb(121, 121, 121);
 
 .tag-list {
-  font-family: $main-font;
-  margin: 5px;
   text-align: center;
   text-decoration: none;
   min-width: 100px;
-  font-size: 15px;
+  font-size: $greater-font-size;
   border-radius: 15px;
-  padding: 2px 6px 2px 6px;
-  margin-bottom: 5px;
+  padding: 2px 6px;
   background-color: $back-ground-tag-color;
-  color: rgb(0, 0, 0);
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  margin: 5px 0 5px 5px;
 
   &__tag {
-    display: inline;
     color: $font-tag-color;
   }
-}
 
-.tag-list__del-tag {
-  float: right;
-  border-radius: 15px;
-  background-color: $back-ground-tag-color;
-  color: $font-tag-color;
-  border: 0;
-  cursor: pointer;
+  &__img-del-tag {
+    width: 10px;
+    height: 10px;
+    opacity: .5;
+  }
 
-  &:focus {
-    outline: 0;
+  &__del-tag {
+    margin-left: auto;
+    border-radius: 15px;
+    background-color: $back-ground-tag-color;
+    color: $font-tag-color;
+    border: 0;
+    cursor: pointer;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  &__add-tag {
+    width: 25px;
+    height: 25px;
+    border: 0;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  &__img-add-tag {
+    opacity: .2;
+    width: 22px;
+    height: 22px;
   }
 }
 
-.btn__img {
-  display: inline-block;
-  margin-left: 10px;
-  position: absolute;
-  bottom: 6px;
-  right: 6px;
-  opacity: .2;
-}
 
-.tag-list__add-tag {
-  position: relative;
-  width: 25px;
-  height: 25px;
-  border: 0;
-  cursor: pointer;
-  background-color: rgb(255, 255, 255);
-
-  &:focus {
-    outline: 0;
-  }
-}

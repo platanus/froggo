@@ -14,7 +14,7 @@
         </span>
       </div>
 
-      <div class="display-tags__tag-list">
+      <div :class="{ 'display-tags__tag-list': haveTags }">
         <tags-show
           class="display-tags__tags-container"
           :items="myTags"
@@ -38,7 +38,10 @@
               class="modal__close"
               @click="noShowModal"
             >
-              x
+              <img
+                class="modal__close-img"
+                :src="require('../../assets/images/cancel.png').default"
+              >
             </button>
           </div>
           <div class="modal__body">
@@ -52,7 +55,7 @@
             </div>
 
             <tags-show
-              class=" modal__tags"
+              class="modal__tags"
               :items="selectedTags"
               :can-add-tag="canAddTag"
               @item-cancel="cancelTag"
