@@ -17,16 +17,14 @@ $back-ground-tag-color: #f7f5fa;
   }
 
   &__img-del-tag {
-    width: 10px;
-    height: 10px;
-    opacity: .5;
+    width: 9px;
+    height: 9px;
+    opacity: .9;
   }
 
   &__del-tag {
     margin-left: auto;
-    border-radius: 15px;
     background-color: $back-ground-tag-color;
-    color: $font-tag-color;
     border: 0;
     cursor: pointer;
 
