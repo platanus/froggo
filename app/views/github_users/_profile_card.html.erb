@@ -39,6 +39,13 @@
         />
       </div>
     </div>
+  <div class="profile-prs">
+    <% @open_prs.each do |pr| %>
+        <pending-pr
+          pr="<%= pr.title %>"
+        ></pending-pr>
+    <% end %>
+  </div>
   <div class="profile__section">
     <profile-recommendations />
   </div>
