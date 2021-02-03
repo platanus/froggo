@@ -7,6 +7,7 @@ class GithubUsersController < ApplicationController
     @organizations = @github_user.organizations
     @user_tags = @github_user.tags
     @tags = Tag.all
+    @open_prs = open_prs(github_user)
   end
 
   # GET /me
@@ -33,5 +34,9 @@ class GithubUsersController < ApplicationController
     end
     gh_teams.concat(froggo_teams)
             .sort_by { |team| team[:name].downcase }
+  end
+
+  def open_prs(github_user)
+    PullRequest.by_owner(github_user.login).where(pr_state: 'open')
   end
 end
