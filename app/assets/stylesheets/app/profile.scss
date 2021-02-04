@@ -273,6 +273,34 @@
   padding: 40px;
 }
 
+.profile-prs {
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.pr-to-assign {
+  text-align: justify;
+  margin: .75rem;
+  padding: .75rem;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
+  border: 1px solid rgba($primary-color, .5);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  max-width: 280px;
+
+  &__title {
+    font-weight: 800;
+  }
+}
+
 .centered {
   text-align: center;
 }
