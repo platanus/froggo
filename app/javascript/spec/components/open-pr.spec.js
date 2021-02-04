@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 
-import pendingPr from '../../components/pending-pr.vue';
+import openPR from '../../components/open-pr.vue';
 
-describe('PendingPR', () => {
+describe('openPR', () => {
   const mockStore = {
     state: {
       profile: {
@@ -11,9 +11,9 @@ describe('PendingPR', () => {
       },
     },
   };
-  describe('User has 1 pending PR', () => {
-    it('Renders Title of Pending PR', () => {
-      const wrapper = shallowMount(pendingPr, {
+  describe('User has 1 open PR', () => {
+    it('Renders Title of open PR', () => {
+      const wrapper = shallowMount(openPR, {
         propsData: {
           pr: 'Test PR',
         },
