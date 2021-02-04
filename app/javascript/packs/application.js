@@ -7,6 +7,7 @@ import VTooltip from 'v-tooltip';
 import VueHorizontalList from 'vue-horizontal-list';
 import Toasted from 'vue-toasted';
 import { camelizeKeys } from 'humps';
+import vSelect from 'vue-select';
 
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
@@ -79,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('profile-description', ProfileDescription);
   Vue.component('user-tags', UserTags);
   Vue.component('tags-show', TagsShow);
+  Vue.component('v-select', vSelect);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new
