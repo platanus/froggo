@@ -35,6 +35,18 @@ export default {
         midhigh: 'Don\'t overdo it...',
         high: 'You seem fixated...',
       },
+      tagsTable: {
+        team: 'Team',
+        user: 'User',
+        color: 'Color',
+        tags: 'Tags',
+        description: 'Descripción',
+        colorDropdownTitle: 'Select a color',
+        colorDropdownNoItems: 'All',
+        tagsDropdownTitle: 'Select a tag',
+        tagsDropdownNoItems: 'All',
+        userFilterMessage: 'Enter username',
+      },
     },
     admin: {
       noDefaultTeam: 'No default team',

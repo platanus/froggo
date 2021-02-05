@@ -35,6 +35,18 @@ export default {
         midhigh: 'No te pases...',
         high: 'Parece que tienes una fijación...',
       },
+      tagsTable: {
+        team: 'Equipo',
+        user: 'Usuario',
+        color: 'Color',
+        tags: 'Tags',
+        description: 'Descripción',
+        colorDropdownTitle: 'Selecciona un color',
+        colorDropdownNoItems: 'Todos',
+        tagsDropdownTitle: 'Selecciona un tag',
+        tagsDropdownNoItems: 'Todos',
+        userFilterMessage: 'Ingresa un nombre',
+      },
     },
     admin: {
       noDefaultTeam: 'Sin equipo default',
