@@ -35,6 +35,7 @@ import PercentageDropdown from '../components/percentage-dropdown.vue';
 import ProfileDescription from '../components/profile-description.vue';
 import TagsShow from '../components/tags-show';
 import UserTags from '../components/user-tags.vue';
+import TeamTagsContainer from '../components/profile/team-tags-container.vue';
 
 import Locales from '../locales/locales.js';
 import store from '../store';
@@ -81,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('user-tags', UserTags);
   Vue.component('tags-show', TagsShow);
   Vue.component('v-select', vSelect);
+  Vue.component('team-tags-container', TeamTagsContainer);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new

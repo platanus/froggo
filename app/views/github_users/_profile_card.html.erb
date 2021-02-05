@@ -53,6 +53,9 @@
     <profile-statistics github-login="<%= @github_user.login %>" />
   </div>
   <div class="profile__section">
+    <team-tags-container :tags="<%= @tags.to_json%>" />
+  </div>
+  <div class="profile__section">
     <profile-metrics />
   </div>
 </div>
