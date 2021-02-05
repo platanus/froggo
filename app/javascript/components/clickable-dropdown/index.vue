@@ -5,15 +5,37 @@
   >
     <div
       class="select__btn"
+      :class="[fullWidthMode && 'select__btn select__btn--full-width',
+               centerMode && 'select__btn select__btn--center']"
       slot="btn"
     >
-      <span class="select__title">
-        {{ selectedItem ? (selectedItem.name ? selectedItem.name : selectedItem.login) : noItemsMessage }}
+      <span
+        :class="centerMode? 'select__title--center' : 'select__title'"
+      >
+        <span
+          v-if="selectedItem"
+        >
+          <div
+            v-if="colorMode"
+            :class="`select__color-badge select__color-badge--${selectedItem.name}`"
+          />
+          <span
+            v-else
+          >
+            {{ selectedItem ? (selectedItem.name ? selectedItem.name : selectedItem.login) : noItemsMessage }}
+          </span>
+        </span>
+
+        <span
+          v-else
+        >
+          {{ noItemsMessage }}
+        </span>
       </span>
     </div>
     <div
-      class="select__body"
       slot="body"
+      :class="colorMode? 'select__body--color' : 'select__body'"
     >
       <div
         v-if="bodyTitle"
@@ -23,11 +45,17 @@
       </div>
       <div
         v-for="(item, index) in items"
-        class="select__option"
+        :class="colorMode? 'select__option--color' : 'select__option'"
         @click="itemClicked({ item, index })"
         :key="index"
       >
-        {{ item.name ? item.name : item.login }}
+        <div
+          v-if="colorMode"
+          :class="`select__color-badge select__color-badge--${item.name}`"
+        />
+        <div v-else>
+          {{ item.name ? item.name : item.login }}
+        </div>
       </div>
     </div>
   </dropdown>
@@ -53,6 +81,18 @@ export default {
     defaultIndex: {
       type: Number,
       default: 0,
+    },
+    colorMode: {
+      type: Boolean,
+      default: false,
+    },
+    fullWidthMode: {
+      type: Boolean,
+      default: false,
+    },
+    centerMode: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
