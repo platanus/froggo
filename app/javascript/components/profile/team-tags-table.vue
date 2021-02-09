@@ -23,7 +23,7 @@
           <th class="profile-team-tags-table__column-title-center ">
             {{ $i18n.t('message.profile.tagsTable.color') }}
             <clickable-dropdown
-              :no-items-message="$i18n.t('message.profile.tagsTable.colorDropdownNoItems')"
+              :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
               :items="colorOptions"
               :default-index="-1"
               :center-mode="true"
@@ -34,13 +34,13 @@
           <th class="profile-team-tags-table__column-title-tags ">
             {{ $i18n.t('message.profile.tagsTable.tags') }}
             <clickable-dropdown
-              :no-items-message="$i18n.t('message.profile.tagsTable.tagsDropdownNoItems')"
+              :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
               :items="tags"
               :default-index="-1"
-              :all-option="$i18n.t('message.profile.tagsTable.tagsDropdownAll')"
+              :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
               :center-mode="true"
               :full-width-mode="true"
-              @item-clicked="onColorClicked"
+              @item-clicked="onTagClicked"
             />
           </th>
           <th class="profile-team-tags-table__column-title-center ">
@@ -103,8 +103,8 @@ export default {
         { 'name': 'green' },
         { 'name': 'light-blue' },
         { 'name': 'blue' }],
-      selectedColors: [],
-      selectedTags: [],
+      selectedColor: null,
+      selectedTag: null,
       userFilter: '',
     };
   },
@@ -125,8 +125,15 @@ export default {
   },
   methods: {
     colorFromScore,
-    onColorClicked() {
-      return;
+    onColorClicked(event) {
+      this.selectedColor = event.index < 0 ? null : this.colorOptions[event.index].name;
+    },
+    onTagClicked(event) {
+      if (event.index < 0) {
+        this.selectedTag = null;
+      } else {
+        this.selectedTag = this.tags[event.index].name;
+      }
     },
   },
   computed: {
