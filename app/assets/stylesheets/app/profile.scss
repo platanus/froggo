@@ -261,6 +261,172 @@
   }
 }
 
+.profile-team-tags-container {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  width: 100%;
+}
+
+
+.profile-team-tags-table {
+  border: 1px solid $gray;
+  flex: 1;
+  max-height: 500px;
+  overflow-y: auto;
+  width: 100%;
+
+
+  &__header {
+    color: $primary;
+    margin-top: 1rem;
+    vertical-align: top;
+  }
+
+  &__table {
+    flex: 1;
+    font-size: 15px;
+    padding: 1.5rem;
+    width: 100%;
+
+
+    tr:nth-child(even) {  background-color: $bg-primary-color; };
+
+    th {
+      background-color: $white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+  }
+
+  &__column-title-left {
+    font-weight: normal;
+    text-align: left;
+  }
+
+  &__column-title-center {
+    font-weight: normal;
+    text-align: center;
+  }
+
+  &__column-title-tags {
+    font-weight: normal;
+    text-align: center;
+    width: 35%;
+  }
+
+  &__input-user {
+    background-color: $bg-primary-color;
+    border: 0;
+    color: $primary;
+    display: flex;
+    flex-direction: column;
+    font-family: $main-font;
+    font-size: 16px;
+    height: 40px;
+    padding: 10px 25px;
+    position: relative;
+    text-align: left;
+    width: 100%;
+
+    &:hover {
+      border: 0;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__user {
+    align-items: center;
+    color: $primary;
+    display: flex;
+    margin-bottom: 15px;
+    text-decoration: none;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__picture {
+    border-radius: 50%;
+    height: 35px;
+    margin-right: 10px;
+    object-fit: cover;
+    width: 35px;
+  }
+
+  &__description {
+    align-items: center;
+    color: $primary;
+    display: flex;
+    text-decoration: none;
+  }
+
+  &__color-badge {
+    border-radius: 50%;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20px;
+
+    &--red {
+      background-color: rgba($red, .5);
+    }
+
+    &--light-red {
+      background-color: lighten(rgba($red, .5), 30%);
+    }
+
+    &--green {
+      background-color: rgba($primary-color, .5);
+    }
+
+    &--light-blue {
+      background-color: lighten(rgba($blue, .5), 30%);
+    }
+
+    &--blue {
+      background-color: rgba($blue, .5);
+    }
+  }
+}
+
+.profile-team-tags {
+  &__tags-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    &--odd {
+      background-color: $primary-color;
+      border-radius: 5px;
+      color: $white;
+      margin: 5px;
+      padding: 2px;
+      padding-left: 5px;
+      padding-right: 5px;
+      width: auto;
+    }
+
+    &--even {
+      background-color: rgba($primary, .5);
+      border-radius: 5px;
+      color: $white;
+      margin: 5px;
+      padding: 2px;
+      padding-left: 5px;
+      padding-right: 5px;
+      width: auto;
+    }
+  }
+}
+
 .profile-relations-users {
   margin-top: 15px;
 }
