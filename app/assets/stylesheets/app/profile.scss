@@ -309,12 +309,19 @@
   &__column-title-center {
     font-weight: normal;
     text-align: center;
+    width: 25%;
+  }
+
+  &__column-title-color {
+    font-weight: normal;
+    text-align: center;
+    width: 20%;
   }
 
   &__column-title-tags {
     font-weight: normal;
     text-align: center;
-    width: 35%;
+    width: 30%;
   }
 
   &__input-user {

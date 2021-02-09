@@ -20,7 +20,7 @@
               @input="userFilter= $event.target.value.toLowerCase().trim()"
             >
           </th>
-          <th class="profile-team-tags-table__column-title-center ">
+          <th class="profile-team-tags-table__column-title-color ">
             {{ $i18n.t('message.profile.tagsTable.color') }}
             <clickable-dropdown
               :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
@@ -28,6 +28,7 @@
               :default-index="-1"
               :center-mode="true"
               :color-mode="true"
+              :full-width-mode="true"
               @item-clicked="onColorClicked"
             />
           </th>
