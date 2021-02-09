@@ -6,7 +6,7 @@
   >
     <team-tags-table
       :being-fetched="fetchingRecommendations"
-      :team="recommendations['all']"
+      :team="recommendations && recommendations.all"
       :tags="tags"
     />
   </div>
