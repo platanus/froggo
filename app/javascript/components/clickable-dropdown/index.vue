@@ -18,6 +18,7 @@
           <div
             v-if="colorMode"
             :class="`select__color-badge select__color-badge--${selectedItem.name}`"
+            @click="itemClicked({ index: -1 })"
           />
           <span
             v-else
@@ -44,6 +45,13 @@
         {{ bodyTitle }}
       </div>
       <div
+        v-if="allOption"
+        class="select-body__title"
+        @click="itemClicked({ index: -1 })"
+      >
+        {{ allOption }}
+      </div>
+      <div
         v-for="(item, index) in items"
         :class="colorMode? 'select__option--color' : 'select__option'"
         @click="itemClicked({ item, index })"
@@ -66,7 +74,7 @@ export default {
   props: {
     bodyTitle: {
       type: String,
-      required: true,
+      default: '',
     },
     noItemsMessage: {
       type: String,
@@ -93,6 +101,10 @@ export default {
     centerMode: {
       type: Boolean,
       default: false,
+    },
+    allOption: {
+      type: String,
+      default: '',
     },
   },
   data() {

@@ -16,13 +16,14 @@
               class="profile-team-tags-table__input-user"
               type="text"
               :placeholder="$i18n.t('message.profile.tagsTable.userFilterMessage')"
-              v-model="userFilter"
+              :value="userFilter"
+              @input="userFilter= $event.target.value.toLowerCase().trim()"
             >
           </th>
           <th class="profile-team-tags-table__column-title-center ">
             {{ $i18n.t('message.profile.tagsTable.color') }}
             <clickable-dropdown
-              :no-items-message="$i18n.t('message.profile.tagsTable.colorDropdownNoItems')"
+              :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
               :items="colorOptions"
               :default-index="-1"
               :center-mode="true"
@@ -33,12 +34,13 @@
           <th class="profile-team-tags-table__column-title-tags ">
             {{ $i18n.t('message.profile.tagsTable.tags') }}
             <clickable-dropdown
-              :no-items-message="$i18n.t('message.profile.tagsTable.tagsDropdownNoItems')"
+              :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
               :items="tags"
               :default-index="-1"
+              :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
               :center-mode="true"
               :full-width-mode="true"
-              @item-clicked="onColorClicked"
+              @item-clicked="onTagClicked"
             />
           </th>
           <th class="profile-team-tags-table__column-title-center ">
@@ -48,7 +50,7 @@
       </thead>
       <tbody class="profile-team-tags-table__body">
         <tr
-          v-for="(user, index) in team"
+          v-for="(user, index) in filteredTeam"
           :key="user.id"
         >
           <td>
@@ -101,15 +103,16 @@ export default {
         { 'name': 'green' },
         { 'name': 'light-blue' },
         { 'name': 'blue' }],
-      selectedColors: [],
-      selectedTags: [],
+      selectedColor: null,
+      selectedTag: null,
+      userFilter: '',
     };
   },
   components: { teamTags, ClickableDropdown },
   props: {
     team: {
       type: Array,
-      default: () => { },
+      default: () => [],
     },
     beingFetched: {
       type: Boolean,
@@ -122,8 +125,15 @@ export default {
   },
   methods: {
     colorFromScore,
-    onColorClicked() {
-      return;
+    onColorClicked(event) {
+      this.selectedColor = event.index < 0 ? null : this.colorOptions[event.index].name;
+    },
+    onTagClicked(event) {
+      if (event.index < 0) {
+        this.selectedTag = null;
+      } else {
+        this.selectedTag = this.tags[event.index].name;
+      }
     },
   },
   computed: {
@@ -132,6 +142,19 @@ export default {
     },
     tagsNames() {
       return (this.tags.map((tag) => (tag.id)));
+    },
+    filteredTeam() {
+      let team = [];
+      if (this.beingFetched) return [];
+      team = this.team.filter((user) => (user.login.toLowerCase().includes(this.userFilter)));
+      if (this.selectedColor) {
+        team = team.filter((user) => (colorFromScore(user.score) === this.selectedColor));
+      }
+      if (this.selectedTag) {
+        team = team.filter((user) => (user.tags.map((tag) => (tag.name)).includes(this.selectedTag)));
+      }
+
+      return team;
     },
   },
 };
