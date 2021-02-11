@@ -459,6 +459,10 @@
   font-family: $main-font;
   color: $select-color;
 
+  &__error {
+    color: rgba($red, .5);
+  }
+
   &__container {
     display: flex;
     align-items: center;
