@@ -4,8 +4,12 @@
     class="profile-team-tags-container"
     v-if="selectedTeam"
   >
+    <div
+      v-if="fetchingRecommendations || !recommendations"
+      class="loading-icon"
+    />
     <team-tags-table
-      :being-fetched="fetchingRecommendations"
+      v-else
       :team="recommendations && recommendations.all"
       :tags="tags"
     />
