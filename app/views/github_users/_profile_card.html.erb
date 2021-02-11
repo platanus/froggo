@@ -42,8 +42,9 @@
   <div class="profile-prs">
     <% @open_prs.each do |pr| %>
         <open-pr
-          pr="<%= pr.title %>"
-        ></open-pr>
+          :pr="<%= pr.to_json %>"
+        >
+        </open-pr>
     <% end %>
   </div>
   <div class="profile__section">
