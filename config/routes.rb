@@ -61,6 +61,7 @@ Rails.application.routes.draw do
       patch 'github_users/:id' => 'github_users#update'
       get 'users/:github_login/pull_requests_information' =>
         'github_users#pull_requests_information'
+      post 'pull_request_reviewer/add' => 'pull_request_reviewers#add_reviewer'
     end
   end
 
