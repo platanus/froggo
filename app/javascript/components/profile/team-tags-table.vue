@@ -5,15 +5,17 @@
     >
       <thead class="profile-team-tags-table__header">
         <tr>
-          <th class="profile-team-tags-table__column-title-center ">
-            {{ $i18n.t('message.profile.tagsTable.user') }}
-            <input
-              class="profile-team-tags-table__input-user"
-              type="text"
-              :placeholder="$i18n.t('message.profile.tagsTable.userFilterMessage')"
-              :value="userFilter"
-              @input="userFilter= $event.target.value.toLowerCase().trim()"
-            >
+          <th class="profile-team-tags-table__column-head">
+            <div class="profile-team-tags-table__column-head-content ">
+              {{ $i18n.t('message.profile.tagsTable.user') }}
+              <input
+                class="profile-team-tags-table__input-user"
+                type="text"
+                :placeholder="$i18n.t('message.profile.tagsTable.userFilterMessage')"
+                :value="userFilter"
+                @input="handleUserInput"
+              >
+            </div>
           </th>
           <th class="profile-team-tags-table__column-head">
             <div class="profile-team-tags-table__column-head-content ">
@@ -24,21 +26,30 @@
               />
             </div>
           </th>
-          <th class="profile-team-tags-table__column-title-tags ">
-            {{ $i18n.t('message.profile.tagsTable.tags') }}
-            <clickable-dropdown
-              :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
-              :items="tags"
-              :default-index="-1"
-              :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
-              :center-mode="true"
-              :full-width-mode="true"
-              @item-clicked="onTagClicked"
-              ref="dropdownTags"
-            />
+          <th class="profile-team-tags-table__column-head">
+            <div
+              ref="tagsHeader"
+              class="profile-team-tags-table__column-head-content "
+            >
+              <span ref="tagsTitle">
+                {{ $i18n.t('message.profile.tagsTable.tags') }}
+              </span>
+              <clickable-dropdown
+                :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
+                :items="tags"
+                :default-index="-1"
+                :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
+                :white-mode="true"
+                :width="selectTagsWidth"
+                @item-clicked="onTagClicked"
+                ref="dropdownTags"
+              />
+            </div>
           </th>
-          <th class="profile-team-tags-table__column-title-center ">
-            {{ $i18n.t('message.profile.tagsTable.description') }}
+          <th class="profile-team-tags-table__column-head">
+            <div class="profile-team-tags-table__column-head-content ">
+              {{ $i18n.t('message.profile.tagsTable.description') }}
+            </div>
           </th>
         </tr>
       </thead>
@@ -114,6 +125,7 @@ export default {
       selectedTag: null,
       userFilter: '',
       maxRowHeight: {},
+      selectTagsWidth: 0,
     };
   },
   components: { teamTags, clickableDropdown, colorMultiSelect },
@@ -124,6 +136,7 @@ export default {
       newMaxRowHeight[user.id.toString()] = userTags && userTags.clientHeight;
     });
     this.maxRowHeight = newMaxRowHeight;
+    this.selectTagsWidth = this.$refs.tagsHeader.clientWidth - this.$refs.tagsTitle.clientWidth;
   },
   props: {
     team: {
@@ -150,6 +163,10 @@ export default {
     },
     rowHeight(userId) {
       return this.maxRowHeight[userId.toString()];
+    },
+
+    handleUserInput(event) {
+      this.userFilter = event.target.value.toLowerCase().trim();
     },
   },
   computed: {

@@ -37,12 +37,12 @@ export default {
       },
       tagsTable: {
         team: 'Equipo',
-        user: 'Usuario',
-        color: 'Color',
+        user: 'Usuarios',
+        color: 'Colores',
         tags: 'Tags',
         description: 'Descripción',
-        dropdownAll: 'todos',
-        userFilterMessage: 'Ingresa un nombre',
+        dropdownAll: 'Todos',
+        userFilterMessage: 'Todos',
       },
     },
     admin: {
