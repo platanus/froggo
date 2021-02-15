@@ -306,17 +306,20 @@
     text-align: left;
   }
 
-  &__column-title-center {
+  &__column-head {
+    background-color: $bg-primary-color;
     font-weight: normal;
+    padding: 5px 10px;
     text-align: center;
+    text-justify: center;
     width: 25%;
   }
 
-  &__column-title-color {
-    font-weight: normal;
-    text-align: center;
-    width: 20%;
-  }
+  &__column-head-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 
   &__column-title-tags {
     font-weight: normal;

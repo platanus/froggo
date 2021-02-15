@@ -15,18 +15,14 @@
               @input="userFilter= $event.target.value.toLowerCase().trim()"
             >
           </th>
-          <th class="profile-team-tags-table__column-title-color ">
-            {{ $i18n.t('message.profile.tagsTable.color') }}
-            <clickable-dropdown
-              :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
-              :items="colorOptions"
-              :default-index="-1"
-              :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
-              :center-mode="true"
-              :color-mode="true"
-              :full-width-mode="true"
-              @item-clicked="onColorClicked"
-            />
+          <th class="profile-team-tags-table__column-head">
+            <div class="profile-team-tags-table__column-head-content ">
+              {{ $i18n.t('message.profile.tagsTable.color') }}
+              <color-multi-select
+                :items="colorOptions"
+                @color-clicked="onColorClicked"
+              />
+            </div>
           </th>
           <th class="profile-team-tags-table__column-title-tags ">
             {{ $i18n.t('message.profile.tagsTable.tags') }}
@@ -97,7 +93,8 @@
 <script>
 import teamTags from './team-tags.vue';
 import colorFromScore from '../../helpers/color-from-score.js';
-import ClickableDropdown from '../clickable-dropdown';
+import clickableDropdown from '../clickable-dropdown';
+import colorMultiSelect from '../color-multi-select';
 
 export default {
   data() {
@@ -108,13 +105,18 @@ export default {
         { 'name': 'green' },
         { 'name': 'light-blue' },
         { 'name': 'blue' }],
-      selectedColor: null,
+      selectedColors: {
+        'red': true,
+        'light-red': true,
+        'green': true,
+        'light-blue': true,
+        'blue': true },
       selectedTag: null,
       userFilter: '',
       maxRowHeight: {},
     };
   },
-  components: { teamTags, ClickableDropdown },
+  components: { teamTags, clickableDropdown, colorMultiSelect },
   mounted() {
     const newMaxRowHeight = {};
     this.team.forEach((user) => {
@@ -136,7 +138,8 @@ export default {
   methods: {
     colorFromScore,
     onColorClicked(event) {
-      this.selectedColor = event.index < 0 ? null : this.colorOptions[event.index].name;
+      this.selectedColors[event.color] = !this.selectedColors[event.color];
+      this.selectedColors = Object.assign({}, this.selectedColors);
     },
     onTagClicked(event) {
       if (event.index < 0) {
@@ -159,9 +162,7 @@ export default {
     filteredTeam() {
       let team = [];
       team = this.team.filter((user) => (user.login.toLowerCase().includes(this.userFilter)));
-      if (this.selectedColor) {
-        team = team.filter((user) => (colorFromScore(user.score) === this.selectedColor));
-      }
+      team = team.filter((user) => (this.selectedColors[colorFromScore(user.score)]));
       if (this.selectedTag) {
         team = team.filter((user) => (user.tags.map((tag) => (tag.name)).includes(this.selectedTag)));
       }
