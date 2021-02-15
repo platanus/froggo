@@ -5,17 +5,24 @@
   >
     <div
       class="select__btn"
-      :class="whiteMode && 'select__btn select__btn--white'"
-      :style="{ width: `${width}px`}"
+      :class="[fullWidthMode && 'select__btn select__btn--full-width',
+               centerMode && 'select__btn select__btn--center']"
       slot="btn"
     >
       <span
-        :class="whiteMode? 'select__title--light' : 'select__title'"
+        :class="centerMode? 'select__title--center' : 'select__title'"
       >
         <span
           v-if="selectedItem"
         >
-          <span>
+          <div
+            v-if="colorMode"
+            :class="`select__color-badge select__color-badge--${selectedItem.name}`"
+            @click="itemClicked({ index: -1 })"
+          />
+          <span
+            v-else
+          >
             {{ selectedItem ? (selectedItem.name ? selectedItem.name : selectedItem.login) : noItemsMessage }}
           </span>
         </span>
@@ -39,18 +46,26 @@
       </div>
       <div
         v-if="allOption"
-        class="select__option"
+        class="select-body__title"
+        :class="colorMode && 'select-body__all-option-center'"
         @click="itemClicked({ index: -1 })"
       >
         {{ allOption }}
       </div>
       <div
         v-for="(item, index) in items"
-        class="select__option"
+        :class="colorMode? 'select__option--color' : 'select__option'"
         @click="itemClicked({ item, index })"
         :key="index"
       >
-        <div>
+        <div
+          v-if="colorMode"
+        >
+          <div
+            :class="`select__color-badge select__color-badge--${item.name}`"
+          />
+        </div>
+        <div v-else>
           {{ item.name ? item.name : item.login }}
         </div>
       </div>
@@ -79,17 +94,21 @@ export default {
       type: Number,
       default: 0,
     },
-    whiteMode: {
+    colorMode: {
+      type: Boolean,
+      default: false,
+    },
+    fullWidthMode: {
+      type: Boolean,
+      default: false,
+    },
+    centerMode: {
       type: Boolean,
       default: false,
     },
     allOption: {
       type: String,
       default: '',
-    },
-    width: {
-      type: Number,
-      default: 200,
     },
   },
   data() {

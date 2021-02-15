@@ -281,26 +281,23 @@
   &__header {
     color: $primary;
     margin-top: 1rem;
-    vertical-align: center;
+    vertical-align: top;
   }
 
   &__table {
     flex: 1;
     font-size: 15px;
     padding: 1.5rem;
-    table-layout: fixed;
     width: 100%;
 
-    tr:nth-child(odd) {  background-color: $bg-primary-color; };
+
+    tr:nth-child(even) {  background-color: $bg-primary-color; };
 
     th {
       background-color: $white;
       position: sticky;
-      height: 100%;
       top: 0;
       z-index: 100;
-      --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1);
-      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-shadow);
     }
   }
 
@@ -309,33 +306,34 @@
     text-align: left;
   }
 
-  &__column-head {
-    background-color: $bg-primary-color;
+  &__column-title-center {
     font-weight: normal;
-    padding: 5px 10px;
     text-align: center;
-    text-justify: center;
     width: 25%;
   }
 
-  &__column-head-content {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    width: 100%;
+  &__column-title-color {
+    font-weight: normal;
+    text-align: center;
+    width: 20%;
+  }
 
+  &__column-title-tags {
+    font-weight: normal;
+    text-align: center;
+    width: 30%;
   }
 
   &__input-user {
-    background-color: $white;
+    background-color: $bg-primary-color;
     border: 0;
-    color: rgba($select-color, .5);
+    color: $primary;
     display: flex;
     flex-direction: column;
     font-family: $main-font;
-    font-size: 15px;
+    font-size: 16px;
     height: 40px;
-    padding: 10px 0 10px 25px;
+    padding: 10px 25px;
     position: relative;
     text-align: left;
     width: 100%;
@@ -346,11 +344,6 @@
 
     &:focus {
       outline: none;
-    }
-
-    &::placeholder {
-      color: $select-color;
-      opacity: .5;
     }
   }
 
