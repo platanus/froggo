@@ -272,8 +272,8 @@
 
 .profile-team-tags-table {
   border: 1px solid $gray;
-  flex: 1;
   max-height: 500px;
+  min-height: 300px;
   overflow-y: auto;
   width: 100%;
 
@@ -309,12 +309,19 @@
   &__column-title-center {
     font-weight: normal;
     text-align: center;
+    width: 25%;
+  }
+
+  &__column-title-color {
+    font-weight: normal;
+    text-align: center;
+    width: 20%;
   }
 
   &__column-title-tags {
     font-weight: normal;
     text-align: center;
-    width: 35%;
+    width: 30%;
   }
 
   &__input-user {
@@ -363,8 +370,10 @@
   &__description {
     align-items: center;
     color: $primary;
-    display: flex;
+    overflow: auto;
+    padding: .25rem .5rem;
     text-decoration: none;
+    height: 56px;
   }
 
   &__color-badge {

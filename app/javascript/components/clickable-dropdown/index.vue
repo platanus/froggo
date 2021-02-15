@@ -36,7 +36,7 @@
     </div>
     <div
       slot="body"
-      :class="colorMode? 'select__body--color' : 'select__body'"
+      class="select__body"
     >
       <div
         v-if="bodyTitle"
@@ -47,6 +47,7 @@
       <div
         v-if="allOption"
         class="select-body__title"
+        :class="colorMode && 'select-body__all-option-center'"
         @click="itemClicked({ index: -1 })"
       >
         {{ allOption }}
@@ -59,8 +60,11 @@
       >
         <div
           v-if="colorMode"
-          :class="`select__color-badge select__color-badge--${item.name}`"
-        />
+        >
+          <div
+            :class="`select__color-badge select__color-badge--${item.name}`"
+          />
+        </div>
         <div v-else>
           {{ item.name ? item.name : item.login }}
         </div>

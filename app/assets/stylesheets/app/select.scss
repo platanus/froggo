@@ -72,13 +72,6 @@
   &__body {
     max-height: 300px;
     overflow-y: scroll;
-
-    &--color {
-      display: flex;
-      justify-content: center;
-      min-width: 200px;
-      overflow-x: scroll;
-    }
   }
 
   &-body__title {
@@ -89,6 +82,10 @@
     color: $primary;
     padding: 15px 42px 15px 18px;
     text-align: left;
+  }
+
+  &-body__all-option-center {
+    text-align: center;
   }
 
   &__option {
@@ -129,7 +126,6 @@
 
   &__color-badge {
     border-radius: 50%;
-    flex: 1;
     height: 20px;
     margin-right: auto;
     margin-left: auto;

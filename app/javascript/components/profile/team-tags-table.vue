@@ -1,11 +1,6 @@
 <template>
   <div class="profile-team-tags-table">
-    <div
-      v-if="beingFetched || !team"
-      class="loading-icon"
-    />
     <table
-      v-else
       class="profile-team-tags-table__table"
     >
       <thead class="profile-team-tags-table__header">
@@ -20,14 +15,16 @@
               @input="userFilter= $event.target.value.toLowerCase().trim()"
             >
           </th>
-          <th class="profile-team-tags-table__column-title-center ">
+          <th class="profile-team-tags-table__column-title-color ">
             {{ $i18n.t('message.profile.tagsTable.color') }}
             <clickable-dropdown
               :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
               :items="colorOptions"
               :default-index="-1"
+              :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
               :center-mode="true"
               :color-mode="true"
+              :full-width-mode="true"
               @item-clicked="onColorClicked"
             />
           </th>
@@ -41,6 +38,7 @@
               :center-mode="true"
               :full-width-mode="true"
               @item-clicked="onTagClicked"
+              ref="dropdownTags"
             />
           </th>
           <th class="profile-team-tags-table__column-title-center ">
@@ -48,7 +46,9 @@
           </th>
         </tr>
       </thead>
-      <tbody class="profile-team-tags-table__body">
+      <tbody
+        class="profile-team-tags-table__body"
+      >
         <tr
           v-for="(user, index) in filteredTeam"
           :key="user.id"
@@ -74,13 +74,18 @@
             />
           </td>
           <td>
-            <team-tags
-              :tags="user.tags"
-              :index="index"
-            />
+            <div :ref="`tags${user.id}`">
+              <team-tags
+                :tags="user.tags"
+                :index="index"
+              />
+            </div>
           </td>
-          <td>
-            <div class="profile-team-tags-table__description">
+          <td class="profile-team-table ">
+            <div
+              class="profile-team-tags-table__description"
+              :style="{ height: `max(${rowHeight(user.id)}px, 56px)`}"
+            >
               {{ user.description }}
             </div>
           </td>
@@ -106,17 +111,22 @@ export default {
       selectedColor: null,
       selectedTag: null,
       userFilter: '',
+      maxRowHeight: {},
     };
   },
   components: { teamTags, ClickableDropdown },
+  mounted() {
+    const newMaxRowHeight = {};
+    this.team.forEach((user) => {
+      const userTags = this.$refs[`tags${user.id}`][0];
+      newMaxRowHeight[user.id.toString()] = userTags && userTags.clientHeight;
+    });
+    this.maxRowHeight = newMaxRowHeight;
+  },
   props: {
     team: {
       type: Array,
       default: () => [],
-    },
-    beingFetched: {
-      type: Boolean,
-      default: true,
     },
     tags: {
       type: Array,
@@ -135,6 +145,9 @@ export default {
         this.selectedTag = this.tags[event.index].name;
       }
     },
+    rowHeight(userId) {
+      return this.maxRowHeight[userId.toString()];
+    },
   },
   computed: {
     tagsIds() {
@@ -145,7 +158,6 @@ export default {
     },
     filteredTeam() {
       let team = [];
-      if (this.beingFetched) return [];
       team = this.team.filter((user) => (user.login.toLowerCase().includes(this.userFilter)));
       if (this.selectedColor) {
         team = team.filter((user) => (colorFromScore(user.score) === this.selectedColor));
