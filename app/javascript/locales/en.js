@@ -37,12 +37,12 @@ export default {
       },
       tagsTable: {
         team: 'Team',
-        user: 'User',
-        color: 'Color',
+        user: 'Users',
+        color: 'Colors',
         tags: 'Tags',
-        description: 'Descripción',
-        dropdownAll: 'all',
-        userFilterMessage: 'Enter username',
+        description: 'Description',
+        dropdownAll: 'All',
+        userFilterMessage: 'All',
       },
     },
     admin: {

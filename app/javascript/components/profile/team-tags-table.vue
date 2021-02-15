@@ -5,44 +5,51 @@
     >
       <thead class="profile-team-tags-table__header">
         <tr>
-          <th class="profile-team-tags-table__column-title-center ">
-            {{ $i18n.t('message.profile.tagsTable.user') }}
-            <input
-              class="profile-team-tags-table__input-user"
-              type="text"
-              :placeholder="$i18n.t('message.profile.tagsTable.userFilterMessage')"
-              :value="userFilter"
-              @input="userFilter= $event.target.value.toLowerCase().trim()"
+          <th class="profile-team-tags-table__column-head">
+            <div class="profile-team-tags-table__column-head-content ">
+              {{ $i18n.t('message.profile.tagsTable.user') }}
+              <input
+                class="profile-team-tags-table__input-user"
+                type="text"
+                :placeholder="$i18n.t('message.profile.tagsTable.userFilterMessage')"
+                :value="userFilter"
+                @input="handleUserInput"
+              >
+            </div>
+          </th>
+          <th class="profile-team-tags-table__column-head">
+            <div class="profile-team-tags-table__column-head-content ">
+              {{ $i18n.t('message.profile.tagsTable.color') }}
+              <color-multi-select
+                :items="colorOptions"
+                @color-clicked="onColorClicked"
+              />
+            </div>
+          </th>
+          <th class="profile-team-tags-table__column-head">
+            <div
+              ref="tagsHeader"
+              class="profile-team-tags-table__column-head-content "
             >
+              <span ref="tagsTitle">
+                {{ $i18n.t('message.profile.tagsTable.tags') }}
+              </span>
+              <clickable-dropdown
+                :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
+                :items="tags"
+                :default-index="-1"
+                :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
+                :white-mode="true"
+                :width="selectTagsWidth"
+                @item-clicked="onTagClicked"
+                ref="dropdownTags"
+              />
+            </div>
           </th>
-          <th class="profile-team-tags-table__column-title-color ">
-            {{ $i18n.t('message.profile.tagsTable.color') }}
-            <clickable-dropdown
-              :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
-              :items="colorOptions"
-              :default-index="-1"
-              :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
-              :center-mode="true"
-              :color-mode="true"
-              :full-width-mode="true"
-              @item-clicked="onColorClicked"
-            />
-          </th>
-          <th class="profile-team-tags-table__column-title-tags ">
-            {{ $i18n.t('message.profile.tagsTable.tags') }}
-            <clickable-dropdown
-              :no-items-message="$i18n.t('message.profile.tagsTable.dropdownAll')"
-              :items="tags"
-              :default-index="-1"
-              :all-option="$i18n.t('message.profile.tagsTable.dropdownAll')"
-              :center-mode="true"
-              :full-width-mode="true"
-              @item-clicked="onTagClicked"
-              ref="dropdownTags"
-            />
-          </th>
-          <th class="profile-team-tags-table__column-title-center ">
-            {{ $i18n.t('message.profile.tagsTable.description') }}
+          <th class="profile-team-tags-table__column-head">
+            <div class="profile-team-tags-table__column-head-content ">
+              {{ $i18n.t('message.profile.tagsTable.description') }}
+            </div>
           </th>
         </tr>
       </thead>
@@ -97,7 +104,8 @@
 <script>
 import teamTags from './team-tags.vue';
 import colorFromScore from '../../helpers/color-from-score.js';
-import ClickableDropdown from '../clickable-dropdown';
+import clickableDropdown from '../clickable-dropdown';
+import colorMultiSelect from '../color-multi-select';
 
 export default {
   data() {
@@ -108,13 +116,19 @@ export default {
         { 'name': 'green' },
         { 'name': 'light-blue' },
         { 'name': 'blue' }],
-      selectedColor: null,
+      selectedColors: {
+        'red': true,
+        'light-red': true,
+        'green': true,
+        'light-blue': true,
+        'blue': true },
       selectedTag: null,
       userFilter: '',
       maxRowHeight: {},
+      selectTagsWidth: 0,
     };
   },
-  components: { teamTags, ClickableDropdown },
+  components: { teamTags, clickableDropdown, colorMultiSelect },
   mounted() {
     const newMaxRowHeight = {};
     this.team.forEach((user) => {
@@ -122,6 +136,7 @@ export default {
       newMaxRowHeight[user.id.toString()] = userTags && userTags.clientHeight;
     });
     this.maxRowHeight = newMaxRowHeight;
+    this.selectTagsWidth = this.$refs.tagsHeader.clientWidth - this.$refs.tagsTitle.clientWidth;
   },
   props: {
     team: {
@@ -136,7 +151,8 @@ export default {
   methods: {
     colorFromScore,
     onColorClicked(event) {
-      this.selectedColor = event.index < 0 ? null : this.colorOptions[event.index].name;
+      this.selectedColors[event.color] = !this.selectedColors[event.color];
+      this.selectedColors = Object.assign({}, this.selectedColors);
     },
     onTagClicked(event) {
       if (event.index < 0) {
@@ -147,6 +163,10 @@ export default {
     },
     rowHeight(userId) {
       return this.maxRowHeight[userId.toString()];
+    },
+
+    handleUserInput(event) {
+      this.userFilter = event.target.value.toLowerCase().trim();
     },
   },
   computed: {
@@ -159,9 +179,7 @@ export default {
     filteredTeam() {
       let team = [];
       team = this.team.filter((user) => (user.login.toLowerCase().includes(this.userFilter)));
-      if (this.selectedColor) {
-        team = team.filter((user) => (colorFromScore(user.score) === this.selectedColor));
-      }
+      team = team.filter((user) => (this.selectedColors[colorFromScore(user.score)]));
       if (this.selectedTag) {
         team = team.filter((user) => (user.tags.map((tag) => (tag.name)).includes(this.selectedTag)));
       }
