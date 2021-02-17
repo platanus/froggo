@@ -149,7 +149,9 @@ export default {
     },
   },
   methods: {
-    colorFromScore,
+    colorFromScore(score) {
+      return colorFromScore(score, 'red');
+    },
     onColorClicked(event) {
       this.selectedColors[event.color] = !this.selectedColors[event.color];
       this.selectedColors = Object.assign({}, this.selectedColors);
@@ -179,7 +181,7 @@ export default {
     filteredTeam() {
       let team = [];
       team = this.team.filter((user) => (user.login.toLowerCase().includes(this.userFilter)));
-      team = team.filter((user) => (this.selectedColors[colorFromScore(user.score)]));
+      team = team.filter((user) => (this.selectedColors[this.colorFromScore(user.score)]));
       if (this.selectedTag) {
         team = team.filter((user) => (user.tags.map((tag) => (tag.name)).includes(this.selectedTag)));
       }
