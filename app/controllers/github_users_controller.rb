@@ -27,6 +27,10 @@ class GithubUsersController < ApplicationController
     github_session.user.get_froggo_teams.sort_by { |team| team[:name].downcase }
   end
 
+  def client
+    @client ||= BuildOctokitClient.for(token: github_session.token)
+  end
+
   def user_teams(github_user)
     gh_teams = github_teams(github_user)
     gh_teams.each do |team|
@@ -36,7 +40,26 @@ class GithubUsersController < ApplicationController
             .sort_by { |team| team[:name].downcase }
   end
 
+  def check_pr_status!(pull_request)
+    repo = pull_request.repository.full_name
+    gh_number = pull_request.gh_number
+    updated_pull_request = client.pull_request(repo, gh_number)
+    response = client.last_response
+    if response && response.status == 200 && updated_pull_request[:state] != 'open'
+      pull_request.update(pr_state: updated_pull_request[:state])
+    end
+  end
+
+  def check_open_prs(github_user)
+    PullRequest.by_owner(github_user.login).where(pr_state: 'open').each do |pr|
+      if pr.gh_created_at < 1.day.ago
+        check_pr_status!(pr)
+      end
+    end
+  end
+
   def open_prs(github_user)
+    check_open_prs(github_user)
     PullRequest.by_owner(github_user.login).where(pr_state: 'open')
   end
 end
