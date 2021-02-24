@@ -12,6 +12,25 @@
         #{{ prTitle }}
       </h3>
 
+      <h4>
+        Revisores asignados:
+      </h4>
+      <a
+        class="profile-recommendations-users__user"
+        v-for="rev in selectedReviewers"
+        :key="rev.login"
+      >
+        <img
+          class="select-reviewer__picture"
+          :src="rev.avatar_url"
+        >
+        <span
+          class="select-reviewer__username"
+        >
+          {{ rev.login }}
+        </span>
+      </a>
+
       <p
         v-if="error"
         class="profile-prs__error"
@@ -28,6 +47,9 @@
         <template v-slot:no-options="{ search, searching }">
           <template v-if="searching">
             No hay coincidencias para <em>{{ search }}</em>.
+          </template>
+          <template v-else>
+            No hay opciones :(
           </template>
         </template>
         <template v-slot:option="option">
@@ -72,7 +94,7 @@ export default {
       fetchingRecommendations: state => state.profile.fetchingRecommendations,
     }),
     users() {
-      return this.recommendations.all;
+      return this.inFirstOnly(this.recommendations.all, this.selectedReviewers);
     },
     prTitle() {
       return this.pr.title;
@@ -86,9 +108,18 @@ export default {
       type: Object,
       required: true,
     },
+    reviewers: {
+      type: Array,
+      required: true,
+    },
   },
   methods: {
     colorFromScore,
+    inFirstOnly(firstList, secondList) {
+      return firstList.filter((element) =>
+        !secondList.some((secondListElement) => secondListElement.id === element.id),
+      );
+    },
     submit() {
       if (this.reviewer) {
         this.addReviewer();
@@ -97,12 +128,20 @@ export default {
         this.errors = 'Debe seleccionar algún revisor';
       }
     },
+    addLocalReviewer(reviewer) {
+      if (!this.selectedReviewers.some(
+        (selectedReviewer) => selectedReviewer.id === reviewer.id)
+      ) {
+        this.selectedReviewers.push(reviewer);
+      }
+    },
     addReviewer() {
       const data = { reviewer: this.reviewer.login, pullRequestId: this.prId };
       pullRequestReviewersApi.addReviewer(data)
-        .then(() => {
+        .then((params) => {
           this.error = false;
           this.reviewer = '';
+          this.addLocalReviewer(params.data);
         }).catch(() => {
           this.error = true;
           this.errors = 'Hubo un problema ><';
@@ -116,6 +155,7 @@ export default {
       reviewer: '',
       error: false,
       errors: '',
+      selectedReviewers: this.reviewers,
     };
   },
 };
