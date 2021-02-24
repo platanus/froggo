@@ -19,6 +19,11 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
         data_object.pull_request,
         data_object.requested_reviewer
       )
+    elsif data_object.action == 'review_requested_removed'
+      remove_reviewers_from_pull_request!(
+        pull_request,
+        data_object.requested_reviewer
+      )
     elsif data_object.action === "synchronize" || data_object.action === "edited"
       update_pull_request_change(pull_request, data_object.pull_request)
     end
@@ -66,7 +71,48 @@ class GithubPullRequestService < PowerTypes::Service.new(:token)
     end
   end
 
+  def remove_reviewers_from_pull_request!(pull_request, requested_reviewer)
+    reviewer = GithubUser.find_by(gh_id: requested_reviewer.id)
+    PullRequestReviewRequest.find_by(
+      github_user_id: reviewer.id,
+      pull_request_id: pull_request.id
+    )&.delete
+  end
+
+  def open_prs(owner)
+    check_open_prs(owner)
+    PullRequest.by_owner(owner).open.map do |pull_request|
+      { pull_request: pull_request, reviewers: find_reviewers(pull_request) }
+    end
+  end
+
   private
+
+  def find_reviewers(pull_request)
+    PullRequestReviewRequest.where(
+      pull_request_id: pull_request.id
+    ).map do |pull_request_review_request|
+      GithubUser.find(pull_request_review_request.github_user_id)
+    end
+  end
+
+  def check_open_prs(owner)
+    PullRequest.by_owner(owner).open.each do |pr|
+      if pr.gh_created_at < 1.day.ago
+        check_pr_status!(pr)
+      end
+    end
+  end
+
+  def check_pr_status!(pull_request)
+    repo = pull_request.repository.full_name
+    gh_number = pull_request.gh_number
+    updated_pull_request = client.pull_request(repo, gh_number)
+    response = client.last_response
+    if response && response.status == 200 && updated_pull_request[:state] != 'open'
+      pull_request.update(pr_state: updated_pull_request[:state])
+    end
+  end
 
   def github_pull_requests(repository, page: nil)
     client.pull_requests(repository.full_name, state: 'all', page: page)
