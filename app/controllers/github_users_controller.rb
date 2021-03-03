@@ -37,6 +37,6 @@ class GithubUsersController < ApplicationController
   end
 
   def open_prs(github_user)
-    PullRequest.by_owner(github_user.login).where(pr_state: 'open')
+    GithubPullRequestService.new(token: github_session.token).open_prs(github_user.login)
   end
 end

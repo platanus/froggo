@@ -195,8 +195,55 @@ describe GithubPullRequestService do
     end
   end
 
+  describe '#open_prs' do
+    let(:owner) { 'someUser' }
+    let(:reviewer) { create(:github_user, id: 17) }
+    let(:repository) { create(:repository, tracked: true) }
+    let(:pull_request) do
+      create(
+        :pull_request,
+        id: 3,
+        gh_id: 3,
+        title: "Test",
+        repository: repository,
+        pr_state: 'open'
+      )
+    end
+    let(:pull_request_review_request) do
+      create(
+        :pull_request_review_request,
+        pull_request_id: pull_request.id,
+        github_user_id: reviewer.id
+      )
+    end
+
+    context 'when owner has a closed pr saved as open' do
+      it 'returns empty list' do
+        expect(service.open_prs(owner)).to eq([])
+      end
+    end
+  end
+
   describe "#handle_webhook_event" do
     let(:repository) { create(:repository, tracked: true) }
+
+    context 'when event datas action is review_requested_removed' do
+      let(:event_request_data) do
+        double(
+          action: 'review_requested_removed',
+          pull_request: github_pr_response,
+          requested_reviewer: requested_reviewer,
+          repository: instance_double(Repository, id: repository.gh_id)
+        )
+      end
+
+      before { allow(service).to receive(:remove_reviewers_from_pull_request!) }
+
+      it 'calls remove_reviewer_from_pull_request!' do
+        service.handle_webhook_event(event_request_data)
+        expect(service).to have_received(:remove_reviewers_from_pull_request!)
+      end
+    end
 
     context 'when event data has requested_reviewers field' do
       let(:event_request_data) do

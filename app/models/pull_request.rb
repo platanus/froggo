@@ -17,6 +17,10 @@ class PullRequest < ApplicationRecord
           Time.current - ENV['PULL_REQUEST_MONTH_LIMIT'].to_i.months)
   end
 
+  scope :open, -> do
+    where(pr_state: 'open')
+  end
+
   scope :by_organizations, ->(organization_ids) do
     joins(:repository).where(repositories: { organization_id: organization_ids })
   end
