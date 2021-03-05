@@ -1,3 +1,3 @@
-class Api::V1::PullRequestReviewersController < ActiveModel::Serializer
+class Api::V1::PullRequestReviewersSerializer < ActiveModel::Serializer
   attributes :requested_reviewer
 end
