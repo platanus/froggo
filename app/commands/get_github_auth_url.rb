@@ -17,7 +17,7 @@ class GetGithubAuthUrl < PowerTypes::Command.new(:callback_action, :client_type,
     when :admin
       'user,repo,admin:org,admin:repo_hook,admin:org_hook'
     when :member
-      'read:user,read:org'
+      'read:user,read:org,repo'
     else
       ''
     end
