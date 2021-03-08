@@ -1,10 +1,13 @@
 <template>
-  <div class="profile-prs__container">
+  <div>
     <div
       v-if="!recommendations"
       class="loading-icon"
     />
-    <div v-else>
+    <div
+      v-else
+      class="profile-prs__container"
+    >
       <h4>
         Se ha detectado un PR tuyo con nombre:
       </h4>
@@ -13,23 +16,29 @@
       </h3>
 
       <h4>
-        Revisores asignados:
+        Revisores asignados ({{ this.selectedReviewers.length }}):
       </h4>
-      <a
-        class="profile-recommendations-users__user"
-        v-for="rev in selectedReviewers"
-        :key="rev.login"
-      >
-        <img
-          class="select-reviewer__picture"
-          :src="rev.avatar_url"
+      <div class="open-pr__reviewers-container">
+        <a
+          class="profile-recommendations-users__user"
+          v-for="rev in selectedReviewers"
+          :key="rev.login"
         >
-        <span
-          class="select-reviewer__username"
-        >
-          {{ rev.login }}
-        </span>
-      </a>
+          <img
+            class="select-reviewer__picture"
+            :src="rev.avatar_url"
+          >
+          <span
+            class="select-reviewer__username"
+          >
+            {{ rev.login }}
+          </span>
+          <div
+            :class="`select-reviewer__color-badge
+              select-reviewer__color-badge--${colorFromScore(rev.score)}`"
+          />
+        </a>
+      </div>
 
       <p
         v-if="error"
@@ -101,6 +110,9 @@ export default {
     },
     prId() {
       return this.pr.id;
+    },
+    prHref() {
+      return this.pr.html_url;
     },
   },
   props: {

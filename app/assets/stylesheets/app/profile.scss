@@ -455,6 +455,26 @@
   padding: 40px;
 }
 
+.open-pr {
+  &__reviewers-container {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    width: 100%;
+    margin-bottom: 5%;
+    padding-right: 5%;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &__reviewers-container::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+
 .profile-prs {
   margin-top: .75rem;
   margin-bottom: .75rem;
@@ -472,7 +492,8 @@
 
   &__container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
     text-align: justify;
     margin: .75rem;
     padding: .75rem;
