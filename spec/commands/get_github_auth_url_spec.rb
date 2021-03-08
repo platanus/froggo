@@ -5,7 +5,7 @@ describe GetGithubAuthUrl do
     described_class.for(*_args)
   end
 
-  let(:member_scope) { 'read:user,read:org' }
+  let(:member_scope) { 'read:user,read:org,repo' }
   let(:admin_scope) { 'user,repo,admin:org,admin:repo_hook,admin:org_hook' }
   let(:env_gh_auth_id) { ENV['GH_AUTH_ID'] }
   let(:callback_action) { :action }
