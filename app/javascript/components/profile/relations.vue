@@ -52,6 +52,8 @@
 <script>
 import colorFromScore from '../../helpers/color-from-score';
 
+const SCORE_PRECISION = 2;
+
 export default {
   data() {
     return {
@@ -101,21 +103,14 @@ export default {
   methods: {
     colorFromScore,
     getTooltipMessage(user) {
-      if (!this.belongedTeam) {
-        const tagsText = user.tags.map(t => t.name).join('\n');
-        const text = `${user.login}\n tags: \n${user.tags.length ? tagsText : 'Aún no tiene tags'}`;
-
-        return text;
+      const score = user.score.toPrecision(SCORE_PRECISION);
+      let lastReviewFormat = '-';
+      if (user.last_review) {
+        const lastReviewDate = new Date(user.last_review);
+        lastReviewFormat = lastReviewDate.toLocaleDateString('es-CL', { dateStyle: 'short' });
       }
 
-      const userInfo = user.login.concat(' \n',
-        this.$t('message.organization.members.inactiveDays'),
-        this.inactiveDays[user.id],
-        ' \n',
-        this.$t('message.organization.members.score'),
-        this.colorScores[user.id]);
-
-      return userInfo;
+      return `${user.login}\n Puntaje: ${score}\n Última revisión: ${lastReviewFormat}`;
     },
   },
 };
