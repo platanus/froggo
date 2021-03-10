@@ -33,10 +33,19 @@ class GetReviewRecommendations < PowerTypes::Command.new(:github_user_id, :other
     @other_users_with_score ||= GithubUser.where(id: @other_users_ids).map do |user|
                                   user.as_json.with_indifferent_access.merge(
                                     score: color_scores[user.id],
-                                    tags: user.tags.as_json
+                                    tags: user.tags.as_json,
+                                    last_review: last_pull_request(user)&.gh_created_at&.utc
                                   )
+                                end.sort_by { |user| [user[:score], user[:last_review]] }
+  end
 
-                                end.sort_by { |user| user[:score] }
+  def current_github_user
+    @current_github_user ||= GithubUser.find(@github_user_id)
+  end
+
+  def last_pull_request(user)
+    current_github_user.pull_requests.joins(:pull_request_reviews)
+                       .where(pull_request_reviews: { github_user: user }).last
   end
 
   def number_of_best_recommendations
