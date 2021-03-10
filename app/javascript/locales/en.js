@@ -21,11 +21,6 @@ export default {
       recommendedReviewers: 'You should assign your next PR to...',
       notRecommendedReviewers: 'Avoid assigning your next PR to...',
       noTeamsInOrganization: 'You are not member of any organization team so you have no recommendations',
-      statistics: {
-        obedientCount: 'Obeyed recommendations',
-        indifferentCount: 'Ignored recommendations',
-        rebelCount: 'Rejected recommendations',
-      },
       timespanDropdownTitle: 'Since',
       relationsTitle: 'Your relation with the rest of the team: ',
       badgeExplainer: {

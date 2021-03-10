@@ -25,7 +25,6 @@ import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue
 import ProfileDropdowns from '../components/profile-dropdowns.vue';
 import OpenPr from '../components/open-pr.vue';
 import ProfileRecommendations from '../components/profile/recommendations.vue';
-import ProfileStatistics from '../components/profile/statistics.vue';
 import PrFeed from '../components/pr-feed.vue';
 import PrShow from '../components/pr-show.vue';
 import ProfileMetrics from '../components/profile/metrics.vue';
@@ -71,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('profile-dropdowns', ProfileDropdowns);
   Vue.component('open-pr', OpenPr);
   Vue.component('profile-recommendations', ProfileRecommendations);
-  Vue.component('profile-statistics', ProfileStatistics);
   Vue.component('pr-feed', PrFeed);
   Vue.component('pr-show', PrShow);
   Vue.component('profile-metrics', ProfileMetrics);

@@ -21,11 +21,6 @@ export default {
       recommendedReviewers: 'Deberías mandar tu próximo PR a...',
       notRecommendedReviewers: 'Evita mandar tu próximo PR a...',
       noTeamsInOrganization: 'No tienes recomendaciones dado que aún no perteneces a un equipo en esta organización',
-      statistics: {
-        obedientCount: 'Recomendaciones seguidas',
-        indifferentCount: 'Recomendaciones ignoradas',
-        rebelCount: 'Recomendaciones no seguidas',
-      },
       timespanDropdownTitle: 'Desde hace',
       relationsTitle: 'Tu relación con el resto del equipo: ',
       badgeExplainer: {
