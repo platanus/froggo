@@ -2,7 +2,6 @@ import axios from 'axios';
 import { decamelizeKeys } from 'humps';
 
 import {
-  COMPUTE_STATISTICS,
   COMPUTE_RECOMMENDATIONS,
   PROCESS_NEW_TEAM,
   COMPUTE_PROFILE_PR_INFORMATION,
@@ -24,10 +23,6 @@ export default {
     { commit, dispatch }, { teamId, organizationId, githubUserLogin, froggoTeam, monthLimit }) {
     commit(PROFILE_ORGANIZATION_SELECTED, organizationId);
     commit(PROFILE_TEAM_SELECTED, { teamId, froggoTeam });
-    dispatch(COMPUTE_STATISTICS, {
-      organizationId,
-      githubUserLogin,
-    });
     dispatch(COMPUTE_RECOMMENDATIONS, { teamId, githubUserLogin, froggoTeam, monthLimit });
     dispatch(COMPUTE_PROFILE_PR_INFORMATION, { githubUserLogin });
   },
