@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   resources :organizations, param: :name do
     get 'missing' => 'organizations#missing', on: :collection
     get 'settings' => 'organizations#settings', on: :member
-    get 'public' => 'organizations#public', on: :member
     resources :pull_requests, only: [:index, :show]
   end
 
@@ -44,12 +43,8 @@ Rails.application.routes.draw do
       put 'organizations/:id/update' => 'organizations#update'
       post 'organizations/:id/sync' => 'organizations#sync'
       get 'organizations/:id/check_sync' => 'organizations#check_sync'
-      get 'organizations/:org_id/users/:github_login/score' =>
-        'github_users#organization_score'
       get 'organizations/:org_id/users/:github_login/statistics' =>
         'github_users#organization_recommendation_statistics'
-      get 'organizations/:org_id/teams/:team_id/users/:github_login/score' =>
-        'github_users#team_score'
       get 'teams/:team_id/users/:github_login/recommendations' =>
         'github_users#team_review_recommendations'
       resources :organizations do

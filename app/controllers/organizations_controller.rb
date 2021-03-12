@@ -1,8 +1,7 @@
 class OrganizationsController < ApplicationController
-  before_action :authenticate_github_user, except: [:public]
+  before_action :authenticate_github_user
   before_action :save_cookie_url
-  before_action :load_organization, except: [:index, :missing, :public]
-  before_action :load_organization_by_name, only: [:public]
+  before_action :load_organization, except: [:index, :missing]
   before_action :ensure_organization_admin, only: :settings
 
   MONTH_LIMIT_DEFAULT = 9
@@ -20,6 +19,7 @@ class OrganizationsController < ApplicationController
     @organizations = github_organizations
     set_corrmat
     @color_scores = get_color_scores
+    github_user
     @belonged_team = @team_members_ids.nil? ? false : @team_members_ids.include?(github_user.gh_id)
     @inactive_days = get_members_inactive_days
   end
@@ -41,15 +41,6 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  def public
-    if @organization.public_enabled
-      set_corrmat
-      @public_mode = true
-    else
-      redirect_to organization_path(@organization)
-    end
-  end
-
   private
 
   def load_organization
@@ -65,11 +56,6 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  def load_organization_by_name
-    @organization = Organization.find_by(login: permitted_params[:name])
-    @has_dashboard = !@organization.nil?
-    load_public_matrix_params if @has_dashboard
-  end
 
   def load_matrix_params
     @teams = froggo_teams
@@ -100,17 +86,17 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  def load_public_matrix_params
-    @team_members_ids = permitted_params[:user_ids]
-    if permitted_params[:month_limit].present?
-      @month_limit = permitted_params[:month_limit].to_i
-    end
-  end
-
   def set_corrmat
     if @has_dashboard
       @corrmat = get_matrix(@organization.id, @team_members_ids, @month_limit)
     end
+  end
+
+  def get_matrix(org_id, user_ids, month_limit)
+    corrmat = CorrelationMatrix.new(org_id, user_ids, github_user.login, month_limit)
+    corrmat.fill_matrix
+    corrmat.min_ranking_indexes
+    corrmat
   end
 
   def set_behaviour_matrix
@@ -160,13 +146,6 @@ class OrganizationsController < ApplicationController
 
   def permitted_params
     params.permit(:name, :team, :month_limit, :froggo_team, user_ids: [])
-  end
-
-  def get_matrix(org_id, user_ids, month_limit)
-    corrmat = CorrelationMatrix.new(org_id, user_ids, github_user.login, month_limit)
-    corrmat.fill_matrix
-    corrmat.min_ranking_indexes
-    corrmat
   end
 
   def get_behaviour_matrix(organization_id, default_team_members_ids)
