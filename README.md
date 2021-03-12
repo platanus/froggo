@@ -1,5 +1,8 @@
 # Froggo
+
 This is a Rails application, initially generated using [Potassium](https://github.com/platanus/potassium) by Platanus.
+
+# This is Fake!
 
 ## Local installation
 
@@ -21,8 +24,7 @@ After the app setup is done you can run it with [Heroku Local]
 
     $ heroku local
 
-[Heroku Local]: https://devcenter.heroku.com/articles/heroku-local
-
+[heroku local]: https://devcenter.heroku.com/articles/heroku-local
 
 ## Continuous Integrations
 
@@ -33,7 +35,6 @@ You can also run the test locally simulating the production environment using do
 Just make sure you have docker installed and run:
 
     bin/cibuild
-
 
 ## Style Guides
 
@@ -49,7 +50,6 @@ You can add or modify rules by editing the [`.rubocop.yml`](.rubocop.yml), [`.es
 
 You can (and should) use linter integrations for your text editor of choice, using the project's configuration.
 
-
 ## Sending Emails
 
 The emails can be send through the gem `aws-sdk-rails` using the `aws_sdk` delivery method.
@@ -60,7 +60,6 @@ All emails should be sent using background jobs, by default we install `sidekiq`
 #### Testing in staging
 
 If you add the `EMAIL_RECIPIENTS=` environmental variable, the emails will be intercepted and redirected to the email in the variable.
-
 
 ## Internal dependencies
 
@@ -93,6 +92,7 @@ To report our errors we use [Sentry](https://github.com/getsentry/raven-ruby)
 This project uses [Active Admin](https://github.com/activeadmin/activeadmin) which is a Ruby on Rails framework for creating elegant backends for website administration.
 
 This project supports Vue inside ActiveAdmin
+
 - The main package is located in `app/javascript/packs/admin_application.js`, here you will declare the components you want to include in your ActiveAdmin views as you would in a normal Vue App.
 - Additionally, to be able to use Vue components as [Arbre](https://github.com/activeadmin/arbre) Nodes the component names are also declared in `config/initializers/active_admin.rb`
 - The generator includes an example component called `admin_component`, you can use this component inside any ActiveAdmin view by just writing `admin_component` as you would with any `html` tag.
@@ -110,8 +110,6 @@ This project supports Vue inside ActiveAdmin
   ```
   - You can also use **any** vue bindings such as `v-for` , `:key` etc.
 
-
-
 ### Scheduled Tasks
 
 To schedule recurring work at particular times or dates, this project uses [Sidekiq Scheduler](https://github.com/moove-it/sidekiq-scheduler)
@@ -124,7 +122,6 @@ For managing tasks in the background, this project uses [Sidekiq](https://github
 
 To populate your database with initial data you can add, inside the `/db/seeds.rb` file, the code to generate **only the necessary data** to run the application.
 If you need to generate data with **development purposes**, you can customize the `lib/fake_data_loader.rb` module and then to run the `rake load_fake_data` task from your terminal.
-
 
 ## Development
 
@@ -139,4 +136,3 @@ For even faster in-place component refreshing (with no page reloads), you can en
     development:
       dev_server:
         hmr: true
-
