@@ -14,52 +14,12 @@
         <% end %>
       </div>
     </dropdown>
-
-    <% unless only_organization %>
-      <dropdown class="select">
-        <div class="select__btn" slot="btn">
-          <%= octicon "jersey" %>
-          <span class="select__title"><%= @team ? @team[:name] : @github_organization[:login].capitalize %></span>
-        </div>
-        <div class="select__body" slot="body">
-          <div class="select-body__title"><%= t('messages.dashboard.teams') %></div>
-          <%= link_to @github_organization[:login].capitalize, organization_path(name: @github_organization[:login], month_limit: @corrmat.limit), class: 'select__option' %>
-
-          <% @teams.each do |team| %>
-            <% if team[:froggo_team] %>
-              <%= link_to organization_path(name: @github_organization[:login], team: team[:name], month_limit: @corrmat.limit, froggo_team: team[:froggo_team]), class: 'select__option' do %>
-                  <%= team[:name] %>
-              <% end %>
-            <% else %>
-              <%= link_to organization_path(name: @github_organization[:login], team: team[:slug], month_limit: @corrmat.limit, froggo_team: team[:froggo_team]), class: 'select__option' do %>
-                <%= team[:name] %>
-              <% end %>
-            <% end %>
-          <% end %>
-        </div>
-      </dropdown>
-
-      <dropdown class="select">
-        <div class="select__btn" slot="btn">
-          <%= octicon "calendar" %>
-          <span class="select__title"><%= t('messages.dashboard.month', count: @corrmat.limit) %></span>
-        </div>
-        <div class="select__body" slot="body">
-          <div class="select-body__title"><%= t('messages.dashboard.since') %></div>
-          <% timespans.each do |limit| %>
-            <%= link_to organization_path(name: @github_organization[:login], team: (@team[:slug] if @team), month_limit: limit), class: 'select__option' do %>
-                <%= t('messages.dashboard.month', count: limit) %>
-            <% end %>
-          <% end %>
-        </div>
-      </dropdown>
-    <% end %>
   <% end %>
-  <% if @has_dashboard %>
+  <% if @organization.present? %>
     <dashboard-syncing-icon id="<%= @organization.id %>"></dashboard-syncing-icon>
   <% end %>
   <div class="card-extended__config">
-    <% if @is_admin && !only_organization%>
+    <% if @is_admin %>
       <a class="button" href="<%= settings_organization_path(@github_organization[:login]) %>">
         <%= t('messages.dashboard.settings') %>
       </a>
