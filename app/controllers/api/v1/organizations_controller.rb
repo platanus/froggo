@@ -28,14 +28,6 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
     end
   end
 
-  def update_public_enabled
-    if organization.update_attributes(public_enabled_params)
-      render json: { response: 'Updated' }, status: 200
-    else
-      render json: { response: 'Bad request', errors: @user.errors.messages }, status: 400
-    end
-  end
-
   private
 
   def organization
