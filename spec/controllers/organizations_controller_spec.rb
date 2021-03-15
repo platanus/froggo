@@ -83,7 +83,6 @@ RSpec.describe OrganizationsController, type: :controller do
       end
 
       it { expect(assigns(:organization)).to eq(organization) }
-      it { expect(assigns(:has_dashboard)).to be_truthy }
     end
 
     context "when organization does not exist locally" do
@@ -92,7 +91,6 @@ RSpec.describe OrganizationsController, type: :controller do
       end
 
       it { expect(assigns(:organization)).to be_nil }
-      it { expect(assigns(:has_dashboard)).to be_falsey }
     end
   end
 
@@ -148,7 +146,6 @@ RSpec.describe OrganizationsController, type: :controller do
       end
 
       it { expect(assigns(:organization)).to eq(organization) }
-      it { expect(assigns(:has_dashboard)).to be_truthy }
     end
 
     context "when admin hasn't enabled public dashboard" do
