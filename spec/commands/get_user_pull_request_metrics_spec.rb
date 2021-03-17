@@ -22,15 +22,15 @@ describe GetUserPullRequestMetrics do
         :pull_request_with_merge,
         owner: github_user,
         gh_number: 123,
-        gh_created_at: Time.zone.now - 5.minutes,
-        gh_merged_at: Time.zone.now
+        gh_created_at: (Time.zone.now - 5.minutes).to_s,
+        gh_merged_at: Time.zone.now.to_s
       )
     end
     let!(:valid_review_request) do
       create(
         :pull_request_review_request,
         pull_request: valid_pull_request,
-        created_at: Time.zone.now - 3.minutes
+        created_at: (Time.zone.now - 3.minutes).to_s
       )
     end
     let!(:valid_review) do
@@ -38,8 +38,8 @@ describe GetUserPullRequestMetrics do
         :pull_request_review,
         github_user: github_user,
         pull_request: valid_pull_request,
-        created_at: Time.zone.now - 2.minutes,
-        approved_at: Time.zone.now - 1.minute
+        created_at: (Time.zone.now - 2.minutes).to_s,
+        approved_at: (Time.zone.now - 1.minute).to_s
       )
     end
 
@@ -48,11 +48,11 @@ describe GetUserPullRequestMetrics do
       it "return correct information" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
           pull_requests_information: { valid_pull_request.id => {
-            pr_created_at: valid_pull_request.gh_created_at.to_s, pr_title: "Prueba",
-            first_response: valid_review.created_at.to_s, pr_number: 123,
-            last_approval: valid_review.approved_at.to_s, repository: "MyString",
-            review_request_created_at: valid_review_request.created_at.to_s,
-            pr_merget_at: valid_pull_request.gh_merged_at.to_s
+            pr_created_at: valid_pull_request.gh_created_at, pr_title: "Prueba",
+            first_response: valid_review.created_at, pr_number: 123,
+            last_approval: valid_review.approved_at, repository: "MyString",
+            review_request_created_at: valid_review_request.created_at,
+            pr_merget_at: valid_pull_request.gh_merged_at
           } }
         )
       end
@@ -64,18 +64,18 @@ describe GetUserPullRequestMetrics do
           :pull_request_review_request,
           github_user: monkeyci,
           pull_request: valid_pull_request,
-          created_at: Time.zone.now - 4.minutes
+          created_at: (Time.zone.now - 4.minutes).to_s
         )
       end
 
       it "ignores review request from monkey" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
           pull_requests_information: { valid_pull_request.id => {
-            pr_created_at: valid_pull_request.gh_created_at.to_s, pr_title: "Prueba",
-            first_response: valid_review.created_at.to_s, pr_number: 123,
-            last_approval: valid_review.approved_at.to_s, repository: "MyString",
-            review_request_created_at: valid_review_request.created_at.to_s,
-            pr_merget_at: valid_pull_request.gh_merged_at.to_s
+            pr_created_at: valid_pull_request.gh_created_at, pr_title: "Prueba",
+            first_response: valid_review.created_at, pr_number: 123,
+            last_approval: valid_review.approved_at, repository: "MyString",
+            review_request_created_at: valid_review_request.created_at,
+            pr_merget_at: valid_pull_request.gh_merged_at
           } }
         )
       end
@@ -86,25 +86,25 @@ describe GetUserPullRequestMetrics do
         create(
           :pull_request_with_merge,
           owner: github_user,
-          gh_created_at: Time.zone.now - 1.year
+          gh_created_at: (Time.zone.now - 1.year).to_s
         )
       end
       let!(:old_review_request) do
         create(
           :pull_request_review_request,
           pull_request: old_pull_request,
-          created_at: Time.zone.now - 1.year
+          created_at: (Time.zone.now - 1.year).to_s
         )
       end
 
       it "ignores old pull request" do
         expect(perform(github_user: github_user, limit_month: 9)).to eq(
           pull_requests_information: { valid_pull_request.id => {
-            pr_created_at: valid_pull_request.gh_created_at.to_s, pr_title: "Prueba",
-            first_response: valid_review.created_at.to_s, pr_number: 123,
-            last_approval: valid_review.approved_at.to_s, repository: "MyString",
-            review_request_created_at: valid_review_request.created_at.to_s,
-            pr_merget_at: valid_pull_request.gh_merged_at.to_s
+            pr_created_at: valid_pull_request.gh_created_at, pr_title: "Prueba",
+            first_response: valid_review.created_at, pr_number: 123,
+            last_approval: valid_review.approved_at, repository: "MyString",
+            review_request_created_at: valid_review_request.created_at,
+            pr_merget_at: valid_pull_request.gh_merged_at
           } }
         )
       end
