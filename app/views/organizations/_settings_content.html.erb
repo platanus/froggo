@@ -12,27 +12,11 @@
       :organization="<%= @organization.to_json %>"
       :admin-mode="true">
     </teams-dropdown>
-    <div class="card-extended__button-container card-extended__button-container--big">
-      <enable-public-button :organization="<%= @organization.to_json %>"></enable-public-button>
-    </div>
     <div class="card-extended__button-container">
       <sync-organization-button url="/api/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>"></sync-organization-button>
     </div>
   </div>
   <div class="card-extended__body">
-    <div class="card-extended__body-title">
-      <%= t('messages.settings.behaviour_title') %>
-      <%= @github_organization[:login] %>
-    </div>
-    <% if @organization.default_team_id.nil? %>
-      <div class="card-extended__body-subtitle">
-        <%= t('messages.settings.no_default_team') %>
-      </div>
-    <% else %>
-      <div>
-        <%= render "behaviour_dashboard" %>
-      </div>
-    <% end %>
     <div class="card-extended__body-title">
       <%= t('messages.settings.repository_title') %>
       <%= @github_organization[:login] %>

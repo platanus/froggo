@@ -1,7 +1,5 @@
 <div class="settings">
-  <% if !@is_admin_github_session %>
-    <%= render "admin_permission" %>
-  <% elsif @has_dashboard %>
+  <% if @organization.present? && @is_admin_github_session %>
     <%= render "settings_content" %>
   <% else %>
     <%= render "init_dashboard" %>

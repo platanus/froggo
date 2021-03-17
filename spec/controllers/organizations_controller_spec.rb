@@ -45,12 +45,14 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe "#show" do
-    before do
-      expect(subject).to receive(:authenticate_github_user).and_return(true)
+    let(:github_session) do
+      instance_double('GithubSession', organizations: github_organizations,
+                                       save_froggo_path: 'path')
     end
 
-    let(:github_session) do
-      double(organizations: github_organizations, name: 'name', save_froggo_path: 'path')
+    before do
+      allow(github_session).to receive(:user).and_return(user)
+      allow(github_session).to receive(:valid?).and_return(true)
     end
 
     context "when user belongs to the selected organization" do
@@ -74,7 +76,6 @@ RSpec.describe OrganizationsController, type: :controller do
         org_teams = [{ id: 1, name: 'Core', slug: 'core' },
                      { id: 2, name: 'Extra', slug: 'extra' }]
         allow(github_session).to receive(:get_teams).with(organization) { org_teams }
-        allow(github_session).to receive(:user) { user }
       end
       let!(:organization) { create(:organization, gh_id: 101) }
 
@@ -83,7 +84,6 @@ RSpec.describe OrganizationsController, type: :controller do
       end
 
       it { expect(assigns(:organization)).to eq(organization) }
-      it { expect(assigns(:has_dashboard)).to be_truthy }
     end
 
     context "when organization does not exist locally" do
@@ -92,7 +92,6 @@ RSpec.describe OrganizationsController, type: :controller do
       end
 
       it { expect(assigns(:organization)).to be_nil }
-      it { expect(assigns(:has_dashboard)).to be_falsey }
     end
   end
 
@@ -128,36 +127,6 @@ RSpec.describe OrganizationsController, type: :controller do
       let(:role) { "member" }
 
       it { expect(response).to redirect_to('/organizations/platanus') }
-    end
-  end
-
-  describe "GET #public" do
-    let(:github_session) do
-      double(
-        organizations: github_organizations,
-        name: 'name',
-        save_froggo_path: 'path',
-        user: user
-      )
-    end
-
-    context "when admin has enabled public dashboard" do
-      let!(:organization) { create(:organization, gh_id: 101, public_enabled: true) }
-      before do
-        get :public, params: { name: organization.login }
-      end
-
-      it { expect(assigns(:organization)).to eq(organization) }
-      it { expect(assigns(:has_dashboard)).to be_truthy }
-    end
-
-    context "when admin hasn't enabled public dashboard" do
-      let!(:organization) { create(:organization, gh_id: 102, public_enabled: false) }
-      before do
-        get :public, params: { name: organization.login }
-      end
-
-      it { expect(response).to redirect_to("/organizations/#{organization.id}") }
     end
   end
 end

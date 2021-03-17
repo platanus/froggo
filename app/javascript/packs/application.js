@@ -18,10 +18,8 @@ import FroggoTeamShow from '../components/froggo-team-show.vue';
 import FroggoTeamsList from '../components/froggo-teams-list.vue';
 import TimespanDropdown from '../components/timespan-dropdown.vue';
 import Repository from '../components/repository.vue';
-import EnablePublicButton from '../components/enable-public-button.vue';
 import SyncOrganizationButton from '../components/sync-organization-button.vue';
 import DashboardSyncingIcon from '../components/dashboard-syncing-icon.vue';
-import PublicDashboardCarousel from '../components/public-dashboard/carousel.vue';
 import ProfileDropdowns from '../components/profile-dropdowns.vue';
 import OpenPr from '../components/open-pr.vue';
 import ProfileRecommendations from '../components/profile/recommendations.vue';
@@ -29,7 +27,6 @@ import PrFeed from '../components/pr-feed.vue';
 import PrShow from '../components/pr-show.vue';
 import ProfileMetrics from '../components/profile/metrics.vue';
 import FroggoTeamMetrics from '../components/froggo-team-metrics.vue';
-import OrganizationMatrixHead from '../components/organization-matrix-head.vue';
 import PercentageDropdown from '../components/percentage-dropdown.vue';
 import ProfileDescription from '../components/profile-description.vue';
 import TagsShow from '../components/tags-show';
@@ -55,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   });
   Vue.component('repository', Repository);
-  Vue.component('enable-public-button', EnablePublicButton);
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('organizations-dropdown', OrganizationsDropdown);
@@ -66,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('timespan-dropdown', TimespanDropdown);
   Vue.component('sync-organization-button', SyncOrganizationButton);
   Vue.component('dashboard-syncing-icon', DashboardSyncingIcon);
-  Vue.component('public-dashboard-carousel', PublicDashboardCarousel);
   Vue.component('profile-dropdowns', ProfileDropdowns);
   Vue.component('open-pr', OpenPr);
   Vue.component('profile-recommendations', ProfileRecommendations);
@@ -74,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('pr-show', PrShow);
   Vue.component('profile-metrics', ProfileMetrics);
   Vue.component('froggo-team-metrics', FroggoTeamMetrics);
-  Vue.component('organization-matrix-head', OrganizationMatrixHead);
   Vue.component('percentage-dropdown', PercentageDropdown);
   Vue.component('profile-description', ProfileDescription);
   Vue.component('user-tags', UserTags);
