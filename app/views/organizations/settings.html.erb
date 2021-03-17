@@ -1,7 +1,3 @@
 <div class="settings">
-  <% if @organization.present? && @is_admin_github_session %>
-    <%= render "settings_content" %>
-  <% else %>
-    <%= render "init_dashboard" %>
-  <% end %>
+  <%= render "settings_content" %>
 </div>
