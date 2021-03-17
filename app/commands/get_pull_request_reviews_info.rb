@@ -2,8 +2,8 @@ class GetPullRequestReviewsInfo < PowerTypes::Command.new(:pull_request)
   def perform
     @reviews = get_human_reviews
     reviews_info = Hash.new
-    reviews_info[:first_response] = first_responder.created_at.to_s if first_responder
-    reviews_info[:last_approval] = last_approved.approved_at.to_s if last_approved
+    reviews_info[:first_response] = first_responder.created_at&.utc if first_responder
+    reviews_info[:last_approval] = last_approved.approved_at&.utc if last_approved
     reviews_info
   end
 

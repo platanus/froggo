@@ -22,8 +22,8 @@ describe GetPullRequestReviewsInfo do
           :pull_request_review,
           github_user: monkeyci,
           pull_request: pull_request,
-          created_at: Time.zone.now - 5.minutes,
-          approved_at: Time.zone.now + 2.minutes
+          created_at: (Time.zone.now - 5.minutes).to_s,
+          approved_at: (Time.zone.now + 2.minutes).to_s
         )
       end
       let!(:human_review) do
@@ -31,15 +31,15 @@ describe GetPullRequestReviewsInfo do
           :pull_request_review,
           github_user: github_user,
           pull_request: pull_request,
-          created_at: Time.zone.now - 3.minutes,
-          approved_at: Time.zone.now
+          created_at: (Time.zone.now - 3.minutes).to_s,
+          approved_at: Time.zone.now.to_s
         )
       end
 
       it "ignores monkey review" do
         expect(perform(pull_request: pull_request)).to eq(
-          first_response: human_review.created_at.to_s,
-          last_approval: human_review.approved_at.to_s
+          first_response: human_review.created_at,
+          last_approval: human_review.approved_at
         )
       end
     end
@@ -50,13 +50,13 @@ describe GetPullRequestReviewsInfo do
           :pull_request_review,
           github_user: github_user,
           pull_request: pull_request,
-          created_at: Time.zone.now - 3.minutes
+          created_at: (Time.zone.now - 3.minutes).to_s
         )
       end
 
       it "ignores missing review information" do
         expect(perform(pull_request: pull_request)).to eq(
-          first_response: incomplete_review.created_at.to_s
+          first_response: incomplete_review.created_at
         )
       end
     end
