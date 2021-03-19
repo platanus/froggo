@@ -29,6 +29,9 @@ class OrganizationsController < ApplicationController
   def missing; end
 
   def settings
+    if github_session.session_type == 'member'
+      redirect_to admin_authenticate_path(gh_org: @github_organization[:login])
+    end
     @is_admin_github_session = github_session.session[:client_type] == "admin"
     @teams = froggo_teams
   end
