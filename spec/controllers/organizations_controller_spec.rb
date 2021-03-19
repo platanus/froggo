@@ -96,15 +96,15 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   describe "GET #settings" do
-    before do
-      expect(subject).to receive(:authenticate_github_user).and_return(true)
-    end
-
-    let!(:github_session) do
-      double(
-        session: { client_type: "admin" },
+    let(:role) { 'admin' }
+    let(:organization_name) { 'platanus' }
+    let(:client_type) { 'admin' }
+    let(:github_session) do
+      instance_double(
+        'GithubSession',
+        session: { client_type: client_type },
+        session_type: client_type,
         organizations: [login: "platanus", role: role, id: 101],
-        name: 'name',
         save_froggo_path: 'path'
       )
     end
@@ -114,19 +114,29 @@ RSpec.describe OrganizationsController, type: :controller do
     before do
       allow(github_session).to receive(:get_teams).and_return([])
       allow(github_session).to receive(:user) { user }
-      get :settings, params: { name: "platanus" }
+      allow(controller).to receive(:authenticate_github_user).and_return(true)
+      get :settings, params: { name: organization_name }
     end
 
-    context "when user is admin" do
-      let(:role) { "admin" }
+    it { expect(controller).to have_received(:authenticate_github_user) }
 
+    context "when user is admin" do
       it { expect(response).to have_http_status(200) }
     end
 
     context "when user is member" do
       let(:role) { "member" }
+      let(:client_type) { 'member' }
+
+      before { github_session }
 
       it { expect(response).to redirect_to('/organizations/platanus') }
+
+      context 'when user is admin in Github' do
+        let(:role) { 'admin' }
+
+        it { expect(response).to redirect_to(admin_authenticate_path(gh_org: organization_name)) }
+      end
     end
   end
 end
