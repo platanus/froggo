@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { decamelizeKeys } from 'humps';
+import api from './index';
 
 export default {
   addReviewer(data) {
-    return axios.post(
-      '/api/pull_request_reviewer/add',
-      decamelizeKeys(data),
-    );
+    return api({
+      method: 'post',
+      url: '/api/pull_request_reviewer/add',
+      data,
+    });
   },
 };
