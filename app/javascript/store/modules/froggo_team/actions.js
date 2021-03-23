@@ -1,5 +1,6 @@
-import axios from 'axios';
-import { decamelizeKeys } from 'humps';
+import froggoTeamsApi from '../../../api/froggo_teams';
+import usersApi from '../../../api/users';
+
 import {
   CREATE_NEW_FROGGO_TEAM,
   UPDATE_FROGGO_TEAM,
@@ -15,21 +16,26 @@ import {
 
 export default {
   [CREATE_NEW_FROGGO_TEAM](_, { name, organizationId, userIds }) {
-    return axios.post(
-      `/api/organizations/${organizationId}/froggo_teams`, decamelizeKeys({ name, newMembersIds: userIds }));
+    froggoTeamsApi.createFroggoTeam(organizationId, {
+      name,
+      newMembersIds: userIds,
+    });
   },
 
   [UPDATE_FROGGO_TEAM](_, { id, name, newMembersIds, oldMembersIds, changedMembersIds, changedPercentages }) {
-    return axios.patch(
-      `/api/froggo_teams/${id}`,
-      decamelizeKeys({ name, newMembersIds, oldMembersIds, changedMembersIds, changedPercentages }),
-    );
+    froggoTeamsApi.updateFroggoTeam(id, {
+      name,
+      newMembersIds,
+      oldMembersIds,
+      changedMembersIds,
+      changedPercentages,
+    });
   },
 
   [DELETE_FROGGO_TEAM](_, { id }) {
     const response = confirm('Estás seguro de querer borrar el equipo ?');
     if (response) {
-      return axios.delete(`/api/froggo_teams/${id}`);
+      froggoTeamsApi.deleteFroggoTeam(id);
     }
 
     return false;
@@ -40,12 +46,7 @@ export default {
     let pullRequestsInformation = {};
     const promises = [];
     githubUsers.forEach((user) => {
-      promises.push(axios
-        .get(`/api/users/${user.login}/pull_requests_information`, {
-          params: decamelizeKeys({
-            monthLimit,
-          }),
-        }));
+      promises.push(usersApi.pullRequestsInformation(user.login, monthLimit));
     });
     Promise.all(promises)
       .then(responses => {

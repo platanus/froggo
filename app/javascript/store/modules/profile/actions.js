@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { decamelizeKeys } from 'humps';
+import usersApi from '../../../api/users';
 
 import {
   COMPUTE_RECOMMENDATIONS,
@@ -29,13 +28,8 @@ export default {
 
   [COMPUTE_RECOMMENDATIONS]({ commit }, { teamId, githubUserLogin, monthLimit, froggoTeam }) {
     commit(START_FETCHING_RECOMMENDATIONS);
-    axios
-      .get(`/api/teams/${teamId}/users/${githubUserLogin}/recommendations`, {
-        params: decamelizeKeys({
-          monthLimit,
-          froggoTeam,
-        }),
-      })
+    const params = { monthLimit, froggoTeam };
+    usersApi.getUserRecommendations(teamId, githubUserLogin, params)
       .then(response => {
         commit(RECOMMENDATIONS_RECEIVED, response.data.response.recommendations);
       })
@@ -46,12 +40,7 @@ export default {
 
   [COMPUTE_PROFILE_PR_INFORMATION]({ commit }, { githubUserLogin, monthLimit }) {
     commit(START_FETCHING_PR_INFORMATION);
-    axios
-      .get(`/api/users/${githubUserLogin}/pull_requests_information`, {
-        params: decamelizeKeys({
-          monthLimit,
-        }),
-      })
+    usersApi.pullRequestsInformation(githubUserLogin, monthLimit)
       .then(response => {
         commit(PROFILE_PR_INFORMATION_RECEIVED, response.data.response.metrics);
       })
