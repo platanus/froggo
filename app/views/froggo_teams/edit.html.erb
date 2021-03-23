@@ -3,9 +3,9 @@
     <div class="froggo-teams">
       <froggo-team-edit
         :user-id="<%= @github_user.id %>"
-        :froggo-team="<%= @froggo_team.to_json %>"
-        :froggo-team-members="<%= @froggo_team_members.to_json %>"
-        :organization-members="<%= @organization_members.to_json %>"
+        :froggo-team="<%= @froggo_team.to_json %> | camelizeKeys"
+        :froggo-team-members="<%= @froggo_team_members.to_json %> | camelizeKeys"
+        :organization-members="<%= @organization_members.to_json %> | camelizeKeys"
       />
     </div>
   </div>

@@ -20,7 +20,7 @@
       >
         <img
           class="profile-recommendations-users__picture"
-          :src="user.avatar_url"
+          :src="user.avatarUrl"
         >
         <div class="profile-recommendations-users__username">
           {{ user.login }}

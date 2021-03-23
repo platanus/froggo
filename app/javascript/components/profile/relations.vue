@@ -37,7 +37,7 @@
                 />
                 <img
                   class="profile-relations__picture"
-                  :src="item.avatar_url"
+                  :src="item.avatarUrl"
                   v-tooltip.right="getTooltipMessage(item)"
                 >
               </div>

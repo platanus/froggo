@@ -53,7 +53,7 @@
         >
           <img
             class="froggo-teams-show__picture"
-            :src="user.avatar_url"
+            :src="user.avatarUrl"
           >
           <div class="froggo-teams-show__username">
             {{ user.login }}

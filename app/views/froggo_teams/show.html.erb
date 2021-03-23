@@ -3,14 +3,14 @@
     <div class="froggo-teams">
       <froggo-team-show
         :froggo-team="<%= @froggo_team.to_json %>"
-        :froggo-team-members="<%= @froggo_team_members.to_json %>"
+        :froggo-team-members="<%= @froggo_team_members.to_json %> | camelizeKeys"
       />
     </div>
   </div>
 </div>
 <div class="container card froggo-teams">
   <froggo-team-metrics
-    :froggo-team-members="<%= @froggo_team_members.to_json %>"
+    :froggo-team-members="<%= @froggo_team_members.to_json %> | camelizeKeys"
     :months-options="<%= timespans_with_name.to_json %>"
   />
 </div>
