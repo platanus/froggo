@@ -76,9 +76,9 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 import ClickableDropdown from './clickable-dropdown';
 import TagsShow from './tags-show';
+import usersApi from '../api/users';
 
 export default {
   components: {
@@ -121,9 +121,8 @@ export default {
       return element.id;
     },
     editTags(ids) {
-      axios.patch(`/api/github_users/${this.githubSession.user.id}`, {
-        // eslint-disable-next-line camelcase
-        tag_ids: [... ids],
+      usersApi.updateUser(this.githubSession.user.id, {
+        tagIds: [... ids],
       })
         .then((res) => {
           this.myTags = res.data.tags;

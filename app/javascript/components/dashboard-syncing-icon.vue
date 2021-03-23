@@ -4,7 +4,7 @@
 
 <script>
 /* eslint-disable no-alert */
-import axios from 'axios';
+import organizationsApi from '../api/organizations';
 
 export default {
   props: ['id'],
@@ -16,7 +16,7 @@ export default {
   methods: {
     checkSync() {
       const TIMEOUT = 5000;
-      axios.get(`/api/organizations/${this.id}/check_sync`)
+      organizationsApi.checkSync(this.id)
         .then((res) => {
           if (res.data.state === 'completed') {
             if (this.loading === true) {

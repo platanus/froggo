@@ -111,9 +111,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import moment from 'moment';
-import { decamelizeKeys } from 'humps';
+import pullRequestsApi from '../api/pull_requests';
 
 export default {
   props: {
@@ -142,8 +141,7 @@ export default {
 
   methods: {
     toggleLike(pr) {
-      axios
-        .post(`/api/pull_requests/${pr.id}/likes`, decamelizeKeys)
+      pullRequestsApi.addLike(pr.id)
         .then((response) => {
           pr.likes += 1;
           pr.currentUserLike = response.data;
@@ -154,8 +152,7 @@ export default {
         });
     },
     deleteLike(pr) {
-      axios
-        .delete(`/api/pull_requests/${pr.id}/likes/${pr.currentUserLike.id}`)
+      pullRequestsApi.deleteLike(pr.id, pr.currentUserLike.id)
         .then(() => {
           pr.likes -= 1;
           pr.currentUserLike = undefined;
