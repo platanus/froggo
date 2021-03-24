@@ -1,4 +1,4 @@
-import axios from 'axios';
+import organizationsApi from '../../../api/organizations';
 
 import {
   UPDATE_DEFAULT_TEAM,
@@ -6,10 +6,9 @@ import {
 
 export default {
   [UPDATE_DEFAULT_TEAM](_, { teamId, organization, froggoTeam }) {
-    axios
-      .put(`/api/organizations/${organization.id}/update`, {
-        'default_team_id': teamId,
-        'froggo_team': froggoTeam,
-      });
+    organizationsApi.update(organization.id, {
+      'default_team_id': teamId,
+      'froggo_team': froggoTeam,
+    });
   },
 };

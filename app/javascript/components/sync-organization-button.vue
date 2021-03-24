@@ -7,7 +7,7 @@
 
 <script>
 /* eslint-disable no-alert */
-import axios from 'axios';
+import organizationsApi from '../api/organizations';
 
 export default {
   props: ['id'],
@@ -22,7 +22,7 @@ export default {
         return;
       }
       this.loading = true;
-      axios.post(`/api/organizations/${this.id}/sync`)
+      organizationsApi.sync(this.id)
         .then(() => {
           this.checkSync();
         })
@@ -32,7 +32,7 @@ export default {
     },
     checkSync() {
       const TIMEOUT = 1000;
-      axios.get(`/api/organizations/${this.id}/check_sync`)
+      organizationsApi.checkSync(this.id)
         .then((res) => {
           if (res.data.state === 'completed') {
             this.loading = false;

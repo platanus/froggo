@@ -67,7 +67,7 @@
             >
               <img
                 class="profile-team-tags-table__picture"
-                :src="user.avatar_url"
+                :src="user.avatarUrl"
               >
               <div class="profile-team-tags-table__username">
                 {{ user.login }}

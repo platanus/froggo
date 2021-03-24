@@ -72,11 +72,12 @@
 
 <script>
 
-import axios from 'axios';
 import moment from 'moment';
-import { decamelizeKeys } from 'humps';
+import pullRequestsApi from '../api/pull_requests';
+import showMessageMixin from '../mixins/showMessageMixin';
 
 export default {
+  mixins: [showMessageMixin],
   props: {
     pullRequests: {
       type: Array,
@@ -103,28 +104,23 @@ export default {
   },
 
   methods: {
-
     toggleLike(pr) {
-      axios.post(
-        `/api/pull_requests/${pr.id}/likes`, decamelizeKeys,
-      ).then(response => {
-        pr.likes += 1;
-        pr.currentUserLike = response.data;
-      }).catch(() => {
-        // eslint-disable-next-line no-alert
-        alert('No se pudo crear el like (solo se puede dar un like por PR)');
-      });
+      pullRequestsApi.addLike(pr.id)
+        .then(response => {
+          pr.likes += 1;
+          pr.currentUserLike = response.data;
+        }).catch(() => {
+          this.showMessage(this.$i18n.t('message.error.createLike'));
+        });
     },
     deleteLike(pr) {
-      axios.delete(
-        `/api/pull_requests/${pr.id}/likes/${pr.currentUserLike.id}`,
-      ).then(() => {
-        pr.likes -= 1;
-        pr.currentUserLike = undefined;
-      }).catch(() => {
-        // eslint-disable-next-line no-alert
-        alert('No se pudo borrar el like (no haz dado like primero)');
-      });
+      pullRequestsApi.deleteLike(pr.id, pr.currentUserLike.id)
+        .then(() => {
+          pr.likes -= 1;
+          pr.currentUserLike = undefined;
+        }).catch(() => {
+          this.showMessage(this.$i18n.t('message.error.deleteLike'));
+        });
     },
     prDate(pr) {
       return moment(pr.createdAt).format('DD-MM-YYYY');

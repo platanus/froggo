@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import repositoriesApi from '../api/repositories';
 
 export default {
   data() {
@@ -33,8 +33,7 @@ export default {
     },
     setTrackedStatus(status) {
       this.repository.tracked = status;
-
-      axios.put(`/api/repositories/${this.repository.id}`, { tracked: status })
+      repositoriesApi.updateRepository(this.repository.id, { tracked: status })
         .then((response) => {
           console.log(response);
         })

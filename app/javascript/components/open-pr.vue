@@ -26,7 +26,7 @@
         >
           <img
             class="select-reviewer__picture"
-            :src="rev.avatar_url"
+            :src="rev.avatarUrl"
           >
           <span
             class="select-reviewer__username"
@@ -65,7 +65,7 @@
           <div class="select-reviewer__container">
             <img
               class="select-reviewer__picture"
-              :src="option.avatar_url"
+              :src="option.avatarUrl"
             >
             <span
               class="select-reviewer__username"
@@ -112,7 +112,7 @@ export default {
       return this.pr.id;
     },
     prHref() {
-      return this.pr.html_url;
+      return this.pr.htmlUrl;
     },
   },
   props: {

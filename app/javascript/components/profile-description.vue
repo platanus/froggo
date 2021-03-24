@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import usersApi from '../api/users';
 
 export default {
 
@@ -116,7 +116,7 @@ export default {
       this.readMoreActivated = false;
     },
     submit() {
-      axios.patch(`/api/github_users/${String(this.githubUser.id)}`, this.form)
+      usersApi.updateUser(this.githubUser.id, this.form)
         // eslint-disable-next-line max-statements
         .then((res) => {
           this.user = res.data.user;
