@@ -45,15 +45,15 @@ export default {
     prIdArray() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
         const repository = pullRequest.repository;
-        const prNumber = pullRequest.pr_number;
+        const prNumber = pullRequest.prNumber;
 
         return `${repository} #${prNumber}`;
       });
     },
     creationToAssignmentTime() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
-        const pullRequestCreatedAt = new Date(pullRequest.pr_created_at);
-        const pullRequestAssignment = new Date(pullRequest.review_request_created_at);
+        const pullRequestCreatedAt = new Date(pullRequest.prCreatedAt);
+        const pullRequestAssignment = new Date(pullRequest.reviewRequestCreatedAt);
         const millisecondsToMinutes = 60000;
         const timeDelta = Math.floor(Math.abs(pullRequestAssignment - pullRequestCreatedAt) / millisecondsToMinutes);
 
@@ -62,8 +62,8 @@ export default {
     },
     assignmentToResponseTime() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
-        const pullRequestAssignment = new Date(pullRequest.review_request_created_at);
-        const pullRequestResponse = new Date(pullRequest.first_response);
+        const pullRequestAssignment = new Date(pullRequest.reviewRequestCreatedAt);
+        const pullRequestResponse = new Date(pullRequest.firstResponse);
         const millisecondsToMinutes = 60000;
         const timeDelta = Math.floor(Math.abs(pullRequestResponse - pullRequestAssignment) / millisecondsToMinutes);
 
@@ -72,11 +72,11 @@ export default {
     },
     responseToApprovalTime() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
-        if (!('last_approval' in pullRequest)) {
+        if (!('lastApproval' in pullRequest)) {
           return 0;
         }
-        const pullRequestResponse = new Date(pullRequest.first_response);
-        const pullRequestApproval = new Date(pullRequest.last_approval);
+        const pullRequestResponse = new Date(pullRequest.firstResponse);
+        const pullRequestApproval = new Date(pullRequest.lastApproval);
         const millisecondsToMinutes = 60000;
         const timeDelta = Math.floor(Math.abs(pullRequestApproval - pullRequestResponse) / millisecondsToMinutes);
 
@@ -85,15 +85,15 @@ export default {
     },
     approvalToMergeTime() {
       return Object.values(this.pullRequestInformation).map((pullRequest) => {
-        const pullRequestMerge = new Date(pullRequest.pr_merget_at);
+        const pullRequestMerge = new Date(pullRequest.prMergetAt);
         const milisecondsToMinutes = 60000;
-        if (!('last_approval' in pullRequest)) {
-          const pullRequestResponse = new Date(pullRequest.first_response);
+        if (!('lastApproval' in pullRequest)) {
+          const pullRequestResponse = new Date(pullRequest.firstResponse);
           const timeDelta = Math.floor(Math.abs(pullRequestMerge - pullRequestResponse) / milisecondsToMinutes);
 
           return timeDelta;
         }
-        const pullRequestApproval = new Date(pullRequest.last_approval);
+        const pullRequestApproval = new Date(pullRequest.lastApproval);
         const timeDelta = Math.floor(Math.abs(pullRequestMerge - pullRequestApproval) / milisecondsToMinutes);
 
         return timeDelta;
