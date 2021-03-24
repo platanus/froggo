@@ -21,6 +21,7 @@ class GithubAuthController < ApplicationController
 
   def callback
     set_session_gh_access
+    create_organizations_membership
     if permitted_params[:callback_action] == 'settings'
       redirect_to settings_organization_path(name: permitted_params[:gh_org])
     elsif permitted_params[:callback_action] == 'add_organization'
@@ -34,6 +35,16 @@ class GithubAuthController < ApplicationController
 
   def permitted_params
     params.permit(:client_type, :callback_action, :gh_org)
+  end
+
+  def create_organizations_membership
+    gh_organization_ids = github_session.organizations.pluck(:id)
+    Organization.where(gh_id: gh_organization_ids).each do |organization|
+      OrganizationMembership.find_or_create_by!(
+        organization: organization,
+        github_user: github_session.user
+      )
+    end
   end
 
   def set_session_gh_access

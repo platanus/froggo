@@ -1,3 +1,9 @@
 <div class="settings">
-  <%= render "settings_content" %>
+  <% if !@is_admin_github_session %>
+    <%= render "admin_permission" %>
+  <% elsif @organization.present? %>
+    <%= render "settings_content" %>
+  <% else %>
+    <%= render "init" %>
+  <% end %>
 </div>

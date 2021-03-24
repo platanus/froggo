@@ -131,12 +131,6 @@ RSpec.describe OrganizationsController, type: :controller do
       before { github_session }
 
       it { expect(response).to redirect_to('/organizations/platanus') }
-
-      context 'when user is admin in Github' do
-        let(:role) { 'admin' }
-
-        it { expect(response).to redirect_to(admin_authenticate_path(gh_org: organization_name)) }
-      end
     end
   end
 end
