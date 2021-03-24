@@ -8,6 +8,7 @@ import VueHorizontalList from 'vue-horizontal-list';
 import Toasted from 'vue-toasted';
 import { camelizeKeys } from 'humps';
 import vSelect from 'vue-select';
+import '../css/application.css';
 
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
