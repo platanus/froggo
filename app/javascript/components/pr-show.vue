@@ -113,8 +113,10 @@
 <script>
 import moment from 'moment';
 import pullRequestsApi from '../api/pull_requests';
+import showMessageMixin from '../mixins/showMessageMixin';
 
 export default {
+  mixins: [showMessageMixin],
   props: {
     pullRequest: {
       type: Object,
@@ -147,8 +149,7 @@ export default {
           pr.currentUserLike = response.data;
         })
         .catch(() => {
-          // eslint-disable-next-line no-alert
-          alert('No se pudo crear el like (solo se puede dar un like por PR)');
+          this.showMessage(this.$i18n.t('message.error.createLike'));
         });
     },
     deleteLike(pr) {
@@ -158,8 +159,7 @@ export default {
           pr.currentUserLike = undefined;
         })
         .catch(() => {
-          // eslint-disable-next-line no-alert
-          alert('No se pudo borrar el like (no haz dado like primero)');
+          this.showMessage(this.$i18n.t('message.error.deleteLike'));
         });
     },
     prDate(pr) {

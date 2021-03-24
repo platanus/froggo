@@ -85,6 +85,8 @@ export default {
     error: {
       unauthorized: 'No tiene autorización para realizar esta acción',
       existentName: 'Ese nombre ya existe para un equipo de la organización',
+      createLike: 'No se pudo crear el like (sólo se puede dar un like por PR)',
+      deleteLike: 'No se pudo borrar el like (no has dado like primero)',
     },
     metrics: {
       noPullRequestInformation: 'No hay información de pull requests para obtener métricas',
