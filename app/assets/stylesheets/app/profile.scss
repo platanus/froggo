@@ -485,59 +485,9 @@
   justify-content: center;
   font-family: $main-font;
   color: $select-color;
-
-  &__error {
-    color: rgba($red, .5);
-  }
-
-  &__container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: justify;
-    margin: .75rem;
-    padding: .75rem;
-    border: 1px solid rgba($primary-color, .5);
-    line-height: 1.5rem;
-    max-width: 280px;
-  }
-
-  &__button {
-    background-color: #2fcab5;
-    border-radius: 3px;
-    color: rgb(255, 255, 255);
-    border-color: #2fcab5;
-    border-style: solid;
-    cursor: pointer;
-    margin-top: 5px;
-
-    &:focus {
-      outline: 0;
-    }
-  }
 }
 
 .select-reviewer {
-  &__container {
-    display: flex;
-    align-items: center;
-    align-content: flex-start;
-    font-family: $main-font;
-    color: $select-color;
-  }
-
-  &__username {
-    flex-grow: 1;
-    text-align: center;
-  }
-
-  &__picture {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
   &__color-badge {
     width: 15px;
     height: 15px;

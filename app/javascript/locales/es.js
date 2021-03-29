@@ -39,6 +39,17 @@ export default {
         dropdownAll: 'Todos',
         userFilterMessage: 'Todos',
       },
+      openPr: {
+        detection: 'Se ha detectado un PR tuyo con nombre:',
+        assignedReviewers: 'Revisores asignados ({number}):',
+        error: 'Error: {error}',
+        noMatch: 'No hay coincidencias para {search}.',
+        withoutOptions: 'No hay opciones :(',
+        assign: 'Asignar',
+        linkCopied: '¡Link copiado!',
+        linkCopyError: 'Hubo un error intentando copiar el link',
+        copyLinkMessage: 'Copiar link al pull request',
+      },
     },
     admin: {
       noDefaultTeam: 'Sin equipo default',

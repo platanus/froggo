@@ -16,14 +16,14 @@ import {
 
 export default {
   [CREATE_NEW_FROGGO_TEAM](_, { name, organizationId, userIds }) {
-    froggoTeamsApi.createFroggoTeam(organizationId, {
+    return froggoTeamsApi.createFroggoTeam(organizationId, {
       name,
       newMembersIds: userIds,
     });
   },
 
   [UPDATE_FROGGO_TEAM](_, { id, name, newMembersIds, oldMembersIds, changedMembersIds, changedPercentages }) {
-    froggoTeamsApi.updateFroggoTeam(id, {
+    return froggoTeamsApi.updateFroggoTeam(id, {
       name,
       newMembersIds,
       oldMembersIds,
@@ -35,7 +35,7 @@ export default {
   [DELETE_FROGGO_TEAM](_, { id }) {
     const response = confirm('Estás seguro de querer borrar el equipo ?');
     if (response) {
-      froggoTeamsApi.deleteFroggoTeam(id);
+      return froggoTeamsApi.deleteFroggoTeam(id);
     }
 
     return false;
@@ -48,7 +48,8 @@ export default {
     githubUsers.forEach((user) => {
       promises.push(usersApi.pullRequestsInformation(user.login, monthLimit));
     });
-    Promise.all(promises)
+
+    return Promise.all(promises)
       .then(responses => {
         responses.forEach(response => {
           pullRequestsInformation = {

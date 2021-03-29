@@ -8,6 +8,7 @@ import VueHorizontalList from 'vue-horizontal-list';
 import Toasted from 'vue-toasted';
 import { camelizeKeys } from 'humps';
 import vSelect from 'vue-select';
+import VueClipboard from 'vue-clipboard2';
 import '../css/application.css';
 
 import Dropdown from '../components/pl-dropdown.vue';
@@ -76,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('tags-show', TagsShow);
   Vue.component('v-select', vSelect);
   Vue.component('team-tags-container', TeamTagsContainer);
+  Vue.use(VueClipboard);
 
   if (document.getElementById('app') !== null) {
     new Vue({ // eslint-disable-line no-new

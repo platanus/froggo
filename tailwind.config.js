@@ -6,6 +6,9 @@ module.exports = {
         'main': ['Roboto', 'sans-serif'],
         'landing': ['Roboto', 'sans-serif'],
       },
+      colors: {
+        primary: '#2fcab5',
+      },
     },
   },
   variants: {},
