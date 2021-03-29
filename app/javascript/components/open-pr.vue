@@ -1,35 +1,49 @@
 <template>
-  <div>
+  <div class="max-w-xs p-3 mb-3 mr-3 font-medium border border-opacity-50 border-primary font-main">
     <div
       v-if="!recommendations"
       class="loading-icon"
     />
     <div
       v-else
-      class="profile-prs__container"
+      class="flex flex-col mb-3"
     >
-      <h4>
-        Se ha detectado un PR tuyo con nombre:
-      </h4>
-      <h3>
-        #{{ prTitle }}
-      </h3>
+      <div class="mb-3">
+        {{ $i18n.t('message.profile.openPr.detection') }}
+      </div>
+      <div class="flex items-center justify-between mb-3">
+        <div clas="mb-3">
+          #{{ prTitle }}
+        </div>
+        <button
+          class="w-6 h-full ml-1 hover"
+          v-clipboard:copy="pr.htmlUrl"
+          v-clipboard:success="onCopy"
+          v-clipboard:error="onError"
+          v-tooltip.right="getMessage()"
+        >
+          <img
+            class="h-6 opacity-25"
+            :src="require('../../assets/images/copy_button.svg').default"
+          >
+        </button>
+      </div>
 
-      <h4>
-        Revisores asignados ({{ this.selectedReviewers.length }}):
-      </h4>
-      <div class="open-pr__reviewers-container">
+      <div class="mb-3">
+        {{ $i18n.t('message.profile.openPr.assignedReviewers', { number: this.selectedReviewers.length }) }}
+      </div>
+      <div class="flex flex-col w-full h-24 p-3 mb-3 overflow-y-scroll">
         <a
-          class="profile-recommendations-users__user"
+          class="flex items-center justify-between flex-1 mb-4"
           v-for="rev in selectedReviewers"
           :key="rev.login"
         >
           <img
-            class="select-reviewer__picture"
+            class="object-cover w-8 h-8 rounded-full"
             :src="rev.avatarUrl"
           >
           <span
-            class="select-reviewer__username"
+            class="flex-1 text-center"
           >
             {{ rev.login }}
           </span>
@@ -42,9 +56,9 @@
 
       <p
         v-if="error"
-        class="profile-prs__error"
+        class="text-red-500 bg-opacity-50"
       >
-        Error: {{ this.errors }}
+        {{ $i18n.t('message.profile.openPr.error', { error: this.errors }) }}
       </p>
 
       <v-select
@@ -52,23 +66,24 @@
         label="login"
         v-model="reviewer"
         required
+        class="mb-3"
       >
         <template v-slot:no-options="{ search, searching }">
           <template v-if="searching">
-            No hay coincidencias para <em>{{ search }}</em>.
+            {{ $i18n.t('message.profile.openPr.assignedReviewers', { search: search }) }}
           </template>
           <template v-else>
-            No hay opciones :(
+            {{ $i18n.t('message.profile.openPr.withoutOptions') }}
           </template>
         </template>
         <template v-slot:option="option">
-          <div class="select-reviewer__container">
+          <div class="flex items-center justify-between mb-4">
             <img
-              class="select-reviewer__picture"
+              class="object-cover w-8 h-8 rounded-full"
               :src="option.avatarUrl"
             >
             <span
-              class="select-reviewer__username"
+              class="flex-1 text-center"
             >
               {{ option.login }}
             </span>
@@ -79,12 +94,12 @@
           </div>
         </template>
       </v-select>
-      <div class="centered">
+      <div class="text-center">
         <button
-          class="profile-prs__button"
+          class="w-1/3 text-gray-100 border-2 border-solid rounded-md cursor-pointer bg-primary border-primary"
           @click="submit()"
         >
-          Asignar
+          {{ $i18n.t('message.profile.openPr.assign') }}
         </button>
       </div>
     </div>
@@ -95,8 +110,10 @@
 import { mapState } from 'vuex';
 import colorFromScore from '../helpers/color-from-score';
 import pullRequestReviewersApi from '../api/pull_request_reviewers';
+import showMessageMixin from '../mixins/showMessageMixin';
 
 export default {
+  mixins: [showMessageMixin],
   computed: {
     ...mapState({
       recommendations: state => state.profile.recommendations,
@@ -159,6 +176,15 @@ export default {
           this.errors = 'Hubo un problema ><';
           this.reviewer = '';
         });
+    },
+    onCopy() {
+      this.showMessage(this.$i18n.t('message.profile.openPr.linkCopied'));
+    },
+    onError() {
+      this.showMessage(this.$i18n.t('message.profile.openPr.linkCopyError'));
+    },
+    getMessage() {
+      return this.$i18n.t('message.profile.openPr.copyLinkMessage');
     },
   },
   data() {
