@@ -125,7 +125,7 @@ export default {
         tagIds: [... ids],
       })
         .then((res) => {
-          this.myTags = res.data.tags;
+          this.myTags = res.data.data.attributes.tags;
         }).catch(() => {
           this.error = true;
         });

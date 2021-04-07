@@ -4,13 +4,13 @@ export default {
   addLike(prId) {
     return api({
       method: 'post',
-      url: `/api/pull_requests/${prId}/likes`,
+      url: `/api/v1/pull_requests/${prId}/likes`,
     });
   },
   deleteLike(prId, userLikeId) {
     return api({
       method: 'delete',
-      url: `/api/pull_requests/${prId}/likes/${userLikeId}`,
+      url: `/api/v1/pull_requests/${prId}/likes/${userLikeId}`,
     });
   },
 };

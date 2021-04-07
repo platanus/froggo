@@ -13,7 +13,7 @@
       :admin-mode="true">
     </teams-dropdown>
     <div class="card-extended__button-container">
-      <sync-organization-button url="/api/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>"></sync-organization-button>
+      <sync-organization-button url="/api/v1/organizations/<%= @organization.id %>/sync" id="<%= @organization.id %>"></sync-organization-button>
     </div>
   </div>
   <div class="card-extended__body">

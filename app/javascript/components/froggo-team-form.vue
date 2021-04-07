@@ -56,7 +56,7 @@ export default {
       })
         .then(response => {
           this.showMessage(this.$t('message.froggoTeams.successfullyCreatedTeam'));
-          window.location.href = `/froggo_teams/${response.data.id}`;
+          window.location.href = `/froggo_teams/${response.data.data.id}`;
         })
         .catch(error => {
           const unauthorizedStatus = 401;

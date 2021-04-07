@@ -4,7 +4,7 @@ export default {
   addReviewer(data) {
     return api({
       method: 'post',
-      url: '/api/pull_request_reviewer/add',
+      url: '/api/v1/pull_request_reviewer/add',
       data,
     });
   },
