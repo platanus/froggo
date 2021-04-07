@@ -146,7 +146,7 @@ export default {
       pullRequestsApi.addLike(pr.id)
         .then((response) => {
           pr.likes += 1;
-          pr.currentUserLike = response.data;
+          pr.currentUserLike = response.data.data;
         })
         .catch(() => {
           this.showMessage(this.$i18n.t('message.error.createLike'));

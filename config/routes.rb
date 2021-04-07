@@ -1,4 +1,28 @@
 Rails.application.routes.draw do
+  scope path: '/api' do
+    api_version(module: 'Api::V1', path: { value: 'v1' }, defaults: { format: 'json' }) do
+      resources :repositories, only: [:update]
+      put 'organizations/:id/update' => 'organizations#update'
+      post 'organizations/:id/sync' => 'organizations#sync'
+      get 'organizations/:id/check_sync' => 'organizations#check_sync'
+      get 'organizations/:org_id/users/:github_login/statistics' =>
+        'github_users#organization_recommendation_statistics'
+      get 'teams/:team_id/users/:github_login/recommendations' =>
+        'github_users#team_review_recommendations'
+      resources :organizations do
+        resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true
+      end
+      resources :pull_requests do
+        resources :likes, only: [:create, :destroy]
+      end
+      patch 'github_users/:id' => 'github_users#update'
+      get 'users/:github_login/pull_requests_information' =>
+        'github_users#pull_requests_information'
+      post 'pull_request_reviewer/add' => 'pull_request_reviewers#add_reviewer'
+    end
+  end
+  mount Rswag::Api::Engine => '/api-docs'
+  mount Rswag::Ui::Engine => '/api-docs'
   default_url_options host: ENV['APPLICATION_HOST']
 
   get 'home/index', as: :home
@@ -35,29 +59,6 @@ Rails.application.routes.draw do
 
   resources :froggo_teams, only: [:show], controller: 'froggo_teams'
   get 'froggo_teams/:id/edit' => 'froggo_teams#edit'
-
-  scope path: '/api', defaults: { format: 'json' } do
-    api_version(module: "Api::V1", header: { name: "Accept", value: "version=1" }, default: true) do
-      resources :repositories, only: [:update]
-      put 'organizations/:id/update' => 'organizations#update'
-      post 'organizations/:id/sync' => 'organizations#sync'
-      get 'organizations/:id/check_sync' => 'organizations#check_sync'
-      get 'organizations/:org_id/users/:github_login/statistics' =>
-        'github_users#organization_recommendation_statistics'
-      get 'teams/:team_id/users/:github_login/recommendations' =>
-        'github_users#team_review_recommendations'
-      resources :organizations do
-        resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true
-      end
-      resources :pull_requests do
-        resources :likes, only: [:create, :destroy]
-      end
-      patch 'github_users/:id' => 'github_users#update'
-      get 'users/:github_login/pull_requests_information' =>
-        'github_users#pull_requests_information'
-      post 'pull_request_reviewer/add' => 'pull_request_reviewers#add_reviewer'
-    end
-  end
 
   devise_config = ActiveAdmin::Devise.config
   devise_config[:controllers][:omniauth_callbacks] = 'admin_users/omniauth_callbacks'

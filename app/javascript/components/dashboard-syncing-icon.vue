@@ -18,12 +18,12 @@ export default {
       const TIMEOUT = 5000;
       organizationsApi.checkSync(this.id)
         .then((res) => {
-          if (res.data.state === 'completed') {
+          if (res.data.data.attributes.state === 'completed') {
             if (this.loading === true) {
               location.reload(true);
             }
             this.loading = false;
-          } else if (res.data.state === 'executing') {
+          } else if (res.data.data.attributes.state === 'executing') {
             this.loading = true;
             setTimeout(this.checkSync, TIMEOUT);
           }

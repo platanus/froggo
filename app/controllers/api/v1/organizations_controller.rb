@@ -21,11 +21,7 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
   end
 
   def update
-    if organization.update_attributes(update_params)
-      render json: { response: 'Updated' }, status: 200
-    else
-      render json: { response: 'Bad request', errors: @user.errors.messages }, status: 400
-    end
+    respond_with organization.update! update_params
   end
 
   private

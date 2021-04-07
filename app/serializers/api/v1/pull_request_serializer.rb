@@ -1,4 +1,4 @@
-class PullRequestSerializer < ActiveModel::Serializer
+class Api::V1::PullRequestSerializer < ActiveModel::Serializer
   attributes :id, :title, :repository_name, :owner_id, :html_url, :likes, :created_at,
              :owner_name, :description, :commits, :owner_login
   def likes

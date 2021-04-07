@@ -1,4 +1,4 @@
-class FroggoTeamSerializer < ActiveModel::Serializer
+class Api::V1::FroggoTeamSerializer < ActiveModel::Serializer
   attributes :id, :name, :organization, :members
 
   def organization

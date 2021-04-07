@@ -4,21 +4,21 @@ export default {
   updateUser(userId, body) {
     return api({
       method: 'patch',
-      url: `/api/github_users/${userId}`,
+      url: `/api/v1/github_users/${userId}`,
       data: body,
     });
   },
   getUserRecommendations(teamId, userLogin, queryParams) {
     return api({
       method: 'get',
-      url: `/api/teams/${teamId}/users/${userLogin}/recommendations`,
+      url: `/api/v1/teams/${teamId}/users/${userLogin}/recommendations`,
       params: queryParams,
     });
   },
   pullRequestsInformation(userLogin, monthLimit) {
     return api({
       method: 'get',
-      url: `/api/users/${userLogin}/pull_requests_information`,
+      url: `/api/v1/users/${userLogin}/pull_requests_information`,
       params: { monthLimit },
     });
   },

@@ -1,40 +1,42 @@
 class Api::V1::GithubUsersController < Api::V1::BaseController
   def team_review_recommendations
-    render json: { response: {
+    response = { response: {
       recommendations: GetReviewRecommendations.for(
         github_user_id: github_user.id,
         other_users_ids: other_team_members_ids,
         month_limit: permitted_params[:month_limit]&.to_i,
         froggo_team_id: froggo_team_id
       )
-    } }, status: :ok
+    } }
+
+    respond_with response
   end
 
   def organization_recommendation_statistics
-    render json: { response: {
+    response = { response: {
       statistics: ComputeUserStatistics.for(
         github_user_id: github_user.id,
         organization_id: permitted_params[:org_id]
       )
-    } }, status: :ok
+    } }
+
+    respond_with response
   end
 
   def pull_requests_information
-    render json: { response: {
+    response = { response: {
       metrics: GetUserPullRequestMetrics.for(
         github_user: github_user,
         limit_month: permitted_params[:month_limit]
       )
-    } }, status: :ok
+    } }
+    respond_with response
   end
 
   def update
     github_user = GithubUser.find(permitted_params[:id])
-    if github_user.update(update_params)
-      render json: { response: 'Updated', user: github_user, tags: github_user.tags }, status: :ok
-    else
-      render json: { response: 'Bad request', errors: github_user.errors }, status: :bad_request
-    end
+    github_user.update! update_params
+    respond_with github_user
   end
 
   private

@@ -119,7 +119,7 @@ export default {
       usersApi.updateUser(this.githubUser.id, this.form)
         // eslint-disable-next-line max-statements
         .then((res) => {
-          this.user = res.data.user;
+          this.user = res.data.data.attributes;
           this.error = false;
           this.form.description = this.user.description;
           this.readMoreActivated = this.user.description.length <= this.maxLength;

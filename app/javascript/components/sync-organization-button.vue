@@ -34,9 +34,9 @@ export default {
       const TIMEOUT = 1000;
       organizationsApi.checkSync(this.id)
         .then((res) => {
-          if (res.data.state === 'completed') {
+          if (res.data.data.attributes.state === 'completed') {
             this.loading = false;
-          } else if (res.data.state === 'failed') {
+          } else if (res.data.data.attributes.state === 'failed') {
             this.loading = false;
             alert(this.$i18n.t('message.settings.error'));
           } else {

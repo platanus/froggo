@@ -4,19 +4,19 @@ export default {
   checkSync(organizationId) {
     return api({
       method: 'get',
-      url: `/api/organizations/${organizationId}/check_sync`,
+      url: `/api/v1/organizations/${organizationId}/check_sync`,
     });
   },
   sync(organizationId) {
     return api({
       method: 'post',
-      url: `/api/organizations/${organizationId}/sync`,
+      url: `/api/v1/organizations/${organizationId}/sync`,
     });
   },
   update(organizationId, body) {
     return api({
       method: 'put',
-      url: `/api/organizations/${organizationId}/update`,
+      url: `/api/v1/organizations/${organizationId}/update`,
       data: body,
     });
   },
