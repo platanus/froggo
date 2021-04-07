@@ -55,7 +55,7 @@ RSpec.describe Api::V1::FroggoTeamsController, type: :controller do
         post :create, params: { name: "name", organization_id: platanus_org.id, new_members_ids: [user.id] }, format: :json
       end
 
-      it { expect(response).to have_http_status(:ok) }
+      it { expect(response).to have_http_status(:created) }
     end
   end
 
