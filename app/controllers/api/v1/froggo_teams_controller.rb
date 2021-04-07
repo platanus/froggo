@@ -1,7 +1,7 @@
 class Api::V1::FroggoTeamsController < Api::V1::BaseController
   before_action :authenticate_github_user
   def index
-    render json: { froggo_teams: organization.froggo_teams }
+    respond_with organization.froggo_teams
   end
 
   def create

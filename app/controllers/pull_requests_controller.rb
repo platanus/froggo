@@ -12,19 +12,19 @@ class PullRequestsController < ApplicationController
     @pull_requests = @pull_requests.order(created_at: :desc)
     @pull_requests = @pull_requests.page(params[:page]) unless params.has_key? :top_liked
     @serialized_pull_requests = ActiveModel::Serializer::CollectionSerializer.new(
-      @pull_requests, each_serializer: PullRequestSerializer
+      @pull_requests, serializer: Api::V1::PullRequestSerializer
     )
   end
 
   def show
     @pull_request = PullRequest.find(params[:id])
-    @serialized_pull_request = PullRequestSerializer.new(@pull_request)
+    @serialized_pull_request = Api::V1::PullRequestSerializer.new(@pull_request)
     @liked = Like.where(github_user_id: github_user.id,
                         likeable_type: "PullRequest",
                         likeable_id: @pull_request.id)[0]
     @reviewers = PullRequestReview.where(pull_request_id: @pull_request.id)
     @serialized_reviewers = ActiveModel::Serializer::CollectionSerializer.new(
-      @reviewers, each_serializer: PullRequestReviewSerializer
+      @reviewers, serializer:  Api::V1::PullRequestReviewSerializer
     )
   end
 

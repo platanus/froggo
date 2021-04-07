@@ -1,16 +1,13 @@
 class Api::V1::LikesController < Api::V1::BaseController
   def create
     like = Like.new(create_params)
-    if like.save
-      render json: like
-    else
-      render json: { errors: like.errors }, status: :unprocessable_entity
-    end
+    like.save!
+    respond_with like
   end
 
   def destroy
     like = Like.find(params[:id])
-    like.destroy
+    respond_with like.destroy
   end
 
   private
