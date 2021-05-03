@@ -204,11 +204,10 @@
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    margin-left: 20px;
+    margin-left: 50%;
     position: absolute;
     z-index: 2;
-    top: 0;
-    right: 5px;
+    bottom: 27px;
 
     &--red {
       background-color: rgba($red, .5);
