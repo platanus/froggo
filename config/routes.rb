@@ -9,11 +9,14 @@ Rails.application.routes.draw do
         'github_users#organization_recommendation_statistics'
       get 'teams/:team_id/users/:github_login/recommendations' =>
         'github_users#team_review_recommendations'
-      resources :organizations do
+      resources :organizations, only: [:index] do
         resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true
       end
       resources :pull_requests do
         resources :likes, only: [:create, :destroy]
+      end
+      resources :github_users, only: [] do
+        get '/open_prs' => :open_prs, on: :collection
       end
       patch 'github_users/:id' => 'github_users#update'
       get 'users/:github_login/pull_requests_information' =>
