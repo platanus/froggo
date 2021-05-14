@@ -1,7 +1,11 @@
 class Api::V1::OrganizationsController < Api::V1::BaseController
   before_action :authenticate_github_user
-  before_action :ensure_organization_admin
+  before_action :ensure_organization_admin, except: [:index]
   after_action :update_organization_default_team_memberships, only: [:update]
+
+  def index
+    respond_with github_user.organizations
+  end
 
   def sync
     Github::OrganizationWebhookService.new(
