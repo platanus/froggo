@@ -1,4 +1,6 @@
 class Api::V1::GithubUsersController < Api::V1::BaseController
+  before_action :authenticate_github_user, only: [:open_prs]
+
   def team_review_recommendations
     response = { response: {
       recommendations: GetReviewRecommendations.for(
@@ -37,6 +39,15 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     github_user = GithubUser.find(permitted_params[:id])
     github_user.update! update_params
     respond_with github_user
+  end
+
+  def open_prs
+    gh_user = github_session.user
+    response = { response: {
+      github_username: gh_user.login,
+      open_prs: gh_pr_service.open_prs(gh_user.login)
+    } }
+    respond_with response
   end
 
   private
@@ -102,5 +113,9 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def update_params
     params.permit(:description, tag_ids: [])
+  end
+
+  def gh_pr_service
+    @gh_pr_service ||= GithubPullRequestService.new(token: github_session.token)
   end
 end

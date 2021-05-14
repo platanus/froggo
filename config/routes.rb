@@ -15,6 +15,9 @@ Rails.application.routes.draw do
       resources :pull_requests do
         resources :likes, only: [:create, :destroy]
       end
+      resources :github_users, only: [] do
+        get '/open_prs' => :open_prs, on: :collection
+      end
       patch 'github_users/:id' => 'github_users#update'
       get 'users/:github_login/pull_requests_information' =>
         'github_users#pull_requests_information'
