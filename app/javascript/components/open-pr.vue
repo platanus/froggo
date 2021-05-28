@@ -96,7 +96,7 @@
       </v-select>
       <div class="text-center">
         <button
-          class="w-1/3 text-gray-100 border-2 border-solid rounded-md cursor-pointer bg-primary border-primary"
+          class="w-1/3 text-gray-100 border-2 border-solid rounded-md cursor-pointer bg-primary border-primary heap-class"
           @click="submit()"
         >
           {{ $i18n.t('message.profile.openPr.assign') }}
