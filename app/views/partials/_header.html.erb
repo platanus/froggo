@@ -1,25 +1,49 @@
-<header class="header">
-  <div class="container p-1 mx-auto header__container">
-    <%= link_to root_path, class: 'header__logo-container' do %>
-      <%= image_tag 'froggo-logo.svg', class: 'header__logo' %>
-    <% end %>
-    <% unless @github_user.nil? %>
-      <%= link_to t('messages.header.pull_requests'), organization_pull_requests_path(organization_name: @github_session.organizations.first[:login]), class: 'header__teams-button-container'%>
-      <%= link_to t('messages.header.teams'), github_user_froggo_teams_path(github_user_id: @github_session.user.id), class: 'header__teams-button-container'%>
-      <div class="header__menu-container">
-        <dropdown class="user-menu header__user-menu">
-          <img class="user-menu__image" slot="btn" src="<%= @github_session.user.avatar_url %>"/>
-          <div class="user-menu__body" slot="body">
-            <%= link_to t('messages.header.organizations'), organization_path(name: @github_session.organizations.first[:login]), class: 'user-menu__option'%>
-            <% if @github_session.user.id === @github_user.id %>
-              <%= link_to t('messages.profile.give_permissions'),
-                  org_authenticate_path,
-                  class: 'user-menu__option'%>
+<header class="px-6 py-3 bg-black">
+  <div class="flex">
+    <div class="flex items-center flex-1">
+      <%= image_tag 'froggo-logo.svg', class: 'h-6' %>
+    </div>
+    <div class="flex items-center">
+      <froggo-dropdown>
+        <div class="flex items-center mr-8" slot="btn">
+          <span class="w-10 h-10 mr-1 rounded-full bg-white bg-opacity-50"></span>
+          <%= inline_svg 'chevron-down.svg', class: 'text-white fill-current h-6 w-6 ml-2' %>
+        </div>
+        <div class="mt-4 bg-white w-64" slot="body">
+          <div class="grid grid-rows-auto gap-1">
+            <% if @github_session.user.organizations.present?  %>
+              <% for @organization in @github_session.user.organizations %>
+                <div class="flex items-center m-4 opacity-50" >
+                  <% if @organization[:avatar_url] %>
+                    <%= image_tag @organization[:avatar_url] , class: 'w-10 h-10 mr-5 rounded-full' %>
+                  <% else %>
+                    <span class="w-10 h-10 mr-5 rounded-full bg-black bg-opacity-50"></span>
+                  <% end %>
+                  <%= link_to_if false, @organization[:login], "", class: 'my-auto font-medium'%>
+                </div>
+              <% end  %>
+            <% else %>
+              <div class="flex items-center m-4">
+                <p class="my-auto font-medium"><%=t('messages.header.no_organizations')%></p>
+              </div>
             <% end %>
-            <%= link_to t('messages.header.close_session'), close_session_path, class: 'user-menu__option'%>
           </div>
-        </dropdown>
-      </div>
-    <% end %>
+        </div>
+      </froggo-dropdown>
+      <div class="h-8 mr-8 border-r-2 border-white"></div>
+      <froggo-dropdown>
+        <div class="flex items-center" slot="btn">
+          <%= image_tag @github_session.user.avatar_url, class: 'w-10 h-10 mr-1 rounded-full' %>
+          <%= inline_svg 'chevron-down.svg', class: 'text-white fill-current h-6 w-6 ml-2' %>
+        </div>
+        <div class="mt-4 bg-white w-56" slot="body">
+          <div class="grid grid-rows-auto gap-1">
+            <%= link_to t('messages.header.organizations'), organization_path(name: @github_session.organizations.first[:login]), class: 'font-medium p-4'%>
+            <%= link_to t('messages.profile.give_permissions'), org_authenticate_path, class: 'font-medium whitespace-no-wrap p-4'%>
+            <%= link_to t('messages.header.close_session'), close_session_path, class: ' font-medium p-4'%>
+          </div>
+        </div>
+      </froggo-dropdown>
+    </div>
   </div>
 </header>
