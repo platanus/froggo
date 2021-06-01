@@ -11,6 +11,8 @@ import vSelect from 'vue-select';
 import VueClipboard from 'vue-clipboard2';
 import '../css/application.css';
 
+import FroggoDropdown from '../components/froggo-dropdown.vue';
+
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
 import OrganizationsDropdown from '../components/organizations-dropdown.vue';
@@ -57,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('organizations-dropdown', OrganizationsDropdown);
+  Vue.component('froggo-dropdown', FroggoDropdown);
   Vue.component('froggo-team-edit', FroggoTeamEdit);
   Vue.component('froggo-team-form', FroggoTeamForm);
   Vue.component('froggo-team-show', FroggoTeamShow);
