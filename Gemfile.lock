@@ -205,6 +205,9 @@ GEM
       has_scope (~> 0.6)
       railties (>= 5.0, < 6.1)
       responders (>= 2, < 4)
+    inline_svg (1.7.2)
+      activesupport (>= 3.0)
+      nokogiri (>= 1.6)
     jaro_winkler (1.5.4)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
@@ -549,6 +552,7 @@ DEPENDENCIES
   font-awesome-rails
   guard-rspec
   heroku-stage
+  inline_svg
   jbuilder (~> 2.7)
   letter_opener
   listen
