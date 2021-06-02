@@ -75,6 +75,7 @@ en:
       organizations: Organizations
       close_session: Close session
       teams: Teams
+      no_organizations: No organizations
     home:
       title: Pull Requests that transmit culture
       subtitle: In each Pull Request there's useful learning material for your organization. Use your Pull Requests to share knowledge and encourage learning on your teams.
