@@ -13,6 +13,7 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'enumerize'
 gem "font-awesome-rails"
+gem 'inline_svg'
 gem 'jbuilder', '~> 2.7'
 gem 'octicons_helper'
 gem 'octokit'
