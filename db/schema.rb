@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_29_155013) do
+ActiveRecord::Schema.define(version: 2021_06_02_150223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,6 +143,16 @@ ActiveRecord::Schema.define(version: 2020_12_29_155013) do
     t.integer "default_team_id"
   end
 
+  create_table "preferences", force: :cascade do |t|
+    t.bigint "default_organization_id"
+    t.bigint "default_team_id"
+    t.bigint "default_time"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_preferences_on_user_id"
+  end
+
   create_table "pull_request_relations", force: :cascade do |t|
     t.bigint "pull_request_id"
     t.bigint "github_user_id"
@@ -258,6 +268,7 @@ ActiveRecord::Schema.define(version: 2020_12_29_155013) do
   add_foreign_key "organization_memberships", "github_users"
   add_foreign_key "organization_memberships", "organizations"
   add_foreign_key "organization_syncs", "organizations"
+  add_foreign_key "preferences", "users"
   add_foreign_key "pull_request_relations", "github_users"
   add_foreign_key "pull_request_relations", "pull_requests"
   add_foreign_key "pull_request_review_requests", "github_users"
