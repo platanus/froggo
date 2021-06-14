@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :preference do
-    association :user
+    association :github_user
 
     default_organization_id { 1 }
     default_team_id { 1 }

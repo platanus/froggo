@@ -1,5 +1,5 @@
 class Preference < ApplicationRecord
-  belongs_to :user
+  belongs_to :github_user
   enum default_time: {
     one_month: 0,
     three_months: 1,
@@ -18,15 +18,15 @@ end
 #  default_organization_id :bigint(8)
 #  default_team_id         :bigint(8)
 #  default_time            :bigint(8)
-#  user_id                 :bigint(8)        not null
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  github_user_id          :bigint(8)
 #
 # Indexes
 #
-#  index_preferences_on_user_id  (user_id)
+#  index_preferences_on_github_user_id  (github_user_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (github_user_id => github_users.id)
 #

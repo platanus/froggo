@@ -15,6 +15,8 @@ class GithubUser < ApplicationRecord
   has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
 
+  has_one :preference, dependent: :destroy
+
   validates :gh_id, presence: true
   validates :login, presence: true
   validates :description, length: { maximum: 255 }
