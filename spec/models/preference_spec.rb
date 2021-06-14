@@ -12,6 +12,6 @@ RSpec.describe Preference, type: :model do
   end
 
   describe 'relationships' do
-    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:github_user) }
   end
 end
