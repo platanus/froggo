@@ -12,6 +12,9 @@ import vSelect from 'vue-select';
 import VueClipboard from 'vue-clipboard2';
 import '../css/application.css';
 
+import FroggoHeader from '../components/shared/header.vue';
+import FroggoSidebar from '../components/shared/sidebar.vue';
+
 import FroggoDropdown from '../components/froggo-dropdown.vue';
 
 import Dropdown from '../components/pl-dropdown.vue';
@@ -57,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     },
   });
+  Vue.component('froggo-header', FroggoHeader);
+  Vue.component('froggo-sidebar', FroggoSidebar);
   Vue.component('repository', Repository);
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
