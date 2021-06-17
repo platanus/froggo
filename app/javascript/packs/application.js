@@ -5,6 +5,7 @@ import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
 import VTooltip from 'v-tooltip';
 import VueHorizontalList from 'vue-horizontal-list';
+import { InlineSvgPlugin } from 'vue-inline-svg';
 import Toasted from 'vue-toasted';
 import { camelizeKeys } from 'humps';
 import vSelect from 'vue-select';
@@ -43,6 +44,7 @@ import store from '../store';
 Vue.use(VueI18n);
 Vue.use(VTooltip);
 Vue.use(VueHorizontalList);
+Vue.use(InlineSvgPlugin);
 Vue.filter('camelizeKeys', camelizeKeys);
 
 /* eslint-disable max-statements */
