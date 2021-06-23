@@ -124,5 +124,20 @@ export default {
         score: 'Puntaje: ',
       },
     },
+    global: {
+      header: {
+        profile: 'Mi perfil',
+        givePermission: 'Otorgar permisos',
+        organizations: 'Organizaciones',
+        closeSession: 'Cerrar sesión',
+        noOrganizations: 'Sin organizaciones',
+      },
+      sidebar: {
+        recommendations: 'Recomendaciones',
+        teams: 'Equipos',
+        feed: 'Feed',
+        metrics: 'Métricas',
+      },
+    },
   },
 };

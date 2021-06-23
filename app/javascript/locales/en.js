@@ -122,5 +122,20 @@ export default {
         score: 'Score: ',
       },
     },
+    global: {
+      header: {
+        profile: 'My profile',
+        givePermission: 'Configure organizations',
+        organizations: 'Organizations',
+        closeSession: 'Close session',
+        noOrganizations: 'No organizations',
+      },
+      sidebar: {
+        recommendations: 'Recommendations',
+        teams: 'Teams',
+        feed: 'Feed',
+        metrics: 'Metrics',
+      },
+    },
   },
 };

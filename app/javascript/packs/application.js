@@ -5,11 +5,15 @@ import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
 import VTooltip from 'v-tooltip';
 import VueHorizontalList from 'vue-horizontal-list';
+import { InlineSvgPlugin } from 'vue-inline-svg';
 import Toasted from 'vue-toasted';
 import { camelizeKeys } from 'humps';
 import vSelect from 'vue-select';
 import VueClipboard from 'vue-clipboard2';
 import '../css/application.css';
+
+import FroggoHeader from '../components/shared/header.vue';
+import FroggoSidebar from '../components/shared/sidebar.vue';
 
 import FroggoDropdown from '../components/froggo-dropdown.vue';
 
@@ -43,6 +47,7 @@ import store from '../store';
 Vue.use(VueI18n);
 Vue.use(VTooltip);
 Vue.use(VueHorizontalList);
+Vue.use(InlineSvgPlugin);
 Vue.filter('camelizeKeys', camelizeKeys);
 
 /* eslint-disable max-statements */
@@ -55,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     },
   });
+  Vue.component('froggo-header', FroggoHeader);
+  Vue.component('froggo-sidebar', FroggoSidebar);
   Vue.component('repository', Repository);
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
