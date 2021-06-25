@@ -22,6 +22,8 @@ Rails.application.routes.draw do
       get 'users/:github_login/pull_requests_information' =>
         'github_users#pull_requests_information'
       post 'pull_request_reviewer/add' => 'pull_request_reviewers#add_reviewer'
+      get 'github_users/:id/preferences' => 'preferences#show'
+      patch 'github_users/:id/preferences' => 'preferences#update'
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
