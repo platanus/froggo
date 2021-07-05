@@ -13,7 +13,13 @@ class Api::V1::PreferencesController < Api::V1::BaseController
   private
 
   def preference
-    @preference ||= github_user.preference
+    @preference ||= Preference.find_or_create_by(github_user_id: github_user.id) do |preference|
+      org_id = OrganizationMembership.find_by(github_user_id: github_user.id).organization_id
+      team_id = FroggoTeamMembership.find_by(github_user_id: github_user.id).froggo_team_id
+      preference.default_organization_id = org_id
+      preference.default_team_id = team_id
+      preference.default_time = 1
+    end
   end
 
   def github_user
