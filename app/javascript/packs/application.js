@@ -15,6 +15,8 @@ import '../css/application.css';
 import FroggoHeader from '../components/shared/header.vue';
 import FroggoSidebar from '../components/shared/sidebar.vue';
 
+import Recommendations from '../components/recommendations/index.vue';
+
 import FroggoDropdown from '../components/froggo-dropdown.vue';
 
 import Dropdown from '../components/pl-dropdown.vue';
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     },
   });
+  Vue.component('recommendations', Recommendations);
   Vue.component('froggo-header', FroggoHeader);
   Vue.component('froggo-sidebar', FroggoSidebar);
   Vue.component('repository', Repository);
