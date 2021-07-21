@@ -1,8 +1,9 @@
 <template>
   <div class="bg-blue-900 h-full text-white">
     <div class="grid grid-flow-row">
-      <div class="p-3 text-gray-500">
+      <div :class="`p-3 ${hightlight(recommendationsPath)}`">
         <a
+          :href="recommendationsPath"
           class="flex items-center"
         >
           <inline-svg
@@ -54,17 +55,21 @@
 <script>
 export default {
   props: {
+    recommendationsPath: {
+      type: String,
+      default: '',
+    },
     feedPath: {
       type: String,
-      default: '/',
+      default: '',
     },
     teamsPath: {
       type: String,
-      default: '/',
+      default: '',
     },
     metricsPath: {
       type: String,
-      default: '/',
+      default: '',
     },
   },
   methods: {

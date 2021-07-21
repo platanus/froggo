@@ -21,7 +21,7 @@
       <div>
         <froggo-header
           :user="<%= @github_session.user.to_json %>"
-          :user-organizations="<%= @github_session.user.organizations.to_json %>"
+          :organizations="<%= @github_session.user.organizations.to_json %>"
           organization-path="<%= organization_path(name: @github_session.organizations.first[:login]) %>`"
           org-authenticate-path="<%= org_authenticate_path %>"
           close-session-path="<%= close_session_path %>"
@@ -30,6 +30,7 @@
       <div class="grid grid-cols-12 min-h-screen">
         <div class="col-span-2">
           <froggo-sidebar
+            recommendations-path="<%= recommendations_path %>"
             teams-path="<%= github_user_froggo_teams_path(github_user_id: @github_session.user.id) %>"
             feed-path="<%= organization_pull_requests_path(organization_name: @github_session.organizations.first[:login]) %>"
           />

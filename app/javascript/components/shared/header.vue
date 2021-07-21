@@ -8,59 +8,14 @@
         />
       </div>
       <div class="flex items-center">
-        <froggo-dropdown>
-          <template #btn>
-            <div class="flex items-center mr-8">
-              <span
-                class="w-10 h-10 mr-1 rounded-full bg-white bg-opacity-50"
-              />
-              <inline-svg
-                :src="require('assets/images/chevron-down.svg').default"
-                class="text-white fill-current h-6 w-6 ml-2"
-              />
-            </div>
-          </template>
-          <template #body>
-            <div class="mt-4 bg-white w-56">
-              <div
-                v-if="userOrganizations"
-                class="grid grid-rows-auto gap-1"
-              >
-                <div
-                  v-for="organization in userOrganizations"
-                  :key="organization.id"
-                  class="flex items-center m-4 opacity-50"
-                >
-                  <img
-                    v-if="organization.avatar_url"
-                    :src="organization.avatar_url"
-                    class="w-10 h-10 mr-5 rounded-full"
-                  >
-                  <span
-                    v-else
-                    class="w-10 h-10 mr-5 rounded-full bg-black bg-opacity-50"
-                  />
-                  <p class="my-auto font-medium">
-                    {{ organization.login }}
-                  </p>
-                </div>
-              </div>
-              <div
-                v-else
-                class="flex items-center p-4"
-              >
-                <p class="my-auto font-medium">
-                  {{ $i18n.t('message.global.header.noOrganizations') }}
-                </p>
-              </div>
-            </div>
-          </template>
-        </froggo-dropdown>
+        <dropdown-organization
+          :organizations="organizations"
+          :user="user"
+        />
         <div
           class="h-8 mr-8 border-r-2 border-white"
         />
-
-        <froggo-dropdown>
+        <froggo-dropdown align="right">
           <template #btn>
             <div class="flex items-center">
               <img
@@ -108,15 +63,22 @@
     </div>
   </header>
 </template>
-
 <script>
+import { LOAD_DEFAULT_PREFERENCES, LOAD_RECOMMENDATIONS } from '../../store/action-types';
+import { SET_FETCHING_DEFAULT_PREFERENCES, SET_FETCHING_RECOMMENDATIONS } from '../../store/mutation-types';
+
+import DropdownOrganization from './dropdown-organization.vue';
+
 export default {
+  components: {
+    DropdownOrganization,
+  },
   props: {
     user: {
       type: Object,
-      default: () => {},
+      required: true,
     },
-    userOrganizations: {
+    organizations: {
       type: Array,
       default: () => [],
     },
@@ -132,6 +94,15 @@ export default {
       type: String,
       default: '',
     },
+  },
+  async beforeMount() {
+    this.$store.commit(SET_FETCHING_DEFAULT_PREFERENCES, true);
+    await this.$store.dispatch(LOAD_DEFAULT_PREFERENCES, this.user.id);
+    this.$store.commit(SET_FETCHING_DEFAULT_PREFERENCES, false);
+
+    this.$store.commit(SET_FETCHING_RECOMMENDATIONS, true);
+    await this.$store.dispatch(LOAD_RECOMMENDATIONS, this.user.login);
+    this.$store.commit(SET_FETCHING_RECOMMENDATIONS, false);
   },
 };
 </script>
