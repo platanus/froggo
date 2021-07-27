@@ -10801,6 +10801,11 @@ vue-horizontal-list@^1.0.12:
   dependencies:
     smoothscroll-polyfill "^0.4.4"
 
+vue-horizontal@^0.8.10:
+  version "0.8.10"
+  resolved "https://registry.yarnpkg.com/vue-horizontal/-/vue-horizontal-0.8.10.tgz#bbe889db0accb188c4d1d4c73f1a73bac39fe8e8"
+  integrity sha512-YfgLTovdhOhwi1NxZwI1MUwWWz2bygBkVbfMYwv3+xnCp4dSa4FUuW9wDPR5HraokyDGnpWNsJMpXiyGdpDj2Q==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"

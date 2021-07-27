@@ -49,6 +49,8 @@ Rails.application.routes.draw do
   resources :users, only: [:show], controller: 'github_users'
   get 'me' => 'github_users#me'
 
+  get 'recommendations' => 'recommendations#show', as: :recommendations
+
   scope path: '/slack', module: 'slack' do
     resources :commands, only: [:create]
     resources :events, only: [:create]

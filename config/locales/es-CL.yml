@@ -10,6 +10,15 @@ es-CL:
           zero: vacío
           one: 1 rel
           other: '%{count} rels'
+  activerecord:
+    enums:
+      timespans:
+        limits:
+          one_month: '1 mes'
+          three_months: '3 meses'
+          six_months: '6 meses'
+          nine_months: '9 meses'
+          twelve_months: '12 meses'
   messages:
     dashboard:
       greeting: Hola

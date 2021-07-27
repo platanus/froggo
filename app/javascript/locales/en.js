@@ -122,6 +122,17 @@ export default {
         score: 'Score: ',
       },
     },
+    recommendations: {
+      recommendedReviewers: 'You should assign your next PR to...',
+      notRecommendedReviewers: 'Avoid assigning your next PR to...',
+      loading: 'Loading...',
+      time: 'Timespan',
+      team: 'Team',
+      setDefaultPreferences: 'Set default',
+      noTeamsInOrganization: 'You are not member of any organization team so you have no recommendations',
+      noOrganizations: 'No organizations',
+      noTeams: 'No teams',
+    },
     global: {
       header: {
         profile: 'My profile',

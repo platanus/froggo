@@ -10,12 +10,12 @@
       <slot name="btn" />
     </div>
     <div
-      class="absolute z-10 right-0"
+      :class="`absolute shadow z-10 ${align}-0`"
       v-if="showBody"
+      @click="closeDropdown"
     >
       <slot
         name="body"
-        :close-dropdown="closeDropdown"
       />
     </div>
   </div>
@@ -26,6 +26,12 @@ import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   mixins: [clickaway],
+  props: {
+    align: {
+      type: String,
+      default: 'left-0 right',
+    },
+  },
   data() {
     return {
       showBody: false,
