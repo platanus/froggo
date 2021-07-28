@@ -1,5 +1,5 @@
 class Api::V1::GithubUsersController < Api::V1::BaseController
-  before_action :authenticate_github_user, only: [:open_prs]
+  before_action :authenticate_github_user, only: [:open_prs, :logged_user]
 
   def team_review_recommendations
     response = { response: {
@@ -48,6 +48,11 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
       open_prs: gh_pr_service.open_prs(gh_user.login)
     } }
     respond_with response
+  end
+
+  def logged_user
+    github_user = github_session.user
+    respond_with github_user
   end
 
   private
