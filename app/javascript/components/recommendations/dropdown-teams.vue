@@ -26,7 +26,7 @@
           <div
             v-for="team in selectedOrganizationTeams"
             :key="team.id"
-            class="p-4"
+            class="p-4 cursor-pointer"
             @click="selectTeam(team)"
           >
             {{ team.name }}
