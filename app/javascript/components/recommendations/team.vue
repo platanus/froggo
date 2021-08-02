@@ -4,14 +4,12 @@
       <team-table
         :fetching-recommendations="fetchingRecommendations"
         :recommendations="recommendations"
-        color="teal-500"
         type="best"
         :title="$i18n.t('message.recommendations.recommendedReviewers')"
       />
       <team-table
         :fetching-recommendations="fetchingRecommendations"
         :recommendations="recommendations"
-        color="red-500"
         type="worst"
         :title="$i18n.t('message.recommendations.notRecommendedReviewers')"
       />
