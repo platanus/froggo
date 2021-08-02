@@ -1,5 +1,5 @@
 class Api::V1::GithubUserSerializer < ActiveModel::Serializer
-  attributes :id, :description, :name, :tags
+  attributes :id, :description, :name, :tags, :login, :avatar_url
 
   def tags
     object.tags.map do |tag|

@@ -105,12 +105,12 @@ export default {
     getTooltipMessage(user) {
       const score = user.score.toPrecision(SCORE_PRECISION);
       let lastReviewFormat = '-';
-      if (user.last_review) {
-        const lastReviewDate = new Date(user.last_review);
+      const lastReviewDate = new Date(user.lastReview);
+      if (lastReviewDate.getTime()) {
         lastReviewFormat = lastReviewDate.toLocaleDateString('es-CL', { dateStyle: 'short' });
       }
 
-      return `${user.login}\n Puntaje: ${score}\n Última revisión: ${lastReviewFormat}`;
+      return `${user.login}\n Puntaje: ${score}\n Última revisión:\n ${lastReviewFormat}`;
     },
   },
 };

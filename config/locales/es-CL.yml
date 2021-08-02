@@ -10,6 +10,15 @@ es-CL:
           zero: vacío
           one: 1 rel
           other: '%{count} rels'
+  activerecord:
+    enums:
+      timespans:
+        limits:
+          one_month: '1 mes'
+          three_months: '3 meses'
+          six_months: '6 meses'
+          nine_months: '9 meses'
+          twelve_months: '12 meses'
   messages:
     dashboard:
       greeting: Hola
@@ -45,6 +54,7 @@ es-CL:
       pull_requests: Feed
       close_session: Cerrar sesión
       teams: Equipos
+      no_organizations: Sin organizaciones
     home:
       title: Pull Requests que transmiten cultura
       subtitle: En cada Pull Request hay un granito de aprendizaje que se puede aprovechar en la organización. Usa las Pull Requests para transmitir cultura y fomentar el aprendizaje de tu equipo.
@@ -97,4 +107,3 @@ es-CL:
     froggoTeams:
       empty_title: Aún no tienes equipos!
       empty_organizations: Para crear y ver tus equipos debes pertenecer a una organización
-      

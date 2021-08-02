@@ -41,6 +41,15 @@ en:
       zero: empty
       one: 1 rel
       other: '%{count} rels'
+  active_record:
+    enums:
+      timespans:
+        limits:
+          one_month: '1 month'
+          three_months: '3 months'
+          six_months: '6 months'
+          nine_months: '9 months'
+          twelve_months: '12 months'
   messages:
     dashboard:
       greeting: Hello
@@ -75,6 +84,7 @@ en:
       organizations: Organizations
       close_session: Close session
       teams: Teams
+      no_organizations: No organizations
     home:
       title: Pull Requests that transmit culture
       subtitle: In each Pull Request there's useful learning material for your organization. Use your Pull Requests to share knowledge and encourage learning on your teams.

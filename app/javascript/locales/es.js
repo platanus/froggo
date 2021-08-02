@@ -124,5 +124,31 @@ export default {
         score: 'Puntaje: ',
       },
     },
+    recommendations: {
+      recommendedReviewers: 'Deberías mandar tu próximo PR a...',
+      notRecommendedReviewers: 'Evita mandar tu próximo PR a...',
+      loading: 'Cargando...',
+      time: 'Tiempo',
+      team: 'Equipo',
+      setDefaultPreferences: 'predeterminar',
+      noTeamsInOrganization: 'Aún no perteneces a un equipo en esta organización',
+      noOrganizations: 'Aún no perteneces a ninguna organización',
+      noTeams: 'Sin equipos',
+    },
+    global: {
+      header: {
+        profile: 'Mi perfil',
+        givePermission: 'Otorgar permisos',
+        organizations: 'Organizaciones',
+        closeSession: 'Cerrar sesión',
+        noOrganizations: 'Sin organizaciones',
+      },
+      sidebar: {
+        recommendations: 'Recomendaciones',
+        teams: 'Equipos',
+        feed: 'Feed',
+        metrics: 'Métricas',
+      },
+    },
   },
 };

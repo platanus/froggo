@@ -17,11 +17,14 @@ Rails.application.routes.draw do
       end
       resources :github_users, only: [] do
         get '/open_prs' => :open_prs, on: :collection
+        get '/current' => :logged_user, on: :collection
       end
       patch 'github_users/:id' => 'github_users#update'
       get 'users/:github_login/pull_requests_information' =>
         'github_users#pull_requests_information'
       post 'pull_request_reviewer/add' => 'pull_request_reviewers#add_reviewer'
+      get 'github_users/:id/preferences' => 'preferences#show'
+      patch 'github_users/:id/preferences' => 'preferences#update'
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
@@ -46,6 +49,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show], controller: 'github_users'
   get 'me' => 'github_users#me'
+
+  get 'recommendations' => 'recommendations#show', as: :recommendations
 
   scope path: '/slack', module: 'slack' do
     resources :commands, only: [:create]
