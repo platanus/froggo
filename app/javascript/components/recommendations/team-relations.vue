@@ -17,7 +17,7 @@
         <div
           v-if="element.explainer"
           v-tooltip="element.tooltip"
-          :class="`my-auto h-5 w-5 rounded-full shadow-sm m-1 bg-${colorFromScore(element.score)}`"
+          :class="`my-auto h-5 w-5 rounded-full shadow-sm m-1 ${colorFromScore(element.score)}`"
         />
         <relation
           v-else

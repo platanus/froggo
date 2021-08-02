@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <div
-      :class="`absolute z-10 w-3 h-3 right-0 rounded-full bg-${colorFromScore(user.score)}`"
+      :class="`absolute z-10 w-3 h-3 right-0 rounded-full ${colorFromScore(user.score)}`"
     />
     <img
       :class="`h-8 w-8 rounded-full shadow`"
