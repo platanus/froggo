@@ -132,6 +132,12 @@ export default {
       noTeamsInOrganization: 'You are not member of any organization team so you have no recommendations',
       noOrganizations: 'No organizations',
       noTeams: 'No teams',
+      openPullRequests: 'Open pull requests',
+      noReviewers: 'No reviewers',
+      assignReviewers: 'assign',
+      noPullRequests: 'There are not open pull requests',
+      noTags: 'No tags...',
+      noReviewersAvalaible: 'No reviewers avalaible',
     },
     global: {
       header: {

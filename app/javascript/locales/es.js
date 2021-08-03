@@ -134,6 +134,12 @@ export default {
       noTeamsInOrganization: 'Aún no perteneces a un equipo en esta organización',
       noOrganizations: 'Aún no perteneces a ninguna organización',
       noTeams: 'Sin equipos',
+      openPullRequests: 'Pull requests abiertas',
+      noReviewers: 'Sin revisores',
+      assignReviewers: 'asignar',
+      noPullRequests: 'No hay pull requests abiertas',
+      noTags: 'No tiene tags...',
+      noReviewersAvalaible: 'No hay revisores disponibles',
     },
     global: {
       header: {
