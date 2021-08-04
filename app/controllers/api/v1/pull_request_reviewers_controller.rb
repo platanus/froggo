@@ -17,22 +17,19 @@ class Api::V1::PullRequestReviewersController < Api::V1::BaseController
       gh_number,
       reviewer
     )
-    if response
-      unless PullRequestReviewRequest.find_by(
-        github_user_id: requested_reviewer.id,
-        pull_request_id: pull_request.id
-      )
-        pull_request.pull_request_review_requests.create!(get_request_base_params)
-      end
-      requested_reviewer
-    end
-  end
+    return unless response
 
-  def get_request_base_params
-    {
-      gh_id: pull_request.gh_number,
-      github_user_id: requested_reviewer.id
-    }
+    PullRequestReviewRequest.create_with(gh_id: pull_request.gh_number).find_or_create_by!(
+      github_user_id: requested_reviewer.id,
+      pull_request_id: pull_request.id
+    )
+
+    AssignationMetric.create_with(from: permitted_params[:from]).find_or_create_by!(
+      github_user_id: requested_reviewer.id,
+      pull_request_id: pull_request.id
+    )
+
+    requested_reviewer
   end
 
   def requested_reviewer
@@ -44,7 +41,9 @@ class Api::V1::PullRequestReviewersController < Api::V1::BaseController
   end
 
   def permitted_params
-    params.require(:pull_request_reviewer).permit(:pull_request_id, :reviewer)
+    params.require(:pull_request_reviewer)
+          .permit(:pull_request_id, :reviewer, :from)
+          .with_defaults(from: :desktop)
   end
 
   def token
