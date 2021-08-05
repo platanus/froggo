@@ -1,46 +1,48 @@
 <template>
   <div class="grid grid-cols-12 p-3">
-    <div class="col-span-4 flex flex-col justify-around pl-2">
-      <div class="text-sm font-bold flex items-center">
-        <inline-svg
-          :src="require('assets/images/pull-request.svg').default"
-          class="text-back fill-current h-6 w-6  mr-2"
-        />
-        {{ pullRequest.pull_request.title }}
-        <button
-          class="ml-2"
-          @click="copyPrUrl()"
-        >
+    <div class="col-span-6 flex justify-between">
+      <div class="flex flex-col justify-around pl-2">
+        <div class="text-sm font-bold flex items-center">
           <inline-svg
-            :src="require(`assets/images/${ copied ? 'check' : 'content-copy'}.svg`).default"
-            class="w-4 h-4 fill-current"
+            :src="require('assets/images/pull-request.svg').default"
+            class="text-back fill-current h-6 w-6  mr-2"
           />
-        </button>
+          {{ pullRequest.pull_request.title }}
+          <button
+            class="ml-2"
+            @click="copyPrUrl()"
+          >
+            <inline-svg
+              :src="require(`assets/images/${ copied ? 'check' : 'content-copy'}.svg`).default"
+              class="w-4 h-4 fill-current"
+            />
+          </button>
+        </div>
+        <div class="text-sm text-gray-500">
+          {{ prDate(pullRequest.pull_request.created_at) }}
+        </div>
       </div>
-      <div class="text-sm text-gray-500">
-        {{ prDate(pullRequest.pull_request.created_at) }}
-      </div>
-    </div>
-    <div class="col-span-2 flex flex-row items-center justify-end ml-3 text-sm">
-      <div
-        v-if="!pullRequest.reviewers.length"
-      >
-        <i>{{ $i18n.t('message.recommendations.noReviewers') }}</i>
-      </div>
-      <div
-        v-else
-        v-for="reviewer in reviewers"
-        :key="reviewer.id"
-        class="relative ml-2 py-0"
-      >
-        <img
-          :class="`h-8 w-8 rounded-full shadow`"
-          :src="reviewer.avatar_url"
+      <div class="flex flex-row flex-grow items-center justify-end ml-3 text-sm">
+        <div
+          v-if="!pullRequest.reviewers.length"
         >
-        <a
-          class="absolute h-full w-full top-0 z-10"
-          :href="`/users/${reviewer.id}`"
-        />
+          <i>{{ $i18n.t('message.recommendations.noReviewers') }}</i>
+        </div>
+        <div
+          v-else
+          v-for="reviewer in reviewers"
+          :key="reviewer.id"
+          class="relative ml-2 py-0 h-8 w-8 "
+        >
+          <img
+            :class="`rounded-full shadow`"
+            :src="reviewer.avatar_url"
+          >
+          <a
+            class="absolute h-full w-full top-0 z-10"
+            :href="`/users/${reviewer.id}`"
+          />
+        </div>
       </div>
     </div>
     <div class="col-span-6 p-3">
