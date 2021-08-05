@@ -27,7 +27,9 @@
         </div>
       </div>
       <div class="mt-3">
-        <recommendations-team />
+        <recommendations-team
+          :pull-requests="pullRequests"
+        />
       </div>
     </div>
     <div
@@ -66,6 +68,10 @@ export default {
     user: {
       type: Object,
       required: true,
+    },
+    pullRequests: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: mapState({

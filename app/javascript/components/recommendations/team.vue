@@ -20,6 +20,11 @@
         :recommendations="recommendations"
       />
     </div>
+    <open-prs
+      :fetching-recommendations="fetchingRecommendations"
+      :recommendations="recommendations"
+      :pull-requests="pullRequests"
+    />
   </div>
   <div
     v-else
@@ -35,11 +40,19 @@ import { mapState } from 'vuex';
 
 import TeamTable from './team-table.vue';
 import TeamRelations from './team-relations.vue';
+import OpenPrs from './open-prs.vue';
 
 export default {
+  props: {
+    pullRequests: {
+      type: Array,
+      default: () => [],
+    },
+  },
   components: {
     TeamTable,
     TeamRelations,
+    OpenPrs,
   },
   computed: mapState({
     recommendations: state => state.recommendations.recommendations,
