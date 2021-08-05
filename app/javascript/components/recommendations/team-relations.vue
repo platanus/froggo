@@ -12,16 +12,20 @@
       <section
         v-for="element in allRelationsBadges"
         :key="element.id"
-        class="mx-1 py-1"
       >
         <div
           v-if="element.explainer"
-          v-tooltip="element.tooltip"
-          :class="`my-auto h-5 w-5 rounded-full shadow-sm m-1 ${colorFromScore(element.score)}`"
-        />
+          v-tooltip.top="element.tooltip"
+          class="h-8 w-8 flex"
+        >
+          <div
+            :class="`my-auto h-5 w-5 rounded-full shadow-sm m-1 ${colorFromScore(element.score)}`"
+          />
+        </div>
         <relation
           v-else
           :user="element"
+          class="mx-1 my-1"
         />
       </section>
     </vue-horizontal>
