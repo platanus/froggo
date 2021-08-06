@@ -23,6 +23,7 @@
     "vue-horizontal": "^0.8.10",
     "vue-horizontal-list": "^1.0.12",
     "vue-i18n": "^7.4.0",
+    "vue-multiselect": "^2.1.6",
     "vue-loader": "^15.9.2",
     "vue-inline-svg": "^2.0.0",
     "vue-select": "^3.11.2",

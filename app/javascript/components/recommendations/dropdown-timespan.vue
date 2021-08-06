@@ -20,7 +20,7 @@
           <div
             v-for="timespan in timespans"
             :key="timespan.limit"
-            class="p-4 w-64"
+            class="p-4 w-64 cursor-pointer"
             @click="selectTimespan(timespan)"
           >
             {{ timespan.value }}

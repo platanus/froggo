@@ -4,14 +4,12 @@
       <team-table
         :fetching-recommendations="fetchingRecommendations"
         :recommendations="recommendations"
-        color="teal-500"
         type="best"
         :title="$i18n.t('message.recommendations.recommendedReviewers')"
       />
       <team-table
         :fetching-recommendations="fetchingRecommendations"
         :recommendations="recommendations"
-        color="red-500"
         type="worst"
         :title="$i18n.t('message.recommendations.notRecommendedReviewers')"
       />
@@ -22,6 +20,11 @@
         :recommendations="recommendations"
       />
     </div>
+    <open-prs
+      :fetching-recommendations="fetchingRecommendations"
+      :recommendations="recommendations"
+      :pull-requests="pullRequests"
+    />
   </div>
   <div
     v-else
@@ -37,11 +40,19 @@ import { mapState } from 'vuex';
 
 import TeamTable from './team-table.vue';
 import TeamRelations from './team-relations.vue';
+import OpenPrs from './open-prs.vue';
 
 export default {
+  props: {
+    pullRequests: {
+      type: Array,
+      default: () => [],
+    },
+  },
   components: {
     TeamTable,
     TeamRelations,
+    OpenPrs,
   },
   computed: mapState({
     recommendations: state => state.recommendations.recommendations,

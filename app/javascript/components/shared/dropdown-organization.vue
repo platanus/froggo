@@ -26,7 +26,7 @@
           <div
             v-for="organization in organizations"
             :key="organization.id"
-            class="flex items-center m-4"
+            class="flex items-center m-4 cursor-pointer"
             @click="selectOrganization(organization)"
           >
             <img
