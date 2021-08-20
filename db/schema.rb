@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_14_212330) do
+ActiveRecord::Schema.define(version: 2021_08_20_142240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(version: 2021_07_14_212330) do
     t.bigint "pull_request_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["github_user_id", "pull_request_id"], name: "index_metrics_on_ghuser_and_pr", unique: true
     t.index ["github_user_id"], name: "index_assignation_metrics_on_github_user_id"
     t.index ["pull_request_id"], name: "index_assignation_metrics_on_pull_request_id"
   end

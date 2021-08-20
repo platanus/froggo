@@ -9,7 +9,6 @@ RSpec.describe AssignationMetric, type: :model do
     subject { FactoryBot.build(:assignation_metric) }
 
     it { is_expected.to validate_presence_of :from }
-    it { is_expected.to validate_uniqueness_of(:github_user_id).scoped_to(:pull_request_id) }
   end
 
   describe 'relationships' do

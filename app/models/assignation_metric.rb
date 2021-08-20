@@ -8,7 +8,6 @@ class AssignationMetric < ApplicationRecord
   }
 
   validates :from, presence: true
-  validates :github_user_id, uniqueness: { scope: :pull_request_id }
 end
 
 # == Schema Information
@@ -26,7 +25,6 @@ end
 #
 #  index_assignation_metrics_on_github_user_id   (github_user_id)
 #  index_assignation_metrics_on_pull_request_id  (pull_request_id)
-#  index_metrics_on_ghuser_and_pr                (github_user_id,pull_request_id) UNIQUE
 #
 # Foreign Keys
 #
