@@ -105,8 +105,11 @@ export default {
         !reviewers.some((reviewer) => reviewer.id === element.id),
       );
     },
-    appendReviewer(reviewer) {
-      this.reviewers.push(this.recommendations.all.find(item => item.id === parseInt(reviewer, 10)));
+    appendReviewer(reviewers) {
+      this.reviewers = [];
+      reviewers.forEach(reviewer => {
+        this.reviewers.push({ id: parseInt(reviewer.id, 10), ...reviewer.attributes });
+      });
     },
   },
 };
