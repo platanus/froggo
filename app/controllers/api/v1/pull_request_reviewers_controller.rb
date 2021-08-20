@@ -5,35 +5,45 @@ class Api::V1::PullRequestReviewersController < Api::V1::BaseController
     respond_with request_reviewer(
       pull_request.repository.full_name,
       pull_request.gh_number,
-      { reviewers: [permitted_params[:reviewer]] }
+      permitted_params[:reviewer]
     )
   end
 
   private
 
-  def request_reviewer(repository, gh_number, reviewer)
+  def request_reviewer(repository, gh_number, reviewers)
     response = client.request_pull_request_review(
       repository,
       gh_number,
-      reviewer
+      reviewers: reviewers
     )
+
     return unless response
 
-    PullRequestReviewRequest.create_with(gh_id: pull_request.gh_number).find_or_create_by!(
-      github_user_id: requested_reviewer.id,
+    response.requested_reviewers.each do |reviewer|
+      create_pull_request_reviewer(reviewer)
+    end
+
+    AssignationMetric.create!(
+      from: permitted_params[:from],
+      github_user_id: pull_request.owner.id,
       pull_request_id: pull_request.id
     )
 
-    AssignationMetric.create_with(from: permitted_params[:from]).find_or_create_by!(
-      github_user_id: requested_reviewer.id,
-      pull_request_id: pull_request.id
-    )
-
-    requested_reviewer
+    reviewers_as_github_users
   end
 
-  def requested_reviewer
-    @requested_reviewer ||= GithubUser.where(login: permitted_params[:reviewer]).first
+  def create_pull_request_reviewer(login)
+    PullRequestReviewRequest.create_with(gh_id: pull_request.gh_number).find_or_create_by!(
+      github_user_id: GithubUser.where(login: login).first.id,
+      pull_request_id: pull_request.id
+    )
+  end
+
+  def reviewers_as_github_users
+    pull_request.pull_request_review_requests.map do |u|
+      GithubUser.find(u.github_user_id)
+    end
   end
 
   def pull_request
@@ -42,7 +52,7 @@ class Api::V1::PullRequestReviewersController < Api::V1::BaseController
 
   def permitted_params
     params.require(:pull_request_reviewer)
-          .permit(:pull_request_id, :reviewer, :from)
+          .permit(:pull_request_id, { reviewer: [] }, :from)
           .with_defaults(from: :desktop)
   end
 
