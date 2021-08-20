@@ -7,7 +7,7 @@
             :src="require('assets/images/pull-request.svg').default"
             class="text-back fill-current h-6 w-6  mr-2"
           />
-          {{ pullRequest.pull_request.title }}
+          {{ pullRequest.pullRequest.title }}
           <button
             class="ml-2"
             @click="copyPrUrl()"
@@ -19,12 +19,12 @@
           </button>
         </div>
         <div class="text-sm text-gray-500">
-          {{ prDate(pullRequest.pull_request.created_at) }}
+          {{ prDate(pullRequest.pullRequest.createdAt) }}
         </div>
       </div>
       <div class="flex flex-row flex-grow items-center justify-end ml-3 text-sm">
         <div
-          v-if="!pullRequest.reviewers.length"
+          v-if="!reviewers.length"
         >
           <i>{{ $i18n.t('message.recommendations.noReviewers') }}</i>
         </div>
@@ -36,7 +36,7 @@
         >
           <img
             :class="`rounded-full shadow`"
-            :src="reviewer.avatar_url"
+            :src="reviewer.avatarUrl"
           >
           <a
             class="absolute h-full w-full top-0 z-10"
@@ -48,7 +48,7 @@
     <div class="col-span-6 p-3">
       <multiselect-reviewer
         :reviewers="avalaibleReviewers(recommendations.all, reviewers)"
-        :pull-request="pullRequest.pull_request"
+        :pull-request="pullRequest.pullRequest"
         @newReviewer="appendReviewer"
       />
     </div>
@@ -95,7 +95,7 @@ export default {
     async copyPrUrl() {
       this.clearCopyTimeout();
       this.setCopyTimeout();
-      await navigator.clipboard.writeText(this.pullRequest.pull_request.html_url);
+      await navigator.clipboard.writeText(this.pullRequest.pullRequest.htmlUrl);
     },
     prDate(date) {
       return moment(date).locale(this.$i18n.locale).fromNow();
