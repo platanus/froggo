@@ -41,6 +41,15 @@ en:
       zero: empty
       one: 1 rel
       other: '%{count} rels'
+    assignationMetrics:
+      metrics: Metrics
+      week: week
+      quantity: quantity
+      check: check
+      filter: filter
+      from: from
+      to: to
+
   active_record:
     enums:
       timespans:
