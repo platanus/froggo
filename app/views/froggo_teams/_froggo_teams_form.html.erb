@@ -1,6 +1,6 @@
 <div class="card profile">
       <froggo-team-form
-        :users="<%= @users.to_json %>"
+        :users="<%= ActiveModel::Serializer::CollectionSerializer.new(@users, serializer: Api::V1::GithubUserSerializer).to_json %> | camelizeKeys"
         :organization="<%= @organization.to_json %>"
       />
 </div>

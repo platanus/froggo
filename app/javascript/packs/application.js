@@ -1,9 +1,10 @@
 /* eslint no-console: 0 */
 /* global document, window */
-
+import 'vue-multiselect/dist/vue-multiselect.min.css';
 import Vue from 'vue/dist/vue.esm';
 import VueI18n from 'vue-i18n';
 import VTooltip from 'v-tooltip';
+import Multiselect from 'vue-multiselect';
 import VueHorizontalList from 'vue-horizontal-list';
 import { InlineSvgPlugin } from 'vue-inline-svg';
 import Toasted from 'vue-toasted';
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     },
   });
+  Vue.component('Multiselect', Multiselect);
   Vue.component('recommendations', Recommendations);
   Vue.component('froggo-header', FroggoHeader);
   Vue.component('froggo-sidebar', FroggoSidebar);

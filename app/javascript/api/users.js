@@ -22,4 +22,10 @@ export default {
       params: { monthLimit },
     });
   },
+  getUsersFromFroggoTeam(froggoTeamId) {
+    return api({
+      method: 'get',
+      url: `/api/v1/froggo_teams/${froggoTeamId}/users`,
+    });
+  },
 };
