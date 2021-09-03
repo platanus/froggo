@@ -8,7 +8,7 @@ class FroggoTeamsController < ApplicationController
 
   def index
     user = GithubUser.find(params[:github_user_id])
-    @user_teams = user.froggo_teams.map { |team| team[:id] }
+    @user_teams = user.froggo_teams
     @organizations = user.get_organizations_with_teams
     @github_user = github_user
   end
