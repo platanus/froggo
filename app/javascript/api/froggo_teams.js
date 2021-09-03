@@ -21,4 +21,11 @@ export default {
       url: `/api/v1/froggo_teams/${teamId}`,
     });
   },
+  getFroggoTeams(organizationId, body) {
+    return api({
+      method: 'get',
+      url: `/api/v1/organizations/${organizationId}/froggo_teams`,
+      params: body,
+    });
+  },
 };
