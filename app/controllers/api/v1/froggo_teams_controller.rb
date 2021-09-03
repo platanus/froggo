@@ -1,7 +1,7 @@
 class Api::V1::FroggoTeamsController < Api::V1::BaseController
   before_action :authenticate_github_user
   def index
-    respond_with organization.froggo_teams
+    respond_with organization.froggo_teams, with_users: permitted_params[:with_users] == 'true'
   end
 
   def create
@@ -54,6 +54,7 @@ class Api::V1::FroggoTeamsController < Api::V1::BaseController
               :id,
               :organization_id,
               :github_login,
+              :with_users,
               new_members_ids: [],
               old_members_ids: [],
               changed_members_ids: [],
