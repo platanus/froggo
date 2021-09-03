@@ -55,6 +55,12 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
     respond_with github_user
   end
 
+  def froggo_team_users
+    froggo_team = FroggoTeam.find(permitted_params[:froggo_team_id])
+
+    respond_with froggo_team.github_users
+  end
+
   private
 
   def other_team_members_ids
@@ -113,7 +119,7 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def permitted_params
     params.permit(:org_id, :team_id, :github_login, :from, :to, :month_limit, :froggo_team,
-                  :id, :description)
+                  :id, :description, :froggo_team_id)
   end
 
   def update_params
