@@ -1,28 +1,70 @@
 <template>
-  <div class="froggo-teams-form">
-    <span>{{ $t("message.froggoTeams.insertTeamName") }}</span><br><br>
+  <div class="flex flex-col w-full p-8 border rounded-md">
+    <p class="mb-2">
+      {{ $t('message.froggoTeams.newTeam') }}
+    </p>
     <input
+      class="p-2 mb-4 border rounded-md"
       type="text"
       v-model="teamName"
-    ><br><br>
-    <span>{{ $t("message.froggoTeams.addMember") }}</span><br><br>
-    <users-dropdown
-      :users="users"
-      @UpdateSelected="updateSelected"
-    />
-    <div>
-      <div
-        class="froggo-teams-form__button"
-        @click="submitFroggoTeam()"
+      placeholder="Nombre"
+    >
+    <p class="mb-2">
+      {{ $t('message.froggoTeams.members') }}
+    </p>
+    <multiselect
+      class="mb-4"
+      placeholder="Escoge a los miembros del equipo"
+      select-label="Seleccionar"
+      selected-label="Seleccionado"
+      deselect-label="Sacar"
+      hide-selected="true"
+      v-model="selectedUsers"
+      :options="users"
+      :custom-label="nameOrLogin"
+      :multiple="true"
+      :close-on-select="false"
+      :clear-on-select="false"
+      :preserve-search="true"
+      :searchable="true"
+      track-by="id"
+    >
+      <template
+        slot="tag"
+        slot-scope="props"
       >
-        {{ $t("message.froggoTeams.createButton") }}
-      </div>
-    </div>
+        <div class="inline-block">
+          <div class="flex items-center p-2 mb-2 mr-2 text-white bg-blue-900 border rounded-full">
+            <img
+              :src="props.option.avatarUrl"
+              class="w-5 h-5 mr-2 rounded-full"
+            >
+            <span class="mr-2">{{ nameOrLogin(props.option) }}</span>
+            <img
+              :src="require('../../assets/images/close.svg').default"
+              class="w-5 h-5 rounded-full cursor-pointer"
+              @click="deleteUserFromSelectedUsers(props.option)"
+            >
+          </div>
+        </div>
+      </template>
+    </multiselect>
+    <button
+      class="self-end w-48 p-2 mb-4 border rounded-md focus:outline-none hover:bg-gray-300"
+      @click="cleanSelectedUsers"
+    >
+      {{ $t("message.froggoTeams.cleanSelection") }}
+    </button>
+    <button
+      class="self-end w-48 p-2 text-white bg-green-600 border rounded-md focus:outline-none hover:bg-green-700"
+      @click="submitFroggoTeam()"
+    >
+      {{ $t("message.froggoTeams.createButton") }}
+    </button>
   </div>
 </template>
 
 <script>
-import UsersDropdown from './users-dropdown';
 import { CREATE_NEW_FROGGO_TEAM } from '../store/action-types';
 import showMessageMixin from '../mixins/showMessageMixin';
 
@@ -31,7 +73,7 @@ export default {
   data() {
     return {
       teamName: '',
-      selected: [],
+      selectedUsers: [this.users[0]],
     };
   },
   props: {
@@ -45,6 +87,15 @@ export default {
     },
   },
   methods: {
+    deleteUserFromSelectedUsers(userToDelete) {
+      this.selectedUsers = this.selectedUsers.filter(user => user.id !== userToDelete.id);
+    },
+    cleanSelectedUsers() {
+      this.selectedUsers = [];
+    },
+    nameOrLogin(object) {
+      return object.name || object.login;
+    },
     updateSelected(selectedUsers) {
       this.selected = selectedUsers;
     },
@@ -52,7 +103,7 @@ export default {
       this.$store.dispatch(CREATE_NEW_FROGGO_TEAM, {
         name: this.teamName,
         organizationId: this.organization.id,
-        userIds: this.selected.map(user => user.id),
+        userIds: this.selectedUsers.map(user => user.id),
       })
         .then(response => {
           this.showMessage(this.$t('message.froggoTeams.successfullyCreatedTeam'));
@@ -67,9 +118,6 @@ export default {
           this.showMessage(message);
         });
     },
-  },
-  components: {
-    UsersDropdown,
   },
 };
 </script>

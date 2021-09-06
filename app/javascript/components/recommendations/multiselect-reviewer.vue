@@ -98,14 +98,10 @@ export default {
   },
   methods: {
     async sendReviewers() {
-      await Promise.all(this.selectedReviewers.map(async (reviewer, i) => {
-        const data = { reviewer: reviewer.login, pullRequestId: this.pullRequest.id };
-        const params = await pullRequestReviewersApi.addReviewer(data);
-
-        this.$emit('newReviewer', params.data.data.id);
-        this.selectedReviewers[i] = null;
-      }));
-      this.selectedReviewers = this.selectedReviewers.filter(item => item !== null);
+      const data = { reviewer: this.selectedReviewers.map(user => user.login), pullRequestId: this.pullRequest.id };
+      const params = await pullRequestReviewersApi.addReviewer(data);
+      this.$emit('newReviewer', params.data.data);
+      this.selectedReviewers = [];
     },
   },
 };

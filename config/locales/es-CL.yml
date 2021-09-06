@@ -10,6 +10,15 @@ es-CL:
           zero: vacío
           one: 1 rel
           other: '%{count} rels'
+    assignationMetrics:
+      metrics: Métricas
+      week: semana
+      quantity: cantidad
+      check: consultar
+      filter: filtrar
+      from: desde
+      to: hasta
+
   activerecord:
     enums:
       timespans:

@@ -10,7 +10,9 @@ Rails.application.routes.draw do
       get 'teams/:team_id/users/:github_login/recommendations' =>
         'github_users#team_review_recommendations'
       resources :organizations, only: [:index] do
-        resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true
+        resources :froggo_teams, only: [:index, :show, :create, :destroy, :update], shallow: true do
+          get '/users' => 'github_users#froggo_team_users'
+        end
       end
       resources :pull_requests do
         resources :likes, only: [:create, :destroy]
