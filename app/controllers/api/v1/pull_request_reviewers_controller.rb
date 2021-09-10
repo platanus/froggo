@@ -12,12 +12,7 @@ class Api::V1::PullRequestReviewersController < Api::V1::BaseController
   private
 
   def request_reviewer(repository, gh_number, reviewers)
-    response = client.request_pull_request_review(
-      repository,
-      gh_number,
-      reviewers: reviewers
-    )
-
+    response = client.request_pull_request_review(repository, gh_number, reviewers: reviewers)
     return unless response
 
     response.requested_reviewers.each do |reviewer|
@@ -33,9 +28,9 @@ class Api::V1::PullRequestReviewersController < Api::V1::BaseController
     reviewers_as_github_users
   end
 
-  def create_pull_request_reviewer(login)
+  def create_pull_request_reviewer(reviewer)
     PullRequestReviewRequest.create_with(gh_id: pull_request.gh_number).find_or_create_by!(
-      github_user_id: GithubUser.where(login: login).first.id,
+      github_user_id: GithubUser.find_by(login: reviewer.login)&.id,
       pull_request_id: pull_request.id
     )
   end
