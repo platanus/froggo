@@ -4,6 +4,7 @@
       <froggo-team-edit
         :user-id="<%= @github_user.id %>"
         :froggo-team="<%= @froggo_team.to_json %> | camelizeKeys"
+        :organization="<%= @organization.to_json %> | camelizeKeys"
         :froggo-team-members="<%= @froggo_team_members.to_json %> | camelizeKeys"
         :organization-members="<%= @organization_members.to_json %> | camelizeKeys"
       />

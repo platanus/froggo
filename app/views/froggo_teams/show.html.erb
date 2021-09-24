@@ -2,8 +2,10 @@
   <div class="card">
     <div class="froggo-teams">
       <froggo-team-show
-        :froggo-team="<%= @froggo_team.to_json %>"
-        :froggo-team-members="<%= @froggo_team_members.to_json %> | camelizeKeys"
+        :froggo-team="<%= Api::V1::FroggoTeamSerializer.new(@froggo_team, with_users: true).to_json %> | camelizeKeys"
+        :froggo-team-members="<%= ActiveModel::Serializer::CollectionSerializer.new(
+          @froggo_team_members, serializer: Api::V1::GithubUserSerializer, froggo_team: @froggo_team
+        ).to_json %> | camelizeKeys"
       />
     </div>
   </div>

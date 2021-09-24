@@ -15,13 +15,14 @@ class FroggoTeamsController < ApplicationController
 
   def show
     @froggo_team = FroggoTeam.find(params[:id])
-    @froggo_team_members = froggo_team_members(@froggo_team)
+    @froggo_team_members = @froggo_team.github_users.includes(:froggo_team_memberships)
     @github_user = github_user
   end
 
   def edit
     @froggo_team = FroggoTeam.find(params[:id])
-    @froggo_team_members = @froggo_team.github_users
+    @organization = @froggo_team.organization
+    @froggo_team_members = @froggo_team.github_users.includes(:froggo_team_memberships)
     @organization_members = @froggo_team.organization.members.all_except(@froggo_team_members)
     @github_user = github_user
   end
