@@ -65,6 +65,7 @@ export default {
       organizationTitle: 'Organization: ',
       belongedTeams: 'Teams I belong to: ',
       createButton: 'Create Team',
+      updateButton: 'Update Team',
       insertTeamName: 'Team Name: ',
       addMember: 'Add members: ',
       editName: 'Edit name',
