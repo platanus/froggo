@@ -9,6 +9,6 @@ class HomeController < ApplicationController
   private
 
   def redirect_if_already_logged_in
-    redirect_to user_path(github_user) if github_session.valid?
+    redirect_to recommendations_path if github_session.valid?
   end
 end

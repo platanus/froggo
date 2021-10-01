@@ -8,6 +8,8 @@ import scores from './modules/scores';
 import admin from './modules/admin';
 import froggoTeam from './modules/froggo_team';
 
+import { SET_CURRENT_USER } from './mutation-types';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -18,5 +20,13 @@ export default new Vuex.Store({
     scores,
     admin,
     froggoTeam,
+  },
+  state: {
+    currentUser: null,
+  },
+  mutations: {
+    [SET_CURRENT_USER](state, user) {
+      state.currentUser = user;
+    },
   },
 });

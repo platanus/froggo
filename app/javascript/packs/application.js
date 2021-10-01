@@ -10,6 +10,7 @@ import { InlineSvgPlugin } from 'vue-inline-svg';
 import Toasted from 'vue-toasted';
 import { camelizeKeys } from 'humps';
 import vSelect from 'vue-select';
+import VModal from 'vue-js-modal';
 import VueClipboard from 'vue-clipboard2';
 import '../css/application.css';
 
@@ -51,6 +52,7 @@ Vue.use(VueI18n);
 Vue.use(VTooltip);
 Vue.use(VueHorizontalList);
 Vue.use(InlineSvgPlugin);
+Vue.use(VModal, { dynamic: true, injectModalsContainer: true });
 Vue.filter('camelizeKeys', camelizeKeys);
 
 /* eslint-disable max-statements */

@@ -1,85 +1,36 @@
 <template>
-  <div class="froggo-teams-show">
-    <div class="froggo-teams-show__name">
-      <div class="froggo-teams-show__name-container">
-        {{ teamName }}
-      </div>
-      <div
-        class="froggo-teams-show__white-button"
-        @click="editFroggoTeamName"
-      >
-        {{ $t("message.froggoTeams.editName") }}
-      </div>
-    </div>
-    <div
-      class="froggo-teams-show__edit-name-section"
-      v-if="editName"
-    >
+  <div class="flex-col felx">
+    <div class="flex flex-col w-full p-8 border rounded-md">
+      <p class="mb-2">
+        {{ $t('message.froggoTeams.editTeam') }}
+      </p>
       <input
+        class="p-2 mb-4 border rounded-md"
         type="text"
-        v-model="newName"
+        v-model="newTeamName"
+        placeholder="Nombre"
       >
-      <div
-        class="froggo-teams-show__gray-button"
-        @click="submitName()"
+      <p class="mb-2">
+        {{ $t('message.froggoTeams.members') }}
+      </p>
+      <multiselect-froggo-teams
+        v-model="selectedUsers"
+        :options="organizationMembers"
+        track-by="id"
+        @remove-from-selected-users="deleteUserFromSelectedUsers($event)"
+      />
+      <button
+        class="self-end w-48 p-2 mb-4 border rounded-md focus:outline-none hover:bg-gray-300"
+        @click="cleanSelectedUsers"
       >
-        {{ $t("message.froggoTeams.saveName") }}
-      </div>
-    </div>
-    <div class="froggo-teams-show__members">
-      <div class="froggo-teams-show__member-title">
-        {{ $t("message.froggoTeams.addMember") }}
-      </div>
-      <div class="froggo-teams-show__dropdown">
-        <clickable-dropdown
-          :body-title="dropdownTitle"
-          :no-items-message="noUsersMessage"
-          :items="possibleMembers"
-          @item-clicked="onItemClicked"
-        />
-      </div>
-      <div class="froggo-teams-show__member-title">
-        {{ $t("message.froggoTeams.members") }}
-        ( {{ membersCounter }} )
-      </div>
-      <div
-        class="froggo-teams-show__member-container"
-        v-for="(user, index) in currentMembers"
-        :key="user.id"
+        {{ $t("message.froggoTeams.cleanSelection") }}
+      </button>
+      <button
+        class="self-end w-48 p-2 text-white bg-green-600 border rounded-md focus:outline-none hover:bg-green-700"
+        @click="saveFroggoTeam()"
       >
-        <a
-          class="froggo-teams-show__member-container-info"
-          :href="`/users/${user.id}`"
-        >
-          <img
-            class="froggo-teams-show__picture"
-            :src="user.avatarUrl"
-          >
-          <div class="froggo-teams-show__username">
-            {{ user.login }}
-          </div>
-        </a>
-        <div
-          class="froggo-teams-show__gray-button"
-          @click="removeMember(user, index)"
-        >
-          {{ $t("message.froggoTeams.deleteFromTeam") }}
-        </div>
-      </div>
-    </div>
-    <div class="froggo-teams-show__end-section">
-      <div
-        class="froggo-teams-show__gray-button"
-        @click="deleteFroggoTeam"
-      >
-        {{ $t("message.froggoTeams.deleteTeam") }}
-      </div>
-      <div
-        class="froggo-teams-show__gray-button"
-        @click="saveFroggoTeam"
-      >
-        {{ $t("message.froggoTeams.saveChanges") }}
-      </div>
+        {{ $t("message.froggoTeams.updateButton") }}
+      </button>
     </div>
   </div>
 </template>
@@ -93,14 +44,16 @@ import {
 import {
   TEAM_NAME,
   LOAD_MEMBERS,
-  ADD_MEMBER,
-  REMOVE_MEMBER,
 } from '../store/mutation-types';
-import ClickableDropdown from './clickable-dropdown';
 import showMessageMixin from '../mixins/showMessageMixin';
+import froggoTeamMixin from '../mixins/froggoTeamMixin';
+import MultiselectFroggoTeams from './shared/multiselect-froggo-teams.vue';
 
 export default {
-  mixins: [showMessageMixin],
+  mixins: [showMessageMixin, froggoTeamMixin],
+  components: {
+    MultiselectFroggoTeams,
+  },
   beforeMount() {
     this.$store.commit(TEAM_NAME, this.froggoTeam.name);
     this.$store.commit(LOAD_MEMBERS, { members: this.froggoTeamMembers,
@@ -108,12 +61,8 @@ export default {
   },
   data() {
     return {
-      dropdownTitle: 'Usuarios',
-      noUsersMessage: 'No se encontraron usuarios',
-      editName: false,
-      newName: '',
-      usersToAdd: [],
-      usersToRemove: [],
+      newTeamName: this.froggoTeam.name,
+      selectedUsers: this.froggoTeamMembers,
     };
   },
   props: {
@@ -133,54 +82,29 @@ export default {
       type: Array,
       required: true,
     },
+    organization: { type: Object, default() { return {}; } },
   },
   methods: {
-    editFroggoTeamName() {
-      this.editName = !this.editName;
-    },
-    submitName() {
-      this.$store.dispatch(UPDATE_FROGGO_TEAM, {
-        name: this.newName,
+    getParams() {
+      const froggoTeamMembers = this.froggoTeamMembers;
+      const selectedUsers = this.selectedUsers;
+      const newMembers = this.selectedUsers.filter((user) => !froggoTeamMembers.includes(user));
+      const oldMembers = this.froggoTeamMembers.filter((user) => !selectedUsers.includes(user));
+      let params = {
+        newMembersIds: newMembers.map(user => user.id),
+        oldMembersIds: oldMembers.map(user => user.id),
         id: this.froggoTeam.id,
-      })
-        .then(() => {
-          this.$store.commit(TEAM_NAME, this.newName);
-        })
-        .catch(() => {
-          this.showMessage(this.$i18n.t('message.error.existentName'));
-        });
-    },
-    onItemClicked({ item }) {
-      this.addMember(item);
-    },
-    addMember(user) {
-      if (this.froggoTeamMembers.some(u => u.id === user.id)) {
-        const index = this.usersToRemove.findIndex(u => u.id === user.id);
-        this.usersToRemove.splice(index, 1);
-      } else {
-        this.usersToAdd = [...this.usersToAdd, user];
+      };
+      if (this.teamNameChanged) {
+        params = { ...params, name: this.newTeamName };
       }
-      this.$store.commit(ADD_MEMBER, user);
-    },
-    removeMember(user, userIndex) {
-      if (this.froggoTeamMembers.some(u => u.id === user.id)) {
-        this.usersToRemove = [...this.usersToRemove, user];
-      } else {
-        const index = this.usersToAdd.findIndex(u => u.id === user.id);
-        this.usersToAdd.splice(index, 1);
-      }
-      this.$store.commit(REMOVE_MEMBER, { index: userIndex, member: user });
+
+      return params;
     },
     saveFroggoTeam() {
-      this.$store.dispatch(UPDATE_FROGGO_TEAM, {
-        newMembersIds: this.usersToAdd.map(user => user.id),
-        oldMembersIds: this.usersToRemove.map(user => user.id),
-        id: this.froggoTeam.id,
-      })
+      this.$store.dispatch(UPDATE_FROGGO_TEAM, this.getParams())
         .then(() => {
           this.showMessage(this.$i18n.t('message.froggoTeams.successfullySavedChanges'));
-          this.usersToAdd = [];
-          this.usersToRemove = [];
           window.location.href = `/froggo_teams/${this.froggoTeam.id}`;
         });
     },
@@ -195,10 +119,10 @@ export default {
         });
     },
   },
-  components: {
-    ClickableDropdown,
-  },
   computed: {
+    teamNameChanged() {
+      return this.newTeamName !== this.froggoTeam.name;
+    },
     membersCounter() {
       return this.currentMembers.length;
     },

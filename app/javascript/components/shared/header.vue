@@ -24,13 +24,13 @@
               >
               <inline-svg
                 :src="require('assets/images/chevron-down.svg').default"
-                class="text-white fill-current h-6 w-6 ml-2"
+                class="w-6 h-6 ml-2 text-white fill-current"
               />
             </div>
           </template>
           <template #body>
-            <div class="mt-4 bg-white w-56">
-              <div class="grid grid-rows-auto gap-1 font-medium whitespace-no-wrap">
+            <div class="w-56 mt-4 bg-white">
+              <div class="grid gap-1 font-medium whitespace-no-wrap grid-rows-auto">
                 <a
                   href="/me"
                   class="p-4"
@@ -65,7 +65,11 @@
 </template>
 <script>
 import { LOAD_DEFAULT_PREFERENCES, LOAD_RECOMMENDATIONS } from '../../store/action-types';
-import { SET_FETCHING_DEFAULT_PREFERENCES, SET_FETCHING_RECOMMENDATIONS } from '../../store/mutation-types';
+import {
+  SET_FETCHING_DEFAULT_PREFERENCES,
+  SET_FETCHING_RECOMMENDATIONS,
+  SET_CURRENT_USER,
+} from '../../store/mutation-types';
 
 import DropdownOrganization from './dropdown-organization.vue';
 
@@ -96,6 +100,7 @@ export default {
     },
   },
   async beforeMount() {
+    this.$store.commit(SET_CURRENT_USER, this.user);
     this.$store.commit(SET_FETCHING_DEFAULT_PREFERENCES, true);
     await this.$store.dispatch(LOAD_DEFAULT_PREFERENCES, this.user.id);
     this.$store.commit(SET_FETCHING_DEFAULT_PREFERENCES, false);
