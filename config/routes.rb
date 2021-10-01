@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   get 'admin_oauth_to_gh' => 'github_auth#admin_authenticate!', as: :admin_authenticate
   get 'org_oauth_to_gh' => 'github_auth#organization_authenticate!', as: :org_authenticate
   post 'github_events' => 'webhook#receive'
-  root 'recommendations#show'
+  root 'home#index'
 
   resources :organizations, param: :name do
     get 'missing' => 'organizations#missing', on: :collection
