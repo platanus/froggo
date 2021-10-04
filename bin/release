@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+echo 'Release Phase...'
+
+bundle exec rake db:migrate:with_data
+
+echo 'Release Phase: OK'

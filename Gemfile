@@ -37,7 +37,6 @@ gem 'sentry-raven'
 gem 'sidekiq'
 gem 'sidekiq-limit_fetch'
 gem 'sidekiq-scheduler', '>= 3.0.1'
-gem 'spring'
 gem 'strong_migrations'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
@@ -55,6 +54,10 @@ end
 group :test do
   gem 'rspec_junit_formatter', '0.2.2'
   gem 'shoulda-matchers', require: false
+end
+
+group :development do
+  gem 'spring'
 end
 
 group :development, :test do
