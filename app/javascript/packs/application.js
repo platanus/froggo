@@ -38,6 +38,7 @@ import ProfileRecommendations from '../components/profile/recommendations.vue';
 import PrFeed from '../components/pr-feed.vue';
 import PrShow from '../components/pr-show.vue';
 import ProfileMetrics from '../components/profile/metrics.vue';
+import ProfileCard from '../components/profile-card.vue';
 import FroggoTeamMetrics from '../components/froggo-team-metrics.vue';
 import PercentageDropdown from '../components/percentage-dropdown.vue';
 import ProfileDescription from '../components/profile-description.vue';
@@ -87,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('pr-feed', PrFeed);
   Vue.component('pr-show', PrShow);
   Vue.component('profile-metrics', ProfileMetrics);
+  Vue.component('profile-card', ProfileCard);
   Vue.component('froggo-team-metrics', FroggoTeamMetrics);
   Vue.component('percentage-dropdown', PercentageDropdown);
   Vue.component('profile-description', ProfileDescription);

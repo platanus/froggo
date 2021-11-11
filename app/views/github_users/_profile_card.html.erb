@@ -1,60 +1,10 @@
 <div class="card profile">
-  <div class="profile__section">
-    <div class="profile-header">
-      <div>
-        <div class="profile-info">
-          <%= image_tag @github_user.avatar_url, class: 'profile-info__picture' %>
-          <div class="profile-info__info">
-            <div class="profile-info__name">
-              <%= @github_user.name || t('messages.profile.no_name') %>
-            </div>
-            <%= link_to @github_user.html_url, class: 'profile-info__username' do %>
-              <%= octicon "octoface" %>
-              <span>@<%= @github_user.login %></span>
-            <% end %>
-          </div>
-        </div>
-        <div>
-          <user-tags
-            :github-user="<%= @github_user.to_json%>"
-            :github-session="<%= @github_session.to_json%>"
-            :tags="<%= @tags.to_json%>"
-            :user-tags="<%=@user_tags.to_json%>"
-          />
-        </div>
-        <profile-description
-          :github-user="<%= @github_user.to_json%>"
-          :github-session="<%= @github_session.to_json%>"
-        />
-      </div>
-      <div class="profile-teams">
-        <div class="profile-teams__hint">
-          <%= t('messages.profile.teams_dropdown_hint') %>
-        </div>
-        <profile-dropdowns
-          github-login="<%= @github_user.login %>"
-          :organizations="<%= @organizations.to_json %>"
-          :teams="<%= @teams.to_json %>"
-          :months-options="<%= timespans_with_name.to_json %>"
-        />
-      </div>
-    </div>
-  <div class="profile-prs">
-    <% @open_prs.each do |pr| %>
-        <open-pr
-          :pr="<%= pr[:pull_request].to_json %> | camelizeKeys"
-          :reviewers="<%= pr[:reviewers].to_json %> | camelizeKeys"
-        >
-        </open-pr>
-    <% end %>
-  </div>
-  <div class="profile__section">
-    <profile-recommendations />
-  </div>
-  <div class="profile__section">
-    <team-tags-container :tags="<%= @tags.to_json%>" />
-  </div>
-  <div class="profile__section">
-    <profile-metrics />
-  </div>
+  <profile-card
+    :github-user="<%= @github_user.to_json%> | camelizeKeys"
+    :github-session="<%= @github_session.to_json%> | camelizeKeys"
+    :teams="<%= @teams.to_json %> | camelizeKeys"
+    :timespans="<%= timespans_options_with_name.to_json %> | camelizeKeys"
+    :tags="<%= @tags.to_json%>"
+    :user-tags="<%=@user_tags.to_json%>"
+  />
 </div>
