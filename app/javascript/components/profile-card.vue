@@ -29,37 +29,32 @@
     </div>
     <div class="col-span-6 divide-y divide-gray-400 divide-solid">
       <div class="flex flex-col pb-10">
-        <div class="flex flex-row justify-between">
-          <p class="text-lg font-semibold mb-6">
-            Mis datos
-          </p>
-        </div>
-        <p class="text-sm font-semibold mb-1">
-          Acerca de mí
-        </p>
-        <p class="mb-4">
-          {{ githubUser.description }}
-        </p>
-        <p class="text-sm font-semibold mb-1">
-          Mis tags
-        </p>
-        <div class="flex flex-row items-center">
-          <div
-            v-for="tag in userTags"
-            :key="tag.id"
-            class="px-3 py-2 bg-red-500 rounded-full text-white mr-2"
-          >
-            {{ tag.name }}
-          </div>
-        </div>
+        <info
+          :github-user="githubUser"
+          :github-session="githubSession"
+          :user-tags="userTags"
+        />
+      </div>
+      <div class="flex flex-col py-10">
+        <teams
+          :github-user="githubUser"
+          :github-session="githubSession"
+          :teams="teams"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Teams from './profile/teams.vue';
+import Info from './profile/info.vue';
 
 export default {
+  components: {
+    Teams,
+    Info,
+  },
   props: {
     githubUser: {
       type: Object,
@@ -68,6 +63,10 @@ export default {
     githubSession: {
       type: Object,
       required: true,
+    },
+    teams: {
+      type: Array,
+      default: () => {},
     },
     tags: {
       type: Array,
