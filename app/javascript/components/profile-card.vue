@@ -42,18 +42,31 @@
           :teams="teams"
         />
       </div>
+      <div
+        class="flex flex-col py-10"
+        v-if="canEdit"
+      >
+        <configuration
+          :github-user="githubUser"
+          :github-session="githubSession"
+          :teams="teams"
+          :timespans="timespans"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Teams from './profile/teams.vue';
+import Configuration from './profile/configuration.vue';
 import Info from './profile/info.vue';
+import Teams from './profile/teams.vue';
 
 export default {
   components: {
-    Teams,
+    Configuration,
     Info,
+    Teams,
   },
   props: {
     githubUser: {
@@ -68,6 +81,10 @@ export default {
       type: Array,
       default: () => {},
     },
+    timespans: {
+      type: Array,
+      required: true,
+    },
     tags: {
       type: Array,
       required: true,
@@ -78,26 +95,8 @@ export default {
     },
   },
   data() {
-    const init = {
-      user: this.githubUser,
-      editDescription: false,
-      form: {
-        description: '',
-      },
-      readMoreActivated: true,
-      errors: '',
-      maxLength: 160,
-      error: false,
-    };
-    if (this.githubUser.description) {
-      if (this.githubUser.description.length > init.maxLength) {
-        init.readMoreActivated = false;
-      }
-      init.form.description = init.user.description;
-    }
-
     return {
-      ...init,
+      canEdit: this.githubSession.user.id === this.githubUser.id,
     };
   },
 };
