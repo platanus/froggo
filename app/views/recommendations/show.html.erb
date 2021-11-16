@@ -1,5 +1,5 @@
 <recommendations
- :teams="<%= @teams.to_json %>"
+ :teams="<%= @teams.to_json %> | camelizeKeys"
  :timespans="<%= timespans_options_with_name.to_json %>"
  :user="<%= GithubUserSerializer.new(@github_session.user).to_json %>"
  :pull-requests="<%= @open_prs %> | camelizeKeys"
