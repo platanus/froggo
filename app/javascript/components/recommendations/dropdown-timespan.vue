@@ -1,7 +1,10 @@
 <template>
   <froggo-dropdown>
     <template #btn>
-      <div class="flex items-center justify-between p-3 py-4 border rounded-l-lg">
+      <div
+        class="flex items-center justify-between p-3 py-4"
+        :class="[outlineClasses]"
+      >
         <div v-if="fetchingDefaultPreferences">
           {{ $i18n.t('message.recommendations.loading') }}
         </div>
@@ -47,6 +50,7 @@ export default {
       type: String,
       required: true,
     },
+    variant: { type: String, default: 'recommendations' },
   },
   computed: {
     ...mapState({
@@ -55,6 +59,14 @@ export default {
     }),
     selectedTimespan() {
       return this.timespans.find(timespan => timespan.key === this.selectedTimespanKey);
+    },
+    outlineClasses() {
+      const classes = {
+        recommendations: 'border rounded-l-lg',
+        profile: 'border rounded-lg',
+      };
+
+      return classes[this.variant];
     },
   },
   methods: {

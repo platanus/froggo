@@ -1,37 +1,42 @@
 <template>
-  <button
+  <froggo-button
     v-if="!noTeamsInOrganization"
-    :class="`rounded-r-lg border-r border-t border-b p-3`"
     @click="setDefault"
+    :variant="this.variant"
+    :recommendation="this.recommendation"
   >
     <div
       v-if="success"
-      class="text-green-500"
     >
       OK!
     </div>
     <div
       v-else
-      class="text-black"
     >
       {{ $i18n.t('message.recommendations.setDefaultPreferences') }}
     </div>
-  </button>
+  </froggo-button>
 </template>
 <script>
 
 import { mapState } from 'vuex';
 
+import FroggoButton from '../shared/froggo-button.vue';
 import preferencesApi from '../../api/preferences';
 
 const TIMEOUT_IN_MS = 2000;
 
 export default {
+  component: {
+    FroggoButton,
+  },
   props: {
     user: {
       type: Object,
       required: true,
     },
+    variant: { type: String, default: 'black' },
+    recommendation: { type: Boolean, default: true },
   },
   data() {
     return {
