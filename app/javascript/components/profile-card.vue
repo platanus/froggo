@@ -1,38 +1,37 @@
 <template>
-  <div class="grid grid-cols-8 px-14 font-sans">
-    <div class="col-span-2">
-      <div class="flex flex-col items-center">
-        <img
-          :src="githubUser.avatarUrl"
-          class="rounded-full w-48 h-48 mb-4"
-        >
-        <div class="flex flex-col items-center text-base">
-          <p class="mb-4">
-            {{ githubUser.name || t('messages.profile.no_name') }}
-          </p>
+  <div class="flex flex-col items-center lg:flex-row xl:flex-row lg:items-start xl:items-start px-14 font-sans">
+    <div class="flex flex-col items-center w-full overflow-x-auto lg:w-1/4 xl:w-1/4 mx-8 mb-8">
+      <img
+        :src="githubUser.avatarUrl"
+        class="rounded-full w-48 h-48 mb-4"
+      >
+      <div class="flex flex-col items-center text-base">
+        <p class="mb-4">
+          {{ githubUser.name || t('messages.profile.no_name') }}
+        </p>
 
-          <a
-            target="_blank"
-            :href="githubUser.htmlUrl"
-            class="flex items-center"
+        <a
+          target="_blank"
+          :href="githubUser.htmlUrl"
+          class="flex items-center"
+        >
+          <img
+            class="w-6 mr-1.5"
+            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
           >
-            <img
-              class="w-6 mr-1.5"
-              src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-            >
-            <span>
-              @{{ githubUser.login }}
-            </span>
-          </a>
-        </div>
+          <span>
+            @{{ githubUser.login }}
+          </span>
+        </a>
       </div>
     </div>
-    <div class="col-span-6 divide-y divide-gray-400 divide-solid">
+    <div class="w-3/4 divide-y divide-gray-400 divide-solid">
       <div class="flex flex-col pb-10">
-        <info
+        <information
           :github-user="githubUser"
           :github-session="githubSession"
           :user-tags="userTags"
+          :tags="tags"
         />
       </div>
       <div class="flex flex-col py-10">
@@ -48,7 +47,6 @@
       >
         <configuration
           :github-user="githubUser"
-          :github-session="githubSession"
           :teams="teams"
           :timespans="timespans"
         />
@@ -59,13 +57,13 @@
 
 <script>
 import Configuration from './profile/configuration.vue';
-import Info from './profile/info.vue';
+import Information from './profile/information.vue';
 import Teams from './profile/teams.vue';
 
 export default {
   components: {
     Configuration,
-    Info,
+    Information,
     Teams,
   },
   props: {

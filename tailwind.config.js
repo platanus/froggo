@@ -17,10 +17,12 @@ module.exports = {
       },
       colors: {
         primary: '#2fcab5',
-        froggoGreen: '#27A594',
+        froggoGreen: {
+          500: '#27A594',
+        },
         froggoBlue: {
-          default: '#38405F',
-          dark: '#232943',
+          500: '#38405F',
+          700: '#232943',
         },
       },
     },

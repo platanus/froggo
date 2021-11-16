@@ -96,9 +96,7 @@ export default {
       init.form.description = init.user.description;
     }
 
-    return {
-      ...init,
-    };
+    return { ...init };
   },
 };
 </script>

@@ -87,7 +87,7 @@ export default {
     },
     editTags(ids) {
       UsersApi.updateUser(this.githubSession.user.id, {
-        tagIds: [... ids],
+        tagIds: [...ids],
       })
         .then((res) => {
           this.myTags = res.data.data.attributes.tags;
