@@ -24,6 +24,7 @@ import FroggoDropdown from '../components/froggo-dropdown.vue';
 import Dropdown from '../components/pl-dropdown.vue';
 import TeamsDropdown from '../components/teams-dropdown.vue';
 import OrganizationsDropdown from '../components/organizations-dropdown.vue';
+import FroggoButton from '../components/shared/froggo-button.vue';
 import FroggoTeamEdit from '../components/froggo-team-edit.vue';
 import FroggoTeamForm from '../components/froggo-team-form.vue';
 import FroggoTeamShow from '../components/froggo-team-show.vue';
@@ -43,7 +44,7 @@ import FroggoTeamMetrics from '../components/froggo-team-metrics.vue';
 import PercentageDropdown from '../components/percentage-dropdown.vue';
 import ProfileDescription from '../components/profile-description.vue';
 import TagsShow from '../components/tags-show';
-import UserTags from '../components/user-tags.vue';
+import UserTags from '../components/profile/user-tags.vue';
 import TeamTagsContainer from '../components/profile/team-tags-container.vue';
 
 import Locales from '../locales/locales.js';
@@ -74,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('dropdown', Dropdown);
   Vue.component('teams-dropdown', TeamsDropdown);
   Vue.component('organizations-dropdown', OrganizationsDropdown);
+  Vue.component('froggo-button', FroggoButton);
   Vue.component('froggo-dropdown', FroggoDropdown);
   Vue.component('froggo-team-edit', FroggoTeamEdit);
   Vue.component('froggo-team-form', FroggoTeamForm);
