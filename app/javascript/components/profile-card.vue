@@ -39,6 +39,7 @@
           :github-user="githubUser"
           :github-session="githubSession"
           :teams="teams"
+          can-edit
         />
       </div>
       <div

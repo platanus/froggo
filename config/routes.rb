@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         resources :likes, only: [:create, :destroy]
       end
       resources :github_users, only: [] do
+        resources :froggo_team_memberships, only: [:index]
         get '/open_prs' => :open_prs, on: :collection
         get '/current' => :logged_user, on: :collection
       end
@@ -27,6 +28,8 @@ Rails.application.routes.draw do
       post 'pull_request_reviewer/add' => 'pull_request_reviewers#add_reviewer'
       get 'github_users/:id/preferences' => 'preferences#show'
       patch 'github_users/:id/preferences' => 'preferences#update'
+
+      resources :froggo_team_memberships, only: [:update], controller: 'froggo_team_memberships'
     end
   end
   mount Rswag::Api::Engine => '/api-docs'
