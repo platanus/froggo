@@ -2,7 +2,6 @@ class Api::V1::FroggoTeamMembershipsController < Api::V1::BaseController
   before_action :authenticate_github_user
 
   def index
-    github_user = GithubUser.find(params[:github_user_id])
     respond_with github_user.froggo_team_memberships
   end
 
@@ -12,10 +11,21 @@ class Api::V1::FroggoTeamMembershipsController < Api::V1::BaseController
     respond_with froggo_team_membership
   end
 
+  def update_all
+    ActiveRecord::Base.transaction do
+      github_user.froggo_team_memberships.each { |x| x.update!(update_params) }
+    end
+    respond_with github_user.froggo_team_memberships
+  end
+
   private
 
   def froggo_team_membership
     @froggo_team_membership ||= FroggoTeamMembership.find(params[:id])
+  end
+
+  def github_user
+    @github_user ||= GithubUser.find(params[:github_user_id])
   end
 
   def update_params

@@ -44,9 +44,9 @@ export default {
       const classes = {
         black: 'text-black',
         blue: 'text-froggoBlue-500 border-froggoBlue-500 hover:bg-gray-100 text-md',
-        red: 'text-red-600 border-red-600 hover:bg-gray-100 text-md',
+        red: 'text-red-500 border-red-500 hover:bg-gray-100 text-md',
         green: 'text-froggoGreen-500 border-froggoGreen-500 hover:bg-gray-100 text-md',
-        disabled: 'text-gray-300 border-gray-300 cursor-default text-md',
+        disabled: 'text-gray-500 border-gray-500 cursor-default text-md',
       };
       const variant = this.disabled ? 'disabled' : this.variant;
 

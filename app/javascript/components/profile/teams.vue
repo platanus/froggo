@@ -1,8 +1,18 @@
 <template>
   <div>
-    <p class="text-md font-semibold mb-4">
-      Mis equipos
-    </p>
+    <div class="flex flex-row justify-between mb-4">
+      <p class="text-md font-semibold">
+        Mis equipos
+      </p>
+      <froggo-button
+        :variant="'red'"
+        :recommendation="false"
+        :disabled="disabled"
+        @click="updateAllFroggoTeamMemberships"
+      >
+        Desactivar todos
+      </froggo-button>
+    </div>
     <p
       v-if="canEdit && error"
       class="text-red-500 bg-opacity-50 mb-1"
@@ -36,9 +46,13 @@
 </template>
 
 <script>
+import FroggoButton from '../../components/shared/froggo-button.vue';
 import froggoTeamMembershipsApi from '../../api/froggo_team_memberships';
 
 export default {
+  components: {
+    FroggoButton,
+  },
   props: {
     canEdit: {
       type: Boolean,
@@ -61,16 +75,21 @@ export default {
     listType() {
       return this.canEdit ? '' : 'list-disc';
     },
+    disabled() {
+      const state = [];
+      for (const [, membership] of Object.entries(this.froggoTeamMemberships)) {
+        state.push(membership.isMemberActive);
+      }
+      const trues = state.filter(Boolean).length;
+
+      return trues === 0;
+    },
   },
   methods: {
     getFroggoTeamMemberships() {
       froggoTeamMembershipsApi.getFroggoTeamMemberships(this.githubUser.id)
         .then((response) => {
-          this.froggoTeamMemberships = {};
-
-          response.data.data.forEach((membership) => {
-            this.froggoTeamMemberships[membership.id] = membership.attributes;
-          });
+          this.froggoTeamMemberships = this.saveResponseMemberships(response);
         });
     },
     newMembershipStatus(froggoTeamMembershipId) {
@@ -88,6 +107,27 @@ export default {
           this.error = true;
           this.errors = 'No se pudo cambiar el estado';
         });
+    },
+    updateAllFroggoTeamMemberships() {
+      const newMembershipStatus = {
+        isMemberActive: false,
+      };
+      froggoTeamMembershipsApi.updateAllFroggoTeamMemberships(this.githubUser.id, newMembershipStatus)
+        .then((response) => {
+          this.froggoTeamMemberships = this.saveResponseMemberships(response);
+          this.error = false;
+        }).catch(() => {
+          this.error = true;
+          this.errors = 'No se pudieron cambiar los estados';
+        });
+    },
+    saveResponseMemberships(response) {
+      const froggoTeamMemberships = {};
+      response.data.data.forEach((membership) => {
+        froggoTeamMemberships[membership.id] = membership.attributes;
+      });
+
+      return froggoTeamMemberships;
     },
   },
   mounted() {
