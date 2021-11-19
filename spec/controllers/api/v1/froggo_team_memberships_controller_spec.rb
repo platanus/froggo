@@ -45,4 +45,14 @@ RSpec.describe Api::V1::FroggoTeamMembershipsController, type: :controller do
       it { expect(response).to have_http_status(:ok) }
     end
   end
+
+  describe '#update_all' do
+    before do
+      patch :update_all, params: { github_user_id: user.id, is_member_active: false }, format: :json
+    end
+
+    it 'responds with ok' do
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end
