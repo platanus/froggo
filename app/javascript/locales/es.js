@@ -14,6 +14,7 @@ export default {
       successfullyDefaulted: 'Atributos predeterminados exitosamente',
     },
     profile: {
+      noName: 'Sin nombre',
       noTeams: 'Sin equipos',
       teamsDropdownTitle: 'Equipos',
       noOrganizations: 'Sin organizaciones',

@@ -7,7 +7,7 @@
       >
       <div class="flex flex-col items-center text-base">
         <p class="mb-4">
-          {{ githubUser.name || t('messages.profile.no_name') }}
+          {{ githubUser.name || $t('message.profile.noName') }}
         </p>
 
         <a
@@ -39,7 +39,7 @@
           :github-user="githubUser"
           :github-session="githubSession"
           :teams="teams"
-          can-edit
+          :can-edit="canEdit"
         />
       </div>
       <div
