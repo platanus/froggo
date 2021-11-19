@@ -36,7 +36,6 @@
 
 import FroggoButton from '../shared/froggo-button.vue';
 import ProfileDescription from '../profile-description.vue';
-import UsersApi from '../../api/users';
 import UserTags from './user-tags.vue';
 
 export default {
@@ -72,52 +71,10 @@ export default {
     toggleEdit() {
       this.isEditing = !this.isEditing;
     },
-    toggleModal() {
-      this.showModal = !this.showModal;
-      this.selectedTags = [];
-    },
-    onItemClicked(event) {
-      if (!this.myTags.map(this.getId).includes(event.item.id) &&
-          !this.selectedTags.map(this.getId).includes(event.item.id)) {
-        this.selectedTags.push(event.item);
-      }
-    },
-    getId(element) {
-      return element.id;
-    },
-    editTags(ids) {
-      UsersApi.updateUser(this.githubSession.user.id, {
-        tagIds: [...ids],
-      })
-        .then((res) => {
-          this.myTags = res.data.data.attributes.tags;
-        }).catch(() => {
-          this.error = true;
-        });
-    },
-    addTags() {
-      const ids = new Set([...this.myTags.map(this.getId), ... this.selectedTags.map(this.getId)]);
-      this.editTags(ids);
-      this.toggleModal();
-    },
-    eliminateTag(itemId) {
-      let ids = this.myTags.map(this.getId);
-      ids = ids.filter((item) => item !== itemId);
-      this.editTags(ids);
-    },
-    cancelTag(itemId) {
-      this.selectedTags = this.selectedTags.filter((item) => item.id !== itemId);
-    },
   },
   data() {
     return {
       isEditing: false,
-      dropdownTitle: 'Seleccionar tags',
-      noTagsMessage: 'No existen tags',
-      showModal: false,
-      selectedTags: [],
-      myTags: this.userTags,
-      error: false,
     };
   },
 };
