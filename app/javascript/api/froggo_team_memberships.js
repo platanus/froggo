@@ -1,6 +1,12 @@
 import api from './index';
 
 export default {
+  getFroggoTeamMemberships(githubUserId) {
+    return api({
+      method: 'get',
+      url: `/api/v1/github_users/${githubUserId}/froggo_team_memberships`,
+    });
+  },
   updateFroggoTeamMembership(froggoTeamMembershipId, body) {
     return api({
       method: 'patch',
@@ -8,10 +14,11 @@ export default {
       data: body,
     });
   },
-  getFroggoTeamMemberships(githubUserId) {
+  updateAllFroggoTeamMemberships(githubUserId, body) {
     return api({
-      method: 'get',
+      method: 'patch',
       url: `/api/v1/github_users/${githubUserId}/froggo_team_memberships`,
+      data: body,
     });
   },
 };
