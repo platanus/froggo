@@ -3,23 +3,19 @@
     <div
       class="flex flex-row justify-between mb-1"
     >
-      <p class="text-sm font-semibold">
+      <p class="text-sm font-semibold mb-1">
         Acerca de mí
       </p>
       <div
         v-if="$parent.isEditing"
       >
         <froggo-button
-          v-if="descriptionChanged"
-          @click="submit"
           variant="green"
+          :disabled="buttonDisabled"
+          @click="submit"
         >
           Guardar
         </froggo-button>
-        <div
-          v-else
-          class="h-8"
-        />
       </div>
     </div>
     <div
@@ -37,7 +33,7 @@
         name="description"
         type="text"
         placeholder="Agrega una descripción de máximo 255 caracteres"
-        class="flex flex-grow resize-none border rounded w-full p-2"
+        class="flex flex-grow resize-none border border-gray-500 rounded w-full p-2"
         v-model="form.description"
       />
     </div>
@@ -65,8 +61,8 @@ export default {
     },
   },
   computed: {
-    descriptionChanged() {
-      return this.form.description !== this.user.description;
+    buttonDisabled() {
+      return this.form.description === this.user.description;
     },
   },
   methods: {
