@@ -5,6 +5,7 @@
         Mis equipos
       </p>
       <froggo-button
+        v-if="canEdit"
         :variant="'red'"
         :recommendation="false"
         :disabled="disabled"
