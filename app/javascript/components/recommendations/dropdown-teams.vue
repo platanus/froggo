@@ -63,7 +63,7 @@ export default {
     selectedOrganizationTeams() {
       if (!this.selectedOrganization) return [];
 
-      return this.teams.filter(team => team.organization_id === this.selectedOrganization.id);
+      return this.teams.filter(team => team.organizationId === this.selectedOrganization.id);
     },
   },
   methods: {

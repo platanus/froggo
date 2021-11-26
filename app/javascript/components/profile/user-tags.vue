@@ -1,34 +1,40 @@
 <template>
   <div>
-    <div class="display-tags">
-      <p v-if="error">
-        No se pudo agregar tag
-      </p>
-
+    <p class="text-sm font-semibold mb-1">
+      Mis tags
+    </p>
+    <div class="flex flex-row items-center text-froggoBlue">
       <div
-        v-if="!haveTags"
-        class="display-tags__no-tags"
+        v-for="tag in myTags"
+        :key="tag.id"
+        class="flex flex-row px-3 py-2 bg-red-500 rounded-full text-white mr-2 items-center"
       >
-        <span class="display-tags__no-tags-msj">
-          Aún no tengo tags ...
-        </span>
+        <div class="mr-1">
+          {{ tag.name }}
+        </div>
+        <button
+          v-if="$parent.isEditing"
+          @click="eliminateTag(tag.id)"
+        >
+          <inline-svg
+            :src="require('../../../assets/images/close.svg').default"
+            class="flex-grow-0 fill-current text-sm"
+          />
+        </button>
       </div>
-
-      <div :class="{ 'display-tags__tag-list': haveTags }">
-        <tags-show
-          class="display-tags__tags-container"
-          :items="myTags"
-          :can-add-tag="canAddTag"
-          :show-btn="showBtn"
-          @item-cancel="eliminateTag"
-          @show-mod="showModal"
+      <button
+        v-if="$parent.isEditing"
+        @click="toggleModal"
+      >
+        <inline-svg
+          :src="require('../../../assets/images/boton-agregar.svg').default"
+          class="flex-grow-0 fill-current h-5 w-5"
         />
-      </div>
+      </button>
     </div>
-
     <transition
       name="modal"
-      v-if="modal"
+      v-if="showModal"
     >
       <div class="modal__overlay">
         <div class="modal__container">
@@ -36,11 +42,11 @@
             <span class="modal__header-title"> Añade tus tags </span>
             <button
               class="modal__close"
-              @click="noShowModal"
+              @click="toggleModal"
             >
               <img
                 class="modal__close-img"
-                :src="require('../../assets/images/cancel.png').default"
+                :src="require('../../../assets/images/cancel.png').default"
               >
             </button>
           </div>
@@ -57,7 +63,7 @@
             <tags-show
               class="modal__tags"
               :items="selectedTags"
-              :can-add-tag="canAddTag"
+              :can-add-tag="$parent.isEditing"
               @item-cancel="cancelTag"
             />
 
@@ -75,15 +81,15 @@
     </transition>
   </div>
 </template>
+
 <script>
-import ClickableDropdown from './clickable-dropdown';
-import TagsShow from './tags-show';
-import usersApi from '../api/users';
+
+import ClickableDropdown from '../clickable-dropdown';
+import UsersApi from '../../api/users';
 
 export default {
   components: {
     ClickableDropdown,
-    TagsShow,
   },
   props: {
     githubUser: {
@@ -103,13 +109,10 @@ export default {
       required: true,
     },
   },
-
   methods: {
-    showModal() {
-      this.modal = true;
-    },
-    noShowModal() {
-      this.modal = false;
+    toggleModal() {
+      this.showModal = !this.showModal;
+      this.selectedTags = [];
     },
     onItemClicked(event) {
       if (!this.myTags.map(this.getId).includes(event.item.id) &&
@@ -121,7 +124,7 @@ export default {
       return element.id;
     },
     editTags(ids) {
-      usersApi.updateUser(this.githubSession.user.id, {
+      UsersApi.updateUser(this.githubSession.user.id, {
         tagIds: [... ids],
       })
         .then((res) => {
@@ -131,10 +134,9 @@ export default {
         });
     },
     addTags() {
-      this.noShowModal();
       const ids = new Set([...this.myTags.map(this.getId), ... this.selectedTags.map(this.getId)]);
       this.editTags(ids);
-      this.selectedTags = [];
+      this.toggleModal();
     },
     eliminateTag(itemId) {
       let ids = this.myTags.map(this.getId);
@@ -145,22 +147,16 @@ export default {
       this.selectedTags = this.selectedTags.filter((item) => item.id !== itemId);
     },
   },
-  computed: {
-    haveTags() {
-      return this.myTags.length !== 0;
-    },
-  },
   data() {
     return {
       dropdownTitle: 'Seleccionar tags',
       noTagsMessage: 'No existen tags',
-      modal: false,
+      showModal: false,
       selectedTags: [],
       myTags: this.userTags,
-      showBtn: true,
-      canAddTag: this.githubSession.user.id === this.githubUser.id,
       error: false,
     };
   },
 };
 </script>
+

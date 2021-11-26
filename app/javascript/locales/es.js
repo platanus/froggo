@@ -14,6 +14,7 @@ export default {
       successfullyDefaulted: 'Atributos predeterminados exitosamente',
     },
     profile: {
+      noName: 'Sin nombre',
       noTeams: 'Sin equipos',
       teamsDropdownTitle: 'Equipos',
       noOrganizations: 'Sin organizaciones',
@@ -136,7 +137,7 @@ export default {
       loading: 'Cargando...',
       time: 'Tiempo',
       team: 'Equipo',
-      setDefaultPreferences: 'predeterminar',
+      setDefaultPreferences: 'Predeterminar',
       noTeamsInOrganization: 'Aún no perteneces a un equipo en esta organización',
       noOrganizations: 'Aún no perteneces a ninguna organización',
       noTeams: 'Sin equipos',
