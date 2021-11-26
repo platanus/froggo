@@ -6,12 +6,11 @@
       </p>
       <froggo-button
         v-if="canEdit"
-        :variant="'red'"
+        :variant="this.allDeactivated ? 'green' : 'red' "
         :recommendation="false"
-        :disabled="disabled"
         @click="updateAllFroggoTeamMemberships"
       >
-        Desactivar todos
+        {{ this.allDeactivated ? 'Activar todos' : 'Desactivar todos' }}
       </froggo-button>
     </div>
     <p
@@ -76,7 +75,7 @@ export default {
     listType() {
       return this.canEdit ? '' : 'list-disc';
     },
-    disabled() {
+    allDeactivated() {
       const state = [];
       for (const [, membership] of Object.entries(this.froggoTeamMemberships)) {
         state.push(membership.isMemberActive);
@@ -111,7 +110,7 @@ export default {
     },
     updateAllFroggoTeamMemberships() {
       const newMembershipStatus = {
-        isMemberActive: false,
+        isMemberActive: this.allDeactivated,
       };
       froggoTeamMembershipsApi.updateAllFroggoTeamMemberships(this.githubUser.id, newMembershipStatus)
         .then((response) => {
