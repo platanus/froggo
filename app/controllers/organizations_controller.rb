@@ -22,8 +22,14 @@ class OrganizationsController < ApplicationController
   end
 
   def create
-    CreateOrganization.for(token: @github_session.token, github_organization: @github_organization)
-    redirect_to settings_organization_path(name: @github_organization[:login])
+    response = CreateOrganization.for(
+      token: @github_session.token, github_organization: @github_organization
+    )
+    if response.nil?
+      redirect_to '/organizations'
+    else
+      redirect_to settings_organization_path(name: @github_organization[:login])
+    end
   end
 
   def missing; end
