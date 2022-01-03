@@ -41,6 +41,7 @@ es-CL:
       button_config: Configurar dashboard
       button_create: Crear nuevo dashboard
       settings: Configuración
+      create: Crear Organización en Froggo
       permission_title: Ups. No hay nada en %{org}.
       permission_info: ! 'El admin de %{org} no ha creado el dashboard. Envíale una ranita para que lo haga.'
       permission_button: Enviar ranita voladora

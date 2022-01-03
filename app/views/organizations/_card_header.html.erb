@@ -17,6 +17,11 @@
   <% end %>
   <% if @organization.present? %>
     <dashboard-syncing-icon id="<%= @organization.id %>"></dashboard-syncing-icon>
+  <% elsif @is_admin %>
+    <%= form_with method: "post", url: organizations_path(@github_organization[:login]), class: "ml-4" do |form| %>
+      <%= form.text_field :name, value: @github_organization[:login], hidden: true %>
+      <%= form.submit class: "p-2 text-center text-white border-none rounded-lg bg-froggoBlue-500 algin-center hover:bg-froggoBlue-700 cursor-pointer", value: I18n.t('messages.dashboard.create') %>
+    <% end %>
   <% end %>
   <div class="card-extended__config">
     <% if @is_admin %>
