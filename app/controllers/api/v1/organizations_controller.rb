@@ -7,6 +7,10 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
     respond_with github_user.organizations
   end
 
+  def show
+    respond_with organization
+  end
+
   def sync
     Github::OrganizationWebhookService.new(
       token: @github_session.token,
