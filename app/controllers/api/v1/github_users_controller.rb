@@ -43,9 +43,10 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def open_prs
     gh_user = github_session.user
+    open_prs = gh_pr_service.open_prs(gh_user.login)
     response = { response: {
       github_username: gh_user.login,
-      open_prs: gh_pr_service.open_prs(gh_user.login)
+      open_prs: serialized_open_prs(open_prs)
     } }
     respond_with response
   end
@@ -128,5 +129,14 @@ class Api::V1::GithubUsersController < Api::V1::BaseController
 
   def gh_pr_service
     @gh_pr_service ||= GithubPullRequestService.new(token: github_session.token)
+  end
+
+  def serialized_open_prs(open_prs)
+    open_prs.map do |x|
+      {
+        pull_request: Api::V1::PullRequestSerializer.new(x[:pull_request]).as_json,
+        reviewers: x[:reviewers].as_json
+      }
+    end
   end
 end

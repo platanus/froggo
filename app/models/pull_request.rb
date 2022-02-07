@@ -70,6 +70,7 @@ class PullRequest < ApplicationRecord
   delegate :name, to: :repository, prefix: true, allow_nil: true
   delegate :name, to: :owner, prefix: true, allow_nil: true
   delegate :login, to: :owner, prefix: true, allow_nil: true
+  delegate :organization_id, to: :repository, allow_nil: true
 end
 
 # == Schema Information
