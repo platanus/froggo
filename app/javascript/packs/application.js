@@ -46,6 +46,8 @@ import ProfileDescription from '../components/profile-description.vue';
 import TagsShow from '../components/tags-show';
 import UserTags from '../components/profile/user-tags.vue';
 import TeamTagsContainer from '../components/profile/team-tags-container.vue';
+import LinkOrganizations from '../components/link-organizations.vue';
+import MultiCheckboxOrganizations from '../components/multi-checkbox-organizations.vue';
 
 import Locales from '../locales/locales.js';
 import store from '../store';
@@ -98,6 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
   Vue.component('tags-show', TagsShow);
   Vue.component('v-select', vSelect);
   Vue.component('team-tags-container', TeamTagsContainer);
+  Vue.component('link-organizations', LinkOrganizations);
+  Vue.component('multi-checkbox-organizations', MultiCheckboxOrganizations);
   Vue.use(VueClipboard);
 
   if (document.getElementById('app') !== null) {
