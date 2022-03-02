@@ -69,6 +69,8 @@ Rails.application.routes.draw do
     resources :froggo_teams, only: [:new], controller: 'froggo_teams'
   end
 
+  get 'link_organizations' => 'organizations#link_organizations'
+
   resources :github_users do
     resources :froggo_teams, only: [:index], controller: 'froggo_teams'
   end
