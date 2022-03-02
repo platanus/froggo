@@ -1,10 +1,19 @@
 class Api::V1::OrganizationsController < Api::V1::BaseController
   before_action :authenticate_github_user
-  before_action :ensure_organization_admin, except: [:index]
+  before_action :ensure_organization_admin, except: [:index, :create_all]
   after_action :update_organization_default_team_memberships, only: [:update]
 
   def index
     respond_with github_user.organizations
+  end
+
+  def create_all
+    create_all_params[:selected_organizations].each do |organization|
+      CreateOrganization.for(
+        token: @github_session.token, github_organization: organization
+      )
+    end
+    respond_with github_user.organizations, status: 202
   end
 
   def sync
@@ -48,6 +57,10 @@ class Api::V1::OrganizationsController < Api::V1::BaseController
 
   def update_params
     params.permit(:public_enabled, :default_team_id)
+  end
+
+  def create_all_params
+    params.permit(selected_organizations: [:login, :id, :avatar_url, :role])
   end
 
   def update_organization_default_team_memberships
