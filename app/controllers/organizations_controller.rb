@@ -1,7 +1,9 @@
 class OrganizationsController < ApplicationController
+  layout 'application'
+  before_action :show_side_bar, only: [:link_organizations]
   before_action :authenticate_github_user
   before_action :save_cookie_url
-  before_action :load_organization, except: [:index, :missing]
+  before_action :load_organization, except: [:index, :missing, :link_organizations]
   before_action :ensure_organization_admin, only: :settings
 
   MONTH_LIMIT_DEFAULT = 9
@@ -19,6 +21,10 @@ class OrganizationsController < ApplicationController
     @organizations = github_organizations
     github_user
     @belonged_team = @team_members_ids.nil? ? false : @team_members_ids.include?(github_user.gh_id)
+  end
+
+  def link_organizations
+    @organizations = github_organizations
   end
 
   def create
@@ -99,5 +105,9 @@ class OrganizationsController < ApplicationController
 
   def save_cookie_url
     github_session.save_froggo_path(request.fullpath)
+  end
+
+  def show_side_bar
+    @show_side_bar = false
   end
 end

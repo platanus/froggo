@@ -20,4 +20,11 @@ export default {
       data: body,
     });
   },
+  createAll(body) {
+    return api({
+      method: 'post',
+      url: '/api/v1/organizations/create_all',
+      data: body,
+    });
+  },
 };

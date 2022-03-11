@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       put 'organizations/:id/update' => 'organizations#update'
       post 'organizations/:id/sync' => 'organizations#sync'
       get 'organizations/:id/check_sync' => 'organizations#check_sync'
+      post 'organizations/create_all' => 'organizations#create_all'
       get 'organizations/:org_id/users/:github_login/statistics' =>
         'github_users#organization_recommendation_statistics'
       get 'teams/:team_id/users/:github_login/recommendations' =>
@@ -67,6 +68,8 @@ Rails.application.routes.draw do
   resources :organizations do
     resources :froggo_teams, only: [:new], controller: 'froggo_teams'
   end
+
+  get 'link_organizations' => 'organizations#link_organizations'
 
   resources :github_users do
     resources :froggo_teams, only: [:index], controller: 'froggo_teams'
