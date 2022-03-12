@@ -133,6 +133,10 @@ export default {
         inactiveDays: 'Días inactivos: ',
         score: 'Puntaje: ',
       },
+      organizationsWithoutTracking: `Tienes {organizationsWithoutTracking} organizaciones donde eres
+      administrador, pero no trackeas ningún repositorio:`,
+      myOrganizations: 'Mis organizaciones',
+      tracking: 'Trackeando {trackedRepositories} / {totalRepositories} repositorios',
     },
     recommendations: {
       recommendedReviewers: 'Deberías mandar tu próximo PR a...',

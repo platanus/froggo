@@ -127,6 +127,9 @@ export default {
         inactiveDays: 'Inactive days: ',
         score: 'Score: ',
       },
+      organizationsWithoutTracking: `You have {organizationsWithoutTracking} organizations where you are administrator
+      , but you haven't tracked any repository:`,
+      myOrganizations: 'My organizations',
     },
     recommendations: {
       recommendedReviewers: 'You should assign your next PR to...',
