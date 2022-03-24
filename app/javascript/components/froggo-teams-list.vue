@@ -71,7 +71,9 @@
           :src="user.attributes.avatarUrl"
         >
         <p class="ml-2 text-sm">
-          {{ $t('numberOfMembers', { 'membersLength': team.relationships.githubUsers.data.length }) }}
+          {{ $t('message.froggoTeams.numberOfMembers', {
+            'membersLength': team.relationships.githubUsers.data.length })
+          }}
         </p>
       </div>
     </div>
