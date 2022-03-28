@@ -27,7 +27,7 @@
           close-session-path="<%= close_session_path %>"
         />
       </div>
-      <% if @show_sidebar %>
+      <% if !@hide_sidebar %>
       <div class="grid min-h-screen grid-cols-12">
         <div class="col-span-2">
           <froggo-sidebar
