@@ -83,7 +83,7 @@ export default {
       const body = { selectedOrganizations: this.selectedOrganizations };
       OrganizationsApi.createAll(body)
         .then(() => {
-          window.location.href = '/organizations';
+          window.location.href = '/tracked_organizations';
         }).catch(() => {
           this.error = true;
           this.errors = 'Ha ocurrido un error, inténtalo de nuevo';

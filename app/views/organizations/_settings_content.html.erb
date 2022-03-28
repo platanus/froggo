@@ -1,6 +1,6 @@
 <div class="card-extended">
   <div class="card-extended__header">
-    <div class="card-extended__back" onclick="window.location.href='<%= organization_path(name: @github_organization[:login]) %>'">
+    <div class="card-extended__back" onclick="window.location.href='<%= tracked_organizations_path() %>'">
       <%= image_tag("back-arrow.svg", class: "card-extended__back-arrow") %>
       <div class="card-extended__back-message"><%= t('messages.settings.button_back') %></div>
     </div>
