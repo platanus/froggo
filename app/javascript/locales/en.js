@@ -65,6 +65,9 @@ export default {
       organizationTitle: 'Organization: ',
       belongedTeams: 'Teams I belong to: ',
       createButton: 'Create Team',
+      linkOrganizationButton: 'Link or join',
+      linkOrganizationMessage: `Here you can choose the organizations you want to link with Froggo.
+      In the next step, you will be able to choose which repositories you need to track.`,
       updateButton: 'Update Team',
       insertTeamName: 'Team Name: ',
       addMember: 'Add members: ',

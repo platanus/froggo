@@ -1,7 +1,6 @@
 class OrganizationsController < ApplicationController
   layout 'application'
   before_action :hide_sidebar, only: [:link_organizations]
-  before_action :show_sidebar, except: [:link_organizations]
   before_action :authenticate_github_user
   before_action :save_cookie_url
   before_action :load_organization, except: [:index, :missing, :link_organizations,
@@ -122,11 +121,7 @@ class OrganizationsController < ApplicationController
   end
 
   def hide_sidebar
-    @show_sidebar = false
-  end
-
-  def show_sidebar
-    @show_sidebar = true
+    @hide_sidebar = true
   end
 
   def total_repositories(organization)

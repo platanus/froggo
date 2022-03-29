@@ -32,9 +32,7 @@
           >
         </div>
         <p class="px-4 pt-5 pb-8 text-justify">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore quis dignissimos,
-          quaerat fuga aspernatur laboriosam ipsum! Magnam, libero, aliquam nihil ducimus repellat,
-          quibusdam inventore.
+          {{ $t("message.froggoTeams.linkOrganizationMessage") }}
         </p>
         <div
           v-for="(organization) in organizations"
