@@ -66,6 +66,11 @@ export default {
       organizationTitle: 'Organización: ',
       belongedTeams: 'Equipos a los que pertenezco: ',
       createButton: 'Crear Equipo',
+      linkOrganizationButton: 'Vincula y/o únete',
+      linkOrganizationMessage: `Aquí puedes seleccionar las organizaciones que quieres vincular con Froggo.
+      Luego de este paso podrás seleccionar qué repositorios de la organización trackear.`,
+      adminRole: 'eres Administrador',
+      memberRole: 'eres Miembro',
       updateButton: 'Actualizar Equipo',
       insertTeamName: 'Nombre del equipo: ',
       addMember: 'Agregar miembros: ',
@@ -130,6 +135,10 @@ export default {
         inactiveDays: 'Días inactivos: ',
         score: 'Puntaje: ',
       },
+      organizationsWithoutTracking: `Tienes {organizationsWithoutTracking} organizaciones donde eres
+      administrador, pero no trackeas ningún repositorio:`,
+      myOrganizations: 'Mis organizaciones',
+      tracking: 'Trackeando {trackedRepositories} / {totalRepositories} repositorios',
     },
     recommendations: {
       recommendedReviewers: 'Deberías mandar tu próximo PR a...',

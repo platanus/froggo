@@ -1,7 +1,10 @@
 class OrganizationsController < ApplicationController
+  layout 'application'
+  before_action :hide_sidebar, only: [:link_organizations]
   before_action :authenticate_github_user
   before_action :save_cookie_url
-  before_action :load_organization, except: [:index, :missing]
+  before_action :load_organization, except: [:index, :missing, :link_organizations,
+                                             :tracked_organizations]
   before_action :ensure_organization_admin, only: :settings
 
   MONTH_LIMIT_DEFAULT = 9
@@ -21,6 +24,10 @@ class OrganizationsController < ApplicationController
     @belonged_team = @team_members_ids.nil? ? false : @team_members_ids.include?(github_user.gh_id)
   end
 
+  def link_organizations
+    @organizations = github_organizations
+  end
+
   def create
     response = CreateOrganization.for(
       token: @github_session.token, github_organization: @github_organization
@@ -37,6 +44,18 @@ class OrganizationsController < ApplicationController
   def settings
     @is_admin_github_session = github_session.session[:client_type] == "admin"
     @teams = froggo_teams
+  end
+
+  def tracked_organizations
+    @organizations = []
+    github_organizations.each do |github_organization|
+      organization = Organization.find_by(gh_id: github_organization[:id])
+      if organization
+        github_organization[:total_repositories] = total_repositories(organization)
+        github_organization[:tracked_repositories] = tracked_repositories(organization)
+        @organizations << github_organization
+      end
+    end
   end
 
   private
@@ -99,5 +118,17 @@ class OrganizationsController < ApplicationController
 
   def save_cookie_url
     github_session.save_froggo_path(request.fullpath)
+  end
+
+  def hide_sidebar
+    @hide_sidebar = true
+  end
+
+  def total_repositories(organization)
+    organization.repositories.count
+  end
+
+  def tracked_repositories(organization)
+    organization.repositories.count(&:tracked)
   end
 end
