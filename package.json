@@ -11,7 +11,7 @@
     "coffeescript": "1.12.7",
     "humps": "^2.0.1",
     "lodash.chunk": "^4.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "tailwindcss": "^1.4.6",
     "turbolinks": "^5.2.0",
     "v-tooltip": "^2.0.3",
